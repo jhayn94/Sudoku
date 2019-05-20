@@ -1,0 +1,232 @@
+.root {
+	-sudoku-color-pearl: #f8f5f2;
+	-sudoku-color-pebble: #e0e0e0;
+	-sudoku-color-shadow: #2a3132;
+	-sudoku-color-stone: #336b87;
+	-sudoku-color-mist: #90afc5;
+	-sudoku-color-autumn-foliage: #763626;
+
+	-fx-font-family: "Futura Condensed BQ";
+	-fx-font-size: 12pt;
+	-fx-font-color: -sudoku-color-shadow;
+	-fx-box-border: -sudoku-color-pearl;
+	-fx-color: -sudoku-color-pearl;
+	-fx-background-color: -sudoku-color-pearl;
+	-fx-control-inner-background: -sudoku-color-pebble;
+	-fx-outer-border: -sudoku-color-shadow;
+	-fx-inner-border: -sudoku-color-shadow;
+	-fx-inner-border-horizontal: -sudoku-color-pearl;
+	-fx-inner-border-bottomup: -sudoku-color-pearl;
+	-fx-body-color: -sudoku-color-pearl;
+	-fx-body-color-bottomup: -sudoku-color-pearl;
+	-fx-mark-color: -sudoku-color-stone;
+	-fx-mark-highlight-color: -sudoku-color-stone;
+	-fx-tab-border-color: -sudoku-color-shadow;
+	-fx-accent: -sudoku-color-stone;
+	-fx-focus-color: -sudoku-color-stone;
+	-fx-cell-focus-inner-border: -sudoku-color-stone;
+}
+
+.arb-root-stack-pane {
+	-fx-background-color: transparent;
+}
+
+.arb-help-view {
+	-fx-background-color: red;
+}
+
+.arb-side-bar-view {
+	-fx-inner-border: -sudoku-color-pearl;
+}
+
+.arb-top-level-tab-pane {
+	-fx-border-color: -sudoku-color-shadow;
+	-fx-border-width: 3;
+}
+
+.arb-labeled-text-field>.text-field {
+	-fx-border-color: -sudoku-color-shadow;
+	-fx-border-width: 2;
+	-fx-background-radius: 3;
+	-fx-border-radius: 3;
+	-fx-padding: 0.1666667em; /* 2 */
+}
+
+.arb-filler-table-cell {
+	-fx-background-color: -sudoku-color-shadow
+}
+
+.button {
+	-fx-background-color: -sudoku-color-autumn-foliage;
+	-fx-text-fill: -sudoku-color-pearl;
+	-fx-border-color: -sudoku-color-shadow;
+	-fx-border-width: 3;
+	-fx-background-radius: 20;
+	-fx-border-radius: 20;
+}
+
+/* Application system menu buttons (in the top corners of the screen). This must be after .button to override those configurations. */
+.arb-system-menu-button {
+	-fx-background-color: transparent;
+	-fx-border-color: transparent;
+	-fx-border-width : 0;
+	-fx-background-radius: 0;
+	-fx-border-radius: 0;
+	-fx-border-width: 0;
+}
+
+/* Application system menu buttons (in the top corners of the screen). This must be after .button to override those configurations. */
+.arb-system-menu-button:hover {
+	-fx-background-color: linear-gradient(to bottom, derive(-sudoku-color-pebble,-30%), derive(-sudoku-color-pearl,-30%));
+}
+
+.menu-bar {
+	-fx-background-color: transparent;
+}
+
+.radio-button>.radio {
+	-fx-border-width: 2;
+	-fx-border-radius: 30;
+	-fx-border-color: -sudoku-color-shadow;
+	-fx-background-color: -sudoku-color-pebble;
+}
+
+.text-area {
+	-fx-background-color: -sudoku-color-pearl;
+	-fx-border-color: -sudoku-color-shadow;
+	-fx-background-radius: 3;
+	-fx-border-width: 3;
+	-fx-prompt-text-fill: -sudoku-color-pearl;
+}
+
+.combo-box-base {
+	-fx-border-width: 1;
+	-fx-border-radius: 2;
+}
+
+.combo-box-base>.arrow-button {
+	-fx-background-color: -sudoku-color-pearl;
+	-fx-background-insets: 0, 1, 2;
+	-fx-background-radius: 0 5 5 0, 0 4 4 0, 0 3 3 0;
+	-fx-padding: 0 0.667em 0 0.667em; /* 6 8 6 8 */
+	-fx-border-width: 2;
+	-fx-border-radius: 0 3 3 0;
+	-fx-border-color: -sudoku-color-shadow;
+}
+
+.check-box>.box {
+	-fx-background-color: -fx-shadow-highlight-color, -fx-outer-border,
+		-fx-inner-border, -sudoku-color-pebble;
+	-fx-border-color: -sudoku-color-shadow;
+	-fx-border-width: 2;
+	-fx-background-radius: 3;
+	-fx-border-radius: 3;
+}
+
+.tab-pane>.tab-header-area>.headers-region>.tab {
+	-fx-background-color: -sudoku-color-stone;
+	-fx-text-base-color: -sudoku-color-pearl;
+	-fx-border-color: -sudoku-color-shadow;
+	-fx-border-width: 2 2 0 2;
+	-fx-border-radius: 4 4 0 0;
+	-fx-background-radius: 4 4 0 0;
+}
+
+.tab-pane>.tab-header-area>.headers-region>.tab:selected {
+	-fx-background-color: -sudoku-color-pearl;
+	-fx-text-base-color: -sudoku-color-shadow;
+}
+
+.tab-pane>.tab-header-area>.tab-header-background {
+	-fx-background-color: -fx-outer-border, -sudoku-color-pebble,
+		-sudoku-color-pebble;
+	-fx-effect: innershadow(two-pass-box, rgba(0, 0, 0, 0.6), 4, 0.0, 0, 0);
+}
+
+.tab-pane:focused>.tab-header-area>.headers-region>.tab:selected .focus-indicator
+	{
+	-fx-border-width: 0;
+}
+
+.tab-content-area {
+	-fx-border-color: -sudoku-color-shadow;
+	-fx-border-width: 0;
+}
+
+.table-view {
+	-fx-border-width: 2px 3px 3px 2px;
+	-fx-background-color: -sudoku-color-pearl;
+	-fx-border-color: -sudoku-color-shadow;
+	-fx-table-header-border-color: -sudoku-color-shadow;
+}
+
+.table-row-cell {
+	-fx-background-color: -sudoku-color-pearl;
+	-fx-background-insets: 0;
+	-fx-cell-size: 1.75em;
+}
+
+.table-row-cell:selected, .table-row-cell:odd:selected {
+	-fx-background-color: -sudoku-color-autumn-foliage;
+	-fx-text-fill: -sudoku-color-pearl;
+}
+
+.table-row-cell:odd {
+	-fx-background-color: -sudoku-color-pebble;
+	-fx-text-fill: -sudoku-color-shadow;
+}
+
+.table-view .column-header-background {
+	-fx-background-color: -sudoku-color-stone;
+}
+
+.table-view .column-header-background .label {
+	-fx-text-fill: white;
+	-fx-background-color: transparent;
+	-fx-font-weight: bold;
+}
+
+.table-view .column-header, .table-view .filler {
+	-fx-border-color: -sudoku-color-shadow;
+	-fx-table-header-border-color: -sudoku-color-shadow;
+	-fx-background-color: transparent;
+}
+
+.table-view>.virtual-flow>.corner {
+	-fx-background-color: -sudoku-color-pearl;
+}
+
+.table-view .column-header .arrow, .table-view .column-header .sort-order-dot
+	{
+	-fx-background-color: -sudoku-color-pebble;
+}
+
+.table-cell {
+	-fx-border-color: -sudoku-color-shadow;
+}
+
+.virtual-flow, .scroll-bar, .scroll-bar, .scroll-bar>.track, .scroll-bar>.track,
+	.scroll-bar>.track-background, .scroll-bar>.track-background,
+	.scroll-bar>.increment-button, .scroll-bar>.decrement-button {
+	-fx-background-color: transparent;
+}
+
+.scroll-bar>.increment-button>.increment-arrow, .scroll-bar>.decrement-button>.decrement-arrow,
+	.scroll-bar:horizontal>.thumb, .scroll-bar:vertical>.thumb {
+	-fx-background-color: -sudoku-color-stone;
+}
+
+.separator, .tool-bar {
+	-fx-background-color: transparent;
+}
+
+/*
+    Defines the rectangle responsible for the shadow
+*/
+.decoration-shadow{
+    -fx-fill: linear-gradient(to bottom, -sudoku-color-pebble, -sudoku-color-pearl);
+    /*radial-gradient(focus-angle 45deg, focus-distance 20%, center 25% 25%, radius 50%, reflect, #eeeeee88, #aaaaaa88 75%, gray);*/
+	-fx-stroke-width: 0;
+	-fx-arc-width:20px;
+	-fx-arc-height:20px;
+}
