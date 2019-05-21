@@ -18,6 +18,7 @@ import sudoku.view.NumericButtonPane;
 public class FilterCandidatesState extends ApplicationModelState {
 
 	private static final String SUDOKU_BUTTON_SELECTED = "sudoku-button-selected";
+
 	private static final String SUDOKU_BUTTON_UNSELECTED = "sudoku-button-unselected";
 
 	private static final Logger LOG = LogManager.getLogger(FilterCandidatesState.class);

@@ -21,8 +21,8 @@ public class ApplicationSideBar extends SplitPane {
 	private void configure() {
 		this.setOrientation(Orientation.VERTICAL);
 		this.getStyleClass().add(CSS_STYLE_CLASS);
-		this.setMinWidth(300);
-		this.setMaxWidth(300);
+		this.setMinWidth(320);
+		this.setMaxWidth(320);
 		this.createChildElements();
 	}
 

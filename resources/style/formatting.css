@@ -28,15 +28,17 @@
 	-fx-accent: -sudoku-color-stone-blue;
 	-fx-focus-color: -sudoku-color-stone-blue;
 	-fx-cell-focus-inner-border: -sudoku-color-stone-blue;
-	-fx-fill: linear-gradient(to bottom, -sudoku-color-pebble, -sudoku-color-parchment);
 }
 
 .sudoku-main-app-view {
-	-fx-background-color: linear-gradient(to bottom, -sudoku-color-pebble, -sudoku-color-parchment);
+	-fx-background-color: linear-gradient(to bottom, -sudoku-color-pebble, -sudoku-color-pebble, -sudoku-color-parchment);
 }
 
 .sudoku-transparent-pane {
 	-fx-background-color: transparent;
+	-fx-border-color: -sudoku-color-bark;
+	-fx-border-width: 3;
+	-fx-border-radius: 3;
 }
 
 .sudoku-side-bar {
@@ -62,34 +64,23 @@
 }
 
 .button {
-	-fx-background-color: -sudoku-color-parchment;
 	-fx-text-fill: -sudoku-color-bark;
 	-fx-font-size: 14pt;
 	-fx-border-color: -sudoku-color-bark;
 	-fx-border-width: 3;
-	-fx-background-radius: 0;
-	-fx-border-radius: 0;
+	-fx-background-radius: 5;
+	-fx-border-radius: 5;
 }
 
 /** Used for when a button is pressed and needs to retain a state. This must be after .button to override it. */
 .sudoku-button-selected {
 	-fx-background-color: -sudoku-color-stone-blue;
 	-fx-text-fill: -sudoku-color-parchment;
-	-fx-font-size: 14pt;
-	-fx-border-color: -sudoku-color-bark;
-	-fx-border-width: 3;
-	-fx-background-radius: 0;
-	-fx-border-radius: 0;
 }
 
 .sudoku-button-unselected {
 	-fx-background-color: -sudoku-color-parchment;
 	-fx-text-fill: -sudoku-color-bark;
-	-fx-font-size: 14pt;
-	-fx-border-color: -sudoku-color-bark;
-	-fx-border-width: 3;
-	-fx-background-radius: 0;
-	-fx-border-radius: 0;
 }
 
 .button:armed {

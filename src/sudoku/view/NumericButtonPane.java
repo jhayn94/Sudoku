@@ -38,8 +38,8 @@ public class NumericButtonPane extends GridPane {
 		this.setPadding(new Insets(25));
 		this.setHgap(20);
 		this.setVgap(20);
-		this.setMinWidth(300);
-		this.setMaxWidth(300);
+		this.setMinWidth(320);
+		this.setMaxWidth(320);
 		this.createChildElements();
 	}
 
