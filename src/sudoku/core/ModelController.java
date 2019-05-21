@@ -1,8 +1,10 @@
 package sudoku.core;
 
 import sudoku.state.ApplicationModelState;
+import sudoku.state.CellChangedState;
 import sudoku.state.DefaultApplicationModelState;
 import sudoku.state.FilterCandidatesState;
+import sudoku.state.cell.DefaultSudokuCellState;
 import sudoku.state.window.ApplicationWindowState;
 import sudoku.state.window.ClosedState;
 import sudoku.state.window.MaximizedState;
@@ -61,6 +63,10 @@ public class ModelController {
 
 	public void transitionToFilterCandidatesState(String filter) {
 		this.applicationModelState = new FilterCandidatesState(this.applicationModelState, filter);
+	}
+
+	public void transitionToCellChangedState(int row, int col, DefaultSudokuCellState cellState) {
+		this.applicationModelState = new CellChangedState(row, col, cellState, this.applicationModelState);
 	}
 
 }

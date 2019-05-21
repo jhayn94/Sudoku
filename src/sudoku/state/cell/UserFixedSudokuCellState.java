@@ -18,17 +18,22 @@ public class UserFixedSudokuCellState extends DefaultSudokuCellState {
 
 	@Override
 	protected void onEnter() {
-		this.updateCssClass(FIXED_USER_DIGIT_CSS_CLASS);
+		this.cell.getStyleClass().remove(SELECTED_CELL_CSS_CLASS);
+		this.updateCssClass(FIXED_CELL_CSS_CLASS);
 	}
 
 	@Override
 	public EventHandler<KeyEvent> handleKeyPress() {
 		return event -> {
 			final KeyCode code = event.getCode();
-			if (KeyCode.DELETE == code) {
-				this.cell.setCandidatesVisible(true);
-				this.cell.setFixedDigit(Strings.EMPTY);
-				this.cell.setState(new DefaultSudokuCellState(this));
+			if (code.isDigitKey() && !event.isControlDown()) {
+				this.getCell().setCandidatesVisible(false);
+				this.getCell().setFixedDigit(code.getName());
+				this.getCell().setState(new UserFixedSudokuCellState(this));
+			} else if (KeyCode.DELETE == code) {
+				this.getCell().setCandidatesVisible(true);
+				this.getCell().setFixedDigit(Strings.EMPTY);
+				this.getCell().setState(new DefaultSudokuCellState(this));
 			}
 		};
 	}

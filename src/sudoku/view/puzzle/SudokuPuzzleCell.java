@@ -14,6 +14,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import sudoku.core.ModelController;
 import sudoku.state.cell.DefaultSudokuCellState;
 
 /** This class corresponds to a single cell of a sudoku puzzle. */
@@ -35,17 +36,56 @@ public class SudokuPuzzleCell extends StackPane {
 
 	private DefaultSudokuCellState state;
 
-	public SudokuPuzzleCell() {
+	private final int row;
+
+	private final int col;
+
+	private boolean isGiven;
+
+	public SudokuPuzzleCell(int row, int col) {
 		super();
+		this.isGiven = false;
+		this.row = row;
+		this.col = col;
 		this.candidateLabels = new Label[MAX_NUM_CANDIDATES_IN_CELL];
 		this.fixedDigitLabel = null;
 		this.state = new DefaultSudokuCellState(this);
 		this.configure();
 	}
 
+	public int getRow() {
+		return this.row;
+	}
+
+	public int getCol() {
+		return this.col;
+	}
+
+	public boolean isCellFixed() {
+		return !this.fixedDigitLabel.getText().isEmpty();
+	}
+
+	public boolean isCellGiven() {
+		return this.isGiven;
+	}
+
+	public void setCellGiven(boolean given) {
+		this.isGiven = given;
+	}
+
+	public DefaultSudokuCellState getState() {
+		return this.state;
+	}
+
 	public void setState(DefaultSudokuCellState newState) {
 		this.state = newState;
+		// Event handlers have to be re-registered for the new state to be used.
 		this.setEventHandler(KeyEvent.KEY_PRESSED, this.onKeyPress());
+		this.setEventHandler(MouseEvent.MOUSE_CLICKED, this.onClick());
+		// Notify the model controller that a cell changed, meaning other cells might
+		// need to change too (i.e. un-selecting other cells, or eliminating candidates
+		// which are not allowed now).
+		ModelController.getInstance().transitionToCellChangedState(this.row, this.col, this.state);
 	}
 
 	/**
@@ -75,7 +115,7 @@ public class SudokuPuzzleCell extends StackPane {
 		// TODO - spacing of candidate labels is still slightly off center for each
 		// cell.
 		this.setEventHandler(KeyEvent.KEY_PRESSED, this.onKeyPress());
-		this.setOnMouseClicked(this.onClick());
+		this.setEventHandler(MouseEvent.MOUSE_CLICKED, this.onClick());
 		this.setMinWidth(CELL_WIDTH);
 		this.setMinHeight(CELL_HEIGHT);
 		this.setMaxWidth(CELL_WIDTH);
@@ -90,7 +130,6 @@ public class SudokuPuzzleCell extends StackPane {
 		GridPane.setHalignment(candidatesGridPane, HPos.CENTER);
 		GridPane.setValignment(candidatesGridPane, VPos.CENTER);
 		candidatesGridPane.setAlignment(Pos.CENTER);
-//		candidatesGridPane.setPadding(new Insets(3, 0, 0, 6));
 		candidatesGridPane.setHgap(7);
 		candidatesGridPane.setVgap(0);
 		for (int index = 1; index <= MAX_NUM_CANDIDATES_IN_CELL; index++) {
@@ -101,7 +140,6 @@ public class SudokuPuzzleCell extends StackPane {
 		final StackPane fixedDigitPane = new StackPane();
 		StackPane.setAlignment(fixedDigitPane, Pos.CENTER);
 		this.fixedDigitLabel = new Label();
-//		this.fixedDigitLabel.setPadding(new Insets(7.5, 10, 10, 17.5));
 		fixedDigitPane.getChildren().add(this.fixedDigitLabel);
 		fixedDigitPane.setVisible(false);
 		children.add(candidatesGridPane);
@@ -109,15 +147,10 @@ public class SudokuPuzzleCell extends StackPane {
 	}
 
 	private EventHandler<MouseEvent> onClick() {
-		return event -> {
-			this.requestFocus();
-			// TODO - update CSS class to change border to something else. Don't forget to
-			// remove all other focus CSS.
-		};
+		return this.state.handleClick();
 	}
 
 	private EventHandler<KeyEvent> onKeyPress() {
-		// TODO - make this a state so we can share model changes.
 		return this.state.handleKeyPress();
 
 	}

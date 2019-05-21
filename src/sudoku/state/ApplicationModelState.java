@@ -1,5 +1,9 @@
 package sudoku.state;
 
+import sudoku.factories.ModelFactory;
+import sudoku.model.SudokuPuzzle;
+import sudoku.state.cell.DefaultSudokuCellState;
+
 /**
  * This class is a representation of the current state of the application model,
  * with methods to invoke when a state change occurs.
@@ -13,17 +17,24 @@ public abstract class ApplicationModelState {
 	// any), false it should show the disallowed cells.
 	protected final boolean filterAllowedCells;
 
+	protected final DefaultSudokuCellState[][] cellStates;
+
+	protected final SudokuPuzzle puzzleModel;
+
 	/** Constructor for the initialization of the application. */
 	protected ApplicationModelState() {
 		this.activeCellFilter = "";
 		this.filterAllowedCells = false;
+		this.cellStates = new DefaultSudokuCellState[SudokuPuzzle.NUMBER_OF_CELLS_PER_DIMENSION][SudokuPuzzle.NUMBER_OF_CELLS_PER_DIMENSION];
+		this.puzzleModel = ModelFactory.getInstance().createSudokuPuzzle();
 	}
 
 	/** Constructor for state transitions. */
 	protected ApplicationModelState(final ApplicationModelState lastState) {
-		// TODO - assign lastState components to this.
 		this.activeCellFilter = lastState.activeCellFilter;
 		this.filterAllowedCells = lastState.filterAllowedCells;
+		this.cellStates = lastState.cellStates;
+		this.puzzleModel = lastState.puzzleModel;
 	}
 
 	protected abstract void onEnter();

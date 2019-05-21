@@ -54,19 +54,27 @@
 }
 
 .sudoku-unfixed-cell {
-	-fx-text-fill: -sudoku-color-bark;
+	-fx-border-width: 1;
+	-fx-border-color: -sudoku-color-bark;
 	-fx-font-size: 12pt;
 }
 
-.sudoku-fixed-given-cell {
-	-fx-text-fill: -sudoku-color-bark;
+.sudoku-given-cell {
+	-fx-border-width: 1;
+	-fx-border-color: -sudoku-color-bark;
 	-fx-font-size: 30pt;
 }
 
-
-.sudoku-fixed-user-cell {
-	-fx-text-fill: -sudoku-color-stone-blue;
+.sudoku-fixed-cell {
+	-fx-border-width: 1;
+	-fx-border-color: -sudoku-color-bark;
+	-fx-text-background-color: -sudoku-color-stone-blue;
 	-fx-font-size: 30pt;
+}
+
+.sudoku-selected-cell {
+	-fx-border-width: 2;
+	-fx-border-color: -sudoku-color-stone-blue;
 }
 
 .button {

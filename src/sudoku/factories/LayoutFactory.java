@@ -56,7 +56,7 @@ public class LayoutFactory {
 	}
 
 	public SudokuPuzzleCell createSudokuPuzzleCell(int col, int row) {
-		final SudokuPuzzleCell sudokuPuzzleCell = new SudokuPuzzleCell();
+		final SudokuPuzzleCell sudokuPuzzleCell = new SudokuPuzzleCell(row, col);
 		ViewController.getInstance().registerSudokuPuzzleCell(sudokuPuzzleCell, col, row);
 		return sudokuPuzzleCell;
 	}

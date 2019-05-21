@@ -1,5 +1,7 @@
 package sudoku.factories;
 
+import sudoku.model.SudokuPuzzle;
+
 /**
  * This class contains methods to instantiation all models or entities shown in
  * the application.
@@ -13,6 +15,10 @@ public class ModelFactory {
 			modelFactoryInstance = new ModelFactory();
 		}
 		return modelFactoryInstance;
+	}
+
+	public SudokuPuzzle createSudokuPuzzle() {
+		return new SudokuPuzzle();
 	}
 
 	private ModelFactory() {

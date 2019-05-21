@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 
 /** This class corresponds to the default behavior of a sudoku cell. */
@@ -14,14 +15,16 @@ public class DefaultSudokuCellState {
 
 	protected static final int NUM_CANDIDATES = 9;
 
-	protected static final String UNFIXED_USER_DIGIT_CSS_CLASS = "sudoku-unfixed-cell";
+	protected static final String UNFIXED_CELL_CSS_CLASS = "sudoku-unfixed-cell";
 
-	protected static final String FIXED_USER_DIGIT_CSS_CLASS = "sudoku-fixed-user-cell";
+	protected static final String FIXED_CELL_CSS_CLASS = "sudoku-fixed-cell";
 
-	protected static final String FIXED_GIVEN_DIGIT_CSS_CLASS = "sudoku-fixed-given-cell";
+	protected static final String GIVEN_CELL_CSS_CLASS = "sudoku-given-cell";
 
-	private static final List<String> CSS_CLASSES = Arrays.asList(UNFIXED_USER_DIGIT_CSS_CLASS,
-			FIXED_USER_DIGIT_CSS_CLASS, FIXED_GIVEN_DIGIT_CSS_CLASS);
+	protected static final String SELECTED_CELL_CSS_CLASS = "sudoku-selected-cell";
+
+	private static final List<String> CSS_CLASSES = Arrays.asList(UNFIXED_CELL_CSS_CLASS, FIXED_CELL_CSS_CLASS,
+			GIVEN_CELL_CSS_CLASS);
 
 	protected final boolean[] candidatesVisible;
 
@@ -45,6 +48,10 @@ public class DefaultSudokuCellState {
 		this.onEnter();
 	}
 
+	public SudokuPuzzleCell getCell() {
+		return this.cell;
+	}
+
 	public EventHandler<KeyEvent> handleKeyPress() {
 		return event -> {
 			final KeyCode code = event.getCode();
@@ -63,8 +70,19 @@ public class DefaultSudokuCellState {
 		};
 	}
 
+	public EventHandler<MouseEvent> handleClick() {
+		return event -> {
+			// The other cells are reset to not selected in CellChangeState.java. This is
+			// because we don't have access to all the other cells from here; this class
+			// only cares about the attached cell instance.
+			this.cell.requestFocus();
+			this.cell.setState(new SelectedCellState(this));
+		};
+	}
+
 	protected void onEnter() {
-		this.updateCssClass(UNFIXED_USER_DIGIT_CSS_CLASS);
+		this.cell.getStyleClass().remove(SELECTED_CELL_CSS_CLASS);
+		this.updateCssClass(UNFIXED_CELL_CSS_CLASS);
 	}
 
 	protected void updateCssClass(String newCssClass) {
@@ -73,4 +91,5 @@ public class DefaultSudokuCellState {
 		styleClass.add(newCssClass);
 
 	}
+
 }
