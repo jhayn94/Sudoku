@@ -33,6 +33,7 @@ public class SudokuPuzzleView extends GridPane {
 			final int colIndex = (index - 1) % 9;
 			final SudokuPuzzleCell sudokuPuzzleCell = LayoutFactory.getInstance().createSudokuPuzzleCell(colIndex,
 					rowIndex);
+			// TODO - update border thickness based on indices.
 			// Integer division intentional!
 			this.add(sudokuPuzzleCell, colIndex, rowIndex);
 		}
