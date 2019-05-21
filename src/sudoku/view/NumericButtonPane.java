@@ -15,9 +15,13 @@ import sudoku.view.util.LabelConstants;
  */
 public class NumericButtonPane extends GridPane {
 
-	private final List<Button> filterButtons;
-
 	private static final int NUM_DIGIT_BUTTONS = 9;
+
+	private static final int MIN_BUTTON_HEIGHT = 50;
+
+	private static final int MIN_BUTTON_WIDTH = 75;
+
+	private final List<Button> filterButtons;
 
 	public NumericButtonPane() {
 		this.filterButtons = new ArrayList<>(10);
@@ -25,7 +29,7 @@ public class NumericButtonPane extends GridPane {
 	}
 
 	public List<Button> getFilterButtons() {
-		return filterButtons;
+		return this.filterButtons;
 	}
 
 	private void configure() {
@@ -48,6 +52,24 @@ public class NumericButtonPane extends GridPane {
 				.createToggleButton(LabelConstants.BIVALUE_CELL_BUTTON);
 		this.filterButtons.add(bivalueCellFilterButton);
 		this.add(bivalueCellFilterButton, 1, 3);
+		this.createUndoButton();
+		this.createRedoButton();
+	}
+
+	private void createUndoButton() {
+		final Button undoActionButton = new Button();
+		undoActionButton.setText(LabelConstants.UNDO);
+		undoActionButton.setMinHeight(MIN_BUTTON_HEIGHT);
+		undoActionButton.setMinWidth(MIN_BUTTON_WIDTH);
+		this.add(undoActionButton, 0, 3);
+	}
+
+	private void createRedoButton() {
+		final Button redoActionButton = new Button();
+		redoActionButton.setText(LabelConstants.REDO);
+		redoActionButton.setMinHeight(MIN_BUTTON_HEIGHT);
+		redoActionButton.setMinWidth(MIN_BUTTON_WIDTH);
+		this.add(redoActionButton, 2, 3);
 	}
 
 }
