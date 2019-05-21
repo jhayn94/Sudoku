@@ -12,6 +12,8 @@ import sudoku.factories.LayoutFactory;
  */
 public class ApplicationSideBar extends SplitPane {
 
+	private static final int DEFAULT_WIDTH = 320;
+
 	private static final String CSS_STYLE_CLASS = "sudoku-side-bar";
 
 	public ApplicationSideBar() {
@@ -21,8 +23,8 @@ public class ApplicationSideBar extends SplitPane {
 	private void configure() {
 		this.setOrientation(Orientation.VERTICAL);
 		this.getStyleClass().add(CSS_STYLE_CLASS);
-		this.setMinWidth(320);
-		this.setMaxWidth(320);
+		this.setMinWidth(DEFAULT_WIDTH);
+		this.setMaxWidth(DEFAULT_WIDTH);
 		this.createChildElements();
 	}
 

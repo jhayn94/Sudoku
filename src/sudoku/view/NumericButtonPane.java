@@ -15,6 +15,8 @@ import sudoku.view.util.LabelConstants;
  */
 public class NumericButtonPane extends GridPane {
 
+	private static final int DEFAULT_WIDTH = 320;
+
 	private static final String CSS_CLASS = "sudoku-transparent-pane";
 	private static final int NUM_DIGIT_BUTTONS = 9;
 
@@ -38,8 +40,8 @@ public class NumericButtonPane extends GridPane {
 		this.setPadding(new Insets(25));
 		this.setHgap(20);
 		this.setVgap(20);
-		this.setMinWidth(320);
-		this.setMaxWidth(320);
+		this.setMinWidth(DEFAULT_WIDTH);
+		this.setMaxWidth(DEFAULT_WIDTH);
 		this.createChildElements();
 	}
 

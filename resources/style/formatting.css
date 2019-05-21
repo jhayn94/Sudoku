@@ -43,7 +43,6 @@
 
 .sudoku-side-bar {
 	-fx-background-color: transparent;
-	-fx-inner-border: -sudoku-color-parchment;
 }
 
 .sudoku-top-level-tab-pane {
@@ -57,10 +56,6 @@
 	-fx-background-radius: 3;
 	-fx-border-radius: 3;
 	-fx-padding: 0.1666667em; /* 2 */
-}
-
-.sudoku-filler-table-cell {
-	-fx-background-color: -sudoku-color-bark
 }
 
 .button {
@@ -107,23 +102,12 @@
 	-fx-font-size: 14pt;
 }
 
-.radio-button>.radio {
-	-fx-border-width: 2;
-	-fx-border-radius: 30;
-	-fx-border-color: -sudoku-color-bark;
-	-fx-background-color: -sudoku-color-pebble;
-}
-
 .text-area {
 	-fx-background-color: -sudoku-color-parchment;
 	-fx-border-color: -sudoku-color-bark;
 	-fx-background-radius: 3;
 	-fx-border-width: 3;
 	-fx-prompt-text-fill: -sudoku-color-parchment;
-}
-
-.separator, .tool-bar {
-	-fx-background-color: transparent;
 }
 
 /* Defines the rectangle responsible for the shadow. */
