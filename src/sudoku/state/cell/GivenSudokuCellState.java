@@ -1,6 +1,7 @@
 package sudoku.state.cell;
 
-import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
+import javafx.scene.input.KeyEvent;
 
 /**
  * This class corresponds to a sudoku cell which is a given and cannot be
@@ -10,13 +11,17 @@ public class GivenSudokuCellState extends DefaultSudokuCellState {
 
 	public GivenSudokuCellState(DefaultSudokuCellState lastState) {
 		super(lastState);
-		this.onEnter();
 	}
 
 	@Override
 	protected void onEnter() {
-		final ObservableList<String> styleClass = this.cell.getStyleClass();
-		styleClass.remove(FIXED_USER_DIGIT_CSS_CLASS);
-		styleClass.add(FIXED_GIVEN_DIGIT_CSS_CLASS);
+		this.updateCssClass(FIXED_GIVEN_DIGIT_CSS_CLASS);
+	}
+
+	@Override
+	public EventHandler<KeyEvent> handleKeyPress() {
+		return event -> {
+			// Nothing to do, for now.
+		};
 	}
 }

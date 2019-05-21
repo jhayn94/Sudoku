@@ -1,7 +1,9 @@
 package sudoku.state.cell;
 
-import org.apache.logging.log4j.util.Strings;
+import java.util.Arrays;
+import java.util.List;
 
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -12,9 +14,14 @@ public class DefaultSudokuCellState {
 
 	protected static final int NUM_CANDIDATES = 9;
 
-	protected static final String FIXED_USER_DIGIT_CSS_CLASS = "sudoku-fixed-user-digit";
+	protected static final String UNFIXED_USER_DIGIT_CSS_CLASS = "sudoku-unfixed-cell";
 
-	protected static final String FIXED_GIVEN_DIGIT_CSS_CLASS = "sudoku-fixed-given-digit";
+	protected static final String FIXED_USER_DIGIT_CSS_CLASS = "sudoku-fixed-user-cell";
+
+	protected static final String FIXED_GIVEN_DIGIT_CSS_CLASS = "sudoku-fixed-given-cell";
+
+	private static final List<String> CSS_CLASSES = Arrays.asList(UNFIXED_USER_DIGIT_CSS_CLASS,
+			FIXED_USER_DIGIT_CSS_CLASS, FIXED_GIVEN_DIGIT_CSS_CLASS);
 
 	protected final boolean[] candidatesVisible;
 
@@ -35,10 +42,7 @@ public class DefaultSudokuCellState {
 		this.cell = lastState.cell;
 		this.candidatesVisible = lastState.candidatesVisible;
 		this.fixedDigitVisible = lastState.fixedDigitVisible;
-	}
-
-	protected void onEnter() {
-
+		this.onEnter();
 	}
 
 	public EventHandler<KeyEvent> handleKeyPress() {
@@ -53,11 +57,20 @@ public class DefaultSudokuCellState {
 				} else {
 					this.cell.setCandidatesVisible(false);
 					this.cell.setFixedDigit(code.getName());
+					this.cell.setState(new UserFixedSudokuCellState(this));
 				}
-			} else if (KeyCode.DELETE == code) {
-				this.cell.setCandidatesVisible(true);
-				this.cell.setFixedDigit(Strings.EMPTY);
 			}
 		};
+	}
+
+	protected void onEnter() {
+		this.updateCssClass(UNFIXED_USER_DIGIT_CSS_CLASS);
+	}
+
+	protected void updateCssClass(String newCssClass) {
+		final ObservableList<String> styleClass = this.cell.getStyleClass();
+		CSS_CLASSES.forEach(styleClass::remove);
+		styleClass.add(newCssClass);
+
 	}
 }

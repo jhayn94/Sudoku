@@ -53,15 +53,20 @@
 	-fx-padding: 0.1666667em; /* 2 */
 }
 
-.sudoku-fixed-given-digit {
-	-fx-text-fill: -sudoku-color-stone-bark;
-	-fx-font-size: 20pt;
+.sudoku-unfixed-cell {
+	-fx-text-fill: -sudoku-color-bark;
+	-fx-font-size: 12pt;
+}
+
+.sudoku-fixed-given-cell {
+	-fx-text-fill: -sudoku-color-bark;
+	-fx-font-size: 30pt;
 }
 
 
-.sudoku-fixed-user-digit {
+.sudoku-fixed-user-cell {
 	-fx-text-fill: -sudoku-color-stone-blue;
-	-fx-font-size: 20pt;
+	-fx-font-size: 30pt;
 }
 
 .button {
