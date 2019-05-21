@@ -3,8 +3,9 @@ package sudoku.core;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import sudoku.view.NumericButtonPane;
-import sudoku.view.SudokuPuzzleView;
 import sudoku.view.menu.button.MaximizeMenuButton;
+import sudoku.view.puzzle.SudokuPuzzleCell;
+import sudoku.view.puzzle.SudokuPuzzleView;
 
 /**
  * A controller class to facilitate view changes, as result of a model change.
@@ -12,6 +13,8 @@ import sudoku.view.menu.button.MaximizeMenuButton;
  * to static (container) views is not stored.
  */
 public class ViewController {
+
+	private static final int NUM_CELLS = 9;
 
 	private static ViewController viewControllerInstance;
 
@@ -32,12 +35,15 @@ public class ViewController {
 
 	private SudokuPuzzleView sudokuPuzzleView;
 
+	private final SudokuPuzzleCell[][] sudokuPuzzleCells;
+
 	private ViewController() {
 		this.stage = null;
 		this.maximizeWindowButton = null;
 		this.helpStage = null;
 		this.numericButtonPane = null;
 		this.sudokuPuzzleView = null;
+		this.sudokuPuzzleCells = new SudokuPuzzleCell[NUM_CELLS][NUM_CELLS];
 	}
 
 	public Stage getStage() {
@@ -60,6 +66,10 @@ public class ViewController {
 		return this.sudokuPuzzleView;
 	}
 
+	public SudokuPuzzleCell getSudokuPuzzleCell(int col, int row) {
+		return this.sudokuPuzzleCells[col][row];
+	}
+
 	public void setStage(final Stage stage) {
 		this.stage = stage;
 	}
@@ -78,6 +88,10 @@ public class ViewController {
 
 	public void setSudokuPuzzleView(SudokuPuzzleView sudokuPuzzleView) {
 		this.sudokuPuzzleView = sudokuPuzzleView;
+	}
+
+	public void registerSudokuPuzzleCell(SudokuPuzzleCell sudokuPuzzleCell, int col, int row) {
+		this.sudokuPuzzleCells[col][row] = sudokuPuzzleCell;
 	}
 
 }

@@ -5,6 +5,7 @@ import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
 import sudoku.factories.LayoutFactory;
+import sudoku.view.puzzle.SudokuPuzzleView;
 
 /**
  * This class represents the main content view of the application.
