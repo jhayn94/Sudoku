@@ -1,5 +1,6 @@
 package sudoku.view.puzzle;
 
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.layout.GridPane;
 import sudoku.factories.LayoutFactory;
@@ -12,6 +13,22 @@ import sudoku.model.SudokuPuzzle;
 public class SudokuPuzzleView extends GridPane {
 
 	private static final String CSS_CLASS = "sudoku-transparent-pane";
+
+	private static final String BOTTOM_CELL_CSS_CLASS = "sudoku-puzzle-cell-extra-bottom-border";
+
+	private static final String TOP_CELL_CSS_CLASS = "sudoku-puzzle-cell-extra-top-border";
+
+	private static final String LEFT_CELL_CSS_CLASS = "sudoku-puzzle-cell-extra-left-border";
+
+	private static final String RIGHT_CELL_CSS_CLASS = "sudoku-puzzle-cell-extra-right-border";
+
+	private static final String BOTTOM_RIGHT_CELL_CSS_CLASS = "sudoku-puzzle-cell-extra-bottom-right-border";
+
+	private static final String TOP_RIGHT_CELL_CSS_CLASS = "sudoku-puzzle-cell-extra-top-right-border";
+
+	private static final String BOTTOM_LEFT_CELL_CSS_CLASS = "sudoku-puzzle-cell-extra-bottom-left-border";
+
+	private static final String TOP_LEFT_CELL_CSS_CLASS = "sudoku-puzzle-cell-extra-top-left-border";
 
 	private static final int DEFAULT_WIDTH = 320;
 
@@ -36,8 +53,26 @@ public class SudokuPuzzleView extends GridPane {
 			final int colIndex = (index - 1) % 9;
 			final SudokuPuzzleCell sudokuPuzzleCell = LayoutFactory.getInstance().createSudokuPuzzleCell(colIndex,
 					rowIndex);
-			// TODO - update border thickness based on indices.
 			this.add(sudokuPuzzleCell, colIndex, rowIndex);
+			final ObservableList<String> styleClass = sudokuPuzzleCell.getStyleClass();
+			if (rowIndex % 3 == 0 && colIndex % 3 == 0) {
+				styleClass.add(TOP_LEFT_CELL_CSS_CLASS);
+			} else if (rowIndex % 3 == 0 && colIndex % 3 == 2) {
+				styleClass.add(TOP_RIGHT_CELL_CSS_CLASS);
+			} else if (rowIndex % 3 == 2 && colIndex % 3 == 0) {
+				styleClass.add(BOTTOM_LEFT_CELL_CSS_CLASS);
+			} else if (rowIndex % 3 == 2 && colIndex % 3 == 2) {
+				styleClass.add(BOTTOM_RIGHT_CELL_CSS_CLASS);
+			} else if (rowIndex % 3 == 0) {
+				styleClass.add(TOP_CELL_CSS_CLASS);
+			} else if (rowIndex % 3 == 2) {
+				styleClass.add(BOTTOM_CELL_CSS_CLASS);
+			} else if (colIndex % 3 == 0) {
+				styleClass.add(LEFT_CELL_CSS_CLASS);
+			} else if (colIndex % 3 == 2) {
+				styleClass.add(RIGHT_CELL_CSS_CLASS);
+			}
+
 		}
 	}
 }

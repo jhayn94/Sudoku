@@ -1,5 +1,4 @@
 .root {
-	/* TODO - review the parchment + pebble colors, is there a better base to use? */
 	-sudoku-color-parchment: #e5e2ca;
 	-sudoku-color-pebble: #e0e0e0;
 	-sudoku-color-bark: #2a2922;
@@ -54,28 +53,60 @@
 }
 
 .sudoku-unfixed-cell {
-	-fx-border-width: 1;
-	-fx-border-color: -sudoku-color-bark;
+	-fx-background-color: #eeeeee;
 	-fx-font-size: 12pt;
 }
 
 .sudoku-given-cell {
-	-fx-border-width: 1;
-	-fx-border-color: -sudoku-color-bark;
+	-fx-background-color: #eeeeee;
 	-fx-font-size: 30pt;
 }
 
 .sudoku-fixed-cell {
-	-fx-border-width: 1;
-	-fx-border-color: -sudoku-color-bark;
+	-fx-background-color: #eeeeee;
 	-fx-text-background-color: -sudoku-color-stone-blue;
 	-fx-font-size: 30pt;
 }
 
 .sudoku-selected-cell {
-	-fx-border-width: 2;
-	-fx-border-color: -sudoku-color-stone-blue;
+	-fx-background-color: -sudoku-color-parchment;
 }
+
+/* These are used to set extra borders on the cells that are on the edges of blocks. 
+	It would be nice to be able to re-use them, but I can't figure out how to override only
+	one of the border sizes, and inherit the rest. */
+.sudoku-puzzle-cell-extra-top-border {
+	-fx-border-width: 3 1 1 1;
+}
+
+.sudoku-puzzle-cell-extra-right-border {
+	-fx-border-width: 1 3 1 1;
+}
+
+.sudoku-puzzle-cell-extra-bottom-border {
+	-fx-border-width: 1 1 3 1;
+}
+
+.sudoku-puzzle-cell-extra-left-border {
+	-fx-border-width: 1 1 1 3;
+}
+
+.sudoku-puzzle-cell-extra-top-right-border {
+	-fx-border-width: 3 3 1 1;
+}
+
+.sudoku-puzzle-cell-extra-top-left-border {
+	-fx-border-width: 3 1 1 3;
+}
+
+.sudoku-puzzle-cell-extra-bottom-right-border {
+	-fx-border-width: 1 3 3 1;
+}
+
+.sudoku-puzzle-cell-extra-bottom-left-border {
+	-fx-border-width: 1 1 3 3;
+}
+
 
 .button {
 	-fx-text-fill: -sudoku-color-bark;
