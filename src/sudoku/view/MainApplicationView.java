@@ -17,6 +17,7 @@ public class MainApplicationView extends SplitPane {
 	}
 
 	private void configure() {
+		this.getStyleClass().add("sudoku-main-app-view");
 		this.setOrientation(Orientation.HORIZONTAL);
 		this.createChildElements();
 	}

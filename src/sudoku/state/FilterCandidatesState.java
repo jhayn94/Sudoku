@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.Strings;
 
+import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import sudoku.core.ViewController;
 import sudoku.view.NumericButtonPane;
@@ -16,12 +17,11 @@ import sudoku.view.NumericButtonPane;
  */
 public class FilterCandidatesState extends ApplicationModelState {
 
-	private static final String SUDOKU_BUTTON_SELECTED = "-fx-background-color: -sudoku-color-stone-blue;"
-			+ "	-fx-text-fill: -sudoku-color-parchment;";
-	private static final String SUDOKU_BUTTON_UNSELECTED = "-fx-background-color: -sudoku-color-parchment;"
-			+ "	-fx-text-fill: -sudoku-color-bark;";
+	private static final String SUDOKU_BUTTON_SELECTED = "sudoku-button-selected";
+	private static final String SUDOKU_BUTTON_UNSELECTED = "sudoku-button-unselected";
 
 	private static final Logger LOG = LogManager.getLogger(FilterCandidatesState.class);
+
 	private final String newCellFilter;
 
 	public FilterCandidatesState(ApplicationModelState applicationModelState, String filter) {
@@ -43,13 +43,17 @@ public class FilterCandidatesState extends ApplicationModelState {
 	}
 
 	public void updateFilterButton(Button button) {
-		String cssStyling = button.getStyle();
+		final ObservableList<String> styleClass = button.getStyleClass();
+		// Since we iterate over every button every time, the classes are fully cleared
+		// to avoid duplicate classes. This is easier than tracking when to remove each
+		// CSS class separately. */
+		styleClass.remove(SUDOKU_BUTTON_SELECTED);
+		styleClass.remove(SUDOKU_BUTTON_UNSELECTED);
 		if (!this.shouldSetButtonSelected(button)) {
-			cssStyling += SUDOKU_BUTTON_UNSELECTED;
+			styleClass.add(SUDOKU_BUTTON_UNSELECTED);
 		} else {
-			cssStyling += SUDOKU_BUTTON_SELECTED;
+			styleClass.add(SUDOKU_BUTTON_SELECTED);
 		}
-		button.setStyle(cssStyling);
 	}
 
 	private boolean shouldSetButtonSelected(Button button) {

@@ -6,6 +6,7 @@
 	-sudoku-color-stone-blue: #336b87;
 	-sudoku-color-autumn-foliage: #e7472e;
 	-sudoku-color-leaves: #506d2f;
+	-sudoku-color-rocky-brown: #785a46;
 
 	-fx-font-family: "Quicksand";
 	-fx-font-size: 12pt;
@@ -27,17 +28,19 @@
 	-fx-accent: -sudoku-color-stone-blue;
 	-fx-focus-color: -sudoku-color-stone-blue;
 	-fx-cell-focus-inner-border: -sudoku-color-stone-blue;
+	-fx-fill: linear-gradient(to bottom, -sudoku-color-pebble, -sudoku-color-parchment);
 }
 
-.sudoku-root-stack-pane {
+.sudoku-main-app-view {
+	-fx-background-color: linear-gradient(to bottom, -sudoku-color-pebble, -sudoku-color-parchment);
+}
+
+.sudoku-transparent-pane {
 	-fx-background-color: transparent;
 }
 
-.sudoku-help-view {
-	-fx-background-color: red;
-}
-
 .sudoku-side-bar {
+	-fx-background-color: transparent;
 	-fx-inner-border: -sudoku-color-parchment;
 }
 
@@ -58,7 +61,17 @@
 	-fx-background-color: -sudoku-color-bark
 }
 
-/** Used for when a button is pressed and needs to retain a state. */
+.button {
+	-fx-background-color: -sudoku-color-parchment;
+	-fx-text-fill: -sudoku-color-bark;
+	-fx-font-size: 14pt;
+	-fx-border-color: -sudoku-color-bark;
+	-fx-border-width: 3;
+	-fx-background-radius: 0;
+	-fx-border-radius: 0;
+}
+
+/** Used for when a button is pressed and needs to retain a state. This must be after .button to override it. */
 .sudoku-button-selected {
 	-fx-background-color: -sudoku-color-stone-blue;
 	-fx-text-fill: -sudoku-color-parchment;
@@ -79,14 +92,8 @@
 	-fx-border-radius: 0;
 }
 
-.button {
-	-fx-background-color: -sudoku-color-parchment;
-	-fx-text-fill: -sudoku-color-bark;
-	-fx-font-size: 14pt;
-	-fx-border-color: -sudoku-color-bark;
-	-fx-border-width: 3;
-	-fx-background-radius: 0;
-	-fx-border-radius: 0;
+.button:armed {
+	-fx-background-color: -sudoku-color-stone-blue;
 }
 
 /* Application system menu buttons (in the top corners of the screen). This must be after .button to override those configurations. */

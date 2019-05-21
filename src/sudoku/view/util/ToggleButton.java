@@ -28,7 +28,14 @@ public class ToggleButton extends Button {
 		this.setMinHeight(MIN_HEIGHT);
 		this.setText(this.label);
 		this.setOnAction(this.onClick());
+//		this.setOnMousePressed(this.onMousePressed());
 	}
+
+//	private EventHandler<? super MouseEvent> onMousePressed() {
+//		String cssStyling = this.getStyle();
+//		cssStyling += "-fx-background-color: -sudoku-color-stone-blue;";
+//		this.setStyle(cssStyling);
+//	}
 
 	private EventHandler<ActionEvent> onClick() {
 		return event -> ModelController.getInstance().transitionToFilterCandidatesState(this.label);

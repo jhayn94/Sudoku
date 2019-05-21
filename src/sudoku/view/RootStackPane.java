@@ -14,7 +14,7 @@ import sudoku.view.util.ShadowRectangle;
  */
 public class RootStackPane extends StackPane {
 
-	private static final String ROOT_STACK_PANE_CSS_CLASS = "sudoku-root-stack-pane";
+	private static final String CSS_CLASS = "sudoku-transparent-pane";
 
 	private static final int ROUNDED_DELTA = 0;
 
@@ -28,7 +28,7 @@ public class RootStackPane extends StackPane {
 		this.applicationView = applicationView;
 		applicationView.setPadding(new Insets(10));
 		this.shadowRectangle = LayoutFactory.getInstance().createShadowRectangle();
-		this.getStyleClass().add(ROOT_STACK_PANE_CSS_CLASS);
+		this.getStyleClass().add(CSS_CLASS);
 		this.getChildren().addAll(this.shadowRectangle, applicationView);
 	}
 
