@@ -6,11 +6,14 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sudoku.core.ViewController;
+import sudoku.view.ApplicationSideBar;
 import sudoku.view.HelpView;
 import sudoku.view.MainApplicationView;
+import sudoku.view.NumericButtonPane;
 import sudoku.view.RootStackPane;
 import sudoku.view.util.ResourceConstants;
 import sudoku.view.util.ShadowRectangle;
+import sudoku.view.util.ToggleButton;
 import sudoku.view.util.WindowHelper;
 
 /**
@@ -40,8 +43,22 @@ public class LayoutFactory {
 		return new MainApplicationView();
 	}
 
+	public ApplicationSideBar createApplicationSideBar() {
+		return new ApplicationSideBar();
+	}
+
+	public NumericButtonPane createNumericButtonPane() {
+		final NumericButtonPane numericButtonPane = new NumericButtonPane();
+		ViewController.getInstance().setNumericButtonPane(numericButtonPane);
+		return numericButtonPane;
+	}
+
 	public ShadowRectangle createShadowRectangle() {
 		return new ShadowRectangle();
+	}
+
+	public ToggleButton createToggleButton(String label) {
+		return new ToggleButton(label);
 	}
 
 	public void showHelpView() {

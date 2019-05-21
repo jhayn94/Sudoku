@@ -2,6 +2,7 @@ package sudoku.core;
 
 import sudoku.state.ApplicationModelState;
 import sudoku.state.DefaultApplicationModelState;
+import sudoku.state.FilterCandidatesState;
 import sudoku.state.window.ApplicationWindowState;
 import sudoku.state.window.ClosedState;
 import sudoku.state.window.MaximizedState;
@@ -25,7 +26,7 @@ public class ModelController {
 	 * Contains info about the state of the model (i.e. the data behind the result
 	 * view and the input elements).
 	 */
-	private final ApplicationModelState applicationModelState;
+	private ApplicationModelState applicationModelState;
 
 	/**
 	 * Contains info about the state of the window (i.e. maximized, window bounds,
@@ -56,6 +57,10 @@ public class ModelController {
 
 	public void transitionToClosedState() {
 		this.applicationWindowState = new ClosedState(this.applicationWindowState);
+	}
+
+	public void transitionToFilterCandidatesState(String filter) {
+		this.applicationModelState = new FilterCandidatesState(this.applicationModelState, filter);
 	}
 
 }

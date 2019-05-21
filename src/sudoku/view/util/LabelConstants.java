@@ -20,6 +20,8 @@ public class LabelConstants {
 
 	public static final String SAVE = "Save";
 
+	public static final String BIVALUE_CELL_BUTTON = "X|Y";
+
 	private LabelConstants() {
 		// Private constructor to prevent instantiation.
 	}

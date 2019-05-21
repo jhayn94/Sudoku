@@ -32,7 +32,6 @@ public class SoftRestoredState extends ApplicationWindowState {
 		stage.setWidth(visualBounds.getWidth());
 		stage.setHeight(visualBounds.getHeight());
 		this.setIcon(ViewController.getInstance().getMaximizeWindowButton(), ResourceConstants.MAXIMIZE_ICON);
-
 	}
 
 }
