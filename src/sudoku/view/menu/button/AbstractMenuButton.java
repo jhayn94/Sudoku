@@ -8,7 +8,7 @@ import javafx.scene.image.ImageView;
 
 public abstract class AbstractMenuButton extends Button {
 
-	private static final String MENU_BUTTON_CSS_CLASS = "arb-system-menu-button";
+	private static final String MENU_BUTTON_CSS_CLASS = "sudoku-system-menu-button";
 
 	protected String resourcePath;
 
@@ -30,7 +30,8 @@ public abstract class AbstractMenuButton extends Button {
 
 	protected void setIconColor() {
 		final ColorAdjust monochrome = new ColorAdjust();
-		// This HSB setup approximates the color 'arb-color-stone' in the CSS file.
+		// This HSB setup approximates the color 'sudoku-color-stone-blue' in the CSS
+		// file. For some reason, the traditional HSB setup does not work.
 		monochrome.setHue(-.05);
 		monochrome.setSaturation(.57);
 		monochrome.setBrightness(-.4);

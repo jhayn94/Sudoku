@@ -14,7 +14,7 @@ import sudoku.view.util.ShadowRectangle;
  */
 public class RootStackPane extends StackPane {
 
-	private static final String ROOT_STACK_PANE_CSS_CLASS = "arb-root-stack-pane";
+	private static final String ROOT_STACK_PANE_CSS_CLASS = "sudoku-root-stack-pane";
 
 	private static final int ROUNDED_DELTA = 0;
 

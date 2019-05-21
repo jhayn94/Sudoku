@@ -1,72 +1,74 @@
 .root {
+	/* TODO - review the pearl + pebble colors, is there a better base to use? */
 	-sudoku-color-pearl: #f8f5f2;
 	-sudoku-color-pebble: #e0e0e0;
-	-sudoku-color-shadow: #2a3132;
-	-sudoku-color-stone: #336b87;
-	-sudoku-color-mist: #90afc5;
-	-sudoku-color-autumn-foliage: #763626;
+	-sudoku-color-bark: #2a2922;
+	-sudoku-color-stone-blue: #336b87;
+	-sudoku-color-autumn-foliage: #e7472e;
+	-sudoku-color-leaves: #506d2f;
 
-	-fx-font-family: "Futura Condensed BQ";
+	-fx-font-family: "Quicksand";
 	-fx-font-size: 12pt;
-	-fx-font-color: -sudoku-color-shadow;
+	-fx-font-weight: bold;
+	-fx-font-color: -sudoku-color-bark;
 	-fx-box-border: -sudoku-color-pearl;
 	-fx-color: -sudoku-color-pearl;
 	-fx-background-color: -sudoku-color-pearl;
 	-fx-control-inner-background: -sudoku-color-pebble;
-	-fx-outer-border: -sudoku-color-shadow;
-	-fx-inner-border: -sudoku-color-shadow;
+	-fx-outer-border: -sudoku-color-bark;
+	-fx-inner-border: -sudoku-color-bark;
 	-fx-inner-border-horizontal: -sudoku-color-pearl;
 	-fx-inner-border-bottomup: -sudoku-color-pearl;
 	-fx-body-color: -sudoku-color-pearl;
 	-fx-body-color-bottomup: -sudoku-color-pearl;
-	-fx-mark-color: -sudoku-color-stone;
-	-fx-mark-highlight-color: -sudoku-color-stone;
-	-fx-tab-border-color: -sudoku-color-shadow;
-	-fx-accent: -sudoku-color-stone;
-	-fx-focus-color: -sudoku-color-stone;
-	-fx-cell-focus-inner-border: -sudoku-color-stone;
+	-fx-mark-color: -sudoku-color-stone-blue;
+	-fx-mark-highlight-color: -sudoku-color-stone-blue;
+	-fx-tab-border-color: -sudoku-color-bark;
+	-fx-accent: -sudoku-color-stone-blue;
+	-fx-focus-color: -sudoku-color-stone-blue;
+	-fx-cell-focus-inner-border: -sudoku-color-stone-blue;
 }
 
-.arb-root-stack-pane {
+.sudoku-root-stack-pane {
 	-fx-background-color: transparent;
 }
 
-.arb-help-view {
+.sudoku-help-view {
 	-fx-background-color: red;
 }
 
-.arb-side-bar-view {
+.sudoku-side-bar-view {
 	-fx-inner-border: -sudoku-color-pearl;
 }
 
-.arb-top-level-tab-pane {
-	-fx-border-color: -sudoku-color-shadow;
+.sudoku-top-level-tab-pane {
+	-fx-border-color: -sudoku-color-bark;
 	-fx-border-width: 3;
 }
 
-.arb-labeled-text-field>.text-field {
-	-fx-border-color: -sudoku-color-shadow;
+.sudoku-labeled-text-field>.text-field {
+	-fx-border-color: -sudoku-color-bark;
 	-fx-border-width: 2;
 	-fx-background-radius: 3;
 	-fx-border-radius: 3;
 	-fx-padding: 0.1666667em; /* 2 */
 }
 
-.arb-filler-table-cell {
-	-fx-background-color: -sudoku-color-shadow
+.sudoku-filler-table-cell {
+	-fx-background-color: -sudoku-color-bark
 }
 
 .button {
 	-fx-background-color: -sudoku-color-autumn-foliage;
 	-fx-text-fill: -sudoku-color-pearl;
-	-fx-border-color: -sudoku-color-shadow;
+	-fx-border-color: -sudoku-color-bark;
 	-fx-border-width: 3;
 	-fx-background-radius: 20;
 	-fx-border-radius: 20;
 }
 
 /* Application system menu buttons (in the top corners of the screen). This must be after .button to override those configurations. */
-.arb-system-menu-button {
+.sudoku-system-menu-button {
 	-fx-background-color: transparent;
 	-fx-border-color: transparent;
 	-fx-border-width : 0;
@@ -76,24 +78,25 @@
 }
 
 /* Application system menu buttons (in the top corners of the screen). This must be after .button to override those configurations. */
-.arb-system-menu-button:hover {
+.sudoku-system-menu-button:hover {
 	-fx-background-color: linear-gradient(to bottom, derive(-sudoku-color-pebble,-30%), derive(-sudoku-color-pearl,-30%));
 }
 
 .menu-bar {
 	-fx-background-color: transparent;
+	-fx-font-size: 14pt;
 }
 
 .radio-button>.radio {
 	-fx-border-width: 2;
 	-fx-border-radius: 30;
-	-fx-border-color: -sudoku-color-shadow;
+	-fx-border-color: -sudoku-color-bark;
 	-fx-background-color: -sudoku-color-pebble;
 }
 
 .text-area {
 	-fx-background-color: -sudoku-color-pearl;
-	-fx-border-color: -sudoku-color-shadow;
+	-fx-border-color: -sudoku-color-bark;
 	-fx-background-radius: 3;
 	-fx-border-width: 3;
 	-fx-prompt-text-fill: -sudoku-color-pearl;
@@ -111,22 +114,22 @@
 	-fx-padding: 0 0.667em 0 0.667em; /* 6 8 6 8 */
 	-fx-border-width: 2;
 	-fx-border-radius: 0 3 3 0;
-	-fx-border-color: -sudoku-color-shadow;
+	-fx-border-color: -sudoku-color-bark;
 }
 
 .check-box>.box {
 	-fx-background-color: -fx-shadow-highlight-color, -fx-outer-border,
 		-fx-inner-border, -sudoku-color-pebble;
-	-fx-border-color: -sudoku-color-shadow;
+	-fx-border-color: -sudoku-color-bark;
 	-fx-border-width: 2;
 	-fx-background-radius: 3;
 	-fx-border-radius: 3;
 }
 
 .tab-pane>.tab-header-area>.headers-region>.tab {
-	-fx-background-color: -sudoku-color-stone;
+	-fx-background-color: -sudoku-color-stone-blue;
 	-fx-text-base-color: -sudoku-color-pearl;
-	-fx-border-color: -sudoku-color-shadow;
+	-fx-border-color: -sudoku-color-bark;
 	-fx-border-width: 2 2 0 2;
 	-fx-border-radius: 4 4 0 0;
 	-fx-background-radius: 4 4 0 0;
@@ -134,7 +137,7 @@
 
 .tab-pane>.tab-header-area>.headers-region>.tab:selected {
 	-fx-background-color: -sudoku-color-pearl;
-	-fx-text-base-color: -sudoku-color-shadow;
+	-fx-text-base-color: -sudoku-color-bark;
 }
 
 .tab-pane>.tab-header-area>.tab-header-background {
@@ -149,15 +152,15 @@
 }
 
 .tab-content-area {
-	-fx-border-color: -sudoku-color-shadow;
+	-fx-border-color: -sudoku-color-bark;
 	-fx-border-width: 0;
 }
 
 .table-view {
 	-fx-border-width: 2px 3px 3px 2px;
 	-fx-background-color: -sudoku-color-pearl;
-	-fx-border-color: -sudoku-color-shadow;
-	-fx-table-header-border-color: -sudoku-color-shadow;
+	-fx-border-color: -sudoku-color-bark;
+	-fx-table-header-border-color: -sudoku-color-bark;
 }
 
 .table-row-cell {
@@ -173,11 +176,11 @@
 
 .table-row-cell:odd {
 	-fx-background-color: -sudoku-color-pebble;
-	-fx-text-fill: -sudoku-color-shadow;
+	-fx-text-fill: -sudoku-color-bark;
 }
 
 .table-view .column-header-background {
-	-fx-background-color: -sudoku-color-stone;
+	-fx-background-color: -sudoku-color-stone-blue;
 }
 
 .table-view .column-header-background .label {
@@ -187,8 +190,8 @@
 }
 
 .table-view .column-header, .table-view .filler {
-	-fx-border-color: -sudoku-color-shadow;
-	-fx-table-header-border-color: -sudoku-color-shadow;
+	-fx-border-color: -sudoku-color-bark;
+	-fx-table-header-border-color: -sudoku-color-bark;
 	-fx-background-color: transparent;
 }
 
@@ -202,7 +205,7 @@
 }
 
 .table-cell {
-	-fx-border-color: -sudoku-color-shadow;
+	-fx-border-color: -sudoku-color-bark;
 }
 
 .virtual-flow, .scroll-bar, .scroll-bar, .scroll-bar>.track, .scroll-bar>.track,
@@ -213,7 +216,7 @@
 
 .scroll-bar>.increment-button>.increment-arrow, .scroll-bar>.decrement-button>.decrement-arrow,
 	.scroll-bar:horizontal>.thumb, .scroll-bar:vertical>.thumb {
-	-fx-background-color: -sudoku-color-stone;
+	-fx-background-color: -sudoku-color-stone-blue;
 }
 
 .separator, .tool-bar {
