@@ -11,13 +11,15 @@ import sudoku.factories.LayoutFactory;
  */
 public class MainApplicationView extends SplitPane {
 
+	private static final String CSS_CLASS = "sudoku-main-app-view";
+
 	public MainApplicationView() {
 		super();
 		this.configure();
 	}
 
 	private void configure() {
-		this.getStyleClass().add("sudoku-main-app-view");
+		this.getStyleClass().add(CSS_CLASS);
 		this.setOrientation(Orientation.HORIZONTAL);
 		this.createChildElements();
 	}
@@ -25,6 +27,8 @@ public class MainApplicationView extends SplitPane {
 	private void createChildElements() {
 		final ObservableList<Node> items = this.getItems();
 		final ApplicationSideBar sideBarView = LayoutFactory.getInstance().createApplicationSideBar();
+		final SudokuPuzzleView sudokuPuzzleView = LayoutFactory.getInstance().createSudokuPuzzleView();
 		items.add(sideBarView);
+		items.add(sudokuPuzzleView);
 	}
 }

@@ -12,19 +12,17 @@
 	-fx-font-size: 12pt;
 	-fx-font-weight: bold;
 	-fx-font-color: -sudoku-color-bark;
-	-fx-box-border: -sudoku-color-parchment;
+	-fx-box-border: transparent;
 	-fx-color: -sudoku-color-parchment;
 	-fx-background-color: -sudoku-color-parchment;
 	-fx-control-inner-background: -sudoku-color-pebble;
 	-fx-outer-border: -sudoku-color-bark;
 	-fx-inner-border: -sudoku-color-bark;
-	-fx-inner-border-horizontal: -sudoku-color-parchment;
-	-fx-inner-border-bottomup: -sudoku-color-parchment;
+	-fx-inner-border-horizontal: transparent;
 	-fx-body-color: -sudoku-color-parchment;
-	-fx-body-color-bottomup: -sudoku-color-parchment;
+	-fx-body-color-bottomup: transparent;
 	-fx-mark-color: -sudoku-color-stone-blue;
 	-fx-mark-highlight-color: -sudoku-color-stone-blue;
-	-fx-tab-border-color: -sudoku-color-bark;
 	-fx-accent: -sudoku-color-stone-blue;
 	-fx-focus-color: -sudoku-color-stone-blue;
 	-fx-cell-focus-inner-border: -sudoku-color-stone-blue;
@@ -36,9 +34,6 @@
 
 .sudoku-transparent-pane {
 	-fx-background-color: transparent;
-	-fx-border-color: -sudoku-color-bark;
-	-fx-border-width: 3;
-	-fx-border-radius: 3;
 }
 
 .sudoku-side-bar {
@@ -50,11 +45,11 @@
 	-fx-border-width: 3;
 }
 
-.sudoku-labeled-text-field>.text-field {
+.sudoku-puzzle-cell {
+	-fx-background-color: #eeeeee;
+	-fx-text-fill: -sudoku-color-bark;
 	-fx-border-color: -sudoku-color-bark;
-	-fx-border-width: 2;
-	-fx-background-radius: 3;
-	-fx-border-radius: 3;
+	-fx-border-width: 1;
 	-fx-padding: 0.1666667em; /* 2 */
 }
 

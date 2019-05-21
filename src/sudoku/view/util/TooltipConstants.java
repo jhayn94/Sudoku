@@ -5,6 +5,10 @@ package sudoku.view.util;
  */
 public class TooltipConstants {
 
+	public static final String UNDO = "Undoes the most recently completed action.";
+
+	public static final String REDO = "Redoes the most recently undone action.";
+
 	private TooltipConstants() {
 		// Private constructor to prevent instantiation.
 	}

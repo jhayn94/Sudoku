@@ -11,6 +11,7 @@ import sudoku.view.HelpView;
 import sudoku.view.MainApplicationView;
 import sudoku.view.NumericButtonPane;
 import sudoku.view.RootStackPane;
+import sudoku.view.SudokuPuzzleView;
 import sudoku.view.util.ResourceConstants;
 import sudoku.view.util.ShadowRectangle;
 import sudoku.view.util.ToggleButton;
@@ -45,6 +46,12 @@ public class LayoutFactory {
 
 	public ApplicationSideBar createApplicationSideBar() {
 		return new ApplicationSideBar();
+	}
+
+	public SudokuPuzzleView createSudokuPuzzleView() {
+		final SudokuPuzzleView sudokuPuzzleView = new SudokuPuzzleView();
+		ViewController.getInstance().setSudokuPuzzleView(sudokuPuzzleView);
+		return sudokuPuzzleView;
 	}
 
 	public NumericButtonPane createNumericButtonPane() {

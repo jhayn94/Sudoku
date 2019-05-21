@@ -5,9 +5,11 @@ import java.util.List;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import sudoku.factories.LayoutFactory;
 import sudoku.view.util.LabelConstants;
+import sudoku.view.util.TooltipConstants;
 
 /**
  * This class corresponds to the view on the left side of the screen. It
@@ -15,9 +17,10 @@ import sudoku.view.util.LabelConstants;
  */
 public class NumericButtonPane extends GridPane {
 
+	private static final String CSS_CLASS = "sudoku-transparent-pane";
+
 	private static final int DEFAULT_WIDTH = 320;
 
-	private static final String CSS_CLASS = "sudoku-transparent-pane";
 	private static final int NUM_DIGIT_BUTTONS = 9;
 
 	private static final int MIN_BUTTON_HEIGHT = 50;
@@ -63,6 +66,7 @@ public class NumericButtonPane extends GridPane {
 	private void createUndoButton() {
 		final Button undoActionButton = new Button();
 		undoActionButton.setText(LabelConstants.UNDO);
+		undoActionButton.setTooltip(new Tooltip(TooltipConstants.UNDO));
 		undoActionButton.setMinHeight(MIN_BUTTON_HEIGHT);
 		undoActionButton.setMinWidth(MIN_BUTTON_WIDTH);
 		this.add(undoActionButton, 0, 3);
@@ -71,6 +75,7 @@ public class NumericButtonPane extends GridPane {
 	private void createRedoButton() {
 		final Button redoActionButton = new Button();
 		redoActionButton.setText(LabelConstants.REDO);
+		redoActionButton.setTooltip(new Tooltip(TooltipConstants.REDO));
 		redoActionButton.setMinHeight(MIN_BUTTON_HEIGHT);
 		redoActionButton.setMinWidth(MIN_BUTTON_WIDTH);
 		this.add(redoActionButton, 2, 3);

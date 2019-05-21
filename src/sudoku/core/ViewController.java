@@ -3,6 +3,7 @@ package sudoku.core;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import sudoku.view.NumericButtonPane;
+import sudoku.view.SudokuPuzzleView;
 import sudoku.view.menu.button.MaximizeMenuButton;
 
 /**
@@ -29,11 +30,14 @@ public class ViewController {
 
 	private NumericButtonPane numericButtonPane;
 
+	private SudokuPuzzleView sudokuPuzzleView;
+
 	private ViewController() {
 		this.stage = null;
 		this.maximizeWindowButton = null;
 		this.helpStage = null;
 		this.numericButtonPane = null;
+		this.sudokuPuzzleView = null;
 	}
 
 	public Stage getStage() {
@@ -52,6 +56,10 @@ public class ViewController {
 		return this.numericButtonPane;
 	}
 
+	public SudokuPuzzleView getSudokuPuzzleView() {
+		return this.sudokuPuzzleView;
+	}
+
 	public void setStage(final Stage stage) {
 		this.stage = stage;
 	}
@@ -66,6 +74,10 @@ public class ViewController {
 
 	public void setNumericButtonPane(NumericButtonPane numericButtonPane) {
 		this.numericButtonPane = numericButtonPane;
+	}
+
+	public void setSudokuPuzzleView(SudokuPuzzleView sudokuPuzzleView) {
+		this.sudokuPuzzleView = sudokuPuzzleView;
 	}
 
 }
