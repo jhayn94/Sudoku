@@ -3,6 +3,8 @@ package sudoku.state.cell;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.logging.log4j.util.Strings;
+
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
@@ -52,19 +54,14 @@ public class DefaultSudokuCellState {
 		return this.cell;
 	}
 
-	public EventHandler<KeyEvent> handleKeyPress() {
+	public EventHandler<KeyEvent> handleKeyPressed() {
 		return event -> {
 			final KeyCode code = event.getCode();
 			if (code.isDigitKey()) {
 				if (event.isControlDown()) {
-					final int pressedDigitIndex = Integer.parseInt(code.getName()) - 1;
-					final boolean isCandidateVisible = this.candidatesVisible[pressedDigitIndex];
-					this.candidatesVisible[pressedDigitIndex] = !isCandidateVisible;
-					this.cell.setCandidateVisible(pressedDigitIndex, !isCandidateVisible);
+					this.handleCtrlDigitPressed(code);
 				} else {
-					this.cell.setCandidatesVisible(false);
-					this.cell.setFixedDigit(code.getName());
-					this.cell.setState(new UserFixedSudokuCellState(this));
+					this.handleDigitPressed(code);
 				}
 			}
 		};
@@ -89,7 +86,25 @@ public class DefaultSudokuCellState {
 		final ObservableList<String> styleClass = this.cell.getStyleClass();
 		CSS_CLASSES.forEach(styleClass::remove);
 		styleClass.add(newCssClass);
+	}
 
+	protected void handleDigitPressed(final KeyCode code) {
+		this.cell.setCandidatesVisible(false);
+		this.cell.setFixedDigit(code.getName());
+		this.cell.setState(new UserFixedSudokuCellState(this));
+	}
+
+	protected void handleCtrlDigitPressed(final KeyCode code) {
+		final int pressedDigitIndex = Integer.parseInt(code.getName()) - 1;
+		final boolean isCandidateVisible = this.candidatesVisible[pressedDigitIndex];
+		this.candidatesVisible[pressedDigitIndex] = !isCandidateVisible;
+		this.cell.setCandidateVisible(pressedDigitIndex, !isCandidateVisible);
+	}
+
+	protected void handleDeletePressed() {
+		this.getCell().setCandidatesVisible(true);
+		this.getCell().setFixedDigit(Strings.EMPTY);
+		this.getCell().setState(new DefaultSudokuCellState(this));
 	}
 
 }

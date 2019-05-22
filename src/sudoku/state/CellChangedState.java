@@ -28,6 +28,8 @@ public class CellChangedState extends ApplicationModelState {
 	protected void onEnter() {
 		if (this.cellStates[this.col][this.row] instanceof SelectedCellState) {
 			this.unselectAllOtherCells();
+			this.selectedCellRow = this.row;
+			this.selectedCellCol = this.col;
 		}
 	}
 

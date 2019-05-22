@@ -23,7 +23,7 @@ public class UserFixedSudokuCellState extends DefaultSudokuCellState {
 	}
 
 	@Override
-	public EventHandler<KeyEvent> handleKeyPress() {
+	public EventHandler<KeyEvent> handleKeyPressed() {
 		return event -> {
 			final KeyCode code = event.getCode();
 			if (code.isDigitKey() && !event.isControlDown()) {
@@ -31,9 +31,7 @@ public class UserFixedSudokuCellState extends DefaultSudokuCellState {
 				this.getCell().setFixedDigit(code.getName());
 				this.getCell().setState(new UserFixedSudokuCellState(this));
 			} else if (KeyCode.DELETE == code) {
-				this.getCell().setCandidatesVisible(true);
-				this.getCell().setFixedDigit(Strings.EMPTY);
-				this.getCell().setState(new DefaultSudokuCellState(this));
+				handleDeletePressed();
 			}
 		};
 	}

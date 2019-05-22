@@ -151,7 +151,7 @@ public class SudokuPuzzleCell extends StackPane {
 	}
 
 	private EventHandler<KeyEvent> onKeyPress() {
-		return this.state.handleKeyPress();
+		return this.state.handleKeyPressed();
 
 	}
 }

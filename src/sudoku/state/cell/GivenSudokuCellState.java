@@ -21,7 +21,7 @@ public class GivenSudokuCellState extends DefaultSudokuCellState {
 	}
 
 	@Override
-	public EventHandler<KeyEvent> handleKeyPress() {
+	public EventHandler<KeyEvent> handleKeyPressed() {
 		return event -> {
 			// Nothing to do, for now.
 			// TODO - add handling for adding a color shade to this cell.

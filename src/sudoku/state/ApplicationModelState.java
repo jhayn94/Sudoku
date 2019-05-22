@@ -21,12 +21,18 @@ public abstract class ApplicationModelState {
 
 	protected final SudokuPuzzle puzzleModel;
 
+	protected int selectedCellRow;
+	protected int selectedCellCol;
+
 	/** Constructor for the initialization of the application. */
 	protected ApplicationModelState() {
 		this.activeCellFilter = "";
 		this.filterAllowedCells = false;
 		this.cellStates = new DefaultSudokuCellState[SudokuPuzzle.NUMBER_OF_CELLS_PER_DIMENSION][SudokuPuzzle.NUMBER_OF_CELLS_PER_DIMENSION];
 		this.puzzleModel = ModelFactory.getInstance().createSudokuPuzzle();
+		this.selectedCellRow = -1;
+		this.selectedCellCol = -1;
+
 	}
 
 	/** Constructor for state transitions. */
@@ -35,6 +41,9 @@ public abstract class ApplicationModelState {
 		this.filterAllowedCells = lastState.filterAllowedCells;
 		this.cellStates = lastState.cellStates;
 		this.puzzleModel = lastState.puzzleModel;
+		this.selectedCellRow = lastState.selectedCellRow;
+		this.selectedCellCol = lastState.selectedCellCol;
+
 	}
 
 	protected abstract void onEnter();
