@@ -1,4 +1,4 @@
-package sudoku.state.cell;
+package sudoku.state.cell.action;
 
 import java.util.Arrays;
 import java.util.List;
@@ -6,14 +6,12 @@ import java.util.List;
 import org.apache.logging.log4j.util.Strings;
 
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 
 /** This class corresponds to the default behavior of a sudoku cell. */
-public class DefaultSudokuCellState {
+public class DefaultCellActionState {
 
 	protected static final int NUM_CANDIDATES = 9;
 
@@ -22,8 +20,6 @@ public class DefaultSudokuCellState {
 	protected static final String FIXED_CELL_CSS_CLASS = "sudoku-fixed-cell";
 
 	protected static final String GIVEN_CELL_CSS_CLASS = "sudoku-given-cell";
-
-	protected static final String SELECTED_CELL_CSS_CLASS = "sudoku-selected-cell";
 
 	private static final List<String> CSS_CLASSES = Arrays.asList(UNFIXED_CELL_CSS_CLASS, FIXED_CELL_CSS_CLASS,
 			GIVEN_CELL_CSS_CLASS);
@@ -34,9 +30,9 @@ public class DefaultSudokuCellState {
 
 	protected final SudokuPuzzleCell cell;
 
-	private DefaultSudokuCellState lastState;
+	private DefaultCellActionState lastState;
 
-	public DefaultSudokuCellState(SudokuPuzzleCell cell) {
+	public DefaultCellActionState(SudokuPuzzleCell cell) {
 		this.cell = cell;
 		this.candidatesVisible = new boolean[NUM_CANDIDATES];
 		for (int i = 0; i < NUM_CANDIDATES; i++) {
@@ -45,7 +41,7 @@ public class DefaultSudokuCellState {
 		this.fixedDigitVisible = false;
 	}
 
-	public DefaultSudokuCellState(DefaultSudokuCellState lastState) {
+	public DefaultCellActionState(DefaultCellActionState lastState) {
 		this.cell = lastState.cell;
 		this.candidatesVisible = lastState.candidatesVisible;
 		this.fixedDigitVisible = lastState.fixedDigitVisible;
@@ -57,37 +53,22 @@ public class DefaultSudokuCellState {
 		return this.cell;
 	}
 
-	public DefaultSudokuCellState getLastState() {
+	public DefaultCellActionState getLastState() {
 		return this.lastState;
 	}
 
-	public EventHandler<KeyEvent> handleKeyPressed() {
-		return event -> {
-			final KeyCode code = event.getCode();
-			if (code.isArrowKey()) {
-				this.handleArrowPressed(code);
-			} else if (code.isDigitKey()) {
-				if (event.isControlDown()) {
-					this.handleCtrlDigitPressed(code);
-				} else {
-					this.handleDigitPressed(code);
-				}
+	public void handleKeyPressed(KeyEvent event) {
+		final KeyCode code = event.getCode();
+		if (code.isDigitKey()) {
+			if (event.isControlDown()) {
+				this.handleCtrlDigitPressed(code);
+			} else {
+				this.handleDigitPressed(code);
 			}
-		};
-	}
-
-	public EventHandler<MouseEvent> handleClick() {
-		return event -> {
-			// The other cells are reset to not selected in CellChangeState.java. This is
-			// because we don't have access to all the other cells from here; this class
-			// only cares about the attached cell instance.
-			this.cell.requestFocus();
-			this.cell.setState(new SelectedCellState(this));
-		};
+		}
 	}
 
 	protected void onEnter() {
-		this.cell.getStyleClass().remove(SELECTED_CELL_CSS_CLASS);
 		this.updateCssClass(UNFIXED_CELL_CSS_CLASS);
 	}
 
@@ -100,7 +81,7 @@ public class DefaultSudokuCellState {
 	protected void handleDigitPressed(final KeyCode code) {
 		this.cell.setCandidatesVisible(false);
 		this.cell.setFixedDigit(code.getName());
-		this.cell.setState(new UserFixedSudokuCellState(this));
+		this.cell.setActionState(new UserFixedCellActionState(this));
 	}
 
 	protected void handleCtrlDigitPressed(final KeyCode code) {
@@ -113,11 +94,7 @@ public class DefaultSudokuCellState {
 	protected void handleDeletePressed() {
 		this.cell.setCandidatesVisible(true);
 		this.cell.setFixedDigit(Strings.EMPTY);
-		this.cell.setState(new DefaultSudokuCellState(this));
-	}
-
-	protected void handleArrowPressed(final KeyCode code) {
-		this.cell.unselect();
+		this.cell.setActionState(new DefaultCellActionState(this));
 	}
 
 }

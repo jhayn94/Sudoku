@@ -1,10 +1,13 @@
 package sudoku.core;
 
+import javafx.scene.input.KeyCode;
 import sudoku.state.ApplicationModelState;
 import sudoku.state.CellChangedState;
 import sudoku.state.DefaultApplicationModelState;
 import sudoku.state.FilterCandidatesState;
-import sudoku.state.cell.DefaultSudokuCellState;
+import sudoku.state.SelectionChangedState;
+import sudoku.state.cell.action.DefaultCellActionState;
+import sudoku.state.cell.active.DefaultCellActiveState;
 import sudoku.state.window.ApplicationWindowState;
 import sudoku.state.window.ClosedState;
 import sudoku.state.window.MaximizedState;
@@ -65,8 +68,16 @@ public class ModelController {
 		this.applicationModelState = new FilterCandidatesState(this.applicationModelState, filter);
 	}
 
-	public void transitionToCellChangedState(int row, int col, DefaultSudokuCellState cellState) {
-		this.applicationModelState = new CellChangedState(row, col, cellState, this.applicationModelState);
+	public void transitionToCellChangedState(DefaultCellActionState cellActionState) {
+		this.applicationModelState = new CellChangedState(cellActionState, this.applicationModelState);
+	}
+
+	public void transitionToSelectionChangedState(DefaultCellActiveState cellActiveState) {
+		this.applicationModelState = new SelectionChangedState(cellActiveState, this.applicationModelState);
+	}
+
+	public void transitionToSelectionChangedState(KeyCode keyCode, DefaultCellActiveState cellActiveState) {
+		this.applicationModelState = new SelectionChangedState(keyCode, cellActiveState, this.applicationModelState);
 	}
 
 }

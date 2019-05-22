@@ -2,7 +2,8 @@ package sudoku.state;
 
 import sudoku.factories.ModelFactory;
 import sudoku.model.SudokuPuzzle;
-import sudoku.state.cell.DefaultSudokuCellState;
+import sudoku.state.cell.action.DefaultCellActionState;
+import sudoku.state.cell.active.DefaultCellActiveState;
 
 /**
  * This class is a representation of the current state of the application model,
@@ -17,7 +18,8 @@ public abstract class ApplicationModelState {
 	// any), false it should show the disallowed cells.
 	protected final boolean filterAllowedCells;
 
-	protected final DefaultSudokuCellState[][] cellStates;
+	protected final DefaultCellActionState[][] cellActionStates;
+	protected final DefaultCellActiveState[][] cellActiveStates;
 
 	protected final SudokuPuzzle puzzleModel;
 
@@ -28,7 +30,8 @@ public abstract class ApplicationModelState {
 	protected ApplicationModelState() {
 		this.activeCellFilter = "";
 		this.filterAllowedCells = false;
-		this.cellStates = new DefaultSudokuCellState[SudokuPuzzle.NUMBER_OF_CELLS_PER_DIMENSION][SudokuPuzzle.NUMBER_OF_CELLS_PER_DIMENSION];
+		this.cellActionStates = new DefaultCellActionState[SudokuPuzzle.NUMBER_OF_CELLS_PER_DIMENSION][SudokuPuzzle.NUMBER_OF_CELLS_PER_DIMENSION];
+		this.cellActiveStates = new DefaultCellActiveState[SudokuPuzzle.NUMBER_OF_CELLS_PER_DIMENSION][SudokuPuzzle.NUMBER_OF_CELLS_PER_DIMENSION];
 		this.puzzleModel = ModelFactory.getInstance().createSudokuPuzzle();
 		this.selectedCellRow = -1;
 		this.selectedCellCol = -1;
@@ -39,7 +42,8 @@ public abstract class ApplicationModelState {
 	protected ApplicationModelState(final ApplicationModelState lastState) {
 		this.activeCellFilter = lastState.activeCellFilter;
 		this.filterAllowedCells = lastState.filterAllowedCells;
-		this.cellStates = lastState.cellStates;
+		this.cellActionStates = lastState.cellActionStates;
+		this.cellActiveStates = lastState.cellActiveStates;
 		this.puzzleModel = lastState.puzzleModel;
 		this.selectedCellRow = lastState.selectedCellRow;
 		this.selectedCellCol = lastState.selectedCellCol;

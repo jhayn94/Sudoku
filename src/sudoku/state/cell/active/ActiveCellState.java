@@ -1,28 +1,26 @@
-package sudoku.state.cell;
+package sudoku.state.cell.active;
 
-import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 
 /**
  * This class corresponds to a sudoku cell which is currently active, and can
  * receive input.
  */
-public class SelectedCellState extends DefaultSudokuCellState {
+public class ActiveCellState extends DefaultCellActiveState {
 
-	public SelectedCellState(DefaultSudokuCellState lastState) {
+	public ActiveCellState(DefaultCellActiveState lastState) {
 		super(lastState);
 	}
 
 	@Override
 	protected void onEnter() {
+		this.cell.requestFocus();
 		this.getCell().getStyleClass().add(SELECTED_CELL_CSS_CLASS);
 	}
 
 	@Override
-	public EventHandler<MouseEvent> handleClick() {
-		return event -> {
-			this.cell.unselect();
-		};
+	public void handleClick(MouseEvent event) {
+		this.cell.unselect(true);
 	}
 
 }

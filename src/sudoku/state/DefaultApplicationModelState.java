@@ -15,7 +15,8 @@ public class DefaultApplicationModelState extends ApplicationModelState {
 		for (int row = 0; row < SudokuPuzzle.NUMBER_OF_CELLS_PER_DIMENSION; row++) {
 			for (int col = 0; col < SudokuPuzzle.NUMBER_OF_CELLS_PER_DIMENSION; col++) {
 				final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(col, row);
-				this.cellStates[col][row] = sudokuPuzzleCell.getState();
+				this.cellActionStates[col][row] = sudokuPuzzleCell.getActionState();
+				this.cellActiveStates[col][row] = sudokuPuzzleCell.getActiveState();
 			}
 		}
 		this.onEnter();

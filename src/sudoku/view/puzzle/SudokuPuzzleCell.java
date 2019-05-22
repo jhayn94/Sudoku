@@ -15,9 +15,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import sudoku.core.ModelController;
-import sudoku.state.cell.DefaultSudokuCellState;
-import sudoku.state.cell.GivenSudokuCellState;
-import sudoku.state.cell.UserFixedSudokuCellState;
+import sudoku.state.cell.action.DefaultCellActionState;
+import sudoku.state.cell.active.AutomaticallyInactiveCellState;
+import sudoku.state.cell.active.DefaultCellActiveState;
+import sudoku.state.cell.active.ManuallyInactiveCellState;
 
 /** This class corresponds to a single cell of a sudoku puzzle. */
 public class SudokuPuzzleCell extends StackPane {
@@ -36,7 +37,9 @@ public class SudokuPuzzleCell extends StackPane {
 
 	private Label fixedDigitLabel;
 
-	private DefaultSudokuCellState state;
+	private DefaultCellActionState actionState;
+
+	private DefaultCellActiveState activeState;
 
 	private final int row;
 
@@ -51,7 +54,8 @@ public class SudokuPuzzleCell extends StackPane {
 		this.col = col;
 		this.candidateLabels = new Label[MAX_NUM_CANDIDATES_IN_CELL];
 		this.fixedDigitLabel = null;
-		this.state = new DefaultSudokuCellState(this);
+		this.actionState = new DefaultCellActionState(this);
+		this.activeState = new DefaultCellActiveState(this);
 		this.configure();
 	}
 
@@ -75,30 +79,46 @@ public class SudokuPuzzleCell extends StackPane {
 		this.isGiven = given;
 	}
 
-	public DefaultSudokuCellState getState() {
-		return this.state;
+	public DefaultCellActionState getActionState() {
+		return this.actionState;
 	}
 
-	public void setState(DefaultSudokuCellState newState) {
-		this.state = newState;
+	public DefaultCellActiveState getActiveState() {
+		return this.activeState;
+	}
+
+	public void setActionState(DefaultCellActionState newActionState) {
+		this.actionState = newActionState;
 		// Event handlers have to be re-registered for the new state to be used.
-		this.setEventHandler(KeyEvent.KEY_PRESSED, this.onKeyPress());
+		this.setEventHandler(KeyEvent.KEY_PRESSED, this.onKeyPressed());
 		this.setEventHandler(MouseEvent.MOUSE_CLICKED, this.onClick());
 		// Notify the model controller that a cell changed, meaning other cells might
 		// need to change too (i.e. un-selecting other cells, or eliminating candidates
 		// which are not allowed now).
-		ModelController.getInstance().transitionToCellChangedState(this.row, this.col, this.state);
+		// TODO - move to cell state (post) constructor?
+		ModelController.getInstance().transitionToCellChangedState(this.actionState);
 	}
 
-	public void unselect() {
-		final DefaultSudokuCellState oldCellState = this.state;
-		if (this.isCellGiven()) {
-			this.setState(new GivenSudokuCellState(oldCellState));
-		} else if (this.isCellFixed()) {
-			this.setState(new UserFixedSudokuCellState(oldCellState));
+	public void setActiveState(DefaultCellActiveState newActiveState) {
+		this.activeState = newActiveState;
+		// Event handlers have to be re-registered for the new state to be used.
+		this.setEventHandler(KeyEvent.KEY_PRESSED, this.onKeyPressed());
+		this.setEventHandler(MouseEvent.MOUSE_CLICKED, this.onClick());
+		// Notify the model controller that a cell changed, meaning other cells might
+		// need to change too (i.e. un-selecting other cells, or eliminating candidates
+		// which are not allowed now).
+		// TODO - move to cell state (post) constructor?
+		ModelController.getInstance().transitionToSelectionChangedState(this.activeState);
+	}
+
+	public void unselect(boolean mouseInitiated) {
+		if (mouseInitiated) {
+			this.getParent().requestFocus();
+			this.setActiveState(new ManuallyInactiveCellState(this.getActiveState()));
 		} else {
-			this.setState(new DefaultSudokuCellState(oldCellState));
+			this.setActiveState(new AutomaticallyInactiveCellState(this.getActiveState()));
 		}
+
 	}
 
 	/**
@@ -125,7 +145,7 @@ public class SudokuPuzzleCell extends StackPane {
 	}
 
 	private void configure() {
-		this.setEventHandler(KeyEvent.KEY_PRESSED, this.onKeyPress());
+		this.setEventHandler(KeyEvent.KEY_PRESSED, this.onKeyPressed());
 		this.setEventHandler(MouseEvent.MOUSE_CLICKED, this.onClick());
 		this.setMinWidth(CELL_WIDTH);
 		this.setMinHeight(CELL_HEIGHT);
@@ -158,11 +178,16 @@ public class SudokuPuzzleCell extends StackPane {
 	}
 
 	private EventHandler<MouseEvent> onClick() {
-		return this.state.handleClick();
+		return event -> {
+			this.activeState.handleClick(event);
+		};
 	}
 
-	private EventHandler<KeyEvent> onKeyPress() {
-		return this.state.handleKeyPressed();
+	private EventHandler<KeyEvent> onKeyPressed() {
+		return event -> {
+			this.activeState.handleKeyPressed(event);
+			this.actionState.handleKeyPressed(event);
+		};
 
 	}
 }
