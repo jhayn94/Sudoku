@@ -23,15 +23,10 @@ public class SelectionChangedState extends ApplicationModelState {
 	private final int row;
 
 	public SelectionChangedState(DefaultCellActiveState cellActiveState, ApplicationModelState lastState) {
-		this(null, cellActiveState, lastState);
-	}
-
-	public SelectionChangedState(KeyCode keyCode, DefaultCellActiveState cellActiveState,
-			ApplicationModelState lastState) {
 		super(lastState);
 		this.row = cellActiveState.getCell().getRow();
 		this.col = cellActiveState.getCell().getCol();
-		this.keyCode = keyCode;
+		this.keyCode = cellActiveState.getLastKeyCode();
 		this.cellActiveStates[this.col][this.row] = cellActiveState;
 	}
 
@@ -42,9 +37,9 @@ public class SelectionChangedState extends ApplicationModelState {
 			this.unselectAllOtherCells();
 			this.selectedCellRow = this.row;
 			this.selectedCellCol = this.col;
-		} else if (cellState.getLastState() instanceof ManuallyInactiveCellState) {
+		} else if (cellState instanceof ManuallyInactiveCellState) {
 			this.resetSelectedCellIndices();
-		} else if (cellState.getLastState() instanceof AutomaticallyInactiveCellState) {
+		} else if (cellState instanceof AutomaticallyInactiveCellState) {
 			this.adjustSelectionModel();
 		}
 	}

@@ -1,6 +1,5 @@
 package sudoku.core;
 
-import javafx.scene.input.KeyCode;
 import sudoku.state.ApplicationModelState;
 import sudoku.state.CellChangedState;
 import sudoku.state.DefaultApplicationModelState;
@@ -83,11 +82,6 @@ public class ModelController {
 
 	public void transitionToSelectionChangedState(DefaultCellActiveState cellActiveState) {
 		this.applicationModelState = new SelectionChangedState(cellActiveState, this.applicationModelState);
-		this.applicationModelState.onEnter();
-	}
-
-	public void transitionToSelectionChangedState(KeyCode keyCode, DefaultCellActiveState cellActiveState) {
-		this.applicationModelState = new SelectionChangedState(keyCode, cellActiveState, this.applicationModelState);
 		this.applicationModelState.onEnter();
 	}
 

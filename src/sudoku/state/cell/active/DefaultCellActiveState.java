@@ -3,7 +3,6 @@ package sudoku.state.cell.active;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import sudoku.core.ModelController;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 
 /**
@@ -20,6 +19,8 @@ public class DefaultCellActiveState {
 
 	protected DefaultCellActiveState lastState;
 
+	protected KeyCode lastKeyCode;
+
 	public DefaultCellActiveState(SudokuPuzzleCell cell) {
 		this.cell = cell;
 	}
@@ -27,6 +28,10 @@ public class DefaultCellActiveState {
 	public DefaultCellActiveState(DefaultCellActiveState lastState) {
 		this.cell = lastState.cell;
 		this.lastState = lastState;
+	}
+
+	public KeyCode getLastKeyCode() {
+		return this.lastKeyCode;
 	}
 
 	public void handleKeyPressed(KeyEvent event) {
@@ -56,8 +61,7 @@ public class DefaultCellActiveState {
 	}
 
 	protected void handleArrowPressed(final KeyCode code) {
+		this.lastKeyCode = code;
 		this.cell.unselect(false, false);
-		ModelController.getInstance().transitionToSelectionChangedState(code, this);
 	}
-
 }
