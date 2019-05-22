@@ -21,7 +21,7 @@ public class SelectedCellState extends DefaultSudokuCellState {
 	@Override
 	public EventHandler<MouseEvent> handleClick() {
 		return event -> {
-			// Do nothing.
+			this.cell.unselect();
 		};
 	}
 

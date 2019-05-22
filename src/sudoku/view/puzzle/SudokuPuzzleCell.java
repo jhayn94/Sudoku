@@ -16,6 +16,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import sudoku.core.ModelController;
 import sudoku.state.cell.DefaultSudokuCellState;
+import sudoku.state.cell.GivenSudokuCellState;
+import sudoku.state.cell.UserFixedSudokuCellState;
 
 /** This class corresponds to a single cell of a sudoku puzzle. */
 public class SudokuPuzzleCell extends StackPane {
@@ -88,6 +90,17 @@ public class SudokuPuzzleCell extends StackPane {
 		ModelController.getInstance().transitionToCellChangedState(this.row, this.col, this.state);
 	}
 
+	public void unselect() {
+		final DefaultSudokuCellState oldCellState = this.state;
+		if (this.isCellGiven()) {
+			this.setState(new GivenSudokuCellState(oldCellState));
+		} else if (this.isCellFixed()) {
+			this.setState(new UserFixedSudokuCellState(oldCellState));
+		} else {
+			this.setState(new DefaultSudokuCellState(oldCellState));
+		}
+	}
+
 	/**
 	 * Shows the candidates pane if showCandidates is true, shows the fixed digit
 	 * pane otherwise.
@@ -112,8 +125,6 @@ public class SudokuPuzzleCell extends StackPane {
 	}
 
 	private void configure() {
-		// TODO - spacing of candidate labels is still slightly off center for each
-		// cell.
 		this.setEventHandler(KeyEvent.KEY_PRESSED, this.onKeyPress());
 		this.setEventHandler(MouseEvent.MOUSE_CLICKED, this.onClick());
 		this.setMinWidth(CELL_WIDTH);

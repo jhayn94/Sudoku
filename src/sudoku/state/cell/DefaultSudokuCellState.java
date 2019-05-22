@@ -34,6 +34,8 @@ public class DefaultSudokuCellState {
 
 	protected final SudokuPuzzleCell cell;
 
+	private DefaultSudokuCellState lastState;
+
 	public DefaultSudokuCellState(SudokuPuzzleCell cell) {
 		this.cell = cell;
 		this.candidatesVisible = new boolean[NUM_CANDIDATES];
@@ -47,6 +49,7 @@ public class DefaultSudokuCellState {
 		this.cell = lastState.cell;
 		this.candidatesVisible = lastState.candidatesVisible;
 		this.fixedDigitVisible = lastState.fixedDigitVisible;
+		this.lastState = lastState;
 		this.onEnter();
 	}
 
@@ -54,10 +57,16 @@ public class DefaultSudokuCellState {
 		return this.cell;
 	}
 
+	public DefaultSudokuCellState getLastState() {
+		return this.lastState;
+	}
+
 	public EventHandler<KeyEvent> handleKeyPressed() {
 		return event -> {
 			final KeyCode code = event.getCode();
-			if (code.isDigitKey()) {
+			if (code.isArrowKey()) {
+				this.handleArrowPressed(code);
+			} else if (code.isDigitKey()) {
 				if (event.isControlDown()) {
 					this.handleCtrlDigitPressed(code);
 				} else {
@@ -102,9 +111,13 @@ public class DefaultSudokuCellState {
 	}
 
 	protected void handleDeletePressed() {
-		this.getCell().setCandidatesVisible(true);
-		this.getCell().setFixedDigit(Strings.EMPTY);
-		this.getCell().setState(new DefaultSudokuCellState(this));
+		this.cell.setCandidatesVisible(true);
+		this.cell.setFixedDigit(Strings.EMPTY);
+		this.cell.setState(new DefaultSudokuCellState(this));
+	}
+
+	protected void handleArrowPressed(final KeyCode code) {
+		this.cell.unselect();
 	}
 
 }

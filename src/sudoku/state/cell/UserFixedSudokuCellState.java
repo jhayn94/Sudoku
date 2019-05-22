@@ -1,7 +1,5 @@
 package sudoku.state.cell;
 
-import org.apache.logging.log4j.util.Strings;
-
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -31,7 +29,7 @@ public class UserFixedSudokuCellState extends DefaultSudokuCellState {
 				this.getCell().setFixedDigit(code.getName());
 				this.getCell().setState(new UserFixedSudokuCellState(this));
 			} else if (KeyCode.DELETE == code) {
-				handleDeletePressed();
+				this.handleDeletePressed();
 			}
 		};
 	}

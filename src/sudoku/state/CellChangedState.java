@@ -2,9 +2,7 @@ package sudoku.state;
 
 import sudoku.model.SudokuPuzzle;
 import sudoku.state.cell.DefaultSudokuCellState;
-import sudoku.state.cell.GivenSudokuCellState;
 import sudoku.state.cell.SelectedCellState;
-import sudoku.state.cell.UserFixedSudokuCellState;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 
 /**
@@ -26,10 +24,14 @@ public class CellChangedState extends ApplicationModelState {
 
 	@Override
 	protected void onEnter() {
-		if (this.cellStates[this.col][this.row] instanceof SelectedCellState) {
+		final DefaultSudokuCellState cellState = this.cellStates[this.col][this.row];
+		if (cellState instanceof SelectedCellState) {
 			this.unselectAllOtherCells();
 			this.selectedCellRow = this.row;
 			this.selectedCellCol = this.col;
+		} else if (cellState.getLastState() instanceof SelectedCellState) {
+			this.selectedCellRow = -1;
+			this.selectedCellCol = -1;
 		}
 	}
 
@@ -51,13 +53,7 @@ public class CellChangedState extends ApplicationModelState {
 		final DefaultSudokuCellState otherCellState = this.cellStates[colIndex][rowIndex];
 		final SudokuPuzzleCell otherCell = otherCellState.getCell();
 		if (otherCellState instanceof SelectedCellState) {
-			if (otherCell.isCellGiven()) {
-				otherCell.setState(new GivenSudokuCellState(otherCellState));
-			} else if (otherCell.isCellFixed()) {
-				otherCell.setState(new UserFixedSudokuCellState(otherCellState));
-			} else {
-				otherCell.setState(new DefaultSudokuCellState(otherCellState));
-			}
+			otherCell.unselect();
 		}
 	}
 }
