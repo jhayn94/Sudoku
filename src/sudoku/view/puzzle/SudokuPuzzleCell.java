@@ -97,7 +97,6 @@ public class SudokuPuzzleCell extends StackPane {
 		// Notify the model controller that a cell changed, meaning other cells might
 		// need to change too (i.e. un-selecting other cells, or eliminating candidates
 		// which are not allowed now).
-		// TODO - move to cell state (post) constructor?
 		ModelController.getInstance().transitionToCellChangedState(this.actionState);
 	}
 
@@ -110,13 +109,14 @@ public class SudokuPuzzleCell extends StackPane {
 		// Notify the model controller that a cell changed, meaning other cells might
 		// need to change too (i.e. un-selecting other cells, or eliminating candidates
 		// which are not allowed now).
-		// TODO - move to cell state (post) constructor?
 		ModelController.getInstance().transitionToSelectionChangedState(this.activeState);
 	}
 
-	public void unselect(boolean mouseInitiated) {
-		if (mouseInitiated) {
+	public void unselect(boolean mouseInitiated, boolean shouldRefocus) {
+		if (shouldRefocus) {
 			this.getParent().requestFocus();
+		}
+		if (mouseInitiated) {
 			this.setActiveState(new ManuallyInactiveCellState(this.getActiveState()));
 		} else {
 			this.setActiveState(new AutomaticallyInactiveCellState(this.getActiveState()));

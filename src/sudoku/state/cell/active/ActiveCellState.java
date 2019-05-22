@@ -20,7 +20,7 @@ public class ActiveCellState extends DefaultCellActiveState {
 
 	@Override
 	public void handleClick(MouseEvent event) {
-		this.cell.unselect(true);
+		this.cell.unselect(true, true);
 	}
 
 }

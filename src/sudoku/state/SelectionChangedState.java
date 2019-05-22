@@ -87,7 +87,7 @@ public class SelectionChangedState extends ApplicationModelState {
 		final DefaultCellActiveState otherCellState = this.cellActiveStates[colIndex][rowIndex];
 		final SudokuPuzzleCell otherCell = otherCellState.getCell();
 		if (otherCellState instanceof ActiveCellState) {
-			otherCell.unselect(true);
+			otherCell.unselect(true, false);
 		}
 	}
 }

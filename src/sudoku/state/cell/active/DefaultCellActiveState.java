@@ -56,7 +56,7 @@ public class DefaultCellActiveState {
 	}
 
 	protected void handleArrowPressed(final KeyCode code) {
-		this.cell.unselect(false);
+		this.cell.unselect(false, false);
 		ModelController.getInstance().transitionToSelectionChangedState(code, this);
 	}
 
