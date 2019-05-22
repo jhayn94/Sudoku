@@ -19,7 +19,7 @@ public class SoftRestoredState extends ApplicationWindowState {
 	}
 
 	@Override
-	protected void onEnter() {
+	public void onEnter() {
 		final Stage stage = ViewController.getInstance().getStage();
 		stage.setMaximized(false);
 		final ObservableList<Screen> screensForRectangle = Screen.getScreensForRectangle(stage.getX(), stage.getY(),

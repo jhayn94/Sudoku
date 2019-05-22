@@ -11,7 +11,7 @@ public class AutomaticallyInactiveCellState extends DefaultCellActiveState {
 	}
 
 	@Override
-	protected void onEnter() {
+	public void onEnter() {
 		this.cell.getStyleClass().remove(SELECTED_CELL_CSS_CLASS);
 	}
 

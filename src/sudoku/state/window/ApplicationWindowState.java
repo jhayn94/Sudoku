@@ -30,10 +30,9 @@ public abstract class ApplicationWindowState {
 	protected ApplicationWindowState(final ApplicationWindowState lastState) {
 		this.savedBounds = lastState.savedBounds;
 		this.maximizeOrRestoreIconView = lastState.maximizeOrRestoreIconView;
-		this.onEnter();
 	}
 
-	protected abstract void onEnter();
+	public abstract void onEnter();
 
 	protected void setIcon(final Button button, final String iconPath) {
 		final Image icon = new Image(this.getClass().getResourceAsStream(iconPath));

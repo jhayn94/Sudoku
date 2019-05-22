@@ -33,11 +33,10 @@ public class SelectionChangedState extends ApplicationModelState {
 		this.col = cellActiveState.getCell().getCol();
 		this.keyCode = keyCode;
 		this.cellActiveStates[this.col][this.row] = cellActiveState;
-		this.onEnter();
 	}
 
 	@Override
-	protected void onEnter() {
+	public void onEnter() {
 		final DefaultCellActiveState cellState = this.cellActiveStates[this.col][this.row];
 		if (cellState instanceof ActiveCellState) {
 			this.unselectAllOtherCells();

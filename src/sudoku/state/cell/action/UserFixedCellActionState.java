@@ -14,7 +14,7 @@ public class UserFixedCellActionState extends DefaultCellActionState {
 	}
 
 	@Override
-	protected void onEnter() {
+	public void onEnter() {
 		this.updateCssClass(FIXED_CELL_CSS_CLASS);
 	}
 

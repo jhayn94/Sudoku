@@ -12,7 +12,7 @@ public class ClosedState extends ApplicationWindowState {
 	}
 
 	@Override
-	protected void onEnter() {
+	public void onEnter() {
 		Platform.runLater(Platform::exit);
 	}
 

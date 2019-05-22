@@ -20,7 +20,7 @@ public class CellChangedState extends ApplicationModelState {
 	}
 
 	@Override
-	protected void onEnter() {
+	public void onEnter() {
 
 	}
 

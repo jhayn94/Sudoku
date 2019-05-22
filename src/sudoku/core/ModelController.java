@@ -42,42 +42,53 @@ public class ModelController {
 	private ModelController() {
 		this.applicationModelState = new DefaultApplicationModelState();
 		this.applicationWindowState = new MaximizedState();
+		this.applicationModelState.onEnter();
+		this.applicationWindowState.onEnter();
 	}
 
 	public void transitionToMinimizedState() {
 		this.applicationWindowState = new MinimizedState(this.applicationWindowState);
+		this.applicationWindowState.onEnter();
 	}
 
 	public void transitionToMaximizedState() {
 		this.applicationWindowState = new MaximizedState(this.applicationWindowState);
+		this.applicationWindowState.onEnter();
 	}
 
 	public void transitionToRestoredState() {
 		this.applicationWindowState = new RestoredState(this.applicationWindowState);
+		this.applicationWindowState.onEnter();
 	}
 
 	public void transitionToSoftRestoredState() {
 		this.applicationWindowState = new SoftRestoredState(this.applicationWindowState);
+		this.applicationWindowState.onEnter();
 	}
 
 	public void transitionToClosedState() {
 		this.applicationWindowState = new ClosedState(this.applicationWindowState);
+		this.applicationWindowState.onEnter();
 	}
 
 	public void transitionToFilterCandidatesState(String filter) {
 		this.applicationModelState = new FilterCandidatesState(this.applicationModelState, filter);
+		this.applicationModelState.onEnter();
 	}
 
 	public void transitionToCellChangedState(DefaultCellActionState cellActionState) {
 		this.applicationModelState = new CellChangedState(cellActionState, this.applicationModelState);
+		this.applicationModelState.onEnter();
 	}
 
 	public void transitionToSelectionChangedState(DefaultCellActiveState cellActiveState) {
 		this.applicationModelState = new SelectionChangedState(cellActiveState, this.applicationModelState);
+		this.applicationModelState.onEnter();
 	}
 
 	public void transitionToSelectionChangedState(KeyCode keyCode, DefaultCellActiveState cellActiveState) {
 		this.applicationModelState = new SelectionChangedState(keyCode, cellActiveState, this.applicationModelState);
+		this.applicationModelState.onEnter();
 	}
 
 }

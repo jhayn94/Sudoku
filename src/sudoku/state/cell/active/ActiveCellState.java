@@ -13,7 +13,7 @@ public class ActiveCellState extends DefaultCellActiveState {
 	}
 
 	@Override
-	protected void onEnter() {
+	public void onEnter() {
 		this.cell.requestFocus();
 		this.getCell().getStyleClass().add(SELECTED_CELL_CSS_CLASS);
 	}

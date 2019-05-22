@@ -32,7 +32,7 @@ public class FilterCandidatesState extends ApplicationModelState {
 	}
 
 	@Override
-	protected void onEnter() {
+	public void onEnter() {
 		final NumericButtonPane numericButtonPane = ViewController.getInstance().getNumericButtonPane();
 		final List<Button> filterButtons = numericButtonPane.getFilterButtons();
 		filterButtons.forEach(this::updateFilterButton);

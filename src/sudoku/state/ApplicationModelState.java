@@ -19,6 +19,7 @@ public abstract class ApplicationModelState {
 	protected final boolean filterAllowedCells;
 
 	protected final DefaultCellActionState[][] cellActionStates;
+
 	protected final DefaultCellActiveState[][] cellActiveStates;
 
 	protected final SudokuPuzzle puzzleModel;
@@ -50,5 +51,5 @@ public abstract class ApplicationModelState {
 
 	}
 
-	protected abstract void onEnter();
+	public abstract void onEnter();
 }

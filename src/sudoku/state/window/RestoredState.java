@@ -15,7 +15,7 @@ public class RestoredState extends ApplicationWindowState {
 	}
 
 	@Override
-	protected void onEnter() {
+	public void onEnter() {
 		final Stage stage = ViewController.getInstance().getStage();
 		stage.setMaximized(false);
 		this.restoreSavedBounds(stage);

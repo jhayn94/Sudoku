@@ -1,8 +1,5 @@
 package sudoku.view.puzzle;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -23,8 +20,6 @@ import sudoku.state.cell.active.ManuallyInactiveCellState;
 /** This class corresponds to a single cell of a sudoku puzzle. */
 public class SudokuPuzzleCell extends StackPane {
 
-	private static final Logger LOG = LogManager.getLogger(SudokuPuzzleCell.class);
-
 	private static final String CSS_CLASS = "sudoku-puzzle-cell";
 
 	private static final int CELL_HEIGHT = 60;
@@ -37,8 +32,12 @@ public class SudokuPuzzleCell extends StackPane {
 
 	private Label fixedDigitLabel;
 
+	// An action state is the behavioral response to changing the Sudoku relevant
+	// state of the cell (add / remove candidates, set / remove number, etc.
 	private DefaultCellActionState actionState;
 
+	// An active state handles the behavioral responds to being selected or
+	// unselected (when you click a cell, or use the arrow keys for instance).
 	private DefaultCellActiveState activeState;
 
 	private final int row;
@@ -56,6 +55,8 @@ public class SudokuPuzzleCell extends StackPane {
 		this.fixedDigitLabel = null;
 		this.actionState = new DefaultCellActionState(this);
 		this.activeState = new DefaultCellActiveState(this);
+		this.actionState.onEnter();
+		this.activeState.onEnter();
 		this.configure();
 	}
 
@@ -89,6 +90,7 @@ public class SudokuPuzzleCell extends StackPane {
 
 	public void setActionState(DefaultCellActionState newActionState) {
 		this.actionState = newActionState;
+		this.actionState.onEnter();
 		// Event handlers have to be re-registered for the new state to be used.
 		this.setEventHandler(KeyEvent.KEY_PRESSED, this.onKeyPressed());
 		this.setEventHandler(MouseEvent.MOUSE_CLICKED, this.onClick());
@@ -101,6 +103,7 @@ public class SudokuPuzzleCell extends StackPane {
 
 	public void setActiveState(DefaultCellActiveState newActiveState) {
 		this.activeState = newActiveState;
+		this.activeState.onEnter();
 		// Event handlers have to be re-registered for the new state to be used.
 		this.setEventHandler(KeyEvent.KEY_PRESSED, this.onKeyPressed());
 		this.setEventHandler(MouseEvent.MOUSE_CLICKED, this.onClick());
@@ -118,7 +121,6 @@ public class SudokuPuzzleCell extends StackPane {
 		} else {
 			this.setActiveState(new AutomaticallyInactiveCellState(this.getActiveState()));
 		}
-
 	}
 
 	/**

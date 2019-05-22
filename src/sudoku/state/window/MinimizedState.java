@@ -13,7 +13,7 @@ public class MinimizedState extends ApplicationWindowState {
 	}
 
 	@Override
-	protected void onEnter() {
+	public void onEnter() {
 		if (Platform.isFxApplicationThread()) {
 			this.doMinimize();
 		} else {

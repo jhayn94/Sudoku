@@ -26,7 +26,7 @@ public class DefaultCellActiveState {
 
 	public DefaultCellActiveState(DefaultCellActiveState lastState) {
 		this.cell = lastState.cell;
-		this.onEnter();
+		this.lastState = lastState;
 	}
 
 	public void handleKeyPressed(KeyEvent event) {
@@ -41,7 +41,6 @@ public class DefaultCellActiveState {
 		// is because we don't have access to all the other cells from here; this class
 		// only cares about the attached cell instance.
 		this.cell.setActiveState(new ActiveCellState(this));
-		ModelController.getInstance().transitionToSelectionChangedState(this);
 	}
 
 	public SudokuPuzzleCell getCell() {
@@ -52,7 +51,7 @@ public class DefaultCellActiveState {
 		return this.lastState;
 	}
 
-	protected void onEnter() {
+	public void onEnter() {
 		// Nothing to do.
 	}
 

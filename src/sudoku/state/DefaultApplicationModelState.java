@@ -23,7 +23,7 @@ public class DefaultApplicationModelState extends ApplicationModelState {
 	}
 
 	@Override
-	protected void onEnter() {
+	public void onEnter() {
 		// Nothing to do.
 	}
 

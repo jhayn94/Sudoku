@@ -46,7 +46,6 @@ public class DefaultCellActionState {
 		this.candidatesVisible = lastState.candidatesVisible;
 		this.fixedDigitVisible = lastState.fixedDigitVisible;
 		this.lastState = lastState;
-		this.onEnter();
 	}
 
 	public SudokuPuzzleCell getCell() {
@@ -68,7 +67,7 @@ public class DefaultCellActionState {
 		}
 	}
 
-	protected void onEnter() {
+	public void onEnter() {
 		this.updateCssClass(UNFIXED_CELL_CSS_CLASS);
 	}
 

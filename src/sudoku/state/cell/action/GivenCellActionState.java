@@ -13,7 +13,7 @@ public class GivenCellActionState extends DefaultCellActionState {
 	}
 
 	@Override
-	protected void onEnter() {
+	public void onEnter() {
 		this.updateCssClass(GIVEN_CELL_CSS_CLASS);
 		this.cell.setCellGiven(true);
 	}
