@@ -1,5 +1,7 @@
 package sudoku.view.puzzle;
 
+import org.apache.logging.log4j.util.Strings;
+
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -7,18 +9,19 @@ import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import sudoku.core.ModelController;
-import sudoku.state.cell.action.DefaultCellActionState;
-import sudoku.state.cell.active.AutomaticallyInactiveCellState;
-import sudoku.state.cell.active.DefaultCellActiveState;
-import sudoku.state.cell.active.ManuallyInactiveCellState;
 
 /** This class corresponds to a single cell of a sudoku puzzle. */
 public class SudokuPuzzleCell extends StackPane {
+
+	private static final String DIGIT_REPLACE_TEXT = "DIGIT";
+
+	public enum ReasonForChange {
+		CLICKED_TO_SELECT, CLICKED_TO_UNSELECT, ARROWED_OFF_OF_CELL, NEW_SELECTION_CLICKED, ARROWED_ON_TO_CELL, NONE;
+	}
 
 	private static final String CSS_CLASS = "sudoku-puzzle-cell";
 
@@ -32,31 +35,19 @@ public class SudokuPuzzleCell extends StackPane {
 
 	private Label fixedDigitLabel;
 
-	// An action state is the behavioral response to changing the Sudoku relevant
-	// state of the cell (add / remove candidates, set / remove number, etc.
-	private DefaultCellActionState actionState;
-
-	// An active state handles the behavioral responds to being selected or
-	// unselected (when you click a cell, or use the arrow keys for instance).
-	private DefaultCellActiveState activeState;
-
 	private final int row;
 
 	private final int col;
 
 	private boolean isGiven;
 
-	public SudokuPuzzleCell(int row, int col) {
+	public SudokuPuzzleCell(final int row, final int col) {
 		super();
 		this.isGiven = false;
 		this.row = row;
 		this.col = col;
 		this.candidateLabels = new Label[MAX_NUM_CANDIDATES_IN_CELL];
 		this.fixedDigitLabel = null;
-		this.actionState = new DefaultCellActionState(this);
-		this.activeState = new DefaultCellActiveState(this);
-		this.actionState.onEnter();
-		this.activeState.onEnter();
 		this.configure();
 	}
 
@@ -76,58 +67,20 @@ public class SudokuPuzzleCell extends StackPane {
 		return this.isGiven;
 	}
 
-	public void setCellGiven(boolean given) {
+	public void setCellGiven(final boolean given) {
 		this.isGiven = given;
 	}
 
-	public DefaultCellActionState getActionState() {
-		return this.actionState;
-	}
-
-	public DefaultCellActiveState getActiveState() {
-		return this.activeState;
-	}
-
-	public void setActionState(DefaultCellActionState newActionState) {
-		this.actionState = newActionState;
-		this.actionState.onEnter();
-		// Event handlers have to be re-registered for the new state to be used.
-		this.setEventHandler(KeyEvent.KEY_PRESSED, this.onKeyPressed());
-		this.setEventHandler(MouseEvent.MOUSE_CLICKED, this.onClick());
-		// Notify the model controller that a cell changed, meaning other cells might
-		// need to change too (i.e. un-selecting other cells, or eliminating candidates
-		// which are not allowed now).
-		ModelController.getInstance().transitionToCellChangedState(this.actionState);
-	}
-
-	public void setActiveState(DefaultCellActiveState newActiveState) {
-		this.activeState = newActiveState;
-		this.activeState.onEnter();
-		// Event handlers have to be re-registered for the new state to be used.
-		this.setEventHandler(KeyEvent.KEY_PRESSED, this.onKeyPressed());
-		this.setEventHandler(MouseEvent.MOUSE_CLICKED, this.onClick());
-		// Notify the model controller that a cell changed, meaning other cells might
-		// need to change too (i.e. un-selecting other cells, or eliminating candidates
-		// which are not allowed now).
-		ModelController.getInstance().transitionToSelectionChangedState(this.activeState);
-	}
-
-	public void unselect(boolean mouseInitiated, boolean shouldRefocus) {
-		if (shouldRefocus) {
-			this.getParent().requestFocus();
-		}
-		if (mouseInitiated) {
-			this.setActiveState(new ManuallyInactiveCellState(this.getActiveState()));
-		} else {
-			this.setActiveState(new AutomaticallyInactiveCellState(this.getActiveState()));
-		}
+	/** Returns the set value for the cell, or -1 if there isn't one. */
+	public int getFixedValue() {
+		return this.isCellFixed() ? Integer.parseInt(this.fixedDigitLabel.getText()) : -1;
 	}
 
 	/**
 	 * Shows the candidates pane if showCandidates is true, shows the fixed digit
 	 * pane otherwise.
 	 */
-	public void setCandidatesVisible(boolean showCandidates) {
+	public void setCandidatesVisible(final boolean showCandidates) {
 		final ObservableList<Node> children = this.getChildren();
 		children.get(0).setVisible(showCandidates);
 		children.get(1).setVisible(!showCandidates);
@@ -137,18 +90,19 @@ public class SudokuPuzzleCell extends StackPane {
 	 * Sets the candidate at the given index visible based on the passed boolean.
 	 * Note that the digitIndex is one less than the digit (i.e. index of 1 is 0).
 	 */
-	public void setCandidateVisible(int pressedDigitIndex, boolean visible) {
-		this.candidateLabels[pressedDigitIndex].setVisible(visible);
+	public void setCandidateVisible(final int pressedDigit, final boolean visible) {
+		this.candidateLabels[pressedDigit - 1].setVisible(visible);
 	}
 
 	/** Sets the fixed digit's value. */
-	public void setFixedDigit(String digit) {
-		this.fixedDigitLabel.setText(digit);
+	public void setFixedDigit(final String digit) {
+		// KeyCode.toString() is passed to this, and it this helps to avoid 9
+		// if-statements.
+		this.fixedDigitLabel.setText(digit.replace(DIGIT_REPLACE_TEXT, Strings.EMPTY));
 	}
 
 	private void configure() {
-		this.setEventHandler(KeyEvent.KEY_PRESSED, this.onKeyPressed());
-		this.setEventHandler(MouseEvent.MOUSE_CLICKED, this.onClick());
+		this.resetEventHandlers();
 		this.setMinWidth(CELL_WIDTH);
 		this.setMinHeight(CELL_HEIGHT);
 		this.setMaxWidth(CELL_WIDTH);
@@ -180,16 +134,16 @@ public class SudokuPuzzleCell extends StackPane {
 	}
 
 	private EventHandler<MouseEvent> onClick() {
-		return event -> {
-			this.activeState.handleClick(event);
-		};
+		return event -> ModelController.getInstance().transitionToClickedCellState(this.row, this.col);
 	}
 
-	private EventHandler<KeyEvent> onKeyPressed() {
-		return event -> {
-			this.activeState.handleKeyPressed(event);
-			this.actionState.handleKeyPressed(event);
-		};
-
+	/**
+	 * This method resets the cell's event handlers to the current state's
+	 * handler. When the cell's state changes, event handlers have to be
+	 * re-registered for the new state to be used.
+	 */
+	private void resetEventHandlers() {
+		this.setEventHandler(MouseEvent.MOUSE_CLICKED, this.onClick());
 	}
+
 }

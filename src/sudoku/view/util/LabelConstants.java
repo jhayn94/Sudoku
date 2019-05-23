@@ -22,8 +22,8 @@ public class LabelConstants {
 
 	public static final String BIVALUE_CELL_BUTTON = "X|Y";
 
-	public static final String UNDO = "⯇";
-	public static final String REDO = "⯈";
+	public static final String UNDO = "<";// "⯇";
+	public static final String REDO = ">";// "⯈";
 
 	private LabelConstants() {
 		// Private constructor to prevent instantiation.

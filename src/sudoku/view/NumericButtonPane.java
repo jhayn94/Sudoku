@@ -65,6 +65,7 @@ public class NumericButtonPane extends GridPane {
 
 	private void createUndoButton() {
 		final Button undoActionButton = new Button();
+		undoActionButton.setFocusTraversable(false);
 		undoActionButton.setText(LabelConstants.UNDO);
 		undoActionButton.setTooltip(new Tooltip(TooltipConstants.UNDO));
 		undoActionButton.setMinHeight(MIN_BUTTON_HEIGHT);
@@ -74,6 +75,7 @@ public class NumericButtonPane extends GridPane {
 
 	private void createRedoButton() {
 		final Button redoActionButton = new Button();
+		redoActionButton.setFocusTraversable(false);
 		redoActionButton.setText(LabelConstants.REDO);
 		redoActionButton.setTooltip(new Tooltip(TooltipConstants.REDO));
 		redoActionButton.setMinHeight(MIN_BUTTON_HEIGHT);

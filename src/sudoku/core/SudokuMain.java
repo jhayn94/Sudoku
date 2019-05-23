@@ -32,13 +32,15 @@ public class SudokuMain extends Application {
 		final RootStackPane rootStackPane = LayoutFactory.getInstance().createRootStackPane(root);
 		final Scene scene = this.createScene(rootStackPane);
 		this.configureStage(stage, scene, root);
-		// These messages are just to separate executions if a log file gets re-used.
+		// These messages are just to separate executions if a log file gets
+		// re-used.
 		LOG.info("==============================================");
 		LOG.info("Application started successfully.");
 	}
 
 	/**
-	 * Creates and returns a Scene, using the given Parent object as a root element.
+	 * Creates and returns a Scene, using the given Parent object as a root
+	 * element.
 	 */
 	private Scene createScene(final Region root) {
 		final Scene scene = new Scene(root);
@@ -61,7 +63,7 @@ public class SudokuMain extends Application {
 		return root;
 	}
 
-	private void configureStage(final Stage stage, final Scene scene, Region root) {
+	private void configureStage(final Stage stage, final Scene scene, final Region root) {
 		ViewController.getInstance().setStage(stage);
 		stage.getIcons().add(new Image(this.getClass().getResourceAsStream(ResourceConstants.APPLICATION_ICON)));
 		stage.initStyle(StageStyle.TRANSPARENT);
@@ -70,6 +72,7 @@ public class SudokuMain extends Application {
 		stage.setMaximized(true);
 		stage.show();
 		WindowHelper.addResizeAndDragListener(stage, root);
+		// Initializes the model controller with default states + behaviors.
 		ModelController.getInstance();
 	}
 

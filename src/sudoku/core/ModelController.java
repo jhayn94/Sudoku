@@ -1,12 +1,14 @@
 package sudoku.core;
 
+import javafx.scene.input.KeyCode;
 import sudoku.state.ApplicationModelState;
-import sudoku.state.CellChangedState;
+import sudoku.state.ArrowKeyboardInputState;
+import sudoku.state.ClickedCellState;
 import sudoku.state.DefaultApplicationModelState;
 import sudoku.state.FilterCandidatesState;
-import sudoku.state.SelectionChangedState;
-import sudoku.state.cell.action.DefaultCellActionState;
-import sudoku.state.cell.active.DefaultCellActiveState;
+import sudoku.state.RemoveDigitState;
+import sudoku.state.SetDigitState;
+import sudoku.state.ToggleCandidateVisibleState;
 import sudoku.state.window.ApplicationWindowState;
 import sudoku.state.window.ClosedState;
 import sudoku.state.window.MaximizedState;
@@ -70,19 +72,34 @@ public class ModelController {
 		this.applicationWindowState.onEnter();
 	}
 
-	public void transitionToFilterCandidatesState(String filter) {
+	public void transitionToFilterCandidatesState(final String filter) {
 		this.applicationModelState = new FilterCandidatesState(this.applicationModelState, filter);
 		this.applicationModelState.onEnter();
 	}
 
-	public void transitionToCellChangedState(DefaultCellActionState cellActionState) {
-		this.applicationModelState = new CellChangedState(cellActionState, this.applicationModelState);
+	public void transitionToClickedCellState(final int row, final int col) {
+		this.applicationModelState = new ClickedCellState(row, col, this.applicationModelState);
 		this.applicationModelState.onEnter();
 	}
 
-	public void transitionToSelectionChangedState(DefaultCellActiveState cellActiveState) {
-		this.applicationModelState = new SelectionChangedState(cellActiveState, this.applicationModelState);
+	public void transitionToArrowKeyboardInputState(final KeyCode keyCode) {
+		this.applicationModelState = new ArrowKeyboardInputState(keyCode, this.applicationModelState);
 		this.applicationModelState.onEnter();
 	}
 
+	public void transitionToSetDigitState(final KeyCode keyCode) {
+		this.applicationModelState = new SetDigitState(keyCode, this.applicationModelState);
+		this.applicationModelState.onEnter();
+	}
+
+	public void transitionToRemoveDigitState(final KeyCode keyCode) {
+		this.applicationModelState = new RemoveDigitState(keyCode, this.applicationModelState);
+		this.applicationModelState.onEnter();
+	}
+
+	public void transitionToToggleCandidateVisibleState(final KeyCode keyCode) {
+		this.applicationModelState = new ToggleCandidateVisibleState(keyCode, this.applicationModelState);
+		this.applicationModelState.onEnter();
+
+	}
 }

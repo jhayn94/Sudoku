@@ -1,8 +1,15 @@
 package sudoku.view.puzzle;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import sudoku.core.ModelController;
 import sudoku.factories.LayoutFactory;
 import sudoku.model.SudokuPuzzle;
 
@@ -11,6 +18,8 @@ import sudoku.model.SudokuPuzzle;
  * contains all other view elements on this side of the application.
  */
 public class SudokuPuzzleView extends GridPane {
+
+	private static final Logger LOG = LogManager.getLogger(SudokuPuzzleView.class);
 
 	private static final String CSS_CLASS = "sudoku-transparent-pane";
 
@@ -47,12 +56,12 @@ public class SudokuPuzzleView extends GridPane {
 	}
 
 	private void createChildElements() {
+		this.setOnKeyPressed(this.onKeyPressed());
 		for (int index = 1; index <= NUM_CELLS; index++) {
 			// Integer division intentional!
 			final int rowIndex = (index - 1) / 9;
 			final int colIndex = (index - 1) % 9;
-			final SudokuPuzzleCell sudokuPuzzleCell = LayoutFactory.getInstance().createSudokuPuzzleCell(colIndex,
-					rowIndex);
+			final SudokuPuzzleCell sudokuPuzzleCell = LayoutFactory.getInstance().createSudokuPuzzleCell(colIndex, rowIndex);
 			this.add(sudokuPuzzleCell, colIndex, rowIndex);
 			final ObservableList<String> styleClass = sudokuPuzzleCell.getStyleClass();
 			if (rowIndex % 3 == 0 && colIndex % 3 == 0) {
@@ -74,5 +83,28 @@ public class SudokuPuzzleView extends GridPane {
 			}
 
 		}
+	}
+
+	/**
+	 * Handles all keyboard inputs for the application. The technical challenge
+	 * with keyboard inputs is that the node must be focused, and only one node
+	 * can be focused at once. This makes it impossible to listen on multiple
+	 * nodes at once.
+	 */
+	private EventHandler<? super KeyEvent> onKeyPressed() {
+		return event -> {
+			final KeyCode keyCode = event.getCode();
+			if (keyCode.isArrowKey()) {
+				ModelController.getInstance().transitionToArrowKeyboardInputState(keyCode);
+			} else if (keyCode.isDigitKey() && KeyCode.DIGIT0 != keyCode) {
+				if (event.isControlDown()) {
+					ModelController.getInstance().transitionToToggleCandidateVisibleState(keyCode);
+				} else {
+					ModelController.getInstance().transitionToSetDigitState(keyCode);
+				}
+			} else if (KeyCode.DELETE == keyCode) {
+				ModelController.getInstance().transitionToRemoveDigitState(keyCode);
+			}
+		};
 	}
 }

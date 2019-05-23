@@ -19,6 +19,7 @@ public abstract class AbstractMenuButton extends Button {
 	}
 
 	protected void configure() {
+		this.setFocusTraversable(false);
 		this.getStyleClass().add(MENU_BUTTON_CSS_CLASS);
 		final Image icon = new Image(this.getClass().getResourceAsStream(this.resourcePath));
 		this.iconView = new ImageView(icon);
@@ -30,7 +31,8 @@ public abstract class AbstractMenuButton extends Button {
 
 	protected void setIconColor() {
 		final ColorAdjust monochrome = new ColorAdjust();
-		// This HSB setup approximates the color 'sudoku-color-stone-blue' in the CSS
+		// This HSB setup approximates the color 'sudoku-color-stone-blue' in the
+		// CSS
 		// file. For some reason, the traditional HSB setup does not work.
 		monochrome.setHue(-.05);
 		monochrome.setSaturation(.57);

@@ -1,7 +1,6 @@
 package sudoku.state;
 
 import sudoku.core.ViewController;
-import sudoku.model.SudokuPuzzle;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 
 /**
@@ -9,16 +8,14 @@ import sudoku.view.puzzle.SudokuPuzzleCell;
  */
 public class DefaultApplicationModelState extends ApplicationModelState {
 
+	private static final int MIDDLE_CELL_INDEX = 4;
+
 	public DefaultApplicationModelState() {
 		super();
-		// Populates the cell states with the default value for each cell.
-		for (int row = 0; row < SudokuPuzzle.NUMBER_OF_CELLS_PER_DIMENSION; row++) {
-			for (int col = 0; col < SudokuPuzzle.NUMBER_OF_CELLS_PER_DIMENSION; col++) {
-				final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(col, row);
-				this.cellActionStates[col][row] = sudokuPuzzleCell.getActionState();
-				this.cellActiveStates[col][row] = sudokuPuzzleCell.getActiveState();
-			}
-		}
+		this.selectedCellRow = MIDDLE_CELL_INDEX;
+		this.selectedCellCol = MIDDLE_CELL_INDEX;
+		final SudokuPuzzleCell middleCell = ViewController.getInstance().getSudokuPuzzleCell(4, 4);
+		middleCell.getStyleClass().add(SELECTED_CELL_CSS_CLASS);
 		this.onEnter();
 	}
 

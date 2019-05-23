@@ -66,7 +66,7 @@ public class ViewController {
 		return this.sudokuPuzzleView;
 	}
 
-	public SudokuPuzzleCell getSudokuPuzzleCell(int col, int row) {
+	public SudokuPuzzleCell getSudokuPuzzleCell(final int row, final int col) {
 		return this.sudokuPuzzleCells[col][row];
 	}
 
@@ -82,15 +82,15 @@ public class ViewController {
 		this.helpStage = helpStage;
 	}
 
-	public void setNumericButtonPane(NumericButtonPane numericButtonPane) {
+	public void setNumericButtonPane(final NumericButtonPane numericButtonPane) {
 		this.numericButtonPane = numericButtonPane;
 	}
 
-	public void setSudokuPuzzleView(SudokuPuzzleView sudokuPuzzleView) {
+	public void setSudokuPuzzleView(final SudokuPuzzleView sudokuPuzzleView) {
 		this.sudokuPuzzleView = sudokuPuzzleView;
 	}
 
-	public void registerSudokuPuzzleCell(SudokuPuzzleCell sudokuPuzzleCell, int col, int row) {
+	public void registerSudokuPuzzleCell(final SudokuPuzzleCell sudokuPuzzleCell, final int col, final int row) {
 		this.sudokuPuzzleCells[col][row] = sudokuPuzzleCell;
 	}
 
