@@ -26,7 +26,6 @@ public class ToggleCandidateVisibleState extends ApplicationModelState {
 					this.selectedCellCol);
 			final boolean isCandidateVisible = candidatesForCell.contains(pressedDigit);
 			selectedCell.setCandidateVisible(pressedDigit, !isCandidateVisible);
-
 			if (isCandidateVisible) {
 				candidatesForCell.remove((Object) pressedDigit);
 			} else {

@@ -3,6 +3,7 @@ package sudoku.state;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
 import javafx.scene.input.KeyCode;
@@ -66,6 +67,10 @@ public abstract class ApplicationModelState {
 
 	public abstract void onEnter();
 
+	protected SudokuPuzzleCell getSelectedCell() {
+		return ViewController.getInstance().getSudokuPuzzleCell(this.selectedCellRow, this.selectedCellCol);
+	}
+
 	protected List<SudokuPuzzleCell> getCellsSeenFrom(final int row, final int col) {
 		final SudokuPuzzleCell cell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
 		final List<SudokuPuzzleCell> cells = new ArrayList<>();
@@ -80,22 +85,21 @@ public abstract class ApplicationModelState {
 			}
 		}
 		final int boxForCell = this.getBoxForCell(cell);
-		this.getCellsInBox(cell, boxForCell).forEach(cellToAdd -> {
+		this.getCellsInBox(boxForCell).forEach(cellToAdd -> {
 			if (!cellToAdd.equals(cell)) {
 				cells.add(cellToAdd);
 			}
 		});
-		return cells;
+		return cells.stream().distinct().collect(Collectors.toList());
 	}
 
-	protected List<SudokuPuzzleCell> getCellsInBox(final SudokuPuzzleCell originalCell, final int box) {
+	protected List<SudokuPuzzleCell> getCellsInBox(final int box) {
 		final List<SudokuPuzzleCell> cells = new ArrayList<>();
 		// TODO - does this need to be more efficient?
 		for (int rowIndex = 0; rowIndex < SudokuPuzzle.NUMBER_OF_CELLS_PER_DIMENSION; rowIndex++) {
 			for (int colIndex = 0; colIndex < SudokuPuzzle.NUMBER_OF_CELLS_PER_DIMENSION; colIndex++) {
 				final SudokuPuzzleCell cell = ViewController.getInstance().getSudokuPuzzleCell(rowIndex, colIndex);
-				// TODO - should we skip this cell, or not?
-				if (this.getBoxForCell(cell) == box && !originalCell.equals(cell)) {
+				if (this.getBoxForCell(cell) == box) {
 					cells.add(cell);
 				}
 			}
@@ -103,9 +107,16 @@ public abstract class ApplicationModelState {
 		return cells;
 	}
 
+	protected boolean doesCellSeeFixedDigit(int row, int col, int fixedDigit) {
+		final List<SudokuPuzzleCell> visibleCells = this.getCellsSeenFrom(row, col);
+		final long numDigitInstancesSeen = visibleCells.stream().filter(cell -> cell.getFixedDigit() == fixedDigit)
+				.count();
+		return numDigitInstancesSeen > 0;
+	}
+
 	/**
-	 * Gets the box number of the given cell. Returns -1 if row and col are
-	 * outside of the puzzle dimensions.
+	 * Gets the box number of the given cell. Returns -1 if row and col are outside
+	 * of the puzzle dimensions.
 	 */
 	private int getBoxForCell(final SudokuPuzzleCell cell) {
 		final int row = cell.getRow();
@@ -132,8 +143,18 @@ public abstract class ApplicationModelState {
 		return -1;
 	}
 
-	protected SudokuPuzzleCell getSelectedCell() {
-		return ViewController.getInstance().getSudokuPuzzleCell(this.selectedCellRow, this.selectedCellCol);
+	/**
+	 * Adds the given digit to the cells seen by the selected cell, if no other
+	 * fixed instances of that digit see the cell.
+	 */
+	protected void addDigitAsCandidateToSeenCells(final int fixedDigit) {
+		final List<SudokuPuzzleCell> visibleCells = this.getCellsSeenFrom(this.selectedCellRow, this.selectedCellCol);
+		visibleCells.forEach(cell -> {
+			if (!this.doesCellSeeFixedDigit(cell.getRow(), cell.getCol(), fixedDigit)) {
+				cell.setCandidateVisible(fixedDigit, true);
+				this.puzzleModel.getCandidateDigitsForCell(cell.getRow(), cell.getCol()).add(fixedDigit);
+			}
+		});
 	}
 
 	protected void updateCssClass(final String newCssClass) {

@@ -72,7 +72,7 @@ public class SudokuPuzzleCell extends StackPane {
 	}
 
 	/** Returns the set value for the cell, or -1 if there isn't one. */
-	public int getFixedValue() {
+	public int getFixedDigit() {
 		return this.isCellFixed() ? Integer.parseInt(this.fixedDigitLabel.getText()) : -1;
 	}
 
@@ -138,9 +138,9 @@ public class SudokuPuzzleCell extends StackPane {
 	}
 
 	/**
-	 * This method resets the cell's event handlers to the current state's
-	 * handler. When the cell's state changes, event handlers have to be
-	 * re-registered for the new state to be used.
+	 * This method resets the cell's event handlers to the current state's handler.
+	 * When the cell's state changes, event handlers have to be re-registered for
+	 * the new state to be used.
 	 */
 	private void resetEventHandlers() {
 		this.setEventHandler(MouseEvent.MOUSE_CLICKED, this.onClick());

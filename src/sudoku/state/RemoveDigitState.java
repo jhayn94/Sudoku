@@ -19,9 +19,16 @@ public class RemoveDigitState extends ApplicationModelState {
 	@Override
 	public void onEnter() {
 		final SudokuPuzzleCell selectedCell = this.getSelectedCell();
+		final int fixedDigit = selectedCell.getFixedDigit();
+
+		// Update view.
 		selectedCell.setCandidatesVisible(true);
 		selectedCell.setFixedDigit(Strings.EMPTY);
 		this.updateCssClass(UNFIXED_CELL_CSS_CLASS);
+
+		// Update model.
+		this.addDigitAsCandidateToSeenCells(fixedDigit);
+
 	}
 
 }
