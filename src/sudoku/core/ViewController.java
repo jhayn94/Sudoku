@@ -2,6 +2,7 @@ package sudoku.core;
 
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import sudoku.model.SudokuPuzzle;
 import sudoku.view.NumericButtonPane;
 import sudoku.view.menu.button.MaximizeMenuButton;
 import sudoku.view.puzzle.SudokuPuzzleCell;
@@ -13,8 +14,6 @@ import sudoku.view.puzzle.SudokuPuzzleView;
  * to static (container) views is not stored.
  */
 public class ViewController {
-
-	private static final int NUM_CELLS = 9;
 
 	private static ViewController viewControllerInstance;
 
@@ -43,7 +42,7 @@ public class ViewController {
 		this.helpStage = null;
 		this.numericButtonPane = null;
 		this.sudokuPuzzleView = null;
-		this.sudokuPuzzleCells = new SudokuPuzzleCell[NUM_CELLS][NUM_CELLS];
+		this.sudokuPuzzleCells = new SudokuPuzzleCell[SudokuPuzzle.NUMBER_OF_CELLS_PER_DIMENSION][SudokuPuzzle.NUMBER_OF_CELLS_PER_DIMENSION];
 	}
 
 	public Stage getStage() {
