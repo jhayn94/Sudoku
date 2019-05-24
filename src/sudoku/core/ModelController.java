@@ -19,13 +19,13 @@ import sudoku.state.window.SoftRestoredState;
 /** A controller class to facilitate state (model) changes. */
 public class ModelController {
 
-	private static ModelController modelStateControllerInstance;
+	private static ModelController instance;
 
 	public static ModelController getInstance() {
-		if (modelStateControllerInstance == null) {
-			modelStateControllerInstance = new ModelController();
+		if (ModelController.instance == null) {
+			ModelController.instance = new ModelController();
 		}
-		return modelStateControllerInstance;
+		return ModelController.instance;
 	}
 
 	/**

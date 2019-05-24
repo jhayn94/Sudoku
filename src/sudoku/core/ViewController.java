@@ -15,13 +15,13 @@ import sudoku.view.puzzle.SudokuPuzzleView;
  */
 public class ViewController {
 
-	private static ViewController viewControllerInstance;
+	private static ViewController instance;
 
 	public static ViewController getInstance() {
-		if (viewControllerInstance == null) {
-			viewControllerInstance = new ViewController();
+		if (ViewController.instance == null) {
+			ViewController.instance = new ViewController();
 		}
-		return viewControllerInstance;
+		return ViewController.instance;
 	}
 
 	private Stage stage;

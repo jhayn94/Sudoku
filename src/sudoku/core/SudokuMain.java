@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import generator.BackgroundGenerator;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -14,12 +13,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import solver.SudokuSolver;
-import solver.SudokuSolverFactory;
-import sudoku.GameMode;
-import sudoku.Options;
-import sudoku.SolutionStep;
-import sudoku.Sudoku2;
 import sudoku.factories.LayoutFactory;
 import sudoku.factories.MenuFactory;
 import sudoku.view.MainApplicationView;
@@ -46,8 +39,7 @@ public class SudokuMain extends Application {
 	}
 
 	/**
-	 * Creates and returns a Scene, using the given Parent object as a root
-	 * element.
+	 * Creates and returns a Scene, using the given Parent object as a root element.
 	 */
 	private Scene createScene(final Region root) {
 		final Scene scene = new Scene(root);
@@ -82,32 +74,12 @@ public class SudokuMain extends Application {
 		// Initializes the model controller with default states + behaviors.
 		ModelController.getInstance();
 
-		final BackgroundGenerator generator = new BackgroundGenerator();
-		final String sudoku = generator.generate(Options.getInstance().getDifficultyLevel(5), GameMode.PLAYING);
-
-		final Sudoku2 tmpSudoku = new Sudoku2();
-		tmpSudoku.setSudoku(sudoku, true);
-		final Sudoku2 solvedSudoku = tmpSudoku.clone();
-		final SudokuSolver solver = SudokuSolverFactory.getDefaultSolverInstance();
-		solver.solve(Options.getInstance().getDifficultyLevel(5), solvedSudoku, true, false,
-				Options.getInstance().solverSteps, Options.getInstance().getGameMode());
-		tmpSudoku.setLevel(solvedSudoku.getLevel());
-		tmpSudoku.setScore(solvedSudoku.getScore());
-
-		final SudokuSolver sudokuSolver = new SudokuSolver();
-		while (!tmpSudoku.isSolved()) {
-			final SolutionStep hint = sudokuSolver.getHint(tmpSudoku, false);
-			LOG.info(sudoku);
-			LOG.info(hint);
-			sudokuSolver.doStep(tmpSudoku, hint);
-		}
-		LOG.info(sudoku);
-		LOG.info(tmpSudoku.getLevel());
-		LOG.info(tmpSudoku.getScore());
+		final String generateSudokuString = HodokuFacade.getInstance().generateSudokuString();
+		HodokuFacade.getInstance().getSolutionForSudoku(generateSudokuString);
 	}
 
 	public static void main(final String[] args) {
-		launch(args);
+		Application.launch(args);
 	}
 
 }
