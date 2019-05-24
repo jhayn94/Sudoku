@@ -8,6 +8,7 @@ import sudoku.state.DefaultApplicationModelState;
 import sudoku.state.FilterCandidatesState;
 import sudoku.state.RemoveDigitState;
 import sudoku.state.SetDigitState;
+import sudoku.state.ToggleActiveCandidateToColorState;
 import sudoku.state.ToggleCandidateColorState;
 import sudoku.state.ToggleCandidateVisibleState;
 import sudoku.state.window.ApplicationWindowState;
@@ -106,6 +107,11 @@ public class ModelController {
 
 	public void transitionToToggleCandidateColorState(final KeyCode keyCode, final boolean isShiftDown) {
 		this.applicationModelState = new ToggleCandidateColorState(keyCode, isShiftDown, this.applicationModelState);
+		this.applicationModelState.onEnter();
+	}
+
+	public void transitionToToggleActiveCandidateToColorState(final KeyCode keyCode) {
+		this.applicationModelState = new ToggleActiveCandidateToColorState(keyCode, this.applicationModelState);
 		this.applicationModelState.onEnter();
 	}
 }

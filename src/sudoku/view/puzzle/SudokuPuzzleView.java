@@ -113,6 +113,8 @@ public class SudokuPuzzleView extends GridPane {
 				} else {
 					// color cell.
 				}
+			} else if (KeyCode.PAGE_UP == keyCode || KeyCode.PAGE_DOWN == keyCode) {
+				ModelController.getInstance().transitionToToggleActiveCandidateToColorState(keyCode);
 			}
 
 		};

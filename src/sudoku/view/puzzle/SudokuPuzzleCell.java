@@ -17,6 +17,10 @@ import sudoku.core.ModelController;
 /** This class corresponds to a single cell of a sudoku puzzle. */
 public class SudokuPuzzleCell extends StackPane {
 
+	private static final int CANDIDATE_LABEL_MAX_HEIGHT = 18;
+
+	private static final int CANDIDATE_LABEL_MIN_WIDTH = 11;
+
 	private static final String DIGIT_REPLACE_TEXT = "DIGIT";
 
 	private static final String NUMPAD_REPLACE_TEXT = "NUMPAD";
@@ -132,6 +136,10 @@ public class SudokuPuzzleCell extends StackPane {
 		candidatesGridPane.setVgap(0);
 		for (int index = 1; index <= MAX_NUM_CANDIDATES_IN_CELL; index++) {
 			this.candidateLabels[index - 1] = new Label(String.valueOf(index));
+			// Setting some dimensions help the colorings look nicer, especially the 1,
+			// which would otherwise be much thinner.
+			this.candidateLabels[index - 1].setMinWidth(CANDIDATE_LABEL_MIN_WIDTH);
+			this.candidateLabels[index - 1].setMaxHeight(CANDIDATE_LABEL_MAX_HEIGHT);
 			// Integer division intentional!
 			candidatesGridPane.add(this.candidateLabels[index - 1], (index - 1) % 3, (index - 1) / 3);
 		}

@@ -65,7 +65,7 @@ public abstract class ApplicationModelState {
 		this.filterAllowedCells = false;
 		this.puzzleModel = ModelFactory.getInstance().createSudokuPuzzle();
 		this.lastKeyCode = null;
-		this.activeColorCandidateDigit = 2;
+		this.activeColorCandidateDigit = 1;
 		this.cellColorStates = new ColorState[SudokuPuzzle.CELLS_PER_HOUSE][SudokuPuzzle.CELLS_PER_HOUSE];
 		for (int row = 0; row < SudokuPuzzle.CELLS_PER_HOUSE; row++) {
 			for (int col = 0; col < SudokuPuzzle.CELLS_PER_HOUSE; col++) {

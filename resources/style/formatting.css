@@ -107,43 +107,43 @@
 }
 
 .sudoku-puzzle-red-entity {
-	-fx-background-color: #f08080;
+	-fx-background-color: #ea4848;
 }
 
 .sudoku-puzzle-alt-red-entity {
-	-fx-background-color: #fad1d1;
+	-fx-background-color: #f28d8d;
 }
 
 .sudoku-puzzle-blue-entity {
-	-fx-background-color: #87cefa;
+	-fx-background-color: #23a5f6;
 }
 
 .sudoku-puzzle-alt-blue-entity {
-	-fx-background-color: #ceebfd;
+	-fx-background-color: #87cefa;
 }
 
 .sudoku-puzzle-purple-entity {
-	-fx-background-color: #d69ae5;
+	-fx-background-color: #bd5dd5;
 }
 
 .sudoku-puzzle-alt-purple-entity {
-	-fx-background-color: #efd6f5;
+	-fx-background-color: #deaeea;
 }
 
 .sudoku-puzzle-teal-entity {
-	-fx-background-color: #7beadf;
+	-fx-background-color: #40e0d0;
 }
 
 .sudoku-puzzle-alt-teal-entity {
-	-fx-background-color: #d3f8f4;
+	-fx-background-color: #91ede4;
 }
 
 .sudoku-puzzle-orange-entity {
-	-fx-background-color: #ffd280;
+	-fx-background-color: #ffaf1a;
 }
 
 .sudoku-puzzle-alt-orange-entity {
-	-fx-background-color: #ffedcc;
+	-fx-background-color: #ffd280;
 }
 
 .button {
