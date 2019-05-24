@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import sudoku.core.ViewController;
 import sudoku.factories.ModelFactory;
 import sudoku.model.SudokuPuzzle;
 import sudoku.view.puzzle.SudokuPuzzleCell;
+import sudoku.view.util.ColorUtils.ColorState;
 
 /**
  * This class is a representation of the current state of the application model,
@@ -26,8 +28,8 @@ public abstract class ApplicationModelState {
 
 	protected static final String SELECTED_CELL_CSS_CLASS = "sudoku-selected-cell";
 
-	private static final List<String> CSS_CLASSES = Arrays.asList(UNFIXED_CELL_CSS_CLASS, FIXED_CELL_CSS_CLASS,
-			GIVEN_CELL_CSS_CLASS);
+	private static final List<String> FIXED_CELL_TYPE_CSS_CLASSES = Arrays.asList(UNFIXED_CELL_CSS_CLASS,
+			FIXED_CELL_CSS_CLASS, GIVEN_CELL_CSS_CLASS);
 
 	// The active cell filter, or empty string for none.
 	protected String activeCellFilter;
@@ -44,12 +46,40 @@ public abstract class ApplicationModelState {
 
 	protected KeyCode lastKeyCode;
 
+	// Tracks the color of each cell in the sudoku puzzle. Note that the tan
+	// selected color is not included here.
+	protected ColorState[][] cellColorStates;
+
+	// Tracks the color of each candidate in the sudoku puzzle.
+	// 3 dimensions are columns, rows, and digits 1-9 in that order.
+	protected ColorState[][][] candidateColorStates;
+
+	// This is the candidate digit whose color should be toggled when the event
+	// occurs. It is very difficult to allow the user to do any digit at once, so a
+	// separate control changes this value.
+	protected int activeColorCandidateDigit;
+
 	/** Constructor for the initialization of the application. */
 	protected ApplicationModelState() {
 		this.activeCellFilter = "";
 		this.filterAllowedCells = false;
 		this.puzzleModel = ModelFactory.getInstance().createSudokuPuzzle();
 		this.lastKeyCode = null;
+		this.activeColorCandidateDigit = 2;
+		this.cellColorStates = new ColorState[SudokuPuzzle.CELLS_PER_HOUSE][SudokuPuzzle.CELLS_PER_HOUSE];
+		for (int row = 0; row < SudokuPuzzle.CELLS_PER_HOUSE; row++) {
+			for (int col = 0; col < SudokuPuzzle.CELLS_PER_HOUSE; col++) {
+				this.cellColorStates[col][row] = ColorState.NONE;
+			}
+		}
+		this.candidateColorStates = new ColorState[SudokuPuzzle.CELLS_PER_HOUSE][SudokuPuzzle.CELLS_PER_HOUSE][SudokuPuzzle.CELLS_PER_HOUSE];
+		for (int row = 0; row < SudokuPuzzle.CELLS_PER_HOUSE; row++) {
+			for (int col = 0; col < SudokuPuzzle.CELLS_PER_HOUSE; col++) {
+				for (int candidate = 0; candidate < SudokuPuzzle.CELLS_PER_HOUSE; candidate++) {
+					this.candidateColorStates[col][row][candidate] = ColorState.NONE;
+				}
+			}
+		}
 		ViewController.getInstance().getSudokuPuzzleView().requestFocus();
 	}
 
@@ -60,7 +90,10 @@ public abstract class ApplicationModelState {
 		this.puzzleModel = lastState.puzzleModel;
 		this.selectedCellRow = lastState.selectedCellRow;
 		this.selectedCellCol = lastState.selectedCellCol;
+		this.activeColorCandidateDigit = lastState.activeColorCandidateDigit;
 		this.lastKeyCode = lastState.lastKeyCode;
+		this.cellColorStates = lastState.cellColorStates;
+		this.candidateColorStates = lastState.candidateColorStates;
 		// Refocus grid so the keyboard actions always work.
 		ViewController.getInstance().getSudokuPuzzleView().requestFocus();
 	}
@@ -74,12 +107,12 @@ public abstract class ApplicationModelState {
 	protected List<SudokuPuzzleCell> getCellsSeenFrom(final int row, final int col) {
 		final SudokuPuzzleCell cell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
 		final List<SudokuPuzzleCell> cells = new ArrayList<>();
-		for (int rowIndex = 0; rowIndex < SudokuPuzzle.NUMBER_OF_CELLS_PER_DIMENSION; rowIndex++) {
+		for (int rowIndex = 0; rowIndex < SudokuPuzzle.CELLS_PER_HOUSE; rowIndex++) {
 			if (rowIndex != row) {
 				cells.add(ViewController.getInstance().getSudokuPuzzleCell(rowIndex, col));
 			}
 		}
-		for (int colIndex = 0; colIndex < SudokuPuzzle.NUMBER_OF_CELLS_PER_DIMENSION; colIndex++) {
+		for (int colIndex = 0; colIndex < SudokuPuzzle.CELLS_PER_HOUSE; colIndex++) {
 			if (colIndex != col) {
 				cells.add(ViewController.getInstance().getSudokuPuzzleCell(row, colIndex));
 			}
@@ -95,9 +128,8 @@ public abstract class ApplicationModelState {
 
 	protected List<SudokuPuzzleCell> getCellsInBox(final int box) {
 		final List<SudokuPuzzleCell> cells = new ArrayList<>();
-		// TODO - does this need to be more efficient?
-		for (int rowIndex = 0; rowIndex < SudokuPuzzle.NUMBER_OF_CELLS_PER_DIMENSION; rowIndex++) {
-			for (int colIndex = 0; colIndex < SudokuPuzzle.NUMBER_OF_CELLS_PER_DIMENSION; colIndex++) {
+		for (int rowIndex = 0; rowIndex < SudokuPuzzle.CELLS_PER_HOUSE; rowIndex++) {
+			for (int colIndex = 0; colIndex < SudokuPuzzle.CELLS_PER_HOUSE; colIndex++) {
 				final SudokuPuzzleCell cell = ViewController.getInstance().getSudokuPuzzleCell(rowIndex, colIndex);
 				if (this.getBoxForCell(cell) == box) {
 					cells.add(cell);
@@ -107,10 +139,9 @@ public abstract class ApplicationModelState {
 		return cells;
 	}
 
-	protected boolean doesCellSeeFixedDigit(int row, int col, int fixedDigit) {
+	protected boolean doesCellSeeFixedDigit(final int row, final int col, final int fixedDigit) {
 		final List<SudokuPuzzleCell> visibleCells = this.getCellsSeenFrom(row, col);
-		final long numDigitInstancesSeen = visibleCells.stream().filter(cell -> cell.getFixedDigit() == fixedDigit)
-				.count();
+		final long numDigitInstancesSeen = visibleCells.stream().filter(cell -> cell.getFixedDigit() == fixedDigit).count();
 		return numDigitInstancesSeen > 0;
 	}
 
@@ -157,9 +188,15 @@ public abstract class ApplicationModelState {
 		});
 	}
 
-	protected void updateCssClass(final String newCssClass) {
+	protected void updateFixedCellTypeCssClass(final String newFixedCellTypeCssClass) {
 		final ObservableList<String> styleClass = this.getSelectedCell().getStyleClass();
-		CSS_CLASSES.forEach(styleClass::remove);
-		styleClass.add(newCssClass);
+		FIXED_CELL_TYPE_CSS_CLASSES.forEach(styleClass::remove);
+		styleClass.add(newFixedCellTypeCssClass);
+	}
+
+	protected void updateColorCssClass(final Node node, final String newColorCssClass) {
+		final ObservableList<String> styleClass = node.getStyleClass();
+//		FIXED_CELL_TYPE_CSS_CLASSES.forEach(styleClass::remove);
+		styleClass.add(newColorCssClass);
 	}
 }

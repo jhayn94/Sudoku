@@ -1,8 +1,8 @@
 package sudoku.state;
 
 /**
- * This class corresponds to a sudoku cell which is a given and cannot be
- * changed.
+ * This class contains methods to set a cell as a given cell. TODO - does this
+ * need to be a state? Should it be part of a "new puzzle" state?
  */
 public class SetCellAsGivenState extends ApplicationModelState {
 
@@ -12,7 +12,7 @@ public class SetCellAsGivenState extends ApplicationModelState {
 
 	@Override
 	public void onEnter() {
-		this.updateCssClass(GIVEN_CELL_CSS_CLASS);
+		this.updateFixedCellTypeCssClass(GIVEN_CELL_CSS_CLASS);
 		this.getSelectedCell().setCellGiven(true);
 	}
 

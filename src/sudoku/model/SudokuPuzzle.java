@@ -11,7 +11,7 @@ import sudoku.factories.ModelFactory;
  */
 public class SudokuPuzzle {
 
-	public static final int NUMBER_OF_CELLS_PER_DIMENSION = 9;
+	public static final int CELLS_PER_HOUSE = 9;
 
 	private final Integer[][] givenCells;
 
@@ -19,33 +19,33 @@ public class SudokuPuzzle {
 
 	private final List<Integer>[][] candidatesForCells;
 
-	// private PuzzleDifficulty difficulty;
-
 	private int score;
 
-	/*
-	 * TODO - review how candidates should be managed when
-	 *
-	 * 1) Action is undone, should candidates be restored?
-	 *
-	 * 2) Digit is placed over an old one; should candidates for other number be
-	 * restored? If so, we would need to track something like user set candidates
-	 * and auto set candidates
-	 *
-	 * 3) Digit is placed, do I remove the candidate from that cell?
-	 */
 	@SuppressWarnings("unchecked")
 	public SudokuPuzzle() {
-		this.givenCells = new Integer[NUMBER_OF_CELLS_PER_DIMENSION][NUMBER_OF_CELLS_PER_DIMENSION];
-		this.fixedCells = new Integer[NUMBER_OF_CELLS_PER_DIMENSION][NUMBER_OF_CELLS_PER_DIMENSION];
-		this.candidatesForCells = new ArrayList[NUMBER_OF_CELLS_PER_DIMENSION][NUMBER_OF_CELLS_PER_DIMENSION];
-		for (int row = 0; row < NUMBER_OF_CELLS_PER_DIMENSION; row++) {
-			for (int col = 0; col < NUMBER_OF_CELLS_PER_DIMENSION; col++) {
+		this.givenCells = new Integer[CELLS_PER_HOUSE][CELLS_PER_HOUSE];
+		this.fixedCells = new Integer[CELLS_PER_HOUSE][CELLS_PER_HOUSE];
+		this.candidatesForCells = new ArrayList[CELLS_PER_HOUSE][CELLS_PER_HOUSE];
+		for (int row = 0; row < CELLS_PER_HOUSE; row++) {
+			for (int col = 0; col < CELLS_PER_HOUSE; col++) {
 				this.givenCells[col][row] = 0;
 				this.fixedCells[col][row] = 0;
 				this.candidatesForCells[col][row] = new ArrayList<>();
-				for (int candidate = 0; candidate < NUMBER_OF_CELLS_PER_DIMENSION; candidate++) {
+				for (int candidate = 0; candidate < CELLS_PER_HOUSE; candidate++) {
 					this.candidatesForCells[col][row].add(candidate + 1);
+				}
+			}
+		}
+	}
+
+	public SudokuPuzzle(final String initialGivens) {
+		this();
+		for (int row = 0; row < CELLS_PER_HOUSE; row++) {
+			for (int col = 0; col < CELLS_PER_HOUSE; col++) {
+				final int position = row * CELLS_PER_HOUSE + col;
+				final char charAtPosition = initialGivens.charAt(position);
+				if (Character.isDigit(charAtPosition)) {
+					this.givenCells[col][row] = Integer.valueOf(charAtPosition);
 				}
 			}
 		}
@@ -79,8 +79,8 @@ public class SudokuPuzzle {
 	@Override
 	public SudokuPuzzle clone() {
 		final SudokuPuzzle clone = ModelFactory.getInstance().createSudokuPuzzle();
-		for (int row = 0; row < NUMBER_OF_CELLS_PER_DIMENSION; row++) {
-			for (int col = 0; col < NUMBER_OF_CELLS_PER_DIMENSION; col++) {
+		for (int row = 0; row < CELLS_PER_HOUSE; row++) {
+			for (int col = 0; col < CELLS_PER_HOUSE; col++) {
 				clone.givenCells[col][row] = this.givenCells[col][row];
 				clone.fixedCells[col][row] = this.fixedCells[col][row];
 				clone.candidatesForCells[col][row] = new ArrayList<>();
@@ -91,13 +91,13 @@ public class SudokuPuzzle {
 	}
 
 	/**
-	 * Returns the current state of the sudoku as string, where each digit is set
-	 * if fixed in the puzzle.. 0 is used if no digit is set.
+	 * Returns the current state of the sudoku as string, where each digit is set if
+	 * fixed in the puzzle.. 0 is used if no digit is set.
 	 */
 	public String getSudoku() {
 		final StringBuilder result = new StringBuilder();
-		for (int row = 0; row < NUMBER_OF_CELLS_PER_DIMENSION; row++) {
-			for (int col = 0; col < NUMBER_OF_CELLS_PER_DIMENSION; col++) {
+		for (int row = 0; row < CELLS_PER_HOUSE; row++) {
+			for (int col = 0; col < CELLS_PER_HOUSE; col++) {
 				result.append(this.fixedCells[col][row]);
 			}
 		}
@@ -106,8 +106,8 @@ public class SudokuPuzzle {
 
 	/** Returns true iff this puzzle is solved. */
 	public boolean isSolved() {
-		for (int row = 0; row < NUMBER_OF_CELLS_PER_DIMENSION; row++) {
-			for (int col = 0; col < NUMBER_OF_CELLS_PER_DIMENSION; col++) {
+		for (int row = 0; row < CELLS_PER_HOUSE; row++) {
+			for (int col = 0; col < CELLS_PER_HOUSE; col++) {
 				if (this.fixedCells[col][row] == 0) {
 					return false;
 				}
@@ -115,10 +115,6 @@ public class SudokuPuzzle {
 		}
 		return true;
 	}
-
-	// public PuzzleDifficulty getDifficulty() {
-	// return this.difficulty;
-	// }
 
 	public int getScore() {
 		return this.score;
@@ -128,14 +124,10 @@ public class SudokuPuzzle {
 		this.score = score;
 	}
 
-	// public void setLevel(PuzzleDifficulty difficulty) {
-	// this.difficulty = difficulty;
-	// }
-
 	public int getNumberOfUnsolvedCells() {
 		int unsolvedCellsCount = 0;
-		for (int row = 0; row < NUMBER_OF_CELLS_PER_DIMENSION; row++) {
-			for (int col = 0; col < NUMBER_OF_CELLS_PER_DIMENSION; col++) {
+		for (int row = 0; row < CELLS_PER_HOUSE; row++) {
+			for (int col = 0; col < CELLS_PER_HOUSE; col++) {
 				if (this.fixedCells[col][row] == 0) {
 					unsolvedCellsCount++;
 				}
@@ -144,4 +136,20 @@ public class SudokuPuzzle {
 		return unsolvedCellsCount;
 	}
 
+	public String getStringRepresentation(final boolean onlyGivens) {
+		final StringBuilder sb = new StringBuilder();
+		Integer[][] arrayToIterate;
+		if (onlyGivens) {
+			arrayToIterate = this.fixedCells;
+		} else {
+			arrayToIterate = this.givenCells;
+		}
+		for (int row = 0; row < CELLS_PER_HOUSE; row++) {
+			for (int col = 0; col < CELLS_PER_HOUSE; col++) {
+				final Integer valueForCell = arrayToIterate[col][row];
+				sb.append(valueForCell == null ? '.' : valueForCell);
+			}
+		}
+		return sb.toString();
+	}
 }

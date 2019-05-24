@@ -19,6 +19,8 @@ public class SudokuPuzzleCell extends StackPane {
 
 	private static final String DIGIT_REPLACE_TEXT = "DIGIT";
 
+	private static final String NUMPAD_REPLACE_TEXT = "NUMPAD";
+
 	public enum ReasonForChange {
 		CLICKED_TO_SELECT, CLICKED_TO_UNSELECT, ARROWED_OFF_OF_CELL, NEW_SELECTION_CLICKED, ARROWED_ON_TO_CELL, NONE;
 	}
@@ -96,9 +98,18 @@ public class SudokuPuzzleCell extends StackPane {
 
 	/** Sets the fixed digit's value. */
 	public void setFixedDigit(final String digit) {
-		// KeyCode.toString() is passed to this, and it this helps to avoid 9
-		// if-statements.
-		this.fixedDigitLabel.setText(digit.replace(DIGIT_REPLACE_TEXT, Strings.EMPTY));
+		// KeyCode.toString() is passed to this; replacing the keyCode's name is easier
+		// than 9 if statements.
+		this.fixedDigitLabel
+				.setText(digit.replace(DIGIT_REPLACE_TEXT, Strings.EMPTY).replace(NUMPAD_REPLACE_TEXT, Strings.EMPTY));
+	}
+
+	public Label getCandidateLabelForDigit(final int digit) {
+		if (digit < 1 || digit > this.candidateLabels.length) {
+			throw new IllegalArgumentException("Digit must be between 1-9 (inclusive).");
+		} else {
+			return this.candidateLabels[digit - 1];
+		}
 	}
 
 	private void configure() {

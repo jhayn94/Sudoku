@@ -62,13 +62,13 @@ public class HodokuFacade {
 		final SudokuSolver sudokuSolver = new SudokuSolver();
 		while (!tempSudoku.isSolved()) {
 			final SolutionStep solutionStep = sudokuSolver.getHint(tempSudoku, false);
-			LOG.info(solutionStep);
+			LOG.debug(solutionStep);
 			solutionSteps.add(solutionStep);
 			sudokuSolver.doStep(tempSudoku, solutionStep);
 		}
 
-		LOG.info(tempSudoku.getLevel());
-		LOG.info(tempSudoku.getScore());
+		LOG.debug(tempSudoku.getLevel().getName());
+		LOG.debug(tempSudoku.getScore());
 		return solutionSteps;
 	}
 

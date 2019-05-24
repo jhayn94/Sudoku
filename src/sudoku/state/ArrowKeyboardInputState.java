@@ -24,13 +24,11 @@ public class ArrowKeyboardInputState extends ApplicationModelState {
 		this.getSelectedCell().getStyleClass().remove(SELECTED_CELL_CSS_CLASS);
 		if (KeyCode.UP == this.lastKeyCode && this.selectedCellRow > 0) {
 			this.selectedCellRow--;
-		} else if (KeyCode.DOWN == this.lastKeyCode
-				&& this.selectedCellRow < SudokuPuzzle.NUMBER_OF_CELLS_PER_DIMENSION - 1) {
+		} else if (KeyCode.DOWN == this.lastKeyCode && this.selectedCellRow < SudokuPuzzle.CELLS_PER_HOUSE - 1) {
 			this.selectedCellRow++;
 		} else if (KeyCode.LEFT == this.lastKeyCode && this.selectedCellCol > 0) {
 			this.selectedCellCol--;
-		} else if (KeyCode.RIGHT == this.lastKeyCode
-				&& this.selectedCellCol < SudokuPuzzle.NUMBER_OF_CELLS_PER_DIMENSION - 1) {
+		} else if (KeyCode.RIGHT == this.lastKeyCode && this.selectedCellCol < SudokuPuzzle.CELLS_PER_HOUSE - 1) {
 			this.selectedCellCol++;
 		}
 		this.getSelectedCell().getStyleClass().add(SELECTED_CELL_CSS_CLASS);

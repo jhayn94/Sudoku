@@ -6,8 +6,8 @@ import javafx.scene.input.KeyCode;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 
 /**
- * This class corresponds to a sudoku cell which is set by the user. Candidates
- * cannot be toggled, but the fixed digit may be changed or deleted.
+ * This class contains methods to reply to a CTRL + digit key press, which
+ * should toggle a candidate's visibility in the active cell.
  */
 public class ToggleCandidateVisibleState extends ApplicationModelState {
 

@@ -12,6 +12,7 @@ import javafx.scene.layout.GridPane;
 import sudoku.core.ModelController;
 import sudoku.factories.LayoutFactory;
 import sudoku.model.SudokuPuzzle;
+import sudoku.view.util.ColorUtils;
 
 /**
  * This class corresponds to the view on the left side of the screen. It
@@ -41,8 +42,7 @@ public class SudokuPuzzleView extends GridPane {
 
 	private static final int DEFAULT_WIDTH = 320;
 
-	private static final int NUM_CELLS = SudokuPuzzle.NUMBER_OF_CELLS_PER_DIMENSION
-			* SudokuPuzzle.NUMBER_OF_CELLS_PER_DIMENSION;
+	private static final int NUM_CELLS_TOTAL = SudokuPuzzle.CELLS_PER_HOUSE * SudokuPuzzle.CELLS_PER_HOUSE;
 
 	public SudokuPuzzleView() {
 		this.configure();
@@ -57,7 +57,7 @@ public class SudokuPuzzleView extends GridPane {
 
 	private void createChildElements() {
 		this.setOnKeyPressed(this.onKeyPressed());
-		for (int index = 1; index <= NUM_CELLS; index++) {
+		for (int index = 1; index <= NUM_CELLS_TOTAL; index++) {
 			// Integer division intentional!
 			final int rowIndex = (index - 1) / 9;
 			final int colIndex = (index - 1) % 9;
@@ -86,10 +86,10 @@ public class SudokuPuzzleView extends GridPane {
 	}
 
 	/**
-	 * Handles all keyboard inputs for the application. The technical challenge
-	 * with keyboard inputs is that the node must be focused, and only one node
-	 * can be focused at once. This makes it impossible to listen on multiple
-	 * nodes at once.
+	 * Handles all keyboard inputs for the application. The technical challenge with
+	 * keyboard inputs is that the node must be focused, and only one node can be
+	 * focused at once. This makes it impossible to listen on multiple nodes at
+	 * once.
 	 */
 	private EventHandler<? super KeyEvent> onKeyPressed() {
 		return event -> {
@@ -99,12 +99,22 @@ public class SudokuPuzzleView extends GridPane {
 			} else if (keyCode.isDigitKey() && KeyCode.DIGIT0 != keyCode) {
 				if (event.isControlDown()) {
 					ModelController.getInstance().transitionToToggleCandidateVisibleState(keyCode);
+				} else if (event.isShiftDown()) {
+					// TODO - toggle filter.
+					// note - don't color cell if is already colored.
 				} else {
 					ModelController.getInstance().transitionToSetDigitState(keyCode);
 				}
 			} else if (KeyCode.DELETE == keyCode) {
 				ModelController.getInstance().transitionToRemoveDigitState(keyCode);
+			} else if (ColorUtils.APPLY_COLOR_KEY_CODES.contains(keyCode)) {
+				if (event.isControlDown()) {
+					ModelController.getInstance().transitionToToggleCandidateColorState(keyCode, event.isShiftDown());
+				} else {
+					// color cell.
+				}
 			}
+
 		};
 	}
 }

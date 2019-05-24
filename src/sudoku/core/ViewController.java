@@ -42,7 +42,7 @@ public class ViewController {
 		this.helpStage = null;
 		this.numericButtonPane = null;
 		this.sudokuPuzzleView = null;
-		this.sudokuPuzzleCells = new SudokuPuzzleCell[SudokuPuzzle.NUMBER_OF_CELLS_PER_DIMENSION][SudokuPuzzle.NUMBER_OF_CELLS_PER_DIMENSION];
+		this.sudokuPuzzleCells = new SudokuPuzzleCell[SudokuPuzzle.CELLS_PER_HOUSE][SudokuPuzzle.CELLS_PER_HOUSE];
 	}
 
 	public Stage getStage() {

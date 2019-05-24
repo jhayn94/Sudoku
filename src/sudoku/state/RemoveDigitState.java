@@ -24,7 +24,7 @@ public class RemoveDigitState extends ApplicationModelState {
 		// Update view.
 		selectedCell.setCandidatesVisible(true);
 		selectedCell.setFixedDigit(Strings.EMPTY);
-		this.updateCssClass(UNFIXED_CELL_CSS_CLASS);
+		this.updateFixedCellTypeCssClass(UNFIXED_CELL_CSS_CLASS);
 
 		// Update model.
 		this.addDigitAsCandidateToSeenCells(fixedDigit);

@@ -6,8 +6,8 @@ import javafx.scene.input.KeyCode;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 
 /**
- * This class corresponds to a sudoku cell which is set by the user. Candidates
- * cannot be toggled, but the fixed digit may be changed or deleted.
+ * This class contains methods to reply to a digit key press, which should set
+ * that digit as the value for the active cell.
  */
 public class SetDigitState extends ApplicationModelState {
 
@@ -25,7 +25,7 @@ public class SetDigitState extends ApplicationModelState {
 			// Update view.
 			selectedCell.setCandidatesVisible(false);
 			selectedCell.setFixedDigit(this.lastKeyCode.toString());
-			this.updateCssClass(FIXED_CELL_CSS_CLASS);
+			this.updateFixedCellTypeCssClass(FIXED_CELL_CSS_CLASS);
 
 			if (oldFixedDigit != -1) {
 				this.addDigitAsCandidateToSeenCells(oldFixedDigit);
@@ -33,8 +33,7 @@ public class SetDigitState extends ApplicationModelState {
 
 			// Update model. Have to do model second to get new digit.
 			final int fixedDigit = selectedCell.getFixedDigit();
-			final List<SudokuPuzzleCell> visibleCells = this.getCellsSeenFrom(this.selectedCellRow,
-					this.selectedCellCol);
+			final List<SudokuPuzzleCell> visibleCells = this.getCellsSeenFrom(this.selectedCellRow, this.selectedCellCol);
 			visibleCells.forEach(cell -> {
 				cell.setCandidateVisible(fixedDigit, false);
 				// Cast to object forces the list to remove by object reference instead

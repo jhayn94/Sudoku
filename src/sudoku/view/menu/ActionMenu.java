@@ -43,7 +43,7 @@ public class ActionMenu extends ContextMenu {
 		});
 
 		final MenuItem close = new MenuItem(LabelConstants.CLOSE);
-		close.setAccelerator(new KeyCodeCombination(KeyCode.W, KeyCombination.SHORTCUT_DOWN));
+		close.setAccelerator(new KeyCodeCombination(KeyCode.F4, KeyCombination.ALT_DOWN));
 		close.setOnAction(event -> ModelController.getInstance().transitionToClosedState());
 		this.getItems().addAll(helpMenuItem, new SeparatorMenuItem(), new SeparatorMenuItem(), minimizeMenuItem,
 				maximizeMenuItem, new SeparatorMenuItem(), close);
