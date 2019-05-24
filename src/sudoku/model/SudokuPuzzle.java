@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sudoku.factories.ModelFactory;
-import sudoku.view.util.PuzzleDifficulty;
 
 /**
  * This class represents all the underlying data for the sudoku cells. Note that
@@ -20,7 +19,7 @@ public class SudokuPuzzle {
 
 	private final List<Integer>[][] candidatesForCells;
 
-	private PuzzleDifficulty difficulty;
+	// private PuzzleDifficulty difficulty;
 
 	private int score;
 
@@ -92,8 +91,8 @@ public class SudokuPuzzle {
 	}
 
 	/**
-	 * Returns the current state of the sudoku as string, where each digit is set if
-	 * fixed in the puzzle.. 0 is used if no digit is set.
+	 * Returns the current state of the sudoku as string, where each digit is set
+	 * if fixed in the puzzle.. 0 is used if no digit is set.
 	 */
 	public String getSudoku() {
 		final StringBuilder result = new StringBuilder();
@@ -117,21 +116,21 @@ public class SudokuPuzzle {
 		return true;
 	}
 
-	public PuzzleDifficulty getDifficulty() {
-		return this.difficulty;
-	}
+	// public PuzzleDifficulty getDifficulty() {
+	// return this.difficulty;
+	// }
 
 	public int getScore() {
 		return this.score;
 	}
 
-	public void setScore(int score) {
+	public void setScore(final int score) {
 		this.score = score;
 	}
 
-	public void setLevel(PuzzleDifficulty difficulty) {
-		this.difficulty = difficulty;
-	}
+	// public void setLevel(PuzzleDifficulty difficulty) {
+	// this.difficulty = difficulty;
+	// }
 
 	public int getNumberOfUnsolvedCells() {
 		int unsolvedCellsCount = 0;
