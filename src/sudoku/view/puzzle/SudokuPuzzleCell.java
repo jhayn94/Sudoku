@@ -31,9 +31,9 @@ public class SudokuPuzzleCell extends StackPane {
 
 	private static final String CSS_CLASS = "sudoku-puzzle-cell";
 
-	private static final int CELL_HEIGHT = 60;
+	private static final int CELL_HEIGHT = 62;
 
-	private static final int CELL_WIDTH = 60;
+	private static final int CELL_WIDTH = 62;
 
 	private static final int MAX_NUM_CANDIDATES_IN_CELL = 9;
 
@@ -132,7 +132,7 @@ public class SudokuPuzzleCell extends StackPane {
 		GridPane.setHalignment(candidatesGridPane, HPos.CENTER);
 		GridPane.setValignment(candidatesGridPane, VPos.CENTER);
 		candidatesGridPane.setAlignment(Pos.CENTER);
-		candidatesGridPane.setHgap(7);
+		candidatesGridPane.setHgap(6);
 		candidatesGridPane.setVgap(0);
 		for (int index = 1; index <= MAX_NUM_CANDIDATES_IN_CELL; index++) {
 			this.candidateLabels[index - 1] = new Label(String.valueOf(index));

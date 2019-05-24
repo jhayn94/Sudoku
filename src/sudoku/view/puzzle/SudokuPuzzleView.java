@@ -1,8 +1,5 @@
 package sudoku.view.puzzle;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -19,8 +16,6 @@ import sudoku.view.util.ColorUtils;
  * contains all other view elements on this side of the application.
  */
 public class SudokuPuzzleView extends GridPane {
-
-	private static final Logger LOG = LogManager.getLogger(SudokuPuzzleView.class);
 
 	private static final String CSS_CLASS = "sudoku-transparent-pane";
 
@@ -50,7 +45,7 @@ public class SudokuPuzzleView extends GridPane {
 
 	private void configure() {
 		this.getStyleClass().add(CSS_CLASS);
-		this.setPadding(new Insets(25));
+		this.setPadding(new Insets(15));
 		this.setMinWidth(DEFAULT_WIDTH);
 		this.createChildElements();
 	}
