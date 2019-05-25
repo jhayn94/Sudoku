@@ -1,7 +1,7 @@
 package sudoku.state;
 
 import javafx.scene.input.KeyCode;
-import sudoku.model.SudokuPuzzle;
+import sudoku.model.SudokuPuzzleValues;
 
 /**
  * This class updates the state of the application contains methods to reply to
@@ -17,17 +17,19 @@ public class ToggleActiveCandidateToColorState extends ApplicationModelState {
 
 	@Override
 	public void onEnter() {
+		int activeColorCandidateDigit = this.sudokuPuzzleStyle.getActiveColorCandidateDigit();
 		if (KeyCode.PAGE_UP == this.lastKeyCode) {
-			this.activeColorCandidateDigit++;
+			activeColorCandidateDigit++;
 		} else {
-			this.activeColorCandidateDigit--;
+			activeColorCandidateDigit--;
 		}
 
-		if (this.activeColorCandidateDigit < 1) {
-			this.activeColorCandidateDigit = SudokuPuzzle.CELLS_PER_HOUSE;
-		} else if (this.activeColorCandidateDigit > SudokuPuzzle.CELLS_PER_HOUSE) {
-			this.activeColorCandidateDigit = 1;
+		if (activeColorCandidateDigit < 1) {
+			activeColorCandidateDigit = SudokuPuzzleValues.CELLS_PER_HOUSE;
+		} else if (activeColorCandidateDigit > SudokuPuzzleValues.CELLS_PER_HOUSE) {
+			activeColorCandidateDigit = 1;
 		}
+		this.sudokuPuzzleStyle.setActiveColorCandidateDigit(activeColorCandidateDigit);
 
 		// TODO - once the UI components exist, change those as well.
 	}

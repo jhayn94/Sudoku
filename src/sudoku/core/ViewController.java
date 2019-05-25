@@ -2,7 +2,7 @@ package sudoku.core;
 
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import sudoku.model.SudokuPuzzle;
+import sudoku.model.SudokuPuzzleValues;
 import sudoku.view.NumericButtonPane;
 import sudoku.view.menu.button.MaximizeMenuButton;
 import sudoku.view.puzzle.SudokuPuzzleCell;
@@ -42,7 +42,7 @@ public class ViewController {
 		this.helpStage = null;
 		this.numericButtonPane = null;
 		this.sudokuPuzzleView = null;
-		this.sudokuPuzzleCells = new SudokuPuzzleCell[SudokuPuzzle.CELLS_PER_HOUSE][SudokuPuzzle.CELLS_PER_HOUSE];
+		this.sudokuPuzzleCells = new SudokuPuzzleCell[SudokuPuzzleValues.CELLS_PER_HOUSE][SudokuPuzzleValues.CELLS_PER_HOUSE];
 	}
 
 	public Stage getStage() {

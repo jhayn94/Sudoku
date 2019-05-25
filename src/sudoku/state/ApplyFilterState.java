@@ -20,10 +20,10 @@ public class ApplyFilterState extends ApplicationModelState {
 	public void onEnter() {
 		this.updateFilterButtonStates(this.newCellFilter);
 		this.resetAllFilters();
-		if (this.activeCellFilter.equals(this.newCellFilter)) {
-			this.activeCellFilter = Strings.EMPTY;
+		if (this.sudokuPuzzleStyle.getActiveCellFilter().equals(this.newCellFilter)) {
+			this.sudokuPuzzleStyle.setActiveCellFilter(Strings.EMPTY);
 		} else {
-			this.activeCellFilter = this.newCellFilter;
+			this.sudokuPuzzleStyle.setActiveCellFilter(this.newCellFilter);
 			this.applyActiveFilter();
 		}
 

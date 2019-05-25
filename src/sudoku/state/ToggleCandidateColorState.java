@@ -31,9 +31,10 @@ public class ToggleCandidateColorState extends ApplicationModelState {
 		final SudokuPuzzleCell selectedCell = this.getSelectedCell();
 
 		if (!selectedCell.isCellFixed()) {
-			final List<Integer> candidatesForCell = this.activeSudokuPuzzle.getCandidateDigitsForCell(this.selectedCellRow,
-					this.selectedCellCol);
-			final boolean isCandidateVisible = candidatesForCell.contains(this.activeColorCandidateDigit);
+			final List<Integer> candidatesForCell = this.sudokuPuzzleValues.getCandidateDigitsForCell(
+					this.sudokuPuzzleStyle.getSelectedCellRow(), this.sudokuPuzzleStyle.getSelectedCellCol());
+			final boolean isCandidateVisible = candidatesForCell
+					.contains(this.sudokuPuzzleStyle.getActiveColorCandidateDigit());
 			if (isCandidateVisible) {
 				this.updateCandidateColorForSelectedCell();
 			}
@@ -44,22 +45,23 @@ public class ToggleCandidateColorState extends ApplicationModelState {
 		final SudokuPuzzleCell selectedCell = this.getSelectedCell();
 		final int row = selectedCell.getRow();
 		final int col = selectedCell.getCol();
-		final ColorState currentColorState = this.candidateColorStates[col][row][this.activeColorCandidateDigit - 1];
+		final int activeColorCandidateDigit = this.sudokuPuzzleStyle.getActiveColorCandidateDigit();
+		final ColorState currentColorState = this.sudokuPuzzleStyle.getCandidateColorState(row, col,
+				activeColorCandidateDigit);
 		final Label candidateLabelForDigit = ViewController.getInstance().getSudokuPuzzleCell(row, col)
-				.getCandidateLabelForDigit(this.activeColorCandidateDigit);
+				.getCandidateLabelForDigit(activeColorCandidateDigit);
 		final ColorState colorStateToApply = ColorState.getFromKeyCode(this.lastKeyCode, false);
 
 		final ObservableList<String> styleClass = candidateLabelForDigit.getStyleClass();
 		if (colorStateToApply == currentColorState) {
 			styleClass.remove(currentColorState.getCssClass());
-			this.candidateColorStates[col][row][this.activeColorCandidateDigit - 1] = ColorState.NONE;
-		} else if (currentColorState != ColorState.NONE) {
-			styleClass.remove(currentColorState.getCssClass());
-			styleClass.add(colorStateToApply.getCssClass());
-			this.candidateColorStates[col][row][this.activeColorCandidateDigit - 1] = colorStateToApply;
+			this.sudokuPuzzleStyle.setCandidateColorState(row, col, activeColorCandidateDigit, ColorState.NONE);
 		} else {
+			if (currentColorState != ColorState.NONE) {
+				styleClass.remove(currentColorState.getCssClass());
+			}
 			styleClass.add(colorStateToApply.getCssClass());
-			this.candidateColorStates[col][row][this.activeColorCandidateDigit - 1] = colorStateToApply;
+			this.sudokuPuzzleStyle.setCandidateColorState(row, col, activeColorCandidateDigit, colorStateToApply);
 		}
 	}
 

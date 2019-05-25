@@ -1,7 +1,7 @@
 package sudoku.state;
 
 import javafx.scene.input.KeyCode;
-import sudoku.model.SudokuPuzzle;
+import sudoku.model.SudokuPuzzleValues;
 
 /**
  * This class updates the state of the application when the selection changes by
@@ -21,21 +21,25 @@ public class ArrowKeyboardInputState extends ApplicationModelState {
 	}
 
 	private void adjustSelectionModel() {
+		int selectedCellRow = this.sudokuPuzzleStyle.getSelectedCellRow();
+		int selectedCellCol = this.sudokuPuzzleStyle.getSelectedCellCol();
 		// No selection -> do nothing.
-		if (this.selectedCellRow == -1 || this.selectedCellCol == -1) {
+		if (selectedCellRow == -1 || selectedCellCol == -1) {
 			return;
 		}
 
 		this.getSelectedCell().setIsSelected(false);
-		if (KeyCode.UP == this.lastKeyCode && this.selectedCellRow > 0) {
-			this.selectedCellRow--;
-		} else if (KeyCode.DOWN == this.lastKeyCode && this.selectedCellRow < SudokuPuzzle.CELLS_PER_HOUSE - 1) {
-			this.selectedCellRow++;
-		} else if (KeyCode.LEFT == this.lastKeyCode && this.selectedCellCol > 0) {
-			this.selectedCellCol--;
-		} else if (KeyCode.RIGHT == this.lastKeyCode && this.selectedCellCol < SudokuPuzzle.CELLS_PER_HOUSE - 1) {
-			this.selectedCellCol++;
+		if (KeyCode.UP == this.lastKeyCode && selectedCellRow > 0) {
+			selectedCellRow--;
+		} else if (KeyCode.DOWN == this.lastKeyCode && selectedCellRow < SudokuPuzzleValues.CELLS_PER_HOUSE - 1) {
+			selectedCellRow++;
+		} else if (KeyCode.LEFT == this.lastKeyCode && selectedCellCol > 0) {
+			selectedCellCol--;
+		} else if (KeyCode.RIGHT == this.lastKeyCode && selectedCellCol < SudokuPuzzleValues.CELLS_PER_HOUSE - 1) {
+			selectedCellCol++;
 		}
+		this.sudokuPuzzleStyle.setSelectedCellRow(selectedCellRow);
+		this.sudokuPuzzleStyle.setSelectedCellCol(selectedCellCol);
 		this.getSelectedCell().setIsSelected(true);
 	}
 

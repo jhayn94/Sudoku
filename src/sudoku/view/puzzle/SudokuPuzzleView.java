@@ -8,7 +8,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import sudoku.core.ModelController;
 import sudoku.factories.LayoutFactory;
-import sudoku.model.SudokuPuzzle;
+import sudoku.model.SudokuPuzzleValues;
 import sudoku.view.util.ColorUtils;
 
 /**
@@ -37,7 +37,7 @@ public class SudokuPuzzleView extends GridPane {
 
 	private static final int DEFAULT_WIDTH = 320;
 
-	private static final int NUM_CELLS_TOTAL = SudokuPuzzle.CELLS_PER_HOUSE * SudokuPuzzle.CELLS_PER_HOUSE;
+	private static final int NUM_CELLS_TOTAL = SudokuPuzzleValues.CELLS_PER_HOUSE * SudokuPuzzleValues.CELLS_PER_HOUSE;
 
 	public SudokuPuzzleView() {
 		this.configure();
@@ -89,18 +89,16 @@ public class SudokuPuzzleView extends GridPane {
 	private EventHandler<? super KeyEvent> onKeyPressed() {
 		return event -> {
 			final KeyCode keyCode = event.getCode();
-			if (keyCode.isArrowKey()) {
-				ModelController.getInstance().transitionToArrowKeyboardInputState(keyCode);
-			} else if (keyCode.isDigitKey() && !keyCode.getName().contains("0")) {
+			if (keyCode.isDigitKey() && !keyCode.getName().contains("0")) {
 				this.onPressDigit(event, keyCode);
+			} else if (keyCode.isLetterKey()) {
+				this.onPressLetter(event, keyCode);
+			} else if (keyCode.isArrowKey()) {
+				ModelController.getInstance().transitionToArrowKeyboardInputState(keyCode);
 			} else if (KeyCode.DELETE == keyCode) {
 				ModelController.getInstance().transitionToRemoveDigitState(keyCode);
-			} else if (ColorUtils.getApplyColorKeyCodes().contains(keyCode)) {
-				this.onPressColoringKey(event, keyCode);
 			} else if (KeyCode.PAGE_UP == keyCode || KeyCode.PAGE_DOWN == keyCode) {
 				ModelController.getInstance().transitionToToggleActiveCandidateToColorState(keyCode);
-			} else if (KeyCode.R == keyCode) {
-				ModelController.getInstance().transitionToResetAllColorsState();
 			} else if (KeyCode.PERIOD == keyCode || KeyCode.COMMA == keyCode) {
 				ModelController.getInstance().transitionToCycleActiveFilterState(keyCode.getName());
 			} else if (keyCode.isFunctionKey() && KeyCode.F11 != keyCode && KeyCode.F12 != keyCode) {
@@ -109,6 +107,7 @@ public class SudokuPuzzleView extends GridPane {
 			}
 
 		};
+
 	}
 
 	private void onPressDigit(final KeyEvent event, final KeyCode keyCode) {
@@ -124,6 +123,18 @@ public class SudokuPuzzleView extends GridPane {
 			ModelController.getInstance().transitionToToggleCandidateColorState(keyCode, event.isShiftDown());
 		} else {
 			ModelController.getInstance().transitionToToggleCellColorState(keyCode, event.isShiftDown());
+		}
+	}
+
+	private void onPressLetter(final KeyEvent event, final KeyCode keyCode) {
+		if (KeyCode.R == keyCode) {
+			ModelController.getInstance().transitionToResetAllColorsState();
+		} else if (KeyCode.Z == keyCode && event.isControlDown()) {
+			ModelController.getInstance().transitionToUndoActionState();
+		} else if (KeyCode.Y == keyCode && event.isControlDown()) {
+			ModelController.getInstance().transitionToRedoActionState();
+		} else if (ColorUtils.getApplyColorKeyCodes().contains(keyCode)) {
+			this.onPressColoringKey(event, keyCode);
 		}
 	}
 }

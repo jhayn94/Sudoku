@@ -12,8 +12,11 @@ import sudoku.view.util.LabelConstants;
 import sudoku.view.util.TooltipConstants;
 
 /**
- * This class corresponds to the view on the left side of the screen. It
- * contains all other view elements on this side of the application.
+ * This class corresponds to the 4 x 3 button grid on the top left of the
+ * screen. It contains numeric buttons 1 - 9 , which highlight cells where those
+ * digits could go. It also contains X|Y, which highlights bivalue cells.
+ * Lastly, this class creates buttons labeled "<" and ">", which are undo and
+ * redo, respectively.
  */
 public class NumericButtonPane extends GridPane {
 

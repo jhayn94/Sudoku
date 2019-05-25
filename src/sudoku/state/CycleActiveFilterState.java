@@ -25,7 +25,7 @@ public class CycleActiveFilterState extends ApplicationModelState {
 
 	public CycleActiveFilterState(final ApplicationModelState applicationModelState, final String filter) {
 		super(applicationModelState);
-		if (!this.activeCellFilter.isEmpty()) {
+		if (!this.sudokuPuzzleStyle.getActiveCellFilter().isEmpty()) {
 			this.newCellFilter = this.parseCycleFilterInput(filter);
 		} else {
 			this.newCellFilter = Strings.EMPTY;
@@ -35,14 +35,14 @@ public class CycleActiveFilterState extends ApplicationModelState {
 	@Override
 	public void onEnter() {
 		// No active filter means these buttons should have no effect.
-		if (this.activeCellFilter.isEmpty()) {
+		if (this.sudokuPuzzleStyle.getActiveCellFilter().isEmpty()) {
 			return;
 		}
 
 		this.updateFilterButtonStates(this.newCellFilter);
 		this.resetAllFilters();
 
-		this.activeCellFilter = this.newCellFilter;
+		this.sudokuPuzzleStyle.setActiveCellFilter(this.newCellFilter);
 		this.applyActiveFilter();
 
 	}
@@ -56,7 +56,7 @@ public class CycleActiveFilterState extends ApplicationModelState {
 		int newFilterDigit;
 		// This is kind of misnamed... the "indices" here are 1 - 10 as strings. But
 		// there is not really a clearer way to put it.
-		final String currentFilterIndex = this.activeCellFilter.replace(LabelConstants.BIVALUE_CELL,
+		final String currentFilterIndex = this.sudokuPuzzleStyle.getActiveCellFilter().replace(LabelConstants.BIVALUE_CELL,
 				BIVALUE_CELL_FILTER_INDEX);
 		if (PERIOD.equals(filterInput)) {
 			newFilterDigit = Integer.parseInt(currentFilterIndex) + 1;

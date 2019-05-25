@@ -6,10 +6,11 @@ import java.util.List;
 import sudoku.factories.ModelFactory;
 
 /**
- * This class represents all the underlying data for the sudoku cells. Note that
- * each cell has similar values as well.
+ * This class represents all the underlying data for a sudoku puzzle. This
+ * component is mostly concerned with the values. For other data, see
+ * SudokuPuzzleStyle.
  */
-public class SudokuPuzzle {
+public class SudokuPuzzleValues {
 
 	public static final int CELLS_PER_HOUSE = 9;
 
@@ -22,7 +23,7 @@ public class SudokuPuzzle {
 	private int score;
 
 	@SuppressWarnings("unchecked")
-	public SudokuPuzzle() {
+	public SudokuPuzzleValues() {
 		this.givenCells = new Integer[CELLS_PER_HOUSE][CELLS_PER_HOUSE];
 		this.fixedCells = new Integer[CELLS_PER_HOUSE][CELLS_PER_HOUSE];
 		this.candidatesForCells = new ArrayList[CELLS_PER_HOUSE][CELLS_PER_HOUSE];
@@ -38,7 +39,7 @@ public class SudokuPuzzle {
 		}
 	}
 
-	public SudokuPuzzle(final String initialGivens) {
+	public SudokuPuzzleValues(final String initialGivens) {
 		this();
 		for (int row = 0; row < CELLS_PER_HOUSE; row++) {
 			for (int col = 0; col < CELLS_PER_HOUSE; col++) {
@@ -104,8 +105,8 @@ public class SudokuPuzzle {
 
 	/** Creates and returns a deep copy of this. */
 	@Override
-	public SudokuPuzzle clone() {
-		final SudokuPuzzle clone = ModelFactory.getInstance().createSudokuPuzzle();
+	public SudokuPuzzleValues clone() {
+		final SudokuPuzzleValues clone = ModelFactory.getInstance().createSudokuPuzzleValues();
 		for (int row = 0; row < CELLS_PER_HOUSE; row++) {
 			for (int col = 0; col < CELLS_PER_HOUSE; col++) {
 				clone.givenCells[col][row] = this.givenCells[col][row];

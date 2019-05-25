@@ -31,20 +31,18 @@ public class FilterCandidatesState extends ApplicationModelState {
 		final NumericButtonPane numericButtonPane = ViewController.getInstance().getNumericButtonPane();
 		final List<Button> filterButtons = numericButtonPane.getFilterButtons();
 		filterButtons.forEach(this::updateFilterButton);
-		if (this.activeCellFilter.equals(this.newCellFilter)) {
-			this.activeCellFilter = Strings.EMPTY;
+		if (this.sudokuPuzzleStyle.getActiveCellFilter().equals(this.newCellFilter)) {
+			this.sudokuPuzzleStyle.setActiveCellFilter(Strings.EMPTY);
 		} else {
-			this.activeCellFilter = this.newCellFilter;
+			this.sudokuPuzzleStyle.setActiveCellFilter(this.newCellFilter);
 		}
 	}
 
 	public void updateFilterButton(final Button button) {
 		final ObservableList<String> styleClass = button.getStyleClass();
 		// Since we iterate over every button every time, the classes are fully
-		// cleared
-		// to avoid duplicate classes. This is easier than tracking when to remove
-		// each
-		// CSS class separately. */
+		// cleared to avoid duplicate classes. This is easier than tracking when to
+		// remove each CSS class separately.
 		styleClass.remove(SUDOKU_BUTTON_SELECTED);
 		styleClass.remove(SUDOKU_BUTTON_UNSELECTED);
 		if (!this.shouldSetButtonSelected(button)) {
@@ -56,7 +54,7 @@ public class FilterCandidatesState extends ApplicationModelState {
 
 	private boolean shouldSetButtonSelected(final Button button) {
 		final String buttonText = button.getText();
-		return buttonText.equals(this.newCellFilter) && !buttonText.equals(this.activeCellFilter);
+		return buttonText.equals(this.newCellFilter) && !buttonText.equals(this.sudokuPuzzleStyle.getActiveCellFilter());
 	}
 
 }

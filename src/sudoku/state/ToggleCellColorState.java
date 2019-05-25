@@ -30,20 +30,19 @@ public class ToggleCellColorState extends ApplicationModelState {
 		final int row = selectedCell.getRow();
 		final int col = selectedCell.getCol();
 
-		final ColorState currentColorState = this.cellColorStates[col][row];
+		final ColorState currentColorState = this.sudokuPuzzleStyle.getCellColorState(row, col);
 		final ColorState colorStateToApply = ColorState.getFromKeyCode(this.lastKeyCode, this.isShiftDown);
 
 		final ObservableList<String> styleClass = selectedCell.getStyleClass();
 		if (colorStateToApply == currentColorState) {
 			styleClass.remove(currentColorState.getCssClass());
-			this.cellColorStates[col][row] = ColorState.NONE;
-		} else if (currentColorState != ColorState.NONE) {
-			styleClass.remove(currentColorState.getCssClass());
-			styleClass.add(colorStateToApply.getCssClass());
-			this.cellColorStates[col][row] = colorStateToApply;
+			this.sudokuPuzzleStyle.setCellColorState(row, col, ColorState.NONE);
 		} else {
+			if (currentColorState != ColorState.NONE) {
+				styleClass.remove(currentColorState.getCssClass());
+			}
 			styleClass.add(colorStateToApply.getCssClass());
-			this.cellColorStates[col][row] = colorStateToApply;
+			this.sudokuPuzzleStyle.setCellColorState(row, col, colorStateToApply);
 		}
 	}
 

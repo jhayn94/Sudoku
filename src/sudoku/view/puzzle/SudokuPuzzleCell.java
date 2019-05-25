@@ -15,7 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import sudoku.core.ModelController;
-import sudoku.model.SudokuPuzzle;
+import sudoku.model.SudokuPuzzleValues;
 
 /** This class corresponds to a single cell of a sudoku puzzle. */
 public class SudokuPuzzleCell extends StackPane {
@@ -65,7 +65,7 @@ public class SudokuPuzzleCell extends StackPane {
 		this.isGiven = false;
 		this.row = row;
 		this.col = col;
-		this.candidateLabels = new Label[SudokuPuzzle.CELLS_PER_HOUSE];
+		this.candidateLabels = new Label[SudokuPuzzleValues.CELLS_PER_HOUSE];
 		this.fixedDigitLabel = null;
 		this.configure();
 	}
@@ -191,7 +191,7 @@ public class SudokuPuzzleCell extends StackPane {
 	}
 
 	private void createCandidateLabels() {
-		for (int index = 1; index <= SudokuPuzzle.CELLS_PER_HOUSE; index++) {
+		for (int index = 1; index <= SudokuPuzzleValues.CELLS_PER_HOUSE; index++) {
 			this.candidateLabels[index - 1] = new Label(String.valueOf(index));
 			this.candidateLabels[index - 1].getStyleClass().add(CANDIDATE_LABEL_CSS_CLASS);
 			this.candidateLabels[index - 1].setAlignment(Pos.CENTER);

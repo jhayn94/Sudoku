@@ -17,7 +17,9 @@ public class SetDigitState extends ApplicationModelState {
 
 	@Override
 	public void onEnter() {
-		if (this.selectedCellRow != -1 && this.selectedCellCol != -1) {
+		final int selectedCellRow = this.sudokuPuzzleStyle.getSelectedCellRow();
+		final int selectedCellCol = this.sudokuPuzzleStyle.getSelectedCellCol();
+		if (selectedCellRow != -1 && selectedCellCol != -1) {
 			final SudokuPuzzleCell selectedCell = this.getSelectedCell();
 			final int oldFixedDigit = selectedCell.getFixedDigit();
 
@@ -29,17 +31,26 @@ public class SetDigitState extends ApplicationModelState {
 				this.addDigitAsCandidateToSeenCells(oldFixedDigit);
 			}
 
-			final int fixedDigit = selectedCell.getFixedDigit();
-			final List<SudokuPuzzleCell> visibleCells = this.getCellsSeenFrom(this.selectedCellRow, this.selectedCellCol);
-			visibleCells.forEach(cell -> {
-				cell.setCandidateVisible(fixedDigit, false);
-				// Cast to object forces the list to remove by object reference instead
-				// of index.
-				this.activeSudokuPuzzle.getCandidateDigitsForCell(cell.getRow(), cell.getCol()).remove((Object) fixedDigit);
-			});
+			this.removeImpermissibleCandidates(selectedCellRow, selectedCellCol, selectedCell);
 
 			this.reapplyActiveFilter();
 		}
+	}
+
+	/**
+	 * Determines which candidates no longer are possible because of the new number,
+	 * and removes them from the model / view.
+	 */
+	private void removeImpermissibleCandidates(final int selectedCellRow, final int selectedCellCol,
+			final SudokuPuzzleCell selectedCell) {
+		final int fixedDigit = selectedCell.getFixedDigit();
+		final List<SudokuPuzzleCell> visibleCells = this.getCellsSeenFrom(selectedCellRow, selectedCellCol);
+		visibleCells.forEach(cell -> {
+			cell.setCandidateVisible(fixedDigit, false);
+			// Cast to object forces the list to remove by object reference instead
+			// of index.
+			this.sudokuPuzzleValues.getCandidateDigitsForCell(cell.getRow(), cell.getCol()).remove((Object) fixedDigit);
+		});
 	}
 
 }

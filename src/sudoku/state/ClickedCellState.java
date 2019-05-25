@@ -18,25 +18,21 @@ public class ClickedCellState extends ApplicationModelState {
 
 	@Override
 	public void onEnter() {
-		this.unselectCurrentlySelectedCell();
-		// Cell was already selected.
-		if (this.row == this.selectedCellRow && this.col == this.selectedCellCol) {
-			this.resetSelectedCellIndices();
-		} else {
-			this.selectedCellRow = this.row;
-			this.selectedCellCol = this.col;
-			this.getSelectedCell().setIsSelected(true);
-		}
-	}
-
-	private void resetSelectedCellIndices() {
-		this.selectedCellRow = -1;
-		this.selectedCellCol = -1;
-	}
-
-	private void unselectCurrentlySelectedCell() {
-		if (this.selectedCellRow != -1 && this.selectedCellCol != -1) {
+		if (this.sudokuPuzzleStyle.getSelectedCellRow() != -1 && this.sudokuPuzzleStyle.getSelectedCellCol() != -1) {
 			this.getSelectedCell().setIsSelected(false);
+		}
+		this.updateSelectedCell();
+	}
+
+	private void updateSelectedCell() {
+		// Cell was already selected.
+		if (this.row == this.sudokuPuzzleStyle.getSelectedCellRow()
+				&& this.col == this.sudokuPuzzleStyle.getSelectedCellCol()) {
+			this.sudokuPuzzleStyle.resetSelectedCellIndices();
+		} else {
+			this.sudokuPuzzleStyle.setSelectedCellRow(this.row);
+			this.sudokuPuzzleStyle.setSelectedCellCol(this.col);
+			this.getSelectedCell().setIsSelected(true);
 		}
 	}
 

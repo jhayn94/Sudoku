@@ -7,6 +7,7 @@ import sudoku.state.ArrowKeyboardInputState;
 import sudoku.state.ClickedCellState;
 import sudoku.state.CycleActiveFilterState;
 import sudoku.state.DefaultApplicationModelState;
+import sudoku.state.RedoActionState;
 import sudoku.state.RemoveDigitState;
 import sudoku.state.ResetAllColorsState;
 import sudoku.state.SetDigitState;
@@ -14,6 +15,7 @@ import sudoku.state.ToggleActiveCandidateToColorState;
 import sudoku.state.ToggleCandidateColorState;
 import sudoku.state.ToggleCandidateVisibleState;
 import sudoku.state.ToggleCellColorState;
+import sudoku.state.UndoActionState;
 import sudoku.state.window.ApplicationWindowState;
 import sudoku.state.window.ClosedState;
 import sudoku.state.window.MaximizedState;
@@ -130,6 +132,16 @@ public class ModelController {
 
 	public void transitionToResetAllColorsState() {
 		this.applicationModelState = new ResetAllColorsState(this.applicationModelState);
+		this.applicationModelState.onEnter();
+	}
+
+	public void transitionToUndoActionState() {
+		this.applicationModelState = new UndoActionState(this.applicationModelState);
+		this.applicationModelState.onEnter();
+	}
+
+	public void transitionToRedoActionState() {
+		this.applicationModelState = new RedoActionState(this.applicationModelState);
 		this.applicationModelState.onEnter();
 	}
 }

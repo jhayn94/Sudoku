@@ -1,6 +1,8 @@
 package sudoku.factories;
 
-import sudoku.model.SudokuPuzzle;
+import sudoku.model.ApplicationStateHistory;
+import sudoku.model.SudokuPuzzleStyle;
+import sudoku.model.SudokuPuzzleValues;
 
 /**
  * This class contains methods to instantiation all models or entities shown in
@@ -17,8 +19,16 @@ public class ModelFactory {
 		return modelFactoryInstance;
 	}
 
-	public SudokuPuzzle createSudokuPuzzle() {
-		return new SudokuPuzzle();
+	public SudokuPuzzleValues createSudokuPuzzleValues() {
+		return new SudokuPuzzleValues();
+	}
+
+	public SudokuPuzzleStyle createSudokuPuzzleStyle() {
+		return new SudokuPuzzleStyle();
+	}
+
+	public ApplicationStateHistory createApplicationStateHistory() {
+		return new ApplicationStateHistory();
 	}
 
 	private ModelFactory() {
