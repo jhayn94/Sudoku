@@ -42,6 +42,8 @@ public class LabelConstants {
 
 	public static final String COLORS = "Colors";
 
+	public static final String MISCELLANEOUS = "Miscellaneous";
+
 	public static final String HELP = "Help";
 
 	public static final String BIVALUE_CELL = "X|Y";

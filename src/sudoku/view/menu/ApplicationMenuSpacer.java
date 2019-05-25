@@ -13,6 +13,8 @@ public class ApplicationMenuSpacer extends Region {
 
 	private static final String MENU_BAR_CSS_CLASS = "menu-bar";
 
+	private Label title;
+
 	public ApplicationMenuSpacer() {
 		this.configure();
 	}
@@ -20,8 +22,12 @@ public class ApplicationMenuSpacer extends Region {
 	private void configure() {
 		this.setMaxHeight(50);
 		this.getStyleClass().add(MENU_BAR_CSS_CLASS);
-		final Label title = new Label(LabelConstants.APPLICATION_TITLE);
-		title.setPadding(new Insets(10, 0, 0, 0));
-		this.getChildren().add(title);
+		this.title = new Label(LabelConstants.APPLICATION_TITLE);
+		this.title.setPadding(new Insets(10, 0, 0, 0));
+		this.getChildren().add(this.title);
+	}
+
+	public void setTitle(final String newTitle) {
+		this.title.setText(newTitle);
 	}
 }

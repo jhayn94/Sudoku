@@ -37,7 +37,7 @@ public class LayoutFactory {
 		return layoutFactoryInstance;
 	}
 
-	public RootStackPane createRootStackPane(Region applicationView) {
+	public RootStackPane createRootStackPane(final Region applicationView) {
 		return new RootStackPane(applicationView);
 	}
 
@@ -55,7 +55,7 @@ public class LayoutFactory {
 		return sudokuPuzzleView;
 	}
 
-	public SudokuPuzzleCell createSudokuPuzzleCell(int col, int row) {
+	public SudokuPuzzleCell createSudokuPuzzleCell(final int col, final int row) {
 		final SudokuPuzzleCell sudokuPuzzleCell = new SudokuPuzzleCell(row, col);
 		ViewController.getInstance().registerSudokuPuzzleCell(sudokuPuzzleCell, col, row);
 		return sudokuPuzzleCell;
@@ -71,7 +71,7 @@ public class LayoutFactory {
 		return new ShadowRectangle();
 	}
 
-	public ToggleButton createToggleButton(String label) {
+	public ToggleButton createToggleButton(final String label) {
 		return new ToggleButton(label);
 	}
 
@@ -99,11 +99,17 @@ public class LayoutFactory {
 	}
 
 	private Stage createHelpStage() {
+		final Stage helpStage = this.createBasicStage();
+		ViewController.getInstance().setHelpStage(helpStage);
+		return helpStage;
+	}
+
+	/** Creates a stage with some common project variables set. */
+	private Stage createBasicStage() {
 		final Stage helpStage = new Stage();
 		helpStage.initStyle(StageStyle.TRANSPARENT);
 		helpStage.centerOnScreen();
 		helpStage.setMinHeight(600);
-		ViewController.getInstance().setHelpStage(helpStage);
 		return helpStage;
 	}
 
