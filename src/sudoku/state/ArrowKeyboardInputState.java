@@ -4,9 +4,9 @@ import javafx.scene.input.KeyCode;
 import sudoku.model.SudokuPuzzle;
 
 /**
- * This class represents the state of the application when the selection changes
- * by arrow key input. Each constructor more or less corresponds to a subclass
- * of DefaultCellActiveState.
+ * This class updates the state of the application when the selection changes by
+ * arrow key input. This should have the effect of moving the selected cell, if
+ * there is one.
  */
 public class ArrowKeyboardInputState extends ApplicationModelState {
 
@@ -21,7 +21,12 @@ public class ArrowKeyboardInputState extends ApplicationModelState {
 	}
 
 	private void adjustSelectionModel() {
-		this.getSelectedCell().getStyleClass().remove(SELECTED_CELL_CSS_CLASS);
+		// No selection -> do nothing.
+		if (this.selectedCellRow == -1 || this.selectedCellCol == -1) {
+			return;
+		}
+
+		this.getSelectedCell().setIsSelected(false);
 		if (KeyCode.UP == this.lastKeyCode && this.selectedCellRow > 0) {
 			this.selectedCellRow--;
 		} else if (KeyCode.DOWN == this.lastKeyCode && this.selectedCellRow < SudokuPuzzle.CELLS_PER_HOUSE - 1) {
@@ -31,7 +36,7 @@ public class ArrowKeyboardInputState extends ApplicationModelState {
 		} else if (KeyCode.RIGHT == this.lastKeyCode && this.selectedCellCol < SudokuPuzzle.CELLS_PER_HOUSE - 1) {
 			this.selectedCellCol++;
 		}
-		this.getSelectedCell().getStyleClass().add(SELECTED_CELL_CSS_CLASS);
+		this.getSelectedCell().setIsSelected(true);
 	}
 
 }

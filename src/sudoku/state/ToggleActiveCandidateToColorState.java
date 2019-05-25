@@ -4,8 +4,9 @@ import javafx.scene.input.KeyCode;
 import sudoku.model.SudokuPuzzle;
 
 /**
- * This class contains methods to reply to PAGE UP + PAGE DOWN, which cycle the
- * active candidate digit used when applying colors to candidates.
+ * This class updates the state of the application contains methods to reply to
+ * PAGE UP + PAGE DOWN key presses, which cycle the active candidate digit used
+ * when applying colors to candidates.
  */
 public class ToggleActiveCandidateToColorState extends ApplicationModelState {
 

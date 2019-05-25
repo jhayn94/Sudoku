@@ -1,9 +1,8 @@
 package sudoku.state;
 
 /**
- * This class represents the state of the application when the selection changes
- * by arrow key input. Each constructor more or less corresponds to a subclass
- * of DefaultCellActiveState.
+ * This class updates the state of the application when the user clicks a cell.
+ * In general, this will only affect the selected cell.
  */
 public class ClickedCellState extends ApplicationModelState {
 
@@ -26,7 +25,7 @@ public class ClickedCellState extends ApplicationModelState {
 		} else {
 			this.selectedCellRow = this.row;
 			this.selectedCellCol = this.col;
-			this.getSelectedCell().getStyleClass().add(SELECTED_CELL_CSS_CLASS);
+			this.getSelectedCell().setIsSelected(true);
 		}
 	}
 
@@ -37,7 +36,7 @@ public class ClickedCellState extends ApplicationModelState {
 
 	private void unselectCurrentlySelectedCell() {
 		if (this.selectedCellRow != -1 && this.selectedCellCol != -1) {
-			this.getSelectedCell().getStyleClass().remove(SELECTED_CELL_CSS_CLASS);
+			this.getSelectedCell().setIsSelected(false);
 		}
 	}
 

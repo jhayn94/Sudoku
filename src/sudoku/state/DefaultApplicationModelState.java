@@ -4,7 +4,9 @@ import sudoku.core.ViewController;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 
 /**
- * This class represents the state of the application on startup.
+ * This class updates the state of the application on startup. It is the default
+ * value for the model state. Some initial values are set here that would not be
+ * considered default values for fields.
  */
 public class DefaultApplicationModelState extends ApplicationModelState {
 
@@ -15,7 +17,7 @@ public class DefaultApplicationModelState extends ApplicationModelState {
 		this.selectedCellRow = MIDDLE_CELL_INDEX;
 		this.selectedCellCol = MIDDLE_CELL_INDEX;
 		final SudokuPuzzleCell middleCell = ViewController.getInstance().getSudokuPuzzleCell(4, 4);
-		middleCell.getStyleClass().add(SELECTED_CELL_CSS_CLASS);
+		this.getSelectedCell().setIsSelected(true);
 		this.onEnter();
 	}
 

@@ -6,8 +6,8 @@ import javafx.scene.input.KeyCode;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 
 /**
- * This class contains methods to reply to a CTRL + digit key press, which
- * should toggle a candidate's visibility in the active cell.
+ * This class updates the state of the application to reply to a CTRL + digit
+ * key press, which should toggle a candidate's visibility in the active cell.
  */
 public class ToggleCandidateVisibleState extends ApplicationModelState {
 
@@ -32,6 +32,7 @@ public class ToggleCandidateVisibleState extends ApplicationModelState {
 				candidatesForCell.add(pressedDigit);
 			}
 		}
+		this.reapplyActiveFilter();
 	}
 
 }

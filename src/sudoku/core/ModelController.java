@@ -2,15 +2,17 @@ package sudoku.core;
 
 import javafx.scene.input.KeyCode;
 import sudoku.state.ApplicationModelState;
+import sudoku.state.ApplyFilterState;
 import sudoku.state.ArrowKeyboardInputState;
 import sudoku.state.ClickedCellState;
 import sudoku.state.DefaultApplicationModelState;
-import sudoku.state.FilterCandidatesState;
 import sudoku.state.RemoveDigitState;
+import sudoku.state.ResetAllColorsState;
 import sudoku.state.SetDigitState;
 import sudoku.state.ToggleActiveCandidateToColorState;
 import sudoku.state.ToggleCandidateColorState;
 import sudoku.state.ToggleCandidateVisibleState;
+import sudoku.state.ToggleCellColorState;
 import sudoku.state.window.ApplicationWindowState;
 import sudoku.state.window.ClosedState;
 import sudoku.state.window.MaximizedState;
@@ -74,8 +76,8 @@ public class ModelController {
 		this.applicationWindowState.onEnter();
 	}
 
-	public void transitionToFilterCandidatesState(final String filter) {
-		this.applicationModelState = new FilterCandidatesState(this.applicationModelState, filter);
+	public void transitionToFilterState(final String filter) {
+		this.applicationModelState = new ApplyFilterState(this.applicationModelState, filter);
 		this.applicationModelState.onEnter();
 	}
 
@@ -105,6 +107,11 @@ public class ModelController {
 
 	}
 
+	public void transitionToToggleCellColorState(final KeyCode keyCode, final boolean isShiftDown) {
+		this.applicationModelState = new ToggleCellColorState(keyCode, isShiftDown, this.applicationModelState);
+		this.applicationModelState.onEnter();
+	}
+
 	public void transitionToToggleCandidateColorState(final KeyCode keyCode, final boolean isShiftDown) {
 		this.applicationModelState = new ToggleCandidateColorState(keyCode, isShiftDown, this.applicationModelState);
 		this.applicationModelState.onEnter();
@@ -112,6 +119,11 @@ public class ModelController {
 
 	public void transitionToToggleActiveCandidateToColorState(final KeyCode keyCode) {
 		this.applicationModelState = new ToggleActiveCandidateToColorState(keyCode, this.applicationModelState);
+		this.applicationModelState.onEnter();
+	}
+
+	public void transitionToResetAllColorsState() {
+		this.applicationModelState = new ResetAllColorsState(this.applicationModelState);
 		this.applicationModelState.onEnter();
 	}
 }

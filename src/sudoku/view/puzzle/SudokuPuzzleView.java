@@ -81,37 +81,48 @@ public class SudokuPuzzleView extends GridPane {
 	}
 
 	/**
-	 * Handles all keyboard inputs for the application. The technical challenge with
-	 * keyboard inputs is that the node must be focused, and only one node can be
-	 * focused at once. This makes it impossible to listen on multiple nodes at
-	 * once.
+	 * Handles all keyboard inputs for the application. The technical challenge
+	 * with keyboard inputs is that the node must be focused to receive input, and
+	 * only one node can be focused at once. This makes it impossible to listen on
+	 * multiple nodes at once.
 	 */
 	private EventHandler<? super KeyEvent> onKeyPressed() {
 		return event -> {
 			final KeyCode keyCode = event.getCode();
 			if (keyCode.isArrowKey()) {
 				ModelController.getInstance().transitionToArrowKeyboardInputState(keyCode);
-			} else if (keyCode.isDigitKey() && KeyCode.DIGIT0 != keyCode) {
-				if (event.isControlDown()) {
-					ModelController.getInstance().transitionToToggleCandidateVisibleState(keyCode);
-				} else if (event.isShiftDown()) {
-					// TODO - toggle filter.
-					// note - don't color cell if is already colored.
-				} else {
-					ModelController.getInstance().transitionToSetDigitState(keyCode);
-				}
+			} else if (keyCode.isDigitKey() && !keyCode.getName().contains("0")) {
+				this.onPressDigit(event, keyCode);
 			} else if (KeyCode.DELETE == keyCode) {
 				ModelController.getInstance().transitionToRemoveDigitState(keyCode);
-			} else if (ColorUtils.APPLY_COLOR_KEY_CODES.contains(keyCode)) {
-				if (event.isControlDown()) {
-					ModelController.getInstance().transitionToToggleCandidateColorState(keyCode, event.isShiftDown());
-				} else {
-					// color cell.
-				}
+			} else if (ColorUtils.getApplyColorKeyCodes().contains(keyCode)) {
+				this.onPressColoringKey(event, keyCode);
 			} else if (KeyCode.PAGE_UP == keyCode || KeyCode.PAGE_DOWN == keyCode) {
 				ModelController.getInstance().transitionToToggleActiveCandidateToColorState(keyCode);
+			} else if (KeyCode.R == keyCode) {
+				ModelController.getInstance().transitionToResetAllColorsState();
+			} else if (KeyCode.PERIOD == keyCode || KeyCode.COMMA == keyCode) {
+				// TODO - ,. keys to cycle active filter.
+			} else if (keyCode.isFunctionKey() && KeyCode.F11 != keyCode && KeyCode.F12 != keyCode) {
+				// TODO - F1 - F10 keys to set / toggle specific filter.
 			}
 
 		};
+	}
+
+	private void onPressDigit(final KeyEvent event, final KeyCode keyCode) {
+		if (event.isControlDown()) {
+			ModelController.getInstance().transitionToToggleCandidateVisibleState(keyCode);
+		} else {
+			ModelController.getInstance().transitionToSetDigitState(keyCode);
+		}
+	}
+
+	private void onPressColoringKey(final KeyEvent event, final KeyCode keyCode) {
+		if (event.isControlDown()) {
+			ModelController.getInstance().transitionToToggleCandidateColorState(keyCode, event.isShiftDown());
+		} else {
+			ModelController.getInstance().transitionToToggleCellColorState(keyCode, event.isShiftDown());
+		}
 	}
 }

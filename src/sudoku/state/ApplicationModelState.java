@@ -3,10 +3,12 @@ package sudoku.state;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javafx.collections.ObservableList;
-import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import sudoku.core.ViewController;
 import sudoku.factories.ModelFactory;
@@ -20,13 +22,13 @@ import sudoku.view.util.ColorUtils.ColorState;
  */
 public abstract class ApplicationModelState {
 
+	protected static final String ACTIVE_FILTER_CELL_CSS_CLASS = "sudoku-active-filter-cell";
+
 	protected static final String UNFIXED_CELL_CSS_CLASS = "sudoku-unfixed-cell";
 
 	protected static final String FIXED_CELL_CSS_CLASS = "sudoku-fixed-cell";
 
 	protected static final String GIVEN_CELL_CSS_CLASS = "sudoku-given-cell";
-
-	protected static final String SELECTED_CELL_CSS_CLASS = "sudoku-selected-cell";
 
 	private static final List<String> FIXED_CELL_TYPE_CSS_CLASSES = Arrays.asList(UNFIXED_CELL_CSS_CLASS,
 			FIXED_CELL_CSS_CLASS, GIVEN_CELL_CSS_CLASS);
@@ -55,7 +57,8 @@ public abstract class ApplicationModelState {
 	protected ColorState[][][] candidateColorStates;
 
 	// This is the candidate digit whose color should be toggled when the event
-	// occurs. It is very difficult to allow the user to do any digit at once, so a
+	// occurs. It is very difficult to allow the user to do any digit at once, so
+	// a
 	// separate control changes this value.
 	protected int activeColorCandidateDigit;
 
@@ -67,19 +70,8 @@ public abstract class ApplicationModelState {
 		this.lastKeyCode = null;
 		this.activeColorCandidateDigit = 1;
 		this.cellColorStates = new ColorState[SudokuPuzzle.CELLS_PER_HOUSE][SudokuPuzzle.CELLS_PER_HOUSE];
-		for (int row = 0; row < SudokuPuzzle.CELLS_PER_HOUSE; row++) {
-			for (int col = 0; col < SudokuPuzzle.CELLS_PER_HOUSE; col++) {
-				this.cellColorStates[col][row] = ColorState.NONE;
-			}
-		}
 		this.candidateColorStates = new ColorState[SudokuPuzzle.CELLS_PER_HOUSE][SudokuPuzzle.CELLS_PER_HOUSE][SudokuPuzzle.CELLS_PER_HOUSE];
-		for (int row = 0; row < SudokuPuzzle.CELLS_PER_HOUSE; row++) {
-			for (int col = 0; col < SudokuPuzzle.CELLS_PER_HOUSE; col++) {
-				for (int candidate = 0; candidate < SudokuPuzzle.CELLS_PER_HOUSE; candidate++) {
-					this.candidateColorStates[col][row][candidate] = ColorState.NONE;
-				}
-			}
-		}
+		this.resetColorStates();
 		ViewController.getInstance().getSudokuPuzzleView().requestFocus();
 	}
 
@@ -100,6 +92,38 @@ public abstract class ApplicationModelState {
 
 	public abstract void onEnter();
 
+	/**
+	 * This method resets the coloring state of every cell and candidate label to
+	 * no color.
+	 */
+	protected void resetColorStates() {
+		for (int row = 0; row < SudokuPuzzle.CELLS_PER_HOUSE; row++) {
+			for (int col = 0; col < SudokuPuzzle.CELLS_PER_HOUSE; col++) {
+				this.cellColorStates[col][row] = ColorState.NONE;
+				final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
+				final ObservableList<String> styleClass = sudokuPuzzleCell.getStyleClass();
+				final List<String> colorCssClasses = Arrays.asList(ColorState.values()).stream().map(ColorState::getCssClass)
+						.collect(Collectors.toList());
+				colorCssClasses.forEach(styleClass::remove);
+				for (int candidate = 0; candidate < SudokuPuzzle.CELLS_PER_HOUSE; candidate++) {
+					this.candidateColorStates[col][row][candidate] = ColorState.NONE;
+					final Label candidateLabelForDigit = sudokuPuzzleCell.getCandidateLabelForDigit(candidate + 1);
+					final ObservableList<String> candidateLabelStyleClass = candidateLabelForDigit.getStyleClass();
+					colorCssClasses.forEach(candidateLabelStyleClass::remove);
+				}
+			}
+		}
+	}
+
+	protected void resetAllFilters() {
+		for (int row = 0; row < SudokuPuzzle.CELLS_PER_HOUSE; row++) {
+			for (int col = 0; col < SudokuPuzzle.CELLS_PER_HOUSE; col++) {
+				final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
+				sudokuPuzzleCell.getStyleClass().remove(ACTIVE_FILTER_CELL_CSS_CLASS);
+			}
+		}
+	}
+
 	protected SudokuPuzzleCell getSelectedCell() {
 		return ViewController.getInstance().getSudokuPuzzleCell(this.selectedCellRow, this.selectedCellCol);
 	}
@@ -118,11 +142,7 @@ public abstract class ApplicationModelState {
 			}
 		}
 		final int boxForCell = this.getBoxForCell(cell);
-		this.getCellsInBox(boxForCell).forEach(cellToAdd -> {
-			if (!cellToAdd.equals(cell)) {
-				cells.add(cellToAdd);
-			}
-		});
+		this.getCellsInBox(boxForCell).forEach(cells::add);
 		return cells.stream().distinct().collect(Collectors.toList());
 	}
 
@@ -146,8 +166,8 @@ public abstract class ApplicationModelState {
 	}
 
 	/**
-	 * Gets the box number of the given cell. Returns -1 if row and col are outside
-	 * of the puzzle dimensions.
+	 * Gets the box number of the given cell. Returns -1 if row and col are
+	 * outside of the puzzle dimensions.
 	 */
 	private int getBoxForCell(final SudokuPuzzleCell cell) {
 		final int row = cell.getRow();
@@ -174,6 +194,34 @@ public abstract class ApplicationModelState {
 		return -1;
 	}
 
+	protected void reapplyActiveFilter() {
+		if (!this.activeCellFilter.isEmpty()) {
+			this.resetAllFilters();
+			this.applyActiveFilter();
+		}
+	}
+
+	protected void applyActiveFilter() {
+		// Define a predicate to use to determine if the cell should be shaded. If
+		// the activeFilter's length is 1, it is a single digit filter. Otherwise,
+		// it is a bivalue cell filter. This line initializes a function to filter
+		// the appropriate cells for either case. It is done in 1 line because it
+		// must be final to use in a lambda function below.
+		final Function<List<Integer>, Boolean> predicate = this.activeCellFilter.length() > 1
+				? candidates -> candidates.size() == 2
+				: candidates -> candidates.contains(Integer.parseInt(this.activeCellFilter));
+
+		IntStream.rangeClosed(0, SudokuPuzzle.CELLS_PER_HOUSE - 1)
+				.forEach(row -> IntStream.rangeClosed(0, SudokuPuzzle.CELLS_PER_HOUSE - 1).forEach(col -> {
+					final List<Integer> candidates = this.puzzleModel.getCandidateDigitsForCell(row, col);
+					final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
+					if (!sudokuPuzzleCell.isCellFixed() && this.candidatesMatchFilter(predicate, candidates)) {
+						final ObservableList<String> styleClass = sudokuPuzzleCell.getStyleClass();
+						styleClass.add(ACTIVE_FILTER_CELL_CSS_CLASS);
+					}
+				}));
+	}
+
 	/**
 	 * Adds the given digit to the cells seen by the selected cell, if no other
 	 * fixed instances of that digit see the cell.
@@ -194,9 +242,9 @@ public abstract class ApplicationModelState {
 		styleClass.add(newFixedCellTypeCssClass);
 	}
 
-	protected void updateColorCssClass(final Node node, final String newColorCssClass) {
-		final ObservableList<String> styleClass = node.getStyleClass();
-//		FIXED_CELL_TYPE_CSS_CLASSES.forEach(styleClass::remove);
-		styleClass.add(newColorCssClass);
+	private Boolean candidatesMatchFilter(final Function<List<Integer>, Boolean> predicate,
+			final List<Integer> candidates) {
+		return predicate.apply(candidates);
 	}
+
 }

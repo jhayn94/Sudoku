@@ -10,11 +10,13 @@ import sudoku.view.puzzle.SudokuPuzzleCell;
 import sudoku.view.util.ColorUtils.ColorState;
 
 /**
- * This class contains methods to reply to a SHIFT + digit key press, which
- * should set that candidate for the active cell
+ * This class updates the state of the application to reply to a CTRL + ASDFG
+ * key press, which should set the active coloring candidate label's color for
+ * the active cell.
  */
 public class ToggleCandidateColorState extends ApplicationModelState {
 
+	@SuppressWarnings("unused")
 	private final boolean isShiftDown;
 
 	public ToggleCandidateColorState(final KeyCode keyCode, final boolean isShiftDown,
@@ -47,7 +49,7 @@ public class ToggleCandidateColorState extends ApplicationModelState {
 		final Label candidateLabelForDigit = ViewController.getInstance().getSudokuPuzzleCell(row, col)
 				.getCandidateLabelForDigit(this.activeColorCandidateDigit);
 
-		final ColorState colorStateToApply = ColorState.getFromKeyCode(this.lastKeyCode, this.isShiftDown);
+		final ColorState colorStateToApply = ColorState.getFromKeyCode(this.lastKeyCode, false);
 
 		final ObservableList<String> styleClass = candidateLabelForDigit.getStyleClass();
 		if (colorStateToApply == currentColorState) {

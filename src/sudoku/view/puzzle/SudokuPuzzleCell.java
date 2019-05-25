@@ -8,25 +8,37 @@ import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import sudoku.core.ModelController;
+import sudoku.model.SudokuPuzzle;
 
 /** This class corresponds to a single cell of a sudoku puzzle. */
 public class SudokuPuzzleCell extends StackPane {
 
-	private static final int CANDIDATE_LABEL_MAX_HEIGHT = 18;
+	private static final String CANDIDATE_LABEL_CSS_CLASS = "sudoku-cell-candidate-label";
 
-	private static final int CANDIDATE_LABEL_MIN_WIDTH = 11;
+	protected static final String SELECTED_CELL_CSS_CLASS = "sudoku-selected-cell";
+
+	private static final int CANDIDATE_LABEL_HEIGHT = 16;
+
+	private static final int CANDIDATE_LABEL_WIDTH = 14;
 
 	private static final String DIGIT_REPLACE_TEXT = "DIGIT";
 
 	private static final String NUMPAD_REPLACE_TEXT = "NUMPAD";
 
 	public enum ReasonForChange {
-		CLICKED_TO_SELECT, CLICKED_TO_UNSELECT, ARROWED_OFF_OF_CELL, NEW_SELECTION_CLICKED, ARROWED_ON_TO_CELL, NONE;
+		CLICKED_TO_SELECT,
+		CLICKED_TO_UNSELECT,
+		ARROWED_OFF_OF_CELL,
+		NEW_SELECTION_CLICKED,
+		ARROWED_ON_TO_CELL,
+		NONE;
 	}
 
 	private static final String CSS_CLASS = "sudoku-puzzle-cell";
@@ -35,7 +47,9 @@ public class SudokuPuzzleCell extends StackPane {
 
 	private static final int CELL_WIDTH = 62;
 
-	private static final int MAX_NUM_CANDIDATES_IN_CELL = 9;
+	private static final int INTERIOR_COMPONENT_HEIGHT = CELL_HEIGHT;
+
+	private static final int INTERIOR_COMPONENT_WIDTH = CELL_WIDTH;
 
 	private final Label[] candidateLabels;
 
@@ -47,12 +61,14 @@ public class SudokuPuzzleCell extends StackPane {
 
 	private boolean isGiven;
 
+	private GridPane candidatesGridPane;
+
 	public SudokuPuzzleCell(final int row, final int col) {
 		super();
 		this.isGiven = false;
 		this.row = row;
 		this.col = col;
-		this.candidateLabels = new Label[MAX_NUM_CANDIDATES_IN_CELL];
+		this.candidateLabels = new Label[SudokuPuzzle.CELLS_PER_HOUSE];
 		this.fixedDigitLabel = null;
 		this.configure();
 	}
@@ -83,6 +99,19 @@ public class SudokuPuzzleCell extends StackPane {
 	}
 
 	/**
+	 * Sets various components of this class to have or not have a special CSS
+	 * class that denotes the cell as selected by the user.
+	 */
+	public void setIsSelected(final boolean isSelected) {
+		if (isSelected) {
+			this.getChildren().get(2).getStyleClass().add(SELECTED_CELL_CSS_CLASS);
+		} else {
+			// TODO - assign the component to a field.
+			this.getChildren().get(2).getStyleClass().remove(SELECTED_CELL_CSS_CLASS);
+		}
+	}
+
+	/**
 	 * Shows the candidates pane if showCandidates is true, shows the fixed digit
 	 * pane otherwise.
 	 */
@@ -102,8 +131,8 @@ public class SudokuPuzzleCell extends StackPane {
 
 	/** Sets the fixed digit's value. */
 	public void setFixedDigit(final String digit) {
-		// KeyCode.toString() is passed to this; replacing the keyCode's name is easier
-		// than 9 if statements.
+		// KeyCode.toString() is passed to this; replacing the keyCode's name is
+		// easier than 9 if statements.
 		this.fixedDigitLabel
 				.setText(digit.replace(DIGIT_REPLACE_TEXT, Strings.EMPTY).replace(NUMPAD_REPLACE_TEXT, Strings.EMPTY));
 	}
@@ -117,7 +146,7 @@ public class SudokuPuzzleCell extends StackPane {
 	}
 
 	private void configure() {
-		this.resetEventHandlers();
+		this.addEventHandlers();
 		this.setMinWidth(CELL_WIDTH);
 		this.setMinHeight(CELL_HEIGHT);
 		this.setMaxWidth(CELL_WIDTH);
@@ -128,28 +157,57 @@ public class SudokuPuzzleCell extends StackPane {
 
 	private void createChildElements() {
 		final ObservableList<Node> children = this.getChildren();
-		final GridPane candidatesGridPane = new GridPane();
-		GridPane.setHalignment(candidatesGridPane, HPos.CENTER);
-		GridPane.setValignment(candidatesGridPane, VPos.CENTER);
-		candidatesGridPane.setAlignment(Pos.CENTER);
-		candidatesGridPane.setHgap(6);
-		candidatesGridPane.setVgap(0);
-		for (int index = 1; index <= MAX_NUM_CANDIDATES_IN_CELL; index++) {
-			this.candidateLabels[index - 1] = new Label(String.valueOf(index));
-			// Setting some dimensions help the colorings look nicer, especially the 1,
-			// which would otherwise be much thinner.
-			this.candidateLabels[index - 1].setMinWidth(CANDIDATE_LABEL_MIN_WIDTH);
-			this.candidateLabels[index - 1].setMaxHeight(CANDIDATE_LABEL_MAX_HEIGHT);
-			// Integer division intentional!
-			candidatesGridPane.add(this.candidateLabels[index - 1], (index - 1) % 3, (index - 1) / 3);
-		}
+		this.createCandidatesGridPane();
+		this.createCandidateLabels();
+		final Pane fixedDigitPane = this.createFixedDigitPane();
+		children.add(this.candidatesGridPane);
+		children.add(fixedDigitPane);
+		final Pane pane = new Pane();
+		children.add(pane);
+	}
+
+	private void createCandidatesGridPane() {
+		this.candidatesGridPane = new GridPane();
+		this.candidatesGridPane.setMinHeight(INTERIOR_COMPONENT_HEIGHT);
+		this.candidatesGridPane.setMaxHeight(INTERIOR_COMPONENT_HEIGHT);
+		this.candidatesGridPane.setMinWidth(INTERIOR_COMPONENT_WIDTH);
+		this.candidatesGridPane.setMaxWidth(INTERIOR_COMPONENT_WIDTH);
+		GridPane.setHalignment(this.candidatesGridPane, HPos.CENTER);
+		GridPane.setValignment(this.candidatesGridPane, VPos.CENTER);
+		this.candidatesGridPane.setAlignment(Pos.CENTER);
+		this.candidatesGridPane.setHgap(5);
+		this.candidatesGridPane.setVgap(3);
+	}
+
+	private Pane createFixedDigitPane() {
 		final StackPane fixedDigitPane = new StackPane();
 		StackPane.setAlignment(fixedDigitPane, Pos.CENTER);
 		this.fixedDigitLabel = new Label();
+		this.fixedDigitLabel.setMinHeight(INTERIOR_COMPONENT_HEIGHT);
+		this.fixedDigitLabel.setMaxHeight(INTERIOR_COMPONENT_HEIGHT);
+		this.fixedDigitLabel.setMinWidth(INTERIOR_COMPONENT_WIDTH);
+		this.fixedDigitLabel.setMaxWidth(INTERIOR_COMPONENT_WIDTH);
+		this.fixedDigitLabel.setContentDisplay(ContentDisplay.CENTER);
+		this.fixedDigitLabel.setAlignment(Pos.CENTER);
 		fixedDigitPane.getChildren().add(this.fixedDigitLabel);
 		fixedDigitPane.setVisible(false);
-		children.add(candidatesGridPane);
-		children.add(fixedDigitPane);
+		return fixedDigitPane;
+	}
+
+	private void createCandidateLabels() {
+		for (int index = 1; index <= SudokuPuzzle.CELLS_PER_HOUSE; index++) {
+			this.candidateLabels[index - 1] = new Label(String.valueOf(index));
+			this.candidateLabels[index - 1].getStyleClass().add(CANDIDATE_LABEL_CSS_CLASS);
+			this.candidateLabels[index - 1].setAlignment(Pos.CENTER);
+			this.candidateLabels[index - 1].setContentDisplay(ContentDisplay.CENTER);
+			// Force sizes to be the same for each number.
+			this.candidateLabels[index - 1].setMinWidth(CANDIDATE_LABEL_WIDTH);
+			this.candidateLabels[index - 1].setMaxWidth(CANDIDATE_LABEL_WIDTH);
+			this.candidateLabels[index - 1].setMinHeight(CANDIDATE_LABEL_HEIGHT);
+			this.candidateLabels[index - 1].setMaxHeight(CANDIDATE_LABEL_HEIGHT);
+			// Integer division intentional!
+			this.candidatesGridPane.add(this.candidateLabels[index - 1], (index - 1) % 3, (index - 1) / 3);
+		}
 	}
 
 	private EventHandler<MouseEvent> onClick() {
@@ -157,11 +215,11 @@ public class SudokuPuzzleCell extends StackPane {
 	}
 
 	/**
-	 * This method resets the cell's event handlers to the current state's handler.
-	 * When the cell's state changes, event handlers have to be re-registered for
-	 * the new state to be used.
+	 * This method resets the cell's event handlers to the current state's
+	 * handler. When the cell's state changes, event handlers have to be
+	 * re-registered for the new state to be used.
 	 */
-	private void resetEventHandlers() {
+	private void addEventHandlers() {
 		this.setEventHandler(MouseEvent.MOUSE_CLICKED, this.onClick());
 	}
 

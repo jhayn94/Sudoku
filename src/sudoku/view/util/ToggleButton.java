@@ -32,7 +32,7 @@ public class ToggleButton extends Button {
 	}
 
 	private EventHandler<ActionEvent> onClick() {
-		return event -> ModelController.getInstance().transitionToFilterCandidatesState(this.label);
+		return event -> ModelController.getInstance().transitionToFilterState(this.label);
 
 	}
 
