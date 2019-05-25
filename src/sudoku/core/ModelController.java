@@ -5,6 +5,7 @@ import sudoku.state.ApplicationModelState;
 import sudoku.state.ApplyFilterState;
 import sudoku.state.ArrowKeyboardInputState;
 import sudoku.state.ClickedCellState;
+import sudoku.state.CycleActiveFilterState;
 import sudoku.state.DefaultApplicationModelState;
 import sudoku.state.RemoveDigitState;
 import sudoku.state.ResetAllColorsState;
@@ -76,8 +77,13 @@ public class ModelController {
 		this.applicationWindowState.onEnter();
 	}
 
-	public void transitionToFilterState(final String filter) {
+	public void transitionToApplyFilterState(final String filter) {
 		this.applicationModelState = new ApplyFilterState(this.applicationModelState, filter);
+		this.applicationModelState.onEnter();
+	}
+
+	public void transitionToCycleActiveFilterState(final String filter) {
+		this.applicationModelState = new CycleActiveFilterState(this.applicationModelState, filter);
 		this.applicationModelState.onEnter();
 	}
 

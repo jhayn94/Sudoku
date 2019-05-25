@@ -31,7 +31,7 @@ public class ToggleCandidateColorState extends ApplicationModelState {
 		final SudokuPuzzleCell selectedCell = this.getSelectedCell();
 
 		if (!selectedCell.isCellFixed()) {
-			final List<Integer> candidatesForCell = this.puzzleModel.getCandidateDigitsForCell(this.selectedCellRow,
+			final List<Integer> candidatesForCell = this.activeSudokuPuzzle.getCandidateDigitsForCell(this.selectedCellRow,
 					this.selectedCellCol);
 			final boolean isCandidateVisible = candidatesForCell.contains(this.activeColorCandidateDigit);
 			if (isCandidateVisible) {
@@ -44,11 +44,9 @@ public class ToggleCandidateColorState extends ApplicationModelState {
 		final SudokuPuzzleCell selectedCell = this.getSelectedCell();
 		final int row = selectedCell.getRow();
 		final int col = selectedCell.getCol();
-
 		final ColorState currentColorState = this.candidateColorStates[col][row][this.activeColorCandidateDigit - 1];
 		final Label candidateLabelForDigit = ViewController.getInstance().getSudokuPuzzleCell(row, col)
 				.getCandidateLabelForDigit(this.activeColorCandidateDigit);
-
 		final ColorState colorStateToApply = ColorState.getFromKeyCode(this.lastKeyCode, false);
 
 		final ObservableList<String> styleClass = candidateLabelForDigit.getStyleClass();

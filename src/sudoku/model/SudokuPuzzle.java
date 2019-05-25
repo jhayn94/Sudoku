@@ -75,6 +75,33 @@ public class SudokuPuzzle {
 		this.candidatesForCells[col][row] = candidates;
 	}
 
+	/**
+	 * Gets the box number of the given cell. Returns -1 if row and col are outside
+	 * of the puzzle dimensions.
+	 */
+	public int getBoxForCell(final int row, final int col) {
+		if (row <= 2 && col <= 2) {
+			return 1;
+		} else if (row <= 2 && col <= 5) {
+			return 2;
+		} else if (row <= 2 && col <= 8) {
+			return 3;
+		} else if (row <= 5 && col <= 2) {
+			return 4;
+		} else if (row <= 5 && col <= 5) {
+			return 5;
+		} else if (row <= 5 && col <= 8) {
+			return 6;
+		} else if (row <= 8 && col <= 2) {
+			return 7;
+		} else if (row <= 8 && col <= 5) {
+			return 8;
+		} else if (row <= 8 && col <= 8) {
+			return 9;
+		}
+		return -1;
+	}
+
 	/** Creates and returns a deep copy of this. */
 	@Override
 	public SudokuPuzzle clone() {

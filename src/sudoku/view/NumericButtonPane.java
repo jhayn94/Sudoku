@@ -55,8 +55,7 @@ public class NumericButtonPane extends GridPane {
 			this.add(digitFilterButton, (index - 1) % 3, (index - 1) / 3);
 			this.filterButtons.add(digitFilterButton);
 		}
-		final Button bivalueCellFilterButton = LayoutFactory.getInstance()
-				.createToggleButton(LabelConstants.BIVALUE_CELL_BUTTON);
+		final Button bivalueCellFilterButton = LayoutFactory.getInstance().createToggleButton(LabelConstants.BIVALUE_CELL);
 		this.filterButtons.add(bivalueCellFilterButton);
 		this.add(bivalueCellFilterButton, 1, 3);
 		this.createUndoButton();

@@ -81,9 +81,9 @@ public class SudokuPuzzleView extends GridPane {
 	}
 
 	/**
-	 * Handles all keyboard inputs for the application. The technical challenge
-	 * with keyboard inputs is that the node must be focused to receive input, and
-	 * only one node can be focused at once. This makes it impossible to listen on
+	 * Handles all keyboard inputs for the application. The technical challenge with
+	 * keyboard inputs is that the node must be focused to receive input, and only
+	 * one node can be focused at once. This makes it impossible to listen on
 	 * multiple nodes at once.
 	 */
 	private EventHandler<? super KeyEvent> onKeyPressed() {
@@ -102,9 +102,10 @@ public class SudokuPuzzleView extends GridPane {
 			} else if (KeyCode.R == keyCode) {
 				ModelController.getInstance().transitionToResetAllColorsState();
 			} else if (KeyCode.PERIOD == keyCode || KeyCode.COMMA == keyCode) {
-				// TODO - ,. keys to cycle active filter.
+				ModelController.getInstance().transitionToCycleActiveFilterState(keyCode.getName());
 			} else if (keyCode.isFunctionKey() && KeyCode.F11 != keyCode && KeyCode.F12 != keyCode) {
-				// TODO - F1 - F10 keys to set / toggle specific filter.
+				final String formattedKeyCodeName = keyCode.getName().replace("F", "").replace("10", "X|Y");
+				ModelController.getInstance().transitionToApplyFilterState(formattedKeyCodeName);
 			}
 
 		};

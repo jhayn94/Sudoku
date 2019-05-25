@@ -22,7 +22,7 @@ public class ToggleCandidateVisibleState extends ApplicationModelState {
 		final SudokuPuzzleCell selectedCell = this.getSelectedCell();
 
 		if (!selectedCell.isCellFixed()) {
-			final List<Integer> candidatesForCell = this.puzzleModel.getCandidateDigitsForCell(this.selectedCellRow,
+			final List<Integer> candidatesForCell = this.activeSudokuPuzzle.getCandidateDigitsForCell(this.selectedCellRow,
 					this.selectedCellCol);
 			final boolean isCandidateVisible = candidatesForCell.contains(pressedDigit);
 			selectedCell.setCandidateVisible(pressedDigit, !isCandidateVisible);

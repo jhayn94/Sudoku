@@ -8,11 +8,13 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import javafx.collections.ObservableList;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import sudoku.core.ViewController;
 import sudoku.factories.ModelFactory;
 import sudoku.model.SudokuPuzzle;
+import sudoku.view.NumericButtonPane;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 import sudoku.view.util.ColorUtils.ColorState;
 
@@ -21,6 +23,10 @@ import sudoku.view.util.ColorUtils.ColorState;
  * with methods to invoke when a state change occurs.
  */
 public abstract class ApplicationModelState {
+
+	protected static final String SUDOKU_BUTTON_SELECTED_CSS_CLASS = "sudoku-button-selected";
+
+	protected static final String SUDOKU_BUTTON_UNSELECTED_CSS_CLASS = "sudoku-button-unselected";
 
 	protected static final String ACTIVE_FILTER_CELL_CSS_CLASS = "sudoku-active-filter-cell";
 
@@ -40,7 +46,7 @@ public abstract class ApplicationModelState {
 	// any), false it should show the disallowed cells.
 	protected final boolean filterAllowedCells;
 
-	protected final SudokuPuzzle puzzleModel;
+	protected final SudokuPuzzle activeSudokuPuzzle;
 
 	protected int selectedCellRow;
 
@@ -66,7 +72,7 @@ public abstract class ApplicationModelState {
 	protected ApplicationModelState() {
 		this.activeCellFilter = "";
 		this.filterAllowedCells = false;
-		this.puzzleModel = ModelFactory.getInstance().createSudokuPuzzle();
+		this.activeSudokuPuzzle = ModelFactory.getInstance().createSudokuPuzzle();
 		this.lastKeyCode = null;
 		this.activeColorCandidateDigit = 1;
 		this.cellColorStates = new ColorState[SudokuPuzzle.CELLS_PER_HOUSE][SudokuPuzzle.CELLS_PER_HOUSE];
@@ -79,7 +85,7 @@ public abstract class ApplicationModelState {
 	protected ApplicationModelState(final ApplicationModelState lastState) {
 		this.activeCellFilter = lastState.activeCellFilter;
 		this.filterAllowedCells = lastState.filterAllowedCells;
-		this.puzzleModel = lastState.puzzleModel;
+		this.activeSudokuPuzzle = lastState.activeSudokuPuzzle;
 		this.selectedCellRow = lastState.selectedCellRow;
 		this.selectedCellCol = lastState.selectedCellCol;
 		this.activeColorCandidateDigit = lastState.activeColorCandidateDigit;
@@ -93,8 +99,8 @@ public abstract class ApplicationModelState {
 	public abstract void onEnter();
 
 	/**
-	 * This method resets the coloring state of every cell and candidate label to
-	 * no color.
+	 * This method resets the coloring state of every cell and candidate label to no
+	 * color.
 	 */
 	protected void resetColorStates() {
 		for (int row = 0; row < SudokuPuzzle.CELLS_PER_HOUSE; row++) {
@@ -141,7 +147,7 @@ public abstract class ApplicationModelState {
 				cells.add(ViewController.getInstance().getSudokuPuzzleCell(row, colIndex));
 			}
 		}
-		final int boxForCell = this.getBoxForCell(cell);
+		final int boxForCell = this.activeSudokuPuzzle.getBoxForCell(cell.getRow(), cell.getCol());
 		this.getCellsInBox(boxForCell).forEach(cells::add);
 		return cells.stream().distinct().collect(Collectors.toList());
 	}
@@ -151,7 +157,7 @@ public abstract class ApplicationModelState {
 		for (int rowIndex = 0; rowIndex < SudokuPuzzle.CELLS_PER_HOUSE; rowIndex++) {
 			for (int colIndex = 0; colIndex < SudokuPuzzle.CELLS_PER_HOUSE; colIndex++) {
 				final SudokuPuzzleCell cell = ViewController.getInstance().getSudokuPuzzleCell(rowIndex, colIndex);
-				if (this.getBoxForCell(cell) == box) {
+				if (this.activeSudokuPuzzle.getBoxForCell(rowIndex, colIndex) == box) {
 					cells.add(cell);
 				}
 			}
@@ -165,40 +171,17 @@ public abstract class ApplicationModelState {
 		return numDigitInstancesSeen > 0;
 	}
 
-	/**
-	 * Gets the box number of the given cell. Returns -1 if row and col are
-	 * outside of the puzzle dimensions.
-	 */
-	private int getBoxForCell(final SudokuPuzzleCell cell) {
-		final int row = cell.getRow();
-		final int col = cell.getCol();
-		if (row <= 2 && col <= 2) {
-			return 1;
-		} else if (row <= 2 && col <= 5) {
-			return 2;
-		} else if (row <= 2 && col <= 8) {
-			return 3;
-		} else if (row <= 5 && col <= 2) {
-			return 4;
-		} else if (row <= 5 && col <= 5) {
-			return 5;
-		} else if (row <= 5 && col <= 8) {
-			return 6;
-		} else if (row <= 8 && col <= 2) {
-			return 7;
-		} else if (row <= 8 && col <= 5) {
-			return 8;
-		} else if (row <= 8 && col <= 8) {
-			return 9;
-		}
-		return -1;
-	}
-
 	protected void reapplyActiveFilter() {
 		if (!this.activeCellFilter.isEmpty()) {
 			this.resetAllFilters();
 			this.applyActiveFilter();
 		}
+	}
+
+	protected void updateFilterButtonStates(final String newCellFilter) {
+		final NumericButtonPane numericButtonPane = ViewController.getInstance().getNumericButtonPane();
+		final List<Button> filterButtons = numericButtonPane.getFilterButtons();
+		filterButtons.forEach(button -> this.updateFilterButton(newCellFilter, button));
 	}
 
 	protected void applyActiveFilter() {
@@ -213,7 +196,7 @@ public abstract class ApplicationModelState {
 
 		IntStream.rangeClosed(0, SudokuPuzzle.CELLS_PER_HOUSE - 1)
 				.forEach(row -> IntStream.rangeClosed(0, SudokuPuzzle.CELLS_PER_HOUSE - 1).forEach(col -> {
-					final List<Integer> candidates = this.puzzleModel.getCandidateDigitsForCell(row, col);
+					final List<Integer> candidates = this.activeSudokuPuzzle.getCandidateDigitsForCell(row, col);
 					final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
 					if (!sudokuPuzzleCell.isCellFixed() && this.candidatesMatchFilter(predicate, candidates)) {
 						final ObservableList<String> styleClass = sudokuPuzzleCell.getStyleClass();
@@ -231,7 +214,7 @@ public abstract class ApplicationModelState {
 		visibleCells.forEach(cell -> {
 			if (!this.doesCellSeeFixedDigit(cell.getRow(), cell.getCol(), fixedDigit)) {
 				cell.setCandidateVisible(fixedDigit, true);
-				this.puzzleModel.getCandidateDigitsForCell(cell.getRow(), cell.getCol()).add(fixedDigit);
+				this.activeSudokuPuzzle.getCandidateDigitsForCell(cell.getRow(), cell.getCol()).add(fixedDigit);
 			}
 		});
 	}
@@ -245,6 +228,25 @@ public abstract class ApplicationModelState {
 	private Boolean candidatesMatchFilter(final Function<List<Integer>, Boolean> predicate,
 			final List<Integer> candidates) {
 		return predicate.apply(candidates);
+	}
+
+	private void updateFilterButton(final String newCellFilter, final Button button) {
+		final ObservableList<String> styleClass = button.getStyleClass();
+		// Since we iterate over every button every time, the classes are fully
+		// cleared to avoid duplicate classes. This is easier than tracking when to
+		// remove each CSS class separately.
+		styleClass.remove(SUDOKU_BUTTON_SELECTED_CSS_CLASS);
+		styleClass.remove(SUDOKU_BUTTON_UNSELECTED_CSS_CLASS);
+		if (!this.shouldSetButtonSelected(newCellFilter, button)) {
+			styleClass.add(SUDOKU_BUTTON_UNSELECTED_CSS_CLASS);
+		} else {
+			styleClass.add(SUDOKU_BUTTON_SELECTED_CSS_CLASS);
+		}
+	}
+
+	private boolean shouldSetButtonSelected(final String newCellFilter, final Button button) {
+		final String buttonText = button.getText();
+		return buttonText.equals(newCellFilter) && !buttonText.equals(this.activeCellFilter);
 	}
 
 }

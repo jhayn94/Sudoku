@@ -33,12 +33,7 @@ public class SudokuPuzzleCell extends StackPane {
 	private static final String NUMPAD_REPLACE_TEXT = "NUMPAD";
 
 	public enum ReasonForChange {
-		CLICKED_TO_SELECT,
-		CLICKED_TO_UNSELECT,
-		ARROWED_OFF_OF_CELL,
-		NEW_SELECTION_CLICKED,
-		ARROWED_ON_TO_CELL,
-		NONE;
+		CLICKED_TO_SELECT, CLICKED_TO_UNSELECT, ARROWED_OFF_OF_CELL, NEW_SELECTION_CLICKED, ARROWED_ON_TO_CELL, NONE;
 	}
 
 	private static final String CSS_CLASS = "sudoku-puzzle-cell";
@@ -62,6 +57,8 @@ public class SudokuPuzzleCell extends StackPane {
 	private boolean isGiven;
 
 	private GridPane candidatesGridPane;
+
+	private Pane cellIsSelectedIndicator;
 
 	public SudokuPuzzleCell(final int row, final int col) {
 		super();
@@ -99,15 +96,14 @@ public class SudokuPuzzleCell extends StackPane {
 	}
 
 	/**
-	 * Sets various components of this class to have or not have a special CSS
+	 * Sets a pane on top of all other elements to have or not have a special CSS
 	 * class that denotes the cell as selected by the user.
 	 */
 	public void setIsSelected(final boolean isSelected) {
 		if (isSelected) {
-			this.getChildren().get(2).getStyleClass().add(SELECTED_CELL_CSS_CLASS);
+			this.cellIsSelectedIndicator.getStyleClass().add(SELECTED_CELL_CSS_CLASS);
 		} else {
-			// TODO - assign the component to a field.
-			this.getChildren().get(2).getStyleClass().remove(SELECTED_CELL_CSS_CLASS);
+			this.cellIsSelectedIndicator.getStyleClass().remove(SELECTED_CELL_CSS_CLASS);
 		}
 	}
 
@@ -162,8 +158,8 @@ public class SudokuPuzzleCell extends StackPane {
 		final Pane fixedDigitPane = this.createFixedDigitPane();
 		children.add(this.candidatesGridPane);
 		children.add(fixedDigitPane);
-		final Pane pane = new Pane();
-		children.add(pane);
+		this.cellIsSelectedIndicator = new Pane();
+		children.add(this.cellIsSelectedIndicator);
 	}
 
 	private void createCandidatesGridPane() {
@@ -215,9 +211,9 @@ public class SudokuPuzzleCell extends StackPane {
 	}
 
 	/**
-	 * This method resets the cell's event handlers to the current state's
-	 * handler. When the cell's state changes, event handlers have to be
-	 * re-registered for the new state to be used.
+	 * This method resets the cell's event handlers to the current state's handler.
+	 * When the cell's state changes, event handlers have to be re-registered for
+	 * the new state to be used.
 	 */
 	private void addEventHandlers() {
 		this.setEventHandler(MouseEvent.MOUSE_CLICKED, this.onClick());

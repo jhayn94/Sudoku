@@ -2,8 +2,6 @@ package sudoku.state;
 
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.Strings;
 
 import javafx.collections.ObservableList;
@@ -20,8 +18,6 @@ public class FilterCandidatesState extends ApplicationModelState {
 	private static final String SUDOKU_BUTTON_SELECTED = "sudoku-button-selected";
 
 	private static final String SUDOKU_BUTTON_UNSELECTED = "sudoku-button-unselected";
-
-	private static final Logger LOG = LogManager.getLogger(FilterCandidatesState.class);
 
 	private final String newCellFilter;
 

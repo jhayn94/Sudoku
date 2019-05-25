@@ -35,7 +35,7 @@ public class SetDigitState extends ApplicationModelState {
 				cell.setCandidateVisible(fixedDigit, false);
 				// Cast to object forces the list to remove by object reference instead
 				// of index.
-				this.puzzleModel.getCandidateDigitsForCell(cell.getRow(), cell.getCol()).remove((Object) fixedDigit);
+				this.activeSudokuPuzzle.getCandidateDigitsForCell(cell.getRow(), cell.getCol()).remove((Object) fixedDigit);
 			});
 
 			this.reapplyActiveFilter();
