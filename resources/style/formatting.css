@@ -166,6 +166,21 @@
 	-fx-border-radius: 5;
 }
 
+.combo-box-base {
+	-fx-border-width: 1;
+	-fx-border-radius: 2;
+}
+
+.combo-box-base > .arrow-button {
+	-fx-background-color: -sudoku-color-parchment;
+	-fx-background-insets: 0, 1, 2;
+	-fx-background-radius: 0 5 5 0, 0 4 4 0, 0 3 3 0;
+	-fx-padding: 0 0.667em 0 0.667em; /* 6 8 6 8 */
+	-fx-border-width: 2;
+	-fx-border-radius: 0 3 3 0;
+	-fx-border-color: -sudoku-color-bark;
+}
+
 /** Used for when a button is pressed and needs to retain a state. This must be after .button to override it. */
 .sudoku-button-selected {
 	-fx-background-color: -sudoku-color-stone-blue;
@@ -209,12 +224,24 @@
 	-fx-prompt-text-fill: -sudoku-color-parchment;
 }
 
+.sudoku-candidate-to-color-text-area {
+	-fx-border-width: 1;
+	-fx-background-radius: 2;
+	-fx-border-radius: 2;
+	-fx-font-size: 30 pt;
+	-fx-prompt-text-fill: -sudoku-color-bark;
+}
+
+.sudoku-candidate-increment-decrement-button {
+	-fx-padding: 0;
+}
+
 /* Defines the rectangle responsible for the shadow. */
 .decoration-shadow{
     -fx-fill: linear-gradient(to bottom, -sudoku-color-pebble, -sudoku-color-parchment);
     -fx-stroke-width: 0;
-	-fx-arc-width:20px;
-	-fx-arc-height:20px;
+	-fx-arc-width: 20px;
+	-fx-arc-height: 20px;
 }
 
 /* Somehow the menu separator CSS got overwritten, this fixes that problem. */

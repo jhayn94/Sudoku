@@ -7,7 +7,7 @@ import org.apache.logging.log4j.util.Strings;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import sudoku.core.ViewController;
-import sudoku.view.NumericButtonPane;
+import sudoku.view.sidebar.NumericButtonPane;
 
 /**
  * This state is set when the user clicks a button which should invoke a filter

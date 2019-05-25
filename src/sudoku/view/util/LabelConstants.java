@@ -52,6 +52,16 @@ public class LabelConstants {
 
 	public static final String REDO = ">";
 
+	public static final String MOUSE_MODE = "Mouse:";
+
+	public static final String SELECT_CELLS = "Select cells";
+
+	public static final String COLOR_CELLS = "Color cells";
+
+	public static final String COLOR_CANDIDATES = "Color candidates";
+
+	public static final String CANDIDATE_TO_COLOR = "Candidate to color:";
+
 	private LabelConstants() {
 		// Private constructor to prevent instantiation.
 	}

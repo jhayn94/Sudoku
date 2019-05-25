@@ -1,4 +1,4 @@
-package sudoku.view.util;
+package sudoku.view.control;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

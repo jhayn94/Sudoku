@@ -3,10 +3,10 @@ package sudoku.core;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import sudoku.model.SudokuPuzzleValues;
-import sudoku.view.NumericButtonPane;
 import sudoku.view.menu.button.MaximizeMenuButton;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 import sudoku.view.puzzle.SudokuPuzzleView;
+import sudoku.view.sidebar.NumericButtonPane;
 
 /**
  * A controller class to facilitate view changes, as result of a model change.

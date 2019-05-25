@@ -1,4 +1,4 @@
-package sudoku.view;
+package sudoku.view.sidebar;
 
 import java.util.ArrayList;
 import java.util.List;

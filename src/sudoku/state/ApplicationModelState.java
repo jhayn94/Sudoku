@@ -16,8 +16,8 @@ import sudoku.factories.ModelFactory;
 import sudoku.model.ApplicationStateHistory;
 import sudoku.model.SudokuPuzzleStyle;
 import sudoku.model.SudokuPuzzleValues;
-import sudoku.view.NumericButtonPane;
 import sudoku.view.puzzle.SudokuPuzzleCell;
+import sudoku.view.sidebar.NumericButtonPane;
 import sudoku.view.util.ColorUtils.ColorState;
 
 /**

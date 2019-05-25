@@ -9,13 +9,16 @@ import sudoku.core.ViewController;
 import sudoku.view.ApplicationSideBar;
 import sudoku.view.HelpView;
 import sudoku.view.MainApplicationView;
-import sudoku.view.NumericButtonPane;
 import sudoku.view.RootStackPane;
+import sudoku.view.control.LabeledComboBox;
+import sudoku.view.control.ToggleButton;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 import sudoku.view.puzzle.SudokuPuzzleView;
+import sudoku.view.sidebar.ColorCandidateSelectionPane;
+import sudoku.view.sidebar.MouseModePane;
+import sudoku.view.sidebar.NumericButtonPane;
 import sudoku.view.util.ResourceConstants;
 import sudoku.view.util.ShadowRectangle;
-import sudoku.view.util.ToggleButton;
 import sudoku.view.util.WindowHelper;
 
 /**
@@ -67,8 +70,20 @@ public class LayoutFactory {
 		return numericButtonPane;
 	}
 
+	public MouseModePane createMouseModePane() {
+		return new MouseModePane();
+	}
+
+	public ColorCandidateSelectionPane createColorCandidateSelectionPane() {
+		return new ColorCandidateSelectionPane();
+	}
+
 	public ShadowRectangle createShadowRectangle() {
 		return new ShadowRectangle();
+	}
+
+	public LabeledComboBox createLabeledComboBox() {
+		return new LabeledComboBox();
 	}
 
 	public ToggleButton createToggleButton(final String label) {

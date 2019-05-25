@@ -9,6 +9,8 @@ public class TooltipConstants {
 
 	public static final String REDO = "Redoes the most recently undone action.";
 
+	public static final String MOUSE_MODE = "Determines what the mouse does when it clicks in the Sudoku.";
+
 	private TooltipConstants() {
 		// Private constructor to prevent instantiation.
 	}
