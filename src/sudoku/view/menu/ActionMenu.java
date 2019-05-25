@@ -42,7 +42,7 @@ public class ActionMenu extends ContextMenu {
 		final MenuItem undoMenuItem = new MenuItem(LabelConstants.UNDO_LONG);
 		final MenuItem redoMenuItem = new MenuItem(LabelConstants.REDO_LONG);
 		final MenuItem restartMenuItem = new MenuItem(LabelConstants.RESTART);
-		editMenu.getItems().addAll(undoMenuItem, redoMenuItem, restartMenuItem);
+		editMenu.getItems().addAll(undoMenuItem, redoMenuItem, new SeparatorMenuItem(), restartMenuItem);
 
 		final Menu settingsMenu = new Menu(LabelConstants.SETTINGS);
 		final MenuItem puzzleGenerationMenuItem = new MenuItem(LabelConstants.PUZZLE_GENERATION);

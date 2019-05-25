@@ -212,8 +212,14 @@
 /* Defines the rectangle responsible for the shadow. */
 .decoration-shadow{
     -fx-fill: linear-gradient(to bottom, -sudoku-color-pebble, -sudoku-color-parchment);
-    /*radial-gradient(focus-angle 45deg, focus-distance 20%, center 25% 25%, radius 50%, reflect, #eeeeee88, #aaaaaa88 75%, gray);*/
-	-fx-stroke-width: 0;
+    -fx-stroke-width: 0;
 	-fx-arc-width:20px;
 	-fx-arc-height:20px;
+}
+
+/* Somehow the menu separator CSS got overwritten, this fixes that problem. */
+.separator:horizontal > .line {
+    -fx-background-color: null;
+    -fx-padding: 0.083333em 0.0em 0.0em 0.0em; /* 1 0 0 0 */
+    -fx-border-color: derive(-fx-background,-20%) transparent transparent transparent;
 }
