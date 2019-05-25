@@ -1,13 +1,13 @@
 package sudoku.view.menu;
 
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import sudoku.core.ModelController;
-import sudoku.core.ViewController;
 import sudoku.factories.LayoutFactory;
 import sudoku.view.util.LabelConstants;
 
@@ -23,29 +23,38 @@ public class ActionMenu extends ContextMenu {
 
 	private void createChildElements() {
 
+		final Menu fileMenu = new Menu(LabelConstants.FILE);
+
+		final MenuItem newPuzzleMenuItem = new MenuItem(LabelConstants.NEW_PUZZLE);
+		final MenuItem newBlankPuzzleMenuItem = new MenuItem(LabelConstants.NEW_BLANK_PUZZLE);
+		final MenuItem openPuzzleMenuItem = new MenuItem(LabelConstants.OPEN);
+		final MenuItem savePuzzleMenuItem = new MenuItem(LabelConstants.SAVE);
+		final MenuItem savePuzzleAsMenuItem = new MenuItem(LabelConstants.SAVE_AS);
+
+		final MenuItem closeMenuItem = new MenuItem(LabelConstants.CLOSE);
+		closeMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F4, KeyCombination.ALT_DOWN));
+		closeMenuItem.setOnAction(event -> ModelController.getInstance().transitionToClosedState());
+
+		fileMenu.getItems().addAll(newPuzzleMenuItem, newBlankPuzzleMenuItem, new SeparatorMenuItem(), openPuzzleMenuItem,
+				savePuzzleMenuItem, savePuzzleAsMenuItem, new SeparatorMenuItem(), closeMenuItem);
+
+		final Menu editMenu = new Menu(LabelConstants.EDIT);
+		final MenuItem undoMenuItem = new MenuItem(LabelConstants.UNDO_LONG);
+		final MenuItem redoMenuItem = new MenuItem(LabelConstants.REDO_LONG);
+		final MenuItem restartMenuItem = new MenuItem(LabelConstants.RESTART);
+		editMenu.getItems().addAll(undoMenuItem, redoMenuItem, restartMenuItem);
+
+		final Menu settingsMenu = new Menu(LabelConstants.SETTINGS);
+		final MenuItem puzzleGenerationMenuItem = new MenuItem(LabelConstants.PUZZLE_GENERATION);
+		final MenuItem difficultyMenuItem = new MenuItem(LabelConstants.DIFFICULTY);
+		final MenuItem solverMenuItem = new MenuItem(LabelConstants.SOLVER);
+		final MenuItem colorsMenuItem = new MenuItem(LabelConstants.COLORS);
+		settingsMenu.getItems().addAll(puzzleGenerationMenuItem, difficultyMenuItem, solverMenuItem, colorsMenuItem);
+
 		final MenuItem helpMenuItem = new MenuItem(LabelConstants.HELP);
 		helpMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.H, KeyCombination.SHORTCUT_DOWN));
 		helpMenuItem.setOnAction(event -> LayoutFactory.getInstance().showHelpView());
 
-		final MenuItem minimizeMenuItem = new MenuItem(LabelConstants.MINIMIZE);
-		minimizeMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.M, KeyCombination.SHORTCUT_DOWN));
-		minimizeMenuItem.setOnAction(event -> ModelController.getInstance().transitionToMinimizedState());
-
-		final MenuItem maximizeMenuItem = new MenuItem(LabelConstants.RESTORE);
-		maximizeMenuItem.setOnAction(event -> {
-			if (ViewController.getInstance().getStage().isMaximized()) {
-				maximizeMenuItem.setText(LabelConstants.MAXIMIZE);
-				ModelController.getInstance().transitionToRestoredState();
-			} else {
-				maximizeMenuItem.setText(LabelConstants.RESTORE);
-				ModelController.getInstance().transitionToMaximizedState();
-			}
-		});
-
-		final MenuItem close = new MenuItem(LabelConstants.CLOSE);
-		close.setAccelerator(new KeyCodeCombination(KeyCode.F4, KeyCombination.ALT_DOWN));
-		close.setOnAction(event -> ModelController.getInstance().transitionToClosedState());
-		this.getItems().addAll(helpMenuItem, new SeparatorMenuItem(), new SeparatorMenuItem(), minimizeMenuItem,
-				maximizeMenuItem, new SeparatorMenuItem(), close);
+		this.getItems().addAll(fileMenu, editMenu, settingsMenu, new SeparatorMenuItem(), helpMenuItem);
 	}
 }
