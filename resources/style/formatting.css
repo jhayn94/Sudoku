@@ -16,7 +16,7 @@
 	-fx-background-color: -sudoku-color-parchment;
 	-fx-control-inner-background: -sudoku-color-pebble;
 	-fx-outer-border: -sudoku-color-bark;
-	-fx-inner-border: -sudoku-color-bark;
+	-fx-inner-border: transparent;
 	-fx-inner-border-horizontal: transparent;
 	-fx-body-color: -sudoku-color-parchment;
 	-fx-body-color-bottomup: transparent;
@@ -220,6 +220,7 @@
 	-fx-background-color: -sudoku-color-parchment;
 	-fx-border-color: -sudoku-color-bark;
 	-fx-background-radius: 3;
+	-fx-border-radius: 3;
 	-fx-border-width: 3;
 	-fx-prompt-text-fill: -sudoku-color-parchment;
 }

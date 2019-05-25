@@ -18,6 +18,18 @@ import sudoku.view.util.LabelConstants;
  */
 public class ColorCandidateSelectionPane extends HBox {
 
+	private static final int TEXT_AREA_LEFT_PADDING = 3;
+
+	private static final int TEXT_AREA_RIGHT_PADDING = 10;
+
+	private static final int LABLE_HEIGHT = 50;
+
+	private static final int LABEL_WIDTH = 90;
+
+	private static final int PADDING_BETWEEN_BUTTONS = 5;
+
+	private static final String ARROW_BUTTON_CSS_CLASS = "arrow-button";
+
 	private static final String CSS_CLASS = "sudoku-transparent-pane";
 
 	private static final int DEFAULT_WIDTH = 320;
@@ -39,10 +51,22 @@ public class ColorCandidateSelectionPane extends HBox {
 	}
 
 	private void createChildElements() {
+		final Label label = this.createLabel();
+		final TextArea candidateToColorInput = this.createCurrentCandidateDisplayField();
+
+		final VBox buttonPanel = this.createChangeCandidateButtonPanel();
+		this.getChildren().addAll(label, candidateToColorInput, buttonPanel);
+	}
+
+	private Label createLabel() {
 		final Label label = new Label(LabelConstants.CANDIDATE_TO_COLOR);
 		label.setWrapText(true);
-		label.setMaxWidth(90);
-		label.setMaxHeight(50);
+		label.setMaxWidth(LABEL_WIDTH);
+		label.setMaxHeight(LABLE_HEIGHT);
+		return label;
+	}
+
+	private TextArea createCurrentCandidateDisplayField() {
 		final TextArea candidateToColorInput = new TextArea("5");
 		candidateToColorInput.getStyleClass().add(CANDIDATE_TO_COLOR_CSS_CLASS);
 		candidateToColorInput.setEditable(false);
@@ -50,29 +74,33 @@ public class ColorCandidateSelectionPane extends HBox {
 		candidateToColorInput.setMaxWidth(62);
 		candidateToColorInput.setMinHeight(62);
 		candidateToColorInput.setMaxHeight(62);
-		HBox.setMargin(candidateToColorInput, new Insets(0, 10, 0, 3));
+		HBox.setMargin(candidateToColorInput, new Insets(0, TEXT_AREA_RIGHT_PADDING, 0, TEXT_AREA_LEFT_PADDING));
+		return candidateToColorInput;
+	}
+
+	private VBox createChangeCandidateButtonPanel() {
 		final VBox buttonPanel = new VBox();
 		final Button increaseNumberButton = new Button("^");
 		increaseNumberButton.setMaxHeight(15);
 		increaseNumberButton.setMaxWidth(62);
 		increaseNumberButton.setMinWidth(62);
 		increaseNumberButton.getStyleClass().add(BUTTON_CSS_CLASS);
+
 		final Button decreaseNumberButton = new Button();
 		decreaseNumberButton.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-
 		// TODO - make this copy the combo box's arrow.
 		// Also extract all this into methods / constants.
 		final Polygon polygon = new Polygon();
 		polygon.getPoints().addAll(new Double[] { 0.0, 0.0, 20.0, 10.0, 10.0, 20.0 });
-		polygon.setFill(Paint.valueOf("red"));
-
+		polygon.setFill(Paint.valueOf("#336b87"));
+		VBox.setMargin(decreaseNumberButton, new Insets(PADDING_BETWEEN_BUTTONS, 0, 0, 0));
 		decreaseNumberButton.setGraphic(polygon);
 		decreaseNumberButton.setMaxHeight(15);
 		decreaseNumberButton.setMaxWidth(62);
 		decreaseNumberButton.setMinWidth(62);
 		decreaseNumberButton.getStyleClass().add(BUTTON_CSS_CLASS);
 		buttonPanel.getChildren().addAll(increaseNumberButton, decreaseNumberButton);
-		this.getChildren().addAll(label, candidateToColorInput, buttonPanel);
+		return buttonPanel;
 	}
 
 }
