@@ -12,7 +12,7 @@ import sudoku.view.puzzle.SudokuPuzzleCell;
 public class RemoveDigitState extends ApplicationModelState {
 
 	public RemoveDigitState(final KeyCode keyCode, final ApplicationModelState lastState) {
-		super(lastState);
+		super(lastState, true);
 		this.lastKeyCode = keyCode;
 	}
 
@@ -23,8 +23,8 @@ public class RemoveDigitState extends ApplicationModelState {
 
 		selectedCell.setCandidatesVisible(true);
 		selectedCell.setFixedDigit(Strings.EMPTY);
-		this.updateFixedCellTypeCssClass(UNFIXED_CELL_CSS_CLASS);
-
+		this.updateFixedCellTypeCssClass(this.getSelectedCell(), UNFIXED_CELL_CSS_CLASS);
+		this.sudokuPuzzleValues.setCellFixedDigit(selectedCell.getRow(), selectedCell.getCol(), 0);
 		this.addDigitAsCandidateToSeenCells(fixedDigit);
 
 		this.reapplyActiveFilter();

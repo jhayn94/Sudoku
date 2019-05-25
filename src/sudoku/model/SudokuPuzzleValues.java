@@ -9,6 +9,9 @@ import sudoku.factories.ModelFactory;
  * This class represents all the underlying data for a sudoku puzzle. This
  * component is mostly concerned with the values. For other data, see
  * SudokuPuzzleStyle.
+ *
+ * Note: many public methods use row + col as parameters, but these are the
+ * indices of each, not the traditional sudoku rows and columns.
  */
 public class SudokuPuzzleValues {
 
@@ -20,7 +23,7 @@ public class SudokuPuzzleValues {
 
 	private final List<Integer>[][] candidatesForCells;
 
-	private int score;
+	private int difficultyScore;
 
 	@SuppressWarnings("unchecked")
 	public SudokuPuzzleValues() {
@@ -52,10 +55,12 @@ public class SudokuPuzzleValues {
 		}
 	}
 
+	/** Gets the given digit at the given indices, or 0 if there is none. */
 	public int getGivenCellDigit(final int row, final int col) {
 		return this.givenCells[col][row];
 	}
 
+	/** Gets the fixed digit at the given indices, or 0 if there is none. */
 	public int getFixedCellDigit(final int row, final int col) {
 		return this.fixedCells[col][row];
 	}
@@ -66,6 +71,8 @@ public class SudokuPuzzleValues {
 
 	public void setGivenCellDigit(final int row, final int col, final int given) {
 		this.givenCells[col][row] = given;
+		// A given cell is also fixed by definition.
+		this.fixedCells[col][row] = given;
 	}
 
 	public void setCellFixedDigit(final int row, final int col, final int fixedDigit) {
@@ -113,6 +120,7 @@ public class SudokuPuzzleValues {
 				clone.fixedCells[col][row] = this.fixedCells[col][row];
 				clone.candidatesForCells[col][row] = new ArrayList<>();
 				clone.candidatesForCells[col][row].addAll(this.candidatesForCells[col][row]);
+				clone.difficultyScore = this.difficultyScore;
 			}
 		}
 		return clone;
@@ -144,12 +152,12 @@ public class SudokuPuzzleValues {
 		return true;
 	}
 
-	public int getScore() {
-		return this.score;
+	public int getDifficultyScore() {
+		return this.difficultyScore;
 	}
 
-	public void setScore(final int score) {
-		this.score = score;
+	public void setDifficultyScore(final int score) {
+		this.difficultyScore = score;
 	}
 
 	public int getNumberOfUnsolvedCells() {

@@ -11,7 +11,7 @@ public class ClickedCellState extends ApplicationModelState {
 	private final int row;
 
 	public ClickedCellState(final int row, final int col, final ApplicationModelState lastState) {
-		super(lastState);
+		super(lastState, false);
 		this.row = row;
 		this.col = col;
 	}

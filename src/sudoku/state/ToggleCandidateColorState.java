@@ -21,7 +21,7 @@ public class ToggleCandidateColorState extends ApplicationModelState {
 
 	public ToggleCandidateColorState(final KeyCode keyCode, final boolean isShiftDown,
 			final ApplicationModelState lastState) {
-		super(lastState);
+		super(lastState, false);
 		this.lastKeyCode = keyCode;
 		this.isShiftDown = isShiftDown;
 	}

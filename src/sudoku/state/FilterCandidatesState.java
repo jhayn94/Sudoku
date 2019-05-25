@@ -22,7 +22,7 @@ public class FilterCandidatesState extends ApplicationModelState {
 	private final String newCellFilter;
 
 	public FilterCandidatesState(final ApplicationModelState applicationModelState, final String filter) {
-		super(applicationModelState);
+		super(applicationModelState, false);
 		this.newCellFilter = filter;
 	}
 

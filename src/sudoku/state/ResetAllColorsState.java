@@ -10,7 +10,7 @@ import javafx.scene.input.KeyCode;
 public class ResetAllColorsState extends ApplicationModelState {
 
 	public ResetAllColorsState(final ApplicationModelState lastState) {
-		super(lastState);
+		super(lastState, false);
 		this.lastKeyCode = KeyCode.R;
 	}
 

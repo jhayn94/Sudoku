@@ -11,7 +11,7 @@ import sudoku.model.SudokuPuzzleValues;
 public class ArrowKeyboardInputState extends ApplicationModelState {
 
 	public ArrowKeyboardInputState(final KeyCode keyCode, final ApplicationModelState lastState) {
-		super(lastState);
+		super(lastState, false);
 		this.lastKeyCode = keyCode;
 	}
 

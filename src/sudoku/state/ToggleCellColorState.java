@@ -15,7 +15,7 @@ public class ToggleCellColorState extends ApplicationModelState {
 	private final boolean isShiftDown;
 
 	public ToggleCellColorState(final KeyCode keyCode, final boolean isShiftDown, final ApplicationModelState lastState) {
-		super(lastState);
+		super(lastState, false);
 		this.lastKeyCode = keyCode;
 		this.isShiftDown = isShiftDown;
 	}

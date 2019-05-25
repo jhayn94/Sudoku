@@ -12,7 +12,7 @@ import sudoku.view.puzzle.SudokuPuzzleCell;
 public class ToggleCandidateVisibleState extends ApplicationModelState {
 
 	public ToggleCandidateVisibleState(final KeyCode keyCode, final ApplicationModelState lastState) {
-		super(lastState);
+		super(lastState, true);
 		this.lastKeyCode = keyCode;
 	}
 

@@ -11,7 +11,7 @@ import sudoku.model.SudokuPuzzleValues;
 public class ToggleActiveCandidateToColorState extends ApplicationModelState {
 
 	public ToggleActiveCandidateToColorState(final KeyCode keyCode, final ApplicationModelState lastState) {
-		super(lastState);
+		super(lastState, false);
 		this.lastKeyCode = keyCode;
 	}
 

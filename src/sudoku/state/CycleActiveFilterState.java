@@ -24,7 +24,7 @@ public class CycleActiveFilterState extends ApplicationModelState {
 	private final String newCellFilter;
 
 	public CycleActiveFilterState(final ApplicationModelState applicationModelState, final String filter) {
-		super(applicationModelState);
+		super(applicationModelState, false);
 		if (!this.sudokuPuzzleStyle.getActiveCellFilter().isEmpty()) {
 			this.newCellFilter = this.parseCycleFilterInput(filter);
 		} else {

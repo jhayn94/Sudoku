@@ -41,7 +41,7 @@ public class ApplicationModelState {
 	private static final List<String> FIXED_CELL_TYPE_CSS_CLASSES = Arrays.asList(UNFIXED_CELL_CSS_CLASS,
 			FIXED_CELL_CSS_CLASS, GIVEN_CELL_CSS_CLASS);
 
-	protected final SudokuPuzzleValues sudokuPuzzleValues;
+	protected SudokuPuzzleValues sudokuPuzzleValues;
 
 	protected SudokuPuzzleStyle sudokuPuzzleStyle;
 
@@ -56,22 +56,35 @@ public class ApplicationModelState {
 		this.lastKeyCode = null;
 		this.applicationStateHistory = ModelFactory.getInstance().createApplicationStateHistory();
 		this.resetColorStates();
+		this.updateUndoRedoButtons();
 		ViewController.getInstance().getSudokuPuzzleView().requestFocus();
 	}
 
-	/** Constructor for state transitions. */
-	protected ApplicationModelState(final ApplicationModelState lastState) {
+	/**
+	 * Constructor for state transitions. Use addToHistory = true to allow the state
+	 * change to be reverted (undo).
+	 */
+	protected ApplicationModelState(final ApplicationModelState lastState, final boolean addToHistory) {
 		this.sudokuPuzzleValues = lastState.sudokuPuzzleValues;
 		this.sudokuPuzzleStyle = lastState.sudokuPuzzleStyle;
 		this.lastKeyCode = lastState.lastKeyCode;
 		this.applicationStateHistory = lastState.applicationStateHistory;
-		// Some states are invoked by clicks. So , refocus grid so the keyboard actions
+		if (addToHistory) {
+			this.addPuzzleStateToUndoStack();
+		}
+		// Some states are invoked by clicks. So, refocus grid so the keyboard actions
 		// always work (see SudokuPuzzleView for more notes on why this is done).
 		ViewController.getInstance().getSudokuPuzzleView().requestFocus();
 	}
 
 	public void onEnter() {
 		// Nothing to do.
+	}
+
+	protected void addPuzzleStateToUndoStack() {
+		this.applicationStateHistory.addToUndoStack(this.sudokuPuzzleValues);
+		this.applicationStateHistory.clearRedoStack();
+		this.updateUndoRedoButtons();
 	}
 
 	/**
@@ -209,6 +222,28 @@ public class ApplicationModelState {
 	}
 
 	/**
+	 * Determines which candidates no longer are possible because of the set number,
+	 * and removes them from the model / view.
+	 */
+	protected void removeImpermissibleCandidates(final SudokuPuzzleCell cell) {
+		final int fixedDigit = cell.getFixedDigit();
+		final List<SudokuPuzzleCell> visibleCells = this.getCellsSeenFrom(cell.getRow(), cell.getCol());
+		visibleCells.forEach(otherCell -> {
+			otherCell.setCandidateVisible(fixedDigit, false);
+			// Cast to object forces the list to remove by object reference instead
+			// of index.
+			this.sudokuPuzzleValues.getCandidateDigitsForCell(otherCell.getRow(), otherCell.getCol())
+					.remove((Object) fixedDigit);
+		});
+	}
+
+	protected void updateUndoRedoButtons() {
+		final NumericButtonPane numericButtonPane = ViewController.getInstance().getNumericButtonPane();
+		numericButtonPane.getUndoButton().setDisable(this.applicationStateHistory.isUndoStackEmpty());
+		numericButtonPane.getRedoButton().setDisable(this.applicationStateHistory.isRedoStackEmpty());
+	}
+
+	/**
 	 * Adds the given digit to the cells seen by the selected cell, if no other
 	 * fixed instances of that digit see the cell.
 	 */
@@ -223,8 +258,8 @@ public class ApplicationModelState {
 		});
 	}
 
-	protected void updateFixedCellTypeCssClass(final String newFixedCellTypeCssClass) {
-		final ObservableList<String> styleClass = this.getSelectedCell().getStyleClass();
+	protected void updateFixedCellTypeCssClass(final SudokuPuzzleCell cell, final String newFixedCellTypeCssClass) {
+		final ObservableList<String> styleClass = cell.getStyleClass();
 		FIXED_CELL_TYPE_CSS_CLASSES.forEach(styleClass::remove);
 		styleClass.add(newFixedCellTypeCssClass);
 	}

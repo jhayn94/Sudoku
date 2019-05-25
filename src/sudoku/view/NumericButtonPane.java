@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
+import sudoku.core.ModelController;
 import sudoku.factories.LayoutFactory;
 import sudoku.view.util.LabelConstants;
 import sudoku.view.util.TooltipConstants;
@@ -32,6 +33,10 @@ public class NumericButtonPane extends GridPane {
 
 	private final List<Button> filterButtons;
 
+	private Button undoButton;
+
+	private Button redoButton;
+
 	public NumericButtonPane() {
 		this.filterButtons = new ArrayList<>(10);
 		this.configure();
@@ -39,6 +44,14 @@ public class NumericButtonPane extends GridPane {
 
 	public List<Button> getFilterButtons() {
 		return this.filterButtons;
+	}
+
+	public Button getUndoButton() {
+		return this.undoButton;
+	}
+
+	public Button getRedoButton() {
+		return this.redoButton;
 	}
 
 	private void configure() {
@@ -66,23 +79,25 @@ public class NumericButtonPane extends GridPane {
 	}
 
 	private void createUndoButton() {
-		final Button undoActionButton = new Button();
-		undoActionButton.setFocusTraversable(false);
-		undoActionButton.setText(LabelConstants.UNDO);
-		undoActionButton.setTooltip(new Tooltip(TooltipConstants.UNDO));
-		undoActionButton.setMinHeight(MIN_BUTTON_HEIGHT);
-		undoActionButton.setMinWidth(MIN_BUTTON_WIDTH);
-		this.add(undoActionButton, 0, 3);
+		this.undoButton = new Button();
+		this.undoButton.setFocusTraversable(false);
+		this.undoButton.setText(LabelConstants.UNDO);
+		this.undoButton.setTooltip(new Tooltip(TooltipConstants.UNDO));
+		this.undoButton.setMinHeight(MIN_BUTTON_HEIGHT);
+		this.undoButton.setMinWidth(MIN_BUTTON_WIDTH);
+		this.undoButton.setOnAction(event -> ModelController.getInstance().transitionToUndoActionState());
+		this.add(this.undoButton, 0, 3);
 	}
 
 	private void createRedoButton() {
-		final Button redoActionButton = new Button();
-		redoActionButton.setFocusTraversable(false);
-		redoActionButton.setText(LabelConstants.REDO);
-		redoActionButton.setTooltip(new Tooltip(TooltipConstants.REDO));
-		redoActionButton.setMinHeight(MIN_BUTTON_HEIGHT);
-		redoActionButton.setMinWidth(MIN_BUTTON_WIDTH);
-		this.add(redoActionButton, 2, 3);
+		this.redoButton = new Button();
+		this.redoButton.setFocusTraversable(false);
+		this.redoButton.setText(LabelConstants.REDO);
+		this.redoButton.setTooltip(new Tooltip(TooltipConstants.REDO));
+		this.redoButton.setMinHeight(MIN_BUTTON_HEIGHT);
+		this.redoButton.setMinWidth(MIN_BUTTON_WIDTH);
+		this.redoButton.setOnAction(event -> ModelController.getInstance().transitionToRedoActionState());
+		this.add(this.redoButton, 2, 3);
 	}
 
 }

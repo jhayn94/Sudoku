@@ -1,6 +1,6 @@
 package sudoku.state;
 
-import java.util.List;
+import org.apache.logging.log4j.util.Strings;
 
 import javafx.scene.input.KeyCode;
 import sudoku.view.puzzle.SudokuPuzzleCell;
@@ -10,8 +10,12 @@ import sudoku.view.puzzle.SudokuPuzzleCell;
  */
 public class SetDigitState extends ApplicationModelState {
 
+	private static final String DIGIT_REPLACE_TEXT = "DIGIT";
+
+	private static final String NUMPAD_REPLACE_TEXT = "NUMPAD";
+
 	public SetDigitState(final KeyCode keyCode, final ApplicationModelState lastState) {
-		super(lastState);
+		super(lastState, true);
 		this.lastKeyCode = keyCode;
 	}
 
@@ -25,32 +29,18 @@ public class SetDigitState extends ApplicationModelState {
 
 			selectedCell.setCandidatesVisible(false);
 			selectedCell.setFixedDigit(this.lastKeyCode.toString());
-			this.updateFixedCellTypeCssClass(FIXED_CELL_CSS_CLASS);
+			this.updateFixedCellTypeCssClass(this.getSelectedCell(), FIXED_CELL_CSS_CLASS);
 
 			if (oldFixedDigit != -1) {
 				this.addDigitAsCandidateToSeenCells(oldFixedDigit);
 			}
 
-			this.removeImpermissibleCandidates(selectedCellRow, selectedCellCol, selectedCell);
-
+			this.removeImpermissibleCandidates(selectedCell);
+			final int digit = Integer.parseInt(this.lastKeyCode.toString().replace(DIGIT_REPLACE_TEXT, Strings.EMPTY)
+					.replace(NUMPAD_REPLACE_TEXT, Strings.EMPTY));
+			this.sudokuPuzzleValues.setCellFixedDigit(selectedCell.getRow(), selectedCell.getCol(), digit);
 			this.reapplyActiveFilter();
 		}
-	}
-
-	/**
-	 * Determines which candidates no longer are possible because of the new number,
-	 * and removes them from the model / view.
-	 */
-	private void removeImpermissibleCandidates(final int selectedCellRow, final int selectedCellCol,
-			final SudokuPuzzleCell selectedCell) {
-		final int fixedDigit = selectedCell.getFixedDigit();
-		final List<SudokuPuzzleCell> visibleCells = this.getCellsSeenFrom(selectedCellRow, selectedCellCol);
-		visibleCells.forEach(cell -> {
-			cell.setCandidateVisible(fixedDigit, false);
-			// Cast to object forces the list to remove by object reference instead
-			// of index.
-			this.sudokuPuzzleValues.getCandidateDigitsForCell(cell.getRow(), cell.getCol()).remove((Object) fixedDigit);
-		});
 	}
 
 }

@@ -52,12 +52,14 @@
 .sudoku-unfixed-cell {
 	-fx-border-color: -sudoku-color-bark;
 	-fx-background-color: #eeeeee;
+	-fx-text-background-color: -sudoku-color-bark;
 }
 
 .sudoku-given-cell {
 	-fx-border-color: -sudoku-color-bark;
 	-fx-background-color: #eeeeee;
 	-fx-font-size: 30pt;
+	-fx-text-background-color: -sudoku-color-bark;
 }
 
 .sudoku-fixed-cell {

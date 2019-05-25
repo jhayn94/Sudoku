@@ -15,7 +15,7 @@ public class DefaultApplicationModelState extends ApplicationModelState {
 
 	@Override
 	public void onEnter() {
-		// Nothing to do.
+
 	}
 
 }

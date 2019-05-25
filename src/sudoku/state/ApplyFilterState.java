@@ -12,7 +12,7 @@ public class ApplyFilterState extends ApplicationModelState {
 	protected final String newCellFilter;
 
 	public ApplyFilterState(final ApplicationModelState applicationModelState, final String filter) {
-		super(applicationModelState);
+		super(applicationModelState, false);
 		this.newCellFilter = filter;
 	}
 
