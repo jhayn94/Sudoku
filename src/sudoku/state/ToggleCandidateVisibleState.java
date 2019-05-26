@@ -1,7 +1,5 @@
 package sudoku.state;
 
-import java.util.List;
-
 import javafx.scene.input.KeyCode;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 
@@ -20,19 +18,7 @@ public class ToggleCandidateVisibleState extends ApplicationModelState {
 	public void onEnter() {
 		final int pressedDigit = Integer.parseInt(this.lastKeyCode.getName());
 		final SudokuPuzzleCell selectedCell = this.getSelectedCell();
-
-		if (!selectedCell.isCellFixed()) {
-			final List<Integer> candidatesForCell = this.sudokuPuzzleValues.getCandidateDigitsForCell(
-					this.sudokuPuzzleStyle.getSelectedCellRow(), this.sudokuPuzzleStyle.getSelectedCellCol());
-			final boolean isCandidateVisible = candidatesForCell.contains(pressedDigit);
-			selectedCell.setCandidateVisible(pressedDigit, !isCandidateVisible);
-			if (isCandidateVisible) {
-				candidatesForCell.remove((Object) pressedDigit);
-			} else {
-				candidatesForCell.add(pressedDigit);
-			}
-		}
-		this.reapplyActiveFilter();
+		this.toggleCandidateActiveForCell(pressedDigit, selectedCell);
 	}
 
 }

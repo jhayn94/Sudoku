@@ -200,6 +200,21 @@ public class ApplicationModelState {
 		filterButtons.forEach(button -> this.updateFilterButton(newCellFilter, button));
 	}
 
+	protected void toggleCandidateActiveForCell(final int pressedDigit, final SudokuPuzzleCell cell) {
+		if (!cell.isCellFixed()) {
+			final List<Integer> candidatesForCell = this.sudokuPuzzleValues.getCandidateDigitsForCell(cell.getRow(),
+					cell.getCol());
+			final boolean isCandidateVisible = candidatesForCell.contains(pressedDigit);
+			cell.setCandidateVisible(pressedDigit, !isCandidateVisible);
+			if (isCandidateVisible) {
+				candidatesForCell.remove((Object) pressedDigit);
+			} else {
+				candidatesForCell.add(pressedDigit);
+			}
+		}
+		this.reapplyActiveFilter();
+	}
+
 	/**
 	 * Adds a CSS class to every applicable cell that satisfies the
 	 * activeCellFilter. These cells get the CSS class
