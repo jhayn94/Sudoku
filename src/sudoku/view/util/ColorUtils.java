@@ -7,11 +7,21 @@ import java.util.NoSuchElementException;
 import org.apache.logging.log4j.util.Strings;
 
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 
 /**
  * This class contains various utilities for coloring cells or candidate.
  */
 public class ColorUtils {
+
+	private static final String RED = "#f05c79";
+	private static final String BLUE = "#4da6ff";
+	private static final String PURPLE = "#a385e0";
+	private static final String GREEN = "#79d2a0";
+	private static final String ORANGE = "#79d2a0";
+
+	private static final List<Color> COLORS = Arrays.asList(Color.valueOf(RED), Color.valueOf(BLUE),
+			Color.valueOf(PURPLE), Color.valueOf(GREEN), Color.valueOf(ORANGE));
 
 	private static final List<KeyCode> APPLY_COLOR_KEY_CODES = Arrays.asList(KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.F,
 			KeyCode.G);
@@ -40,6 +50,10 @@ public class ColorUtils {
 			BLUE_ENTITY_CSS_CLASS, ALT_BLUE_ENTITY_CSS_CLASS, PURPLE_ENTITY_CSS_CLASS, ALT_PURPLE_ENTITY_CSS_CLASS,
 			GREEN_ENTITY_CSS_CLASS, ALT_GREEN_ENTITY_CSS_CLASS, ORANGE_ENTITY_CSS_CLASS, ALT_ORANGE_ENTITY_CSS_CLASS);
 
+	public static List<Color> getColors() {
+		return COLORS;
+	}
+
 	public List<String> getCssColorClasses() {
 		return COLOR_CSS_CLASSES;
 	}
@@ -49,17 +63,11 @@ public class ColorUtils {
 	}
 
 	public enum ColorState {
-		RED(0, false, RED_ENTITY_CSS_CLASS),
-		ALT_RED(0, true, ALT_RED_ENTITY_CSS_CLASS),
-		BLUE(1, false, BLUE_ENTITY_CSS_CLASS),
-		ALT_BLUE(1, true, ALT_BLUE_ENTITY_CSS_CLASS),
-		PURPLE(2, false, PURPLE_ENTITY_CSS_CLASS),
-		ALT_PURPLE(2, true, ALT_PURPLE_ENTITY_CSS_CLASS),
-		GREEN(3, false, GREEN_ENTITY_CSS_CLASS),
-		ALT_GREEN(3, true, ALT_GREEN_ENTITY_CSS_CLASS),
-		ORANGE(4, false, ORANGE_ENTITY_CSS_CLASS),
-		ALT_ORANGE(4, true, ALT_ORANGE_ENTITY_CSS_CLASS),
-		NONE;
+		RED(0, false, RED_ENTITY_CSS_CLASS), ALT_RED(0, true, ALT_RED_ENTITY_CSS_CLASS),
+		BLUE(1, false, BLUE_ENTITY_CSS_CLASS), ALT_BLUE(1, true, ALT_BLUE_ENTITY_CSS_CLASS),
+		PURPLE(2, false, PURPLE_ENTITY_CSS_CLASS), ALT_PURPLE(2, true, ALT_PURPLE_ENTITY_CSS_CLASS),
+		GREEN(3, false, GREEN_ENTITY_CSS_CLASS), ALT_GREEN(3, true, ALT_GREEN_ENTITY_CSS_CLASS),
+		ORANGE(4, false, ORANGE_ENTITY_CSS_CLASS), ALT_ORANGE(4, true, ALT_ORANGE_ENTITY_CSS_CLASS), NONE;
 
 		private final int keyIndex;
 
@@ -80,7 +88,7 @@ public class ColorUtils {
 		}
 
 		public KeyCode getKey() {
-			return getApplyColorKeyCodes().get(this.keyIndex);
+			return ColorUtils.getApplyColorKeyCodes().get(this.keyIndex);
 		}
 
 		public boolean isWithShift() {
@@ -93,7 +101,7 @@ public class ColorUtils {
 
 		public static ColorState getFromKeyCode(final KeyCode keyCode, final boolean isWithShift) {
 			return Arrays.asList(ColorState.values()).stream()
-					.filter(colorState -> getApplyColorKeyCodes().get(colorState.keyIndex) == keyCode
+					.filter(colorState -> ColorUtils.getApplyColorKeyCodes().get(colorState.keyIndex) == keyCode
 							&& colorState.withShift == isWithShift)
 					.findFirst().orElseThrow(NoSuchElementException::new);
 		}

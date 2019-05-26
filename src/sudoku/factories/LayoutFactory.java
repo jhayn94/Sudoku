@@ -15,6 +15,8 @@ import sudoku.view.control.ToggleButton;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 import sudoku.view.puzzle.SudokuPuzzleView;
 import sudoku.view.sidebar.ColorCandidateSelectionPane;
+import sudoku.view.sidebar.ColorSelectionPane;
+import sudoku.view.sidebar.ColoringToolsPane;
 import sudoku.view.sidebar.MouseModePane;
 import sudoku.view.sidebar.NumericButtonPane;
 import sudoku.view.util.ResourceConstants;
@@ -74,8 +76,16 @@ public class LayoutFactory {
 		return new MouseModePane();
 	}
 
+	public ColoringToolsPane createColoringToolsPane() {
+		return new ColoringToolsPane();
+	}
+
 	public ColorCandidateSelectionPane createColorCandidateSelectionPane() {
 		return new ColorCandidateSelectionPane();
+	}
+
+	public ColorSelectionPane createColorSelectionPane() {
+		return new ColorSelectionPane();
 	}
 
 	public ShadowRectangle createShadowRectangle() {

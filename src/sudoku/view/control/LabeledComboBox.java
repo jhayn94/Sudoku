@@ -14,7 +14,7 @@ public class LabeledComboBox extends HBox {
 
 	private static final int COMBO_BOX_WIDTH = 200;
 
-	private static final double LABEL_RIGHT_PADDING = 7.5;
+	private static final double LABEL_RIGHT_PADDING = 37.5;
 
 	private ComboBox<String> comboBox;
 

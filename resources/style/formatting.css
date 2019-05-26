@@ -225,7 +225,7 @@
 	-fx-prompt-text-fill: -sudoku-color-parchment;
 }
 
-.sudoku-candidate-to-color-text-area {
+.sudoku-side-bar-text-area {
 	-fx-border-width: 1;
 	-fx-background-radius: 2;
 	-fx-border-radius: 2;

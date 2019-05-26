@@ -5,7 +5,7 @@ import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
 import sudoku.factories.LayoutFactory;
-import sudoku.view.sidebar.ColorCandidateSelectionPane;
+import sudoku.view.sidebar.ColoringToolsPane;
 import sudoku.view.sidebar.MouseModePane;
 import sudoku.view.sidebar.NumericButtonPane;
 
@@ -35,8 +35,7 @@ public class ApplicationSideBar extends SplitPane {
 		final ObservableList<Node> items = this.getItems();
 		final NumericButtonPane numericButtonPane = LayoutFactory.getInstance().createNumericButtonPane();
 		final MouseModePane mouseModePane = LayoutFactory.getInstance().createMouseModePane();
-		final ColorCandidateSelectionPane colorCandidateSelectionPane = LayoutFactory.getInstance()
-				.createColorCandidateSelectionPane();
-		items.addAll(numericButtonPane, mouseModePane, colorCandidateSelectionPane);
+		final ColoringToolsPane coloringToolsPane = LayoutFactory.getInstance().createColoringToolsPane();
+		items.addAll(numericButtonPane, mouseModePane, coloringToolsPane);
 	}
 }

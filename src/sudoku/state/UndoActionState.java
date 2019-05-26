@@ -14,7 +14,6 @@ public class UndoActionState extends ResetFromModelState {
 
 	@Override
 	public void onEnter() {
-		super.onEnter();
 		if (!this.applicationStateHistory.isUndoStackEmpty()) {
 			final SudokuPuzzleValues puzzleStateForUndo = this.applicationStateHistory.getPuzzleStateForUndo();
 			this.applicationStateHistory.addToRedoStack(this.sudokuPuzzleValues);

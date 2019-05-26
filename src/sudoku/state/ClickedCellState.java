@@ -1,5 +1,7 @@
 package sudoku.state;
 
+import sudoku.view.util.MouseMode;
+
 /**
  * This class updates the state of the application when the user clicks a cell.
  * In general, this will only affect the selected cell.
@@ -18,13 +20,21 @@ public class ClickedCellState extends ApplicationModelState {
 
 	@Override
 	public void onEnter() {
-		if (this.sudokuPuzzleStyle.getSelectedCellRow() != -1 && this.sudokuPuzzleStyle.getSelectedCellCol() != -1) {
-			this.getSelectedCell().setIsSelected(false);
+		if (MouseMode.SELECT_CELLS == this.mouseMode) {
+			if (this.sudokuPuzzleStyle.getSelectedCellRow() != -1 && this.sudokuPuzzleStyle.getSelectedCellCol() != -1) {
+				this.getSelectedCell().setIsSelected(false);
+			}
+			this.updateSelectedCell();
+		} else if (MouseMode.COLOR_CELLS == this.mouseMode) {
+
+		} else {
+			// MouseMode.COLOR_CANDIDATES case.
+
 		}
-		this.updateSelectedCell();
 	}
 
 	private void updateSelectedCell() {
+		// if mode ==..
 		// Cell was already selected.
 		if (this.row == this.sudokuPuzzleStyle.getSelectedCellRow()
 				&& this.col == this.sudokuPuzzleStyle.getSelectedCellCol()) {

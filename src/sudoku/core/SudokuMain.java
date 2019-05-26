@@ -28,6 +28,7 @@ public class SudokuMain extends Application {
 
 	@Override
 	public void start(final Stage stage) throws IOException {
+
 		final BorderPane root = this.createRootPane(stage);
 		final RootStackPane rootStackPane = LayoutFactory.getInstance().createRootStackPane(root);
 		final Scene scene = this.createScene(rootStackPane);

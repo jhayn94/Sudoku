@@ -5,13 +5,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
-import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
 import sudoku.core.ModelController;
 import sudoku.core.ViewController;
+import sudoku.view.util.ColorUtils;
 import sudoku.view.util.TooltipConstants;
 
 /**
@@ -19,11 +22,11 @@ import sudoku.view.util.TooltipConstants;
  * allows the user to change the mode of the mouse: select cells, color cells,
  * color candidates.
  */
-public class ColorCandidateSelectionPane extends HBox {
+public class ColorSelectionPane extends HBox {
 
 	private static final int TEXT_FIELD_SIZE = 62;
 
-	private static final String DEFAULT_COLORING_CANDIDATE = "1";
+	private static final Color DEFAULT_COLOR = ColorUtils.getColors().get(0);
 
 	private static final int BUTTON_HEIGHT = 15;
 
@@ -49,7 +52,7 @@ public class ColorCandidateSelectionPane extends HBox {
 
 	private static final String BUTTON_CSS_CLASS = "sudoku-candidate-increment-decrement-button";
 
-	public ColorCandidateSelectionPane() {
+	public ColorSelectionPane() {
 		this.configure();
 	}
 
@@ -61,13 +64,16 @@ public class ColorCandidateSelectionPane extends HBox {
 	}
 
 	private void createChildElements() {
-		final TextArea candidateToColorDisplayArea = this.createCurrentCandidateDisplayField();
-		final VBox buttonPanel = this.createChangeCandidateButtonPanel();
-		this.getChildren().addAll(candidateToColorDisplayArea, buttonPanel);
+		final TextArea currentColorDisplayArea = this.createCurrentColorDisplayField();
+		final VBox buttonPanel = this.createChangeColorButtonPanel();
+		this.getChildren().addAll(currentColorDisplayArea, buttonPanel);
 	}
 
-	private TextArea createCurrentCandidateDisplayField() {
-		final TextArea candidateToColorDisplayArea = new TextArea(DEFAULT_COLORING_CANDIDATE);
+	private TextArea createCurrentColorDisplayField() {
+		final TextArea candidateToColorDisplayArea = new TextArea();
+		final BackgroundFill backgroundFill = new BackgroundFill(Paint.valueOf(DEFAULT_COLOR.toString()), null, null);
+		final Background defaultBackground = new Background(backgroundFill);
+		candidateToColorDisplayArea.setBackground(defaultBackground);
 		candidateToColorDisplayArea.getStyleClass().add(SIDE_BAR_TEXT_AREA_CSS_CLASS);
 		candidateToColorDisplayArea.setEditable(false);
 		candidateToColorDisplayArea.setTooltip(new Tooltip(TooltipConstants.ACTIVE_COLORING_CANDIDATE));
@@ -81,7 +87,7 @@ public class ColorCandidateSelectionPane extends HBox {
 		return candidateToColorDisplayArea;
 	}
 
-	private VBox createChangeCandidateButtonPanel() {
+	private VBox createChangeColorButtonPanel() {
 		final VBox buttonPanel = new VBox();
 		final Button incrementNumberButton = this.createIncrementButton();
 		final Button decrementNumberButton = this.createDecrementButton();
@@ -98,8 +104,7 @@ public class ColorCandidateSelectionPane extends HBox {
 		incrementNumberButton.setMaxWidth(BUTTON_WIDTH);
 		incrementNumberButton.setMinWidth(BUTTON_WIDTH);
 		incrementNumberButton.setFocusTraversable(false);
-		incrementNumberButton.setOnAction(
-				event -> ModelController.getInstance().transitionToToggleActiveCandidateToColorState(KeyCode.PAGE_UP));
+		incrementNumberButton.setOnAction(event -> ModelController.getInstance().transitionToToggleActiveColorState(true));
 		final Polygon upArrowPolygon = new Polygon();
 		upArrowPolygon.getPoints().addAll(UP_ARROW_VERTICES);
 		upArrowPolygon.setFill(Paint.valueOf(STONE_BLUE_HEX_CODE));
@@ -115,8 +120,7 @@ public class ColorCandidateSelectionPane extends HBox {
 		decrementNumberButton.setMaxWidth(BUTTON_WIDTH);
 		decrementNumberButton.setMinWidth(BUTTON_WIDTH);
 		decrementNumberButton.setFocusTraversable(false);
-		decrementNumberButton.setOnAction(
-				event -> ModelController.getInstance().transitionToToggleActiveCandidateToColorState(KeyCode.PAGE_DOWN));
+		decrementNumberButton.setOnAction(event -> ModelController.getInstance().transitionToToggleActiveColorState(false));
 		final Polygon downArrowPolygon = new Polygon();
 		downArrowPolygon.getPoints().addAll(DOWN_ARROW_VERTICES);
 		downArrowPolygon.setFill(Paint.valueOf(STONE_BLUE_HEX_CODE));

@@ -1,12 +1,14 @@
 package sudoku.core;
 
 import javafx.scene.input.KeyCode;
+import sudoku.state.ActiveColorState;
 import sudoku.state.ApplicationModelState;
 import sudoku.state.ApplyFilterState;
 import sudoku.state.ArrowKeyboardInputState;
 import sudoku.state.ClickedCellState;
 import sudoku.state.CycleActiveFilterState;
 import sudoku.state.DefaultApplicationModelState;
+import sudoku.state.MouseModeChangedState;
 import sudoku.state.RedoActionState;
 import sudoku.state.RemoveDigitState;
 import sudoku.state.ResetAllColorsState;
@@ -142,6 +144,16 @@ public class ModelController {
 
 	public void transitionToRedoActionState() {
 		this.applicationModelState = new RedoActionState(this.applicationModelState);
+		this.applicationModelState.onEnter();
+	}
+
+	public void transitionToMouseModeChangedState(final String newMouseMode) {
+		this.applicationModelState = new MouseModeChangedState(newMouseMode, this.applicationModelState);
+		this.applicationModelState.onEnter();
+	}
+
+	public void transitionToToggleActiveColorState(final boolean increment) {
+		this.applicationModelState = new ActiveColorState(increment, this.applicationModelState);
 		this.applicationModelState.onEnter();
 	}
 }

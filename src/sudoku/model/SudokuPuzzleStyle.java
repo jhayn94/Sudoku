@@ -2,6 +2,7 @@ package sudoku.model;
 
 import org.apache.logging.log4j.util.Strings;
 
+import javafx.scene.paint.Color;
 import sudoku.view.util.ColorUtils.ColorState;
 
 /**
@@ -41,9 +42,12 @@ public class SudokuPuzzleStyle {
 	// a separate control changes this value.
 	protected int activeColorCandidateDigit;
 
+	private Color activeColor;
+
 	public SudokuPuzzleStyle() {
 		this.activeColorCandidateDigit = 1;
 		this.activeCellFilter = Strings.EMPTY;
+		this.activeColor = Color.RED;
 		this.filterAllowedCells = false;
 		this.selectedCellRow = MIDDLE_CELL_INDEX;
 		this.selectedCellCol = MIDDLE_CELL_INDEX;
@@ -87,6 +91,10 @@ public class SudokuPuzzleStyle {
 		return this.selectedCellCol;
 	}
 
+	public Color getActiveColor() {
+		return this.activeColor;
+	}
+
 	public ColorState getCellColorState(final int row, final int col) {
 		return this.cellColorStates[col][row];
 	}
@@ -113,6 +121,10 @@ public class SudokuPuzzleStyle {
 
 	public void setSelectedCellCol(final int selectedCellCol) {
 		this.selectedCellCol = selectedCellCol;
+	}
+
+	public void setSelectedCellCol(final Color newColor) {
+		this.activeColor = newColor;
 	}
 
 	public void setCellColorState(final int row, final int col, final ColorState cellColorState) {

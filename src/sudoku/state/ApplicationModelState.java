@@ -19,6 +19,7 @@ import sudoku.model.SudokuPuzzleValues;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 import sudoku.view.sidebar.NumericButtonPane;
 import sudoku.view.util.ColorUtils.ColorState;
+import sudoku.view.util.MouseMode;
 
 /**
  * This class is a representation of the current state of the application model,
@@ -47,6 +48,8 @@ public class ApplicationModelState {
 
 	protected KeyCode lastKeyCode;
 
+	protected MouseMode mouseMode;
+
 	protected ApplicationStateHistory applicationStateHistory;
 
 	/** Constructor for the initialization of the application. */
@@ -55,6 +58,7 @@ public class ApplicationModelState {
 		this.sudokuPuzzleStyle = ModelFactory.getInstance().createSudokuPuzzleStyle();
 		this.lastKeyCode = null;
 		this.applicationStateHistory = ModelFactory.getInstance().createApplicationStateHistory();
+		this.mouseMode = MouseMode.SELECT_CELLS;
 		this.resetColorStates();
 		this.updateUndoRedoButtons();
 		ViewController.getInstance().getSudokuPuzzleView().requestFocus();
@@ -68,6 +72,7 @@ public class ApplicationModelState {
 		this.sudokuPuzzleValues = lastState.sudokuPuzzleValues;
 		this.sudokuPuzzleStyle = lastState.sudokuPuzzleStyle;
 		this.lastKeyCode = lastState.lastKeyCode;
+		this.mouseMode = lastState.mouseMode;
 		this.applicationStateHistory = lastState.applicationStateHistory;
 		if (addToHistory) {
 			this.addPuzzleStateToUndoStack();

@@ -21,6 +21,8 @@ import sudoku.view.util.TooltipConstants;
  */
 public class NumericButtonPane extends GridPane {
 
+	private static final int PADDING_FOR_PANE = 15;
+
 	private static final String CSS_CLASS = "sudoku-transparent-pane";
 
 	private static final int DEFAULT_WIDTH = 320;
@@ -56,8 +58,8 @@ public class NumericButtonPane extends GridPane {
 
 	private void configure() {
 		this.getStyleClass().add(CSS_CLASS);
-		this.setPadding(new Insets(15));
-		this.setHgap(20);
+		this.setPadding(new Insets(PADDING_FOR_PANE));
+		this.setHgap(38.5);
 		this.setVgap(20);
 		this.setMinWidth(DEFAULT_WIDTH);
 		this.setMaxWidth(DEFAULT_WIDTH);
