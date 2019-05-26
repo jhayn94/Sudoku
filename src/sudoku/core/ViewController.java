@@ -1,6 +1,7 @@
 package sudoku.core;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import sudoku.model.SudokuPuzzleValues;
 import sudoku.view.menu.button.MaximizeMenuButton;
@@ -36,6 +37,8 @@ public class ViewController {
 
 	private final SudokuPuzzleCell[][] sudokuPuzzleCells;
 
+	private TextArea activeColoringCandidateTextArea;
+
 	private ViewController() {
 		this.stage = null;
 		this.maximizeWindowButton = null;
@@ -69,6 +72,10 @@ public class ViewController {
 		return this.sudokuPuzzleCells[col][row];
 	}
 
+	public TextArea getActiveColoringCandidateTextArea() {
+		return this.activeColoringCandidateTextArea;
+	}
+
 	public void setStage(final Stage stage) {
 		this.stage = stage;
 	}
@@ -91,6 +98,10 @@ public class ViewController {
 
 	public void registerSudokuPuzzleCell(final SudokuPuzzleCell sudokuPuzzleCell, final int col, final int row) {
 		this.sudokuPuzzleCells[col][row] = sudokuPuzzleCell;
+	}
+
+	public void setActiveColoringCandidateTextArea(final TextArea activeColoringCandidateTextArea) {
+		this.activeColoringCandidateTextArea = activeColoringCandidateTextArea;
 	}
 
 }

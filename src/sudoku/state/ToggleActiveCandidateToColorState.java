@@ -1,6 +1,8 @@
 package sudoku.state;
 
+import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
+import sudoku.core.ViewController;
 import sudoku.model.SudokuPuzzleValues;
 
 /**
@@ -31,7 +33,8 @@ public class ToggleActiveCandidateToColorState extends ApplicationModelState {
 		}
 		this.sudokuPuzzleStyle.setActiveColorCandidateDigit(activeColorCandidateDigit);
 
-		// TODO - once the UI components exist, change those as well.
+		final TextArea activeColoringCandidateTextArea = ViewController.getInstance().getActiveColoringCandidateTextArea();
+		activeColoringCandidateTextArea.setText(String.valueOf(activeColorCandidateDigit));
 	}
 
 }
