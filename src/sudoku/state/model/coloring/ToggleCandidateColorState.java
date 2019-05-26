@@ -1,15 +1,15 @@
-package sudoku.state;
+package sudoku.state.model.coloring;
 
 import java.util.List;
 
 import javafx.scene.input.KeyCode;
+import sudoku.state.ApplicationModelState;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 import sudoku.view.util.ColorUtils.ColorState;
 
 /**
- * This class updates the state of the application to reply to a CTRL + ASDFG
- * key press, which should set the active coloring candidate label's color for
- * the active cell.
+ * This class updates the state of the application to reply to set the active
+ * coloring candidate label's color for the specified cell.
  */
 public class ToggleCandidateColorState extends ApplicationModelState {
 

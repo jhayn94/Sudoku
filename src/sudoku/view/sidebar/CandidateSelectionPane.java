@@ -74,7 +74,7 @@ public class CandidateSelectionPane extends HBox {
 		candidateToColorLabel.setAlignment(Pos.CENTER);
 		candidateToColorLabel.setContentDisplay(ContentDisplay.CENTER);
 		candidateToColorLabel.getStyleClass().add(SIDE_BAR_LABEL_CSS_CLASS);
-		final Tooltip tooltip = new Tooltip(TooltipConstants.ACTIVE_COLORING_CANDIDATE);
+		final Tooltip tooltip = new Tooltip(TooltipConstants.ACTIVE_CANDIDATE);
 		candidateToColorLabel.setTooltip(tooltip);
 		tooltip.getStyleClass().add(TOOLTIP_CSS_CLASS);
 		candidateToColorLabel.setMinWidth(TEXT_FIELD_SIZE);

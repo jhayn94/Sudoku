@@ -1,4 +1,6 @@
-package sudoku.state;
+package sudoku.state.model.cell;
+
+import sudoku.state.ApplicationModelState;
 
 /**
  * This class updates the state of the application when cells are set as given.

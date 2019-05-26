@@ -1,6 +1,7 @@
-package sudoku.state;
+package sudoku.state.model.coloring;
 
 import javafx.scene.input.KeyCode;
+import sudoku.state.ApplicationModelState;
 
 /**
  * This class updates the state of the application to reply to a R or a CTRL + R

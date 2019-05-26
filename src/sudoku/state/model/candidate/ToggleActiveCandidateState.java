@@ -1,9 +1,10 @@
-package sudoku.state;
+package sudoku.state.model.candidate;
 
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import sudoku.core.ViewController;
 import sudoku.model.SudokuPuzzleValues;
+import sudoku.state.ApplicationModelState;
 
 /**
  * This class updates the state of the application contains methods to change

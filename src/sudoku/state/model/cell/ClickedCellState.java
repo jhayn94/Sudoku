@@ -1,6 +1,7 @@
-package sudoku.state;
+package sudoku.state.model.cell;
 
 import sudoku.core.ViewController;
+import sudoku.state.ApplicationModelState;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 import sudoku.view.util.ColorUtils.ColorState;
 import sudoku.view.util.MouseMode;

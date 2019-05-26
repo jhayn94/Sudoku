@@ -11,7 +11,9 @@ public class TooltipConstants {
 
 	public static final String MOUSE_MODE = "Determines what the mouse does when it clicks in the Sudoku.";
 
-	public static final String ACTIVE_COLORING_CANDIDATE = "Determines which candidate is colored when that mode is active.";
+	public static final String ACTIVE_CANDIDATE = "Determines which candidate is used for various actions where it is otherwise not explicit.";
+
+	public static final String ACTIVE_COLOR = "Determines which color is used for various actions where it is otherwise not explicit.";
 
 	private TooltipConstants() {
 		// Private constructor to prevent instantiation.

@@ -1,8 +1,9 @@
-package sudoku.state;
+package sudoku.state.model.cell;
 
 import org.apache.logging.log4j.util.Strings;
 
 import javafx.scene.input.KeyCode;
+import sudoku.state.ApplicationModelState;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 
 /**

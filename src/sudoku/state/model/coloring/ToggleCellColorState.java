@@ -1,6 +1,7 @@
-package sudoku.state;
+package sudoku.state.model.coloring;
 
 import javafx.scene.input.KeyCode;
+import sudoku.state.ApplicationModelState;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 import sudoku.view.util.ColorUtils.ColorState;
 

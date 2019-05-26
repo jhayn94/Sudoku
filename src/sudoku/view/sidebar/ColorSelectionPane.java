@@ -85,7 +85,7 @@ public class ColorSelectionPane extends HBox {
 				new CornerRadii(2), BorderStroke.THIN);
 		final Border border = new Border(borderStroke);
 		this.candidateToColorDisplayArea.setBorder(border);
-		this.candidateToColorDisplayArea.setTooltip(new Tooltip(TooltipConstants.ACTIVE_COLORING_CANDIDATE));
+		this.candidateToColorDisplayArea.setTooltip(new Tooltip(TooltipConstants.ACTIVE_COLOR));
 		this.candidateToColorDisplayArea.setMinWidth(TEXT_FIELD_SIZE);
 		this.candidateToColorDisplayArea.setMaxWidth(TEXT_FIELD_SIZE);
 		this.candidateToColorDisplayArea.setMinHeight(TEXT_FIELD_SIZE);

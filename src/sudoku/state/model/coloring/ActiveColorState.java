@@ -1,9 +1,10 @@
-package sudoku.state;
+package sudoku.state.model.coloring;
 
 import java.util.List;
 
 import javafx.scene.paint.Color;
 import sudoku.core.ViewController;
+import sudoku.state.ApplicationModelState;
 import sudoku.view.sidebar.ColorSelectionPane;
 import sudoku.view.util.ColorUtils;
 

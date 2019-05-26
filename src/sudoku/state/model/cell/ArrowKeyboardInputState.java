@@ -1,7 +1,8 @@
-package sudoku.state;
+package sudoku.state.model.cell;
 
 import javafx.scene.input.KeyCode;
 import sudoku.model.SudokuPuzzleValues;
+import sudoku.state.ApplicationModelState;
 
 /**
  * This class updates the state of the application when the selection changes by
