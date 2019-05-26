@@ -1,6 +1,5 @@
 package sudoku.state;
 
-import javafx.collections.ObservableList;
 import javafx.scene.input.KeyCode;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 import sudoku.view.util.ColorUtils.ColorState;
@@ -33,17 +32,7 @@ public class ToggleCellColorState extends ApplicationModelState {
 		final ColorState currentColorState = this.sudokuPuzzleStyle.getCellColorState(row, col);
 		final ColorState colorStateToApply = ColorState.getFromKeyCode(this.lastKeyCode, this.isShiftDown);
 
-		final ObservableList<String> styleClass = selectedCell.getStyleClass();
-		if (colorStateToApply == currentColorState) {
-			styleClass.remove(currentColorState.getCssClass());
-			this.sudokuPuzzleStyle.setCellColorState(row, col, ColorState.NONE);
-		} else {
-			if (currentColorState != ColorState.NONE) {
-				styleClass.remove(currentColorState.getCssClass());
-			}
-			styleClass.add(colorStateToApply.getCssClass());
-			this.sudokuPuzzleStyle.setCellColorState(row, col, colorStateToApply);
-		}
+		this.setColorStateForCell(row, col, currentColorState, colorStateToApply);
 	}
 
 }

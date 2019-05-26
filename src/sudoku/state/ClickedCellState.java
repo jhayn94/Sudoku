@@ -2,6 +2,7 @@ package sudoku.state;
 
 import sudoku.core.ViewController;
 import sudoku.view.puzzle.SudokuPuzzleCell;
+import sudoku.view.util.ColorUtils.ColorState;
 import sudoku.view.util.MouseMode;
 
 /**
@@ -14,10 +15,14 @@ public class ClickedCellState extends ApplicationModelState {
 
 	private final int row;
 
-	public ClickedCellState(final int row, final int col, final ApplicationModelState lastState) {
+	private final boolean isShiftDown;
+
+	public ClickedCellState(final int row, final int col, final boolean isShiftDown,
+			final ApplicationModelState lastState) {
 		super(lastState, false);
 		this.row = row;
 		this.col = col;
+		this.isShiftDown = isShiftDown;
 	}
 
 	@Override
@@ -32,6 +37,10 @@ public class ClickedCellState extends ApplicationModelState {
 			this.toggleCandidateActiveForCell(this.sudokuPuzzleStyle.getActiveColorCandidateDigit(), sudokuPuzzleCell);
 		} else if (MouseMode.COLOR_CELLS == this.mouseMode) {
 
+			final ColorState currentColorState = this.sudokuPuzzleStyle.getCellColorState(this.row, this.col);
+			final ColorState baseColorState = ColorState.getStateForBaseColor(this.sudokuPuzzleStyle.getActiveColor());
+			final ColorState colorStateToApply = ColorState.getFromKeyCode(baseColorState.getKey(), this.isShiftDown);
+			this.setColorStateForCell(this.row, this.col, currentColorState, colorStateToApply);
 		} else {
 			// MouseMode.COLOR_CANDIDATES case.
 

@@ -91,8 +91,8 @@ public class ModelController {
 		this.applicationModelState.onEnter();
 	}
 
-	public void transitionToClickedCellState(final int row, final int col) {
-		this.applicationModelState = new ClickedCellState(row, col, this.applicationModelState);
+	public void transitionToClickedCellState(final int row, final int col, final boolean isShiftDown) {
+		this.applicationModelState = new ClickedCellState(row, col, isShiftDown, this.applicationModelState);
 		this.applicationModelState.onEnter();
 	}
 

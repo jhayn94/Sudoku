@@ -207,7 +207,7 @@ public class SudokuPuzzleCell extends StackPane {
 	}
 
 	private EventHandler<MouseEvent> onClick() {
-		return event -> ModelController.getInstance().transitionToClickedCellState(this.row, this.col);
+		return event -> ModelController.getInstance().transitionToClickedCellState(this.row, this.col, event.isShiftDown());
 	}
 
 	/**

@@ -103,6 +103,19 @@ public class ColorUtils {
 			return this.cssClass;
 		}
 
+		/**
+		 * Gets a color state based on the color passed. This only will retrieve the
+		 * base color state, not the alternative (with shift down). To do this, get the
+		 * base color state, then call getFromKeyCode(baseState.getKey(), true).
+		 */
+		public static ColorState getStateForBaseColor(final Color baseColor) {
+			return Arrays.asList(ColorState.values()).stream()
+					// The keys + color array list are in the same order, so we can use their
+					// indices interchangeably.
+					.filter(colorState -> ColorUtils.getColors().indexOf(baseColor) == colorState.keyIndex).findFirst()
+					.orElseThrow(NoSuchElementException::new);
+		}
+
 		public static ColorState getFromKeyCode(final KeyCode keyCode, final boolean isWithShift) {
 			return Arrays.asList(ColorState.values()).stream()
 					.filter(colorState -> ColorUtils.getApplyColorKeyCodes().get(colorState.keyIndex) == keyCode

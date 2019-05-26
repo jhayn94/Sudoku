@@ -257,6 +257,22 @@ public class ApplicationModelState {
 		});
 	}
 
+	protected void setColorStateForCell(final int row, final int col, final ColorState currentColorState,
+			final ColorState colorStateToApply) {
+		final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
+		final ObservableList<String> styleClass = sudokuPuzzleCell.getStyleClass();
+		if (colorStateToApply == currentColorState) {
+			styleClass.remove(currentColorState.getCssClass());
+			this.sudokuPuzzleStyle.setCellColorState(row, col, ColorState.NONE);
+		} else {
+			if (currentColorState != ColorState.NONE) {
+				styleClass.remove(currentColorState.getCssClass());
+			}
+			styleClass.add(colorStateToApply.getCssClass());
+			this.sudokuPuzzleStyle.setCellColorState(row, col, colorStateToApply);
+		}
+	}
+
 	protected void updateUndoRedoButtons() {
 		final NumericButtonPane numericButtonPane = ViewController.getInstance().getNumericButtonPane();
 		numericButtonPane.getUndoButton().setDisable(this.applicationStateHistory.isUndoStackEmpty());
