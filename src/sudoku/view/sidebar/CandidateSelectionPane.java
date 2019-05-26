@@ -20,7 +20,7 @@ import sudoku.view.util.TooltipConstants;
  * allows the user to change the mode of the mouse: select cells, color cells,
  * color candidates.
  */
-public class ColorCandidateSelectionPane extends HBox {
+public class CandidateSelectionPane extends HBox {
 
 	private static final int TEXT_FIELD_SIZE = 62;
 
@@ -50,7 +50,7 @@ public class ColorCandidateSelectionPane extends HBox {
 
 	private static final String BUTTON_CSS_CLASS = "sudoku-candidate-increment-decrement-button";
 
-	public ColorCandidateSelectionPane() {
+	public CandidateSelectionPane() {
 		this.configure();
 	}
 

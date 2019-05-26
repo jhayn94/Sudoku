@@ -41,8 +41,8 @@ public class MouseModePane extends GridPane {
 		mouseModeComboBox.setFocusTraversable(false);
 		mouseModeComboBox.getLabel().setText(LabelConstants.MOUSE_MODE);
 		final ComboBox<String> comboBox = mouseModeComboBox.getComboBox();
-		comboBox.getItems().addAll(LabelConstants.SELECT_CELLS, LabelConstants.COLOR_CELLS,
-				LabelConstants.COLOR_CANDIDATES);
+		comboBox.getItems().addAll(LabelConstants.SELECT_CELLS, LabelConstants.TOGGLE_CANDIDATES,
+				LabelConstants.COLOR_CELLS, LabelConstants.COLOR_CANDIDATES);
 		comboBox.getSelectionModel().select(0);
 		comboBox.setTooltip(new Tooltip(TooltipConstants.MOUSE_MODE));
 		this.getChildren().add(mouseModeComboBox);

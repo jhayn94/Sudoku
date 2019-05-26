@@ -14,10 +14,10 @@ import sudoku.view.control.LabeledComboBox;
 import sudoku.view.control.ToggleButton;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 import sudoku.view.puzzle.SudokuPuzzleView;
-import sudoku.view.sidebar.ColorCandidateSelectionPane;
+import sudoku.view.sidebar.CandidateSelectionPane;
 import sudoku.view.sidebar.ColorSelectionPane;
-import sudoku.view.sidebar.ColoringToolsPane;
 import sudoku.view.sidebar.MouseModePane;
+import sudoku.view.sidebar.MouseToolsPane;
 import sudoku.view.sidebar.NumericButtonPane;
 import sudoku.view.util.ResourceConstants;
 import sudoku.view.util.ShadowRectangle;
@@ -76,12 +76,12 @@ public class LayoutFactory {
 		return new MouseModePane();
 	}
 
-	public ColoringToolsPane createColoringToolsPane() {
-		return new ColoringToolsPane();
+	public MouseToolsPane createMouseToolsPane() {
+		return new MouseToolsPane();
 	}
 
-	public ColorCandidateSelectionPane createColorCandidateSelectionPane() {
-		return new ColorCandidateSelectionPane();
+	public CandidateSelectionPane createColorCandidateSelectionPane() {
+		return new CandidateSelectionPane();
 	}
 
 	public ColorSelectionPane createColorSelectionPane() {

@@ -56,6 +56,8 @@ public class LabelConstants {
 
 	public static final String SELECT_CELLS = "Select cells";
 
+	public static final String TOGGLE_CANDIDATES = "Toggle candidates";
+
 	public static final String COLOR_CELLS = "Color cells";
 
 	public static final String COLOR_CANDIDATES = "Color candidates";

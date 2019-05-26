@@ -11,9 +11,9 @@ import javafx.scene.layout.HBox;
 /** This class pairs a text field with a label to the left of it. */
 public class LabeledComboBox extends HBox {
 
-	private static final int COMBO_BOX_WIDTH = 200;
+	private static final int COMBO_BOX_WIDTH = 210;
 
-	private static final double LABEL_RIGHT_PADDING = 32;
+	private static final double LABEL_RIGHT_PADDING = 26;
 
 	private ComboBox<String> comboBox;
 

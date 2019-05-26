@@ -9,7 +9,7 @@ import sudoku.factories.LayoutFactory;
  * of the screen. These controls define the color and digit colored when in the
  * appropriate mouse mode.
  */
-public class ColoringToolsPane extends HBox {
+public class MouseToolsPane extends HBox {
 
 	private static final int PADDING_BETWEEN_CHILDREN = 5;
 
@@ -19,7 +19,7 @@ public class ColoringToolsPane extends HBox {
 
 	private static final int DEFAULT_WIDTH = 320;
 
-	public ColoringToolsPane() {
+	public MouseToolsPane() {
 		this.configure();
 	}
 
@@ -32,7 +32,7 @@ public class ColoringToolsPane extends HBox {
 	}
 
 	private void createChildElements() {
-		final ColorCandidateSelectionPane colorCandidateSelectionPane = LayoutFactory.getInstance()
+		final CandidateSelectionPane colorCandidateSelectionPane = LayoutFactory.getInstance()
 				.createColorCandidateSelectionPane();
 		HBox.setMargin(colorCandidateSelectionPane, new Insets(0, PADDING_BETWEEN_CHILDREN, 0, 0));
 		final ColorSelectionPane colorSelectionPane = LayoutFactory.getInstance().createColorSelectionPane();
