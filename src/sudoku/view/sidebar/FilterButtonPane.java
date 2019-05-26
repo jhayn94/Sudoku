@@ -19,7 +19,7 @@ import sudoku.view.util.TooltipConstants;
  * Lastly, this class creates buttons labeled "<" and ">", which are undo and
  * redo, respectively.
  */
-public class NumericButtonPane extends GridPane {
+public class FilterButtonPane extends GridPane {
 
 	private static final int PADDING_FOR_PANE = 15;
 
@@ -39,7 +39,7 @@ public class NumericButtonPane extends GridPane {
 
 	private Button redoButton;
 
-	public NumericButtonPane() {
+	public FilterButtonPane() {
 		this.filterButtons = new ArrayList<>(10);
 		this.configure();
 	}

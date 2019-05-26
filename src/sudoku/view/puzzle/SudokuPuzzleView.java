@@ -35,7 +35,7 @@ public class SudokuPuzzleView extends GridPane {
 
 	private static final String TOP_LEFT_CELL_CSS_CLASS = "sudoku-puzzle-cell-extra-top-left-border";
 
-	private static final int DEFAULT_WIDTH = 320;
+	private static final int DEFAULT_WIDTH = SudokuPuzzleCell.CELL_WIDTH * SudokuPuzzleValues.CELLS_PER_HOUSE + 20;
 
 	private static final int NUM_CELLS_TOTAL = SudokuPuzzleValues.CELLS_PER_HOUSE * SudokuPuzzleValues.CELLS_PER_HOUSE;
 
@@ -47,6 +47,7 @@ public class SudokuPuzzleView extends GridPane {
 		this.getStyleClass().add(CSS_CLASS);
 		this.setPadding(new Insets(15));
 		this.setMinWidth(DEFAULT_WIDTH);
+		this.setMaxWidth(DEFAULT_WIDTH);
 		this.createChildElements();
 	}
 

@@ -12,13 +12,16 @@ import sudoku.view.MainApplicationView;
 import sudoku.view.RootStackPane;
 import sudoku.view.control.LabeledComboBox;
 import sudoku.view.control.ToggleButton;
+import sudoku.view.hint.HintButtonPane;
+import sudoku.view.hint.HintPane;
+import sudoku.view.hint.HintTextArea;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 import sudoku.view.puzzle.SudokuPuzzleView;
 import sudoku.view.sidebar.CandidateSelectionPane;
 import sudoku.view.sidebar.ColorSelectionPane;
+import sudoku.view.sidebar.FilterButtonPane;
 import sudoku.view.sidebar.MouseModePane;
 import sudoku.view.sidebar.MouseToolsPane;
-import sudoku.view.sidebar.NumericButtonPane;
 import sudoku.view.util.ResourceConstants;
 import sudoku.view.util.ShadowRectangle;
 import sudoku.view.util.WindowHelper;
@@ -66,10 +69,10 @@ public class LayoutFactory {
 		return sudokuPuzzleCell;
 	}
 
-	public NumericButtonPane createNumericButtonPane() {
-		final NumericButtonPane numericButtonPane = new NumericButtonPane();
-		ViewController.getInstance().setNumericButtonPane(numericButtonPane);
-		return numericButtonPane;
+	public FilterButtonPane createFilterButtonPane() {
+		final FilterButtonPane filterButtonPane = new FilterButtonPane();
+		ViewController.getInstance().setFilterButtonPane(filterButtonPane);
+		return filterButtonPane;
 	}
 
 	public MouseModePane createMouseModePane() {
@@ -88,6 +91,18 @@ public class LayoutFactory {
 		final ColorSelectionPane colorSelectionPane = new ColorSelectionPane();
 		ViewController.getInstance().setColorSelectionPane(colorSelectionPane);
 		return colorSelectionPane;
+	}
+
+	public HintPane createHintPane() {
+		return new HintPane();
+	}
+
+	public HintButtonPane createHintButtonPane() {
+		return new HintButtonPane();
+	}
+
+	public HintTextArea createHintTextArea() {
+		return new HintTextArea();
 	}
 
 	public ShadowRectangle createShadowRectangle() {

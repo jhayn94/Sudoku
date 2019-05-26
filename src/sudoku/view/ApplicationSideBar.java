@@ -5,9 +5,9 @@ import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.SplitPane;
 import sudoku.factories.LayoutFactory;
+import sudoku.view.sidebar.FilterButtonPane;
 import sudoku.view.sidebar.MouseModePane;
 import sudoku.view.sidebar.MouseToolsPane;
-import sudoku.view.sidebar.NumericButtonPane;
 
 /**
  * This class corresponds to the view on the left side of the screen. It
@@ -33,9 +33,9 @@ public class ApplicationSideBar extends SplitPane {
 
 	private void createChildElements() {
 		final ObservableList<Node> items = this.getItems();
-		final NumericButtonPane numericButtonPane = LayoutFactory.getInstance().createNumericButtonPane();
+		final FilterButtonPane filterButtonPane = LayoutFactory.getInstance().createFilterButtonPane();
 		final MouseModePane mouseModePane = LayoutFactory.getInstance().createMouseModePane();
 		final MouseToolsPane mouseToolsPane = LayoutFactory.getInstance().createMouseToolsPane();
-		items.addAll(numericButtonPane, mouseModePane, mouseToolsPane);
+		items.addAll(filterButtonPane, mouseModePane, mouseToolsPane);
 	}
 }

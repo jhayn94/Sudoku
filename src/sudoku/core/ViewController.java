@@ -8,7 +8,7 @@ import sudoku.view.menu.button.MaximizeMenuButton;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 import sudoku.view.puzzle.SudokuPuzzleView;
 import sudoku.view.sidebar.ColorSelectionPane;
-import sudoku.view.sidebar.NumericButtonPane;
+import sudoku.view.sidebar.FilterButtonPane;
 
 /**
  * A controller class to facilitate view changes, as result of a model change.
@@ -32,7 +32,7 @@ public class ViewController {
 
 	private Stage helpStage;
 
-	private NumericButtonPane numericButtonPane;
+	private FilterButtonPane filterButtonPane;
 
 	private SudokuPuzzleView sudokuPuzzleView;
 
@@ -46,7 +46,7 @@ public class ViewController {
 		this.stage = null;
 		this.maximizeWindowButton = null;
 		this.helpStage = null;
-		this.numericButtonPane = null;
+		this.filterButtonPane = null;
 		this.sudokuPuzzleView = null;
 		this.sudokuPuzzleCells = new SudokuPuzzleCell[SudokuPuzzleValues.CELLS_PER_HOUSE][SudokuPuzzleValues.CELLS_PER_HOUSE];
 		this.activeColoringCandidateLabel = null;
@@ -65,8 +65,8 @@ public class ViewController {
 		return this.helpStage;
 	}
 
-	public NumericButtonPane getNumericButtonPane() {
-		return this.numericButtonPane;
+	public FilterButtonPane getFilterButtonPane() {
+		return this.filterButtonPane;
 	}
 
 	public SudokuPuzzleView getSudokuPuzzleView() {
@@ -97,8 +97,8 @@ public class ViewController {
 		this.helpStage = helpStage;
 	}
 
-	public void setNumericButtonPane(final NumericButtonPane numericButtonPane) {
-		this.numericButtonPane = numericButtonPane;
+	public void setFilterButtonPane(final FilterButtonPane filterButtonPane) {
+		this.filterButtonPane = filterButtonPane;
 	}
 
 	public void setSudokuPuzzleView(final SudokuPuzzleView sudokuPuzzleView) {

@@ -62,6 +62,14 @@ public class LabelConstants {
 
 	public static final String COLOR_CANDIDATES = "Color candidates";
 
+	public static final String VAGUE_HINT = "Vague";
+
+	public static final String SPECIFIC_HINT = "Specific";
+
+	public static final String APPLY_HINT = "Apply";
+
+	public static final String HIDE_HINT = "Hide";
+
 	private LabelConstants() {
 		// Private constructor to prevent instantiation.
 	}

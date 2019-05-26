@@ -17,7 +17,7 @@ import sudoku.model.ApplicationStateHistory;
 import sudoku.model.SudokuPuzzleStyle;
 import sudoku.model.SudokuPuzzleValues;
 import sudoku.view.puzzle.SudokuPuzzleCell;
-import sudoku.view.sidebar.NumericButtonPane;
+import sudoku.view.sidebar.FilterButtonPane;
 import sudoku.view.util.ColorUtils.ColorState;
 import sudoku.view.util.MouseMode;
 
@@ -195,8 +195,8 @@ public class ApplicationModelState {
 	 *                      button needs to be set as active.
 	 */
 	protected void updateFilterButtonStates(final String newCellFilter) {
-		final NumericButtonPane numericButtonPane = ViewController.getInstance().getNumericButtonPane();
-		final List<Button> filterButtons = numericButtonPane.getFilterButtons();
+		final FilterButtonPane filterButtonPane = ViewController.getInstance().getFilterButtonPane();
+		final List<Button> filterButtons = filterButtonPane.getFilterButtons();
 		filterButtons.forEach(button -> this.updateFilterButton(newCellFilter, button));
 	}
 
@@ -296,9 +296,9 @@ public class ApplicationModelState {
 	}
 
 	protected void updateUndoRedoButtons() {
-		final NumericButtonPane numericButtonPane = ViewController.getInstance().getNumericButtonPane();
-		numericButtonPane.getUndoButton().setDisable(this.applicationStateHistory.isUndoStackEmpty());
-		numericButtonPane.getRedoButton().setDisable(this.applicationStateHistory.isRedoStackEmpty());
+		final FilterButtonPane filterButtonPane = ViewController.getInstance().getFilterButtonPane();
+		filterButtonPane.getUndoButton().setDisable(this.applicationStateHistory.isUndoStackEmpty());
+		filterButtonPane.getRedoButton().setDisable(this.applicationStateHistory.isRedoStackEmpty());
 	}
 
 	/**

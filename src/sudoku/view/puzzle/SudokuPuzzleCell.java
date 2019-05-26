@@ -40,7 +40,7 @@ public class SudokuPuzzleCell extends StackPane {
 
 	private static final int CELL_HEIGHT = 62;
 
-	private static final int CELL_WIDTH = 62;
+	public static final int CELL_WIDTH = 62;
 
 	private static final int INTERIOR_COMPONENT_HEIGHT = CELL_HEIGHT;
 
