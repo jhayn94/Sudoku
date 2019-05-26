@@ -85,7 +85,9 @@ public class LayoutFactory {
 	}
 
 	public ColorSelectionPane createColorSelectionPane() {
-		return new ColorSelectionPane();
+		final ColorSelectionPane colorSelectionPane = new ColorSelectionPane();
+		ViewController.getInstance().setColorSelectionPane(colorSelectionPane);
+		return colorSelectionPane;
 	}
 
 	public ShadowRectangle createShadowRectangle() {

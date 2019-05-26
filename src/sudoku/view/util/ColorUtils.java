@@ -15,10 +15,14 @@ import javafx.scene.paint.Color;
 public class ColorUtils {
 
 	private static final String RED = "#f05c79";
+
 	private static final String BLUE = "#4da6ff";
+
 	private static final String PURPLE = "#a385e0";
+
 	private static final String GREEN = "#79d2a0";
-	private static final String ORANGE = "#79d2a0";
+
+	private static final String ORANGE = "#ffc14d";
 
 	private static final List<Color> COLORS = Arrays.asList(Color.valueOf(RED), Color.valueOf(BLUE),
 			Color.valueOf(PURPLE), Color.valueOf(GREEN), Color.valueOf(ORANGE));

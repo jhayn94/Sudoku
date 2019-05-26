@@ -51,12 +51,18 @@ public class ColorSelectionPane extends HBox {
 
 	private static final int DEFAULT_WIDTH = 160;
 
-	private static final String SIDE_BAR_LABEL_CSS_CLASS = "sudoku-coloring-display-label";
-
 	private static final String BUTTON_CSS_CLASS = "sudoku-candidate-increment-decrement-button";
+
+	private Label candidateToColorDisplayArea;
 
 	public ColorSelectionPane() {
 		this.configure();
+	}
+
+	public void setLabelBackgroundColor(final Color color) {
+		final BackgroundFill backgroundFill = new BackgroundFill(Paint.valueOf(color.toString()), new CornerRadii(2), null);
+		final Background defaultBackground = new Background(backgroundFill);
+		this.candidateToColorDisplayArea.setBackground(defaultBackground);
 	}
 
 	private void configure() {
@@ -73,23 +79,20 @@ public class ColorSelectionPane extends HBox {
 	}
 
 	private Label createCurrentColorDisplayField() {
-		final Label candidateToColorDisplayArea = new Label();
-		final BackgroundFill backgroundFill = new BackgroundFill(Paint.valueOf(DEFAULT_COLOR.toString()),
-				new CornerRadii(2), null);
-		final Background defaultBackground = new Background(backgroundFill);
-		candidateToColorDisplayArea.setBackground(defaultBackground);
+		this.candidateToColorDisplayArea = new Label();
+		this.setLabelBackgroundColor(DEFAULT_COLOR);
 		final BorderStroke borderStroke = new BorderStroke(Color.valueOf("#2a2922"), BorderStrokeStyle.SOLID,
 				new CornerRadii(2), BorderStroke.THIN);
 		final Border border = new Border(borderStroke);
-		candidateToColorDisplayArea.setBorder(border);
-		candidateToColorDisplayArea.setTooltip(new Tooltip(TooltipConstants.ACTIVE_COLORING_CANDIDATE));
-		candidateToColorDisplayArea.setMinWidth(TEXT_FIELD_SIZE);
-		candidateToColorDisplayArea.setMaxWidth(TEXT_FIELD_SIZE);
-		candidateToColorDisplayArea.setMinHeight(TEXT_FIELD_SIZE);
-		candidateToColorDisplayArea.setMaxHeight(TEXT_FIELD_SIZE);
-		candidateToColorDisplayArea.setFocusTraversable(false);
-		HBox.setMargin(candidateToColorDisplayArea, new Insets(0, LABEL_RIGHT_PADDING, 0, LABEL_LEFT_PADDING));
-		return candidateToColorDisplayArea;
+		this.candidateToColorDisplayArea.setBorder(border);
+		this.candidateToColorDisplayArea.setTooltip(new Tooltip(TooltipConstants.ACTIVE_COLORING_CANDIDATE));
+		this.candidateToColorDisplayArea.setMinWidth(TEXT_FIELD_SIZE);
+		this.candidateToColorDisplayArea.setMaxWidth(TEXT_FIELD_SIZE);
+		this.candidateToColorDisplayArea.setMinHeight(TEXT_FIELD_SIZE);
+		this.candidateToColorDisplayArea.setMaxHeight(TEXT_FIELD_SIZE);
+		this.candidateToColorDisplayArea.setFocusTraversable(false);
+		HBox.setMargin(this.candidateToColorDisplayArea, new Insets(0, LABEL_RIGHT_PADDING, 0, LABEL_LEFT_PADDING));
+		return this.candidateToColorDisplayArea;
 	}
 
 	private VBox createChangeColorButtonPanel() {

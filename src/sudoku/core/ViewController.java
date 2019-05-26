@@ -7,6 +7,7 @@ import sudoku.model.SudokuPuzzleValues;
 import sudoku.view.menu.button.MaximizeMenuButton;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 import sudoku.view.puzzle.SudokuPuzzleView;
+import sudoku.view.sidebar.ColorSelectionPane;
 import sudoku.view.sidebar.NumericButtonPane;
 
 /**
@@ -39,6 +40,8 @@ public class ViewController {
 
 	private Label activeColoringCandidateLabel;
 
+	private ColorSelectionPane colorSelectionPane;
+
 	private ViewController() {
 		this.stage = null;
 		this.maximizeWindowButton = null;
@@ -46,6 +49,8 @@ public class ViewController {
 		this.numericButtonPane = null;
 		this.sudokuPuzzleView = null;
 		this.sudokuPuzzleCells = new SudokuPuzzleCell[SudokuPuzzleValues.CELLS_PER_HOUSE][SudokuPuzzleValues.CELLS_PER_HOUSE];
+		this.activeColoringCandidateLabel = null;
+		this.colorSelectionPane = null;
 	}
 
 	public Stage getStage() {
@@ -76,6 +81,10 @@ public class ViewController {
 		return this.activeColoringCandidateLabel;
 	}
 
+	public ColorSelectionPane getColorSelectionPane() {
+		return this.colorSelectionPane;
+	}
+
 	public void setStage(final Stage stage) {
 		this.stage = stage;
 	}
@@ -102,6 +111,10 @@ public class ViewController {
 
 	public void setActiveColoringCandidateLabel(final Label activeColoringCandidateLabel) {
 		this.activeColoringCandidateLabel = activeColoringCandidateLabel;
+	}
+
+	public void setColorSelectionPane(final ColorSelectionPane colorSelectionPane) {
+		this.colorSelectionPane = colorSelectionPane;
 	}
 
 }

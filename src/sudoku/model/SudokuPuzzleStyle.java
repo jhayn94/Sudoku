@@ -3,6 +3,7 @@ package sudoku.model;
 import org.apache.logging.log4j.util.Strings;
 
 import javafx.scene.paint.Color;
+import sudoku.view.util.ColorUtils;
 import sudoku.view.util.ColorUtils.ColorState;
 
 /**
@@ -47,7 +48,7 @@ public class SudokuPuzzleStyle {
 	public SudokuPuzzleStyle() {
 		this.activeColorCandidateDigit = 1;
 		this.activeCellFilter = Strings.EMPTY;
-		this.activeColor = Color.RED;
+		this.activeColor = ColorUtils.getColors().get(0);
 		this.filterAllowedCells = false;
 		this.selectedCellRow = MIDDLE_CELL_INDEX;
 		this.selectedCellCol = MIDDLE_CELL_INDEX;
@@ -123,7 +124,7 @@ public class SudokuPuzzleStyle {
 		this.selectedCellCol = selectedCellCol;
 	}
 
-	public void setSelectedCellCol(final Color newColor) {
+	public void setActiveColor(final Color newColor) {
 		this.activeColor = newColor;
 	}
 
@@ -139,4 +140,5 @@ public class SudokuPuzzleStyle {
 	public void setActiveColorCandidateDigit(final int activeColorCandidateDigit) {
 		this.activeColorCandidateDigit = activeColorCandidateDigit;
 	}
+
 }
