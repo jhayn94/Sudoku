@@ -98,7 +98,7 @@ public class SudokuPuzzleView extends GridPane {
 			} else if (KeyCode.DELETE == keyCode) {
 				ModelController.getInstance().transitionToRemoveDigitState(keyCode);
 			} else if (KeyCode.PAGE_UP == keyCode || KeyCode.PAGE_DOWN == keyCode) {
-				ModelController.getInstance().transitionToToggleActiveCandidateToColorState(keyCode);
+				ModelController.getInstance().transitionToToggleActiveCandidateState(keyCode);
 			} else if (KeyCode.PERIOD == keyCode || KeyCode.COMMA == keyCode) {
 				ModelController.getInstance().transitionToCycleActiveFilterState(keyCode.getName());
 			} else if (keyCode.isFunctionKey() && KeyCode.F11 != keyCode && KeyCode.F12 != keyCode) {

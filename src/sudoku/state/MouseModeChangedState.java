@@ -15,7 +15,9 @@ public class MouseModeChangedState extends ResetFromModelState {
 
 	@Override
 	public void onEnter() {
-		// Nothing to do other than the model change in the constructor.
+		if (MouseMode.SELECT_CELLS != this.mouseMode) {
+			this.getSelectedCell().setIsSelected(false);
+		}
 	}
 
 }

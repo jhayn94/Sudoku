@@ -42,9 +42,11 @@ public class CandidateSelectionPane extends HBox {
 
 	private static final int PADDING_BETWEEN_BUTTONS = 5;
 
+	private static final int DEFAULT_WIDTH = 160;
+
 	private static final String CSS_CLASS = "sudoku-transparent-pane";
 
-	private static final int DEFAULT_WIDTH = 160;
+	private static final String TOOLTIP_CSS_CLASS = "sudoku-tooltip";
 
 	private static final String SIDE_BAR_LABEL_CSS_CLASS = "sudoku-coloring-candidate-display-label";
 
@@ -72,7 +74,9 @@ public class CandidateSelectionPane extends HBox {
 		candidateToColorLabel.setAlignment(Pos.CENTER);
 		candidateToColorLabel.setContentDisplay(ContentDisplay.CENTER);
 		candidateToColorLabel.getStyleClass().add(SIDE_BAR_LABEL_CSS_CLASS);
-		candidateToColorLabel.setTooltip(new Tooltip(TooltipConstants.ACTIVE_COLORING_CANDIDATE));
+		final Tooltip tooltip = new Tooltip(TooltipConstants.ACTIVE_COLORING_CANDIDATE);
+		candidateToColorLabel.setTooltip(tooltip);
+		tooltip.getStyleClass().add(TOOLTIP_CSS_CLASS);
 		candidateToColorLabel.setMinWidth(TEXT_FIELD_SIZE);
 		candidateToColorLabel.setMaxWidth(TEXT_FIELD_SIZE);
 		candidateToColorLabel.setMinHeight(TEXT_FIELD_SIZE);
@@ -100,8 +104,8 @@ public class CandidateSelectionPane extends HBox {
 		incrementNumberButton.setMaxWidth(BUTTON_WIDTH);
 		incrementNumberButton.setMinWidth(BUTTON_WIDTH);
 		incrementNumberButton.setFocusTraversable(false);
-		incrementNumberButton.setOnAction(
-				event -> ModelController.getInstance().transitionToToggleActiveCandidateToColorState(KeyCode.PAGE_UP));
+		incrementNumberButton
+				.setOnAction(event -> ModelController.getInstance().transitionToToggleActiveCandidateState(KeyCode.PAGE_UP));
 		final Polygon upArrowPolygon = new Polygon();
 		upArrowPolygon.getPoints().addAll(UP_ARROW_VERTICES);
 		upArrowPolygon.setFill(Paint.valueOf(STONE_BLUE_HEX_CODE));
@@ -117,8 +121,8 @@ public class CandidateSelectionPane extends HBox {
 		decrementNumberButton.setMaxWidth(BUTTON_WIDTH);
 		decrementNumberButton.setMinWidth(BUTTON_WIDTH);
 		decrementNumberButton.setFocusTraversable(false);
-		decrementNumberButton.setOnAction(
-				event -> ModelController.getInstance().transitionToToggleActiveCandidateToColorState(KeyCode.PAGE_DOWN));
+		decrementNumberButton
+				.setOnAction(event -> ModelController.getInstance().transitionToToggleActiveCandidateState(KeyCode.PAGE_DOWN));
 		final Polygon downArrowPolygon = new Polygon();
 		downArrowPolygon.getPoints().addAll(DOWN_ARROW_VERTICES);
 		downArrowPolygon.setFill(Paint.valueOf(STONE_BLUE_HEX_CODE));

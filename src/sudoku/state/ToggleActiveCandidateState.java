@@ -6,13 +6,13 @@ import sudoku.core.ViewController;
 import sudoku.model.SudokuPuzzleValues;
 
 /**
- * This class updates the state of the application contains methods to reply to
- * PAGE UP + PAGE DOWN key presses, which cycle the active candidate digit used
- * when applying colors to candidates.
+ * This class updates the state of the application contains methods to change
+ * active candidate, which is used when applying colors to candidates, or
+ * toggling candidate visibility with the mouse.
  */
-public class ToggleActiveCandidateToColorState extends ApplicationModelState {
+public class ToggleActiveCandidateState extends ApplicationModelState {
 
-	public ToggleActiveCandidateToColorState(final KeyCode keyCode, final ApplicationModelState lastState) {
+	public ToggleActiveCandidateState(final KeyCode keyCode, final ApplicationModelState lastState) {
 		super(lastState, false);
 		this.lastKeyCode = keyCode;
 	}

@@ -13,7 +13,7 @@ import sudoku.state.RedoActionState;
 import sudoku.state.RemoveDigitState;
 import sudoku.state.ResetAllColorsState;
 import sudoku.state.SetDigitState;
-import sudoku.state.ToggleActiveCandidateToColorState;
+import sudoku.state.ToggleActiveCandidateState;
 import sudoku.state.ToggleCandidateColorState;
 import sudoku.state.ToggleCandidateVisibleState;
 import sudoku.state.ToggleCellColorState;
@@ -127,8 +127,8 @@ public class ModelController {
 		this.applicationModelState.onEnter();
 	}
 
-	public void transitionToToggleActiveCandidateToColorState(final KeyCode keyCode) {
-		this.applicationModelState = new ToggleActiveCandidateToColorState(keyCode, this.applicationModelState);
+	public void transitionToToggleActiveCandidateState(final KeyCode keyCode) {
+		this.applicationModelState = new ToggleActiveCandidateState(keyCode, this.applicationModelState);
 		this.applicationModelState.onEnter();
 	}
 
