@@ -6,10 +6,12 @@ import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
+import sudoku.core.ModelController;
 import sudoku.core.ViewController;
 import sudoku.view.util.LabelConstants;
 import sudoku.view.util.TooltipConstants;
@@ -109,6 +111,8 @@ public class ColorCandidateSelectionPane extends HBox {
 		incrementNumberButton.setMaxHeight(BUTTON_HEIGHT);
 		incrementNumberButton.setMaxWidth(BUTTON_WIDTH);
 		incrementNumberButton.setMinWidth(BUTTON_WIDTH);
+		incrementNumberButton.setOnAction(
+				event -> ModelController.getInstance().transitionToToggleActiveCandidateToColorState(KeyCode.PAGE_UP));
 		final Polygon upArrowPolygon = new Polygon();
 		upArrowPolygon.getPoints().addAll(UP_ARROW_VERTICES);
 		upArrowPolygon.setFill(Paint.valueOf(STONE_BLUE_HEX_CODE));
@@ -123,6 +127,8 @@ public class ColorCandidateSelectionPane extends HBox {
 		decrementNumberButton.setMaxHeight(BUTTON_HEIGHT);
 		decrementNumberButton.setMaxWidth(BUTTON_WIDTH);
 		decrementNumberButton.setMinWidth(BUTTON_WIDTH);
+		decrementNumberButton.setOnAction(
+				event -> ModelController.getInstance().transitionToToggleActiveCandidateToColorState(KeyCode.PAGE_DOWN));
 		final Polygon downArrowPolygon = new Polygon();
 		downArrowPolygon.getPoints().addAll(DOWN_ARROW_VERTICES);
 		downArrowPolygon.setFill(Paint.valueOf(STONE_BLUE_HEX_CODE));
