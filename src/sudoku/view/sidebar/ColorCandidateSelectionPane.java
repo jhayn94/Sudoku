@@ -23,6 +23,10 @@ import sudoku.view.util.TooltipConstants;
  */
 public class ColorCandidateSelectionPane extends HBox {
 
+	private static final int PADDING_FOR_PANE = 15;
+
+	private static final int TEXT_FIELD_SIZE = 62;
+
 	private static final String DEFAULT_COLORING_CANDIDATE = "1";
 
 	private static final int BUTTON_HEIGHT = 15;
@@ -59,7 +63,7 @@ public class ColorCandidateSelectionPane extends HBox {
 
 	private void configure() {
 		this.getStyleClass().add(CSS_CLASS);
-		this.setPadding(new Insets(15));
+		this.setPadding(new Insets(PADDING_FOR_PANE));
 		this.setMinWidth(DEFAULT_WIDTH);
 		this.setMaxWidth(DEFAULT_WIDTH);
 		this.createChildElements();
@@ -68,7 +72,6 @@ public class ColorCandidateSelectionPane extends HBox {
 	private void createChildElements() {
 		final Label label = this.createLabel();
 		final TextArea candidateToColorInput = this.createCurrentCandidateDisplayField();
-
 		final VBox buttonPanel = this.createChangeCandidateButtonPanel();
 		this.getChildren().addAll(label, candidateToColorInput, buttonPanel);
 	}
@@ -83,13 +86,15 @@ public class ColorCandidateSelectionPane extends HBox {
 
 	private TextArea createCurrentCandidateDisplayField() {
 		final TextArea candidateToColorInput = new TextArea(DEFAULT_COLORING_CANDIDATE);
+//		candidateToColorInput.setContentDisplay(ContentDisplay.CENTER);
+//		candidateToColorInput.setAlignment(Pos.CENTER)
 		candidateToColorInput.getStyleClass().add(CANDIDATE_TO_COLOR_CSS_CLASS);
 		candidateToColorInput.setEditable(false);
 		candidateToColorInput.setTooltip(new Tooltip(TooltipConstants.ACTIVE_COLORING_CANDIDATE));
-		candidateToColorInput.setMinWidth(62);
-		candidateToColorInput.setMaxWidth(62);
-		candidateToColorInput.setMinHeight(62);
-		candidateToColorInput.setMaxHeight(62);
+		candidateToColorInput.setMinWidth(TEXT_FIELD_SIZE);
+		candidateToColorInput.setMaxWidth(TEXT_FIELD_SIZE);
+		candidateToColorInput.setMinHeight(TEXT_FIELD_SIZE);
+		candidateToColorInput.setMaxHeight(TEXT_FIELD_SIZE);
 		HBox.setMargin(candidateToColorInput, new Insets(0, TEXT_AREA_RIGHT_PADDING, 0, TEXT_AREA_LEFT_PADDING));
 		ViewController.getInstance().setActiveColoringCandidateTextArea(candidateToColorInput);
 		return candidateToColorInput;
