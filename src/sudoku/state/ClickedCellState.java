@@ -27,23 +27,22 @@ public class ClickedCellState extends ApplicationModelState {
 
 	@Override
 	public void onEnter() {
+		final SudokuPuzzleCell clickedCell = ViewController.getInstance().getSudokuPuzzleCell(this.row, this.col);
 		if (MouseMode.SELECT_CELLS == this.mouseMode) {
 			if (this.sudokuPuzzleStyle.getSelectedCellRow() != -1 && this.sudokuPuzzleStyle.getSelectedCellCol() != -1) {
 				this.getSelectedCell().setIsSelected(false);
 			}
 			this.updateSelectedCell();
 		} else if (MouseMode.TOGGLE_CANDIDATES == this.mouseMode) {
-			final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(this.row, this.col);
-			this.toggleCandidateActiveForCell(this.sudokuPuzzleStyle.getActiveColorCandidateDigit(), sudokuPuzzleCell);
+			this.toggleCandidateActiveForCell(this.sudokuPuzzleStyle.getActiveColorCandidateDigit(), clickedCell);
 		} else if (MouseMode.COLOR_CELLS == this.mouseMode) {
-
-			final ColorState currentColorState = this.sudokuPuzzleStyle.getCellColorState(this.row, this.col);
 			final ColorState baseColorState = ColorState.getStateForBaseColor(this.sudokuPuzzleStyle.getActiveColor());
 			final ColorState colorStateToApply = ColorState.getFromKeyCode(baseColorState.getKey(), this.isShiftDown);
-			this.setColorStateForCell(this.row, this.col, currentColorState, colorStateToApply);
+			this.setColorStateForCell(this.row, this.col, colorStateToApply);
 		} else {
 			// MouseMode.COLOR_CANDIDATES case.
-
+			final ColorState baseColorState = ColorState.getStateForBaseColor(this.sudokuPuzzleStyle.getActiveColor());
+			this.updateCandidateColorForCell(clickedCell, baseColorState);
 		}
 	}
 

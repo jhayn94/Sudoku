@@ -2,10 +2,7 @@ package sudoku.state;
 
 import java.util.List;
 
-import javafx.collections.ObservableList;
-import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
-import sudoku.core.ViewController;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 import sudoku.view.util.ColorUtils.ColorState;
 
@@ -36,32 +33,10 @@ public class ToggleCandidateColorState extends ApplicationModelState {
 			final boolean isCandidateVisible = candidatesForCell
 					.contains(this.sudokuPuzzleStyle.getActiveColorCandidateDigit());
 			if (isCandidateVisible) {
-				this.updateCandidateColorForSelectedCell();
-			}
-		}
-	}
 
-	private void updateCandidateColorForSelectedCell() {
-		final SudokuPuzzleCell selectedCell = this.getSelectedCell();
-		final int row = selectedCell.getRow();
-		final int col = selectedCell.getCol();
-		final int activeColorCandidateDigit = this.sudokuPuzzleStyle.getActiveColorCandidateDigit();
-		final ColorState currentColorState = this.sudokuPuzzleStyle.getCandidateColorState(row, col,
-				activeColorCandidateDigit);
-		final Label candidateLabelForDigit = ViewController.getInstance().getSudokuPuzzleCell(row, col)
-				.getCandidateLabelForDigit(activeColorCandidateDigit);
-		final ColorState colorStateToApply = ColorState.getFromKeyCode(this.lastKeyCode, false);
-
-		final ObservableList<String> styleClass = candidateLabelForDigit.getStyleClass();
-		if (colorStateToApply == currentColorState) {
-			styleClass.remove(currentColorState.getCssClass());
-			this.sudokuPuzzleStyle.setCandidateColorState(row, col, activeColorCandidateDigit, ColorState.NONE);
-		} else {
-			if (currentColorState != ColorState.NONE) {
-				styleClass.remove(currentColorState.getCssClass());
+				final ColorState colorStateToApply = ColorState.getFromKeyCode(this.lastKeyCode, false);
+				this.updateCandidateColorForCell(selectedCell, colorStateToApply);
 			}
-			styleClass.add(colorStateToApply.getCssClass());
-			this.sudokuPuzzleStyle.setCandidateColorState(row, col, activeColorCandidateDigit, colorStateToApply);
 		}
 	}
 

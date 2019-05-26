@@ -28,11 +28,8 @@ public class ToggleCellColorState extends ApplicationModelState {
 		final SudokuPuzzleCell selectedCell = this.getSelectedCell();
 		final int row = selectedCell.getRow();
 		final int col = selectedCell.getCol();
-
-		final ColorState currentColorState = this.sudokuPuzzleStyle.getCellColorState(row, col);
 		final ColorState colorStateToApply = ColorState.getFromKeyCode(this.lastKeyCode, this.isShiftDown);
-
-		this.setColorStateForCell(row, col, currentColorState, colorStateToApply);
+		this.setColorStateForCell(row, col, colorStateToApply);
 	}
 
 }

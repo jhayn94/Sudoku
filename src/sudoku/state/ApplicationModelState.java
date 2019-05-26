@@ -241,6 +241,28 @@ public class ApplicationModelState {
 				}));
 	}
 
+	protected void updateCandidateColorForCell(final SudokuPuzzleCell cell, final ColorState colorStateToApply) {
+		final int row = cell.getRow();
+		final int col = cell.getCol();
+		final int activeColorCandidateDigit = this.sudokuPuzzleStyle.getActiveColorCandidateDigit();
+		final ColorState currentColorState = this.sudokuPuzzleStyle.getCandidateColorState(row, col,
+				activeColorCandidateDigit);
+		final Label candidateLabelForDigit = ViewController.getInstance().getSudokuPuzzleCell(row, col)
+				.getCandidateLabelForDigit(activeColorCandidateDigit);
+
+		final ObservableList<String> styleClass = candidateLabelForDigit.getStyleClass();
+		if (colorStateToApply == currentColorState) {
+			styleClass.remove(currentColorState.getCssClass());
+			this.sudokuPuzzleStyle.setCandidateColorState(row, col, activeColorCandidateDigit, ColorState.NONE);
+		} else {
+			if (currentColorState != ColorState.NONE) {
+				styleClass.remove(currentColorState.getCssClass());
+			}
+			styleClass.add(colorStateToApply.getCssClass());
+			this.sudokuPuzzleStyle.setCandidateColorState(row, col, activeColorCandidateDigit, colorStateToApply);
+		}
+	}
+
 	/**
 	 * Determines which candidates no longer are possible because of the set number,
 	 * and removes them from the model / view.
@@ -257,9 +279,9 @@ public class ApplicationModelState {
 		});
 	}
 
-	protected void setColorStateForCell(final int row, final int col, final ColorState currentColorState,
-			final ColorState colorStateToApply) {
+	protected void setColorStateForCell(final int row, final int col, final ColorState colorStateToApply) {
 		final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
+		final ColorState currentColorState = this.sudokuPuzzleStyle.getCellColorState(row, col);
 		final ObservableList<String> styleClass = sudokuPuzzleCell.getStyleClass();
 		if (colorStateToApply == currentColorState) {
 			styleClass.remove(currentColorState.getCssClass());
