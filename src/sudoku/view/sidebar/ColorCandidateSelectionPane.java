@@ -1,9 +1,10 @@
 package sudoku.view.sidebar;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
@@ -35,9 +36,9 @@ public class ColorCandidateSelectionPane extends HBox {
 
 	private static final Double[] DOWN_ARROW_VERTICES = new Double[] { -5.5, 0.0, 5.5, 0.0, 0.0, 7.0 };
 
-	private static final int TEXT_AREA_LEFT_PADDING = 3;
+	private static final int LABEL_LEFT_PADDING = 3;
 
-	private static final int TEXT_AREA_RIGHT_PADDING = 10;
+	private static final int LABEL_RIGHT_PADDING = 10;
 
 	private static final int PADDING_BETWEEN_BUTTONS = 5;
 
@@ -45,7 +46,7 @@ public class ColorCandidateSelectionPane extends HBox {
 
 	private static final int DEFAULT_WIDTH = 160;
 
-	private static final String SIDE_BAR_TEXT_AREA_CSS_CLASS = "sudoku-side-bar-text-area";
+	private static final String SIDE_BAR_LABEL_CSS_CLASS = "sudoku-coloring-candidate-display-label";
 
 	private static final String BUTTON_CSS_CLASS = "sudoku-candidate-increment-decrement-button";
 
@@ -61,24 +62,25 @@ public class ColorCandidateSelectionPane extends HBox {
 	}
 
 	private void createChildElements() {
-		final TextArea candidateToColorDisplayArea = this.createCurrentCandidateDisplayField();
+		final Label candidateToColorDisplayArea = this.createCurrentCandidateLabel();
 		final VBox buttonPanel = this.createChangeCandidateButtonPanel();
 		this.getChildren().addAll(candidateToColorDisplayArea, buttonPanel);
 	}
 
-	private TextArea createCurrentCandidateDisplayField() {
-		final TextArea candidateToColorDisplayArea = new TextArea(DEFAULT_COLORING_CANDIDATE);
-		candidateToColorDisplayArea.getStyleClass().add(SIDE_BAR_TEXT_AREA_CSS_CLASS);
-		candidateToColorDisplayArea.setEditable(false);
-		candidateToColorDisplayArea.setTooltip(new Tooltip(TooltipConstants.ACTIVE_COLORING_CANDIDATE));
-		candidateToColorDisplayArea.setMinWidth(TEXT_FIELD_SIZE);
-		candidateToColorDisplayArea.setMaxWidth(TEXT_FIELD_SIZE);
-		candidateToColorDisplayArea.setMinHeight(TEXT_FIELD_SIZE);
-		candidateToColorDisplayArea.setMaxHeight(TEXT_FIELD_SIZE);
-		candidateToColorDisplayArea.setFocusTraversable(false);
-		HBox.setMargin(candidateToColorDisplayArea, new Insets(0, TEXT_AREA_RIGHT_PADDING, 0, TEXT_AREA_LEFT_PADDING));
-		ViewController.getInstance().setActiveColoringCandidateTextArea(candidateToColorDisplayArea);
-		return candidateToColorDisplayArea;
+	private Label createCurrentCandidateLabel() {
+		final Label candidateToColorLabel = new Label(DEFAULT_COLORING_CANDIDATE);
+		candidateToColorLabel.setAlignment(Pos.CENTER);
+		candidateToColorLabel.setContentDisplay(ContentDisplay.CENTER);
+		candidateToColorLabel.getStyleClass().add(SIDE_BAR_LABEL_CSS_CLASS);
+		candidateToColorLabel.setTooltip(new Tooltip(TooltipConstants.ACTIVE_COLORING_CANDIDATE));
+		candidateToColorLabel.setMinWidth(TEXT_FIELD_SIZE);
+		candidateToColorLabel.setMaxWidth(TEXT_FIELD_SIZE);
+		candidateToColorLabel.setMinHeight(TEXT_FIELD_SIZE);
+		candidateToColorLabel.setMaxHeight(TEXT_FIELD_SIZE);
+		candidateToColorLabel.setFocusTraversable(false);
+		HBox.setMargin(candidateToColorLabel, new Insets(0, LABEL_RIGHT_PADDING, 0, LABEL_LEFT_PADDING));
+		ViewController.getInstance().setActiveColoringCandidateLabel(candidateToColorLabel);
+		return candidateToColorLabel;
 	}
 
 	private VBox createChangeCandidateButtonPanel() {

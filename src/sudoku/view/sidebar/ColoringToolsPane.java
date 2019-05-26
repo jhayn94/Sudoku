@@ -25,7 +25,7 @@ public class ColoringToolsPane extends HBox {
 
 	private void configure() {
 		this.getStyleClass().add(CSS_CLASS);
-		this.setPadding(new Insets(PADDING_FOR_PANE));
+		this.setPadding(new Insets(PADDING_FOR_PANE, PADDING_FOR_PANE, PADDING_FOR_PANE, PADDING_FOR_PANE - 3));
 		this.setMinWidth(DEFAULT_WIDTH);
 		this.setMaxWidth(DEFAULT_WIDTH);
 		this.createChildElements();

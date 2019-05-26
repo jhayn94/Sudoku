@@ -5,7 +5,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
@@ -14,7 +13,7 @@ public class LabeledComboBox extends HBox {
 
 	private static final int COMBO_BOX_WIDTH = 200;
 
-	private static final double LABEL_RIGHT_PADDING = 37.5;
+	private static final double LABEL_RIGHT_PADDING = 32;
 
 	private ComboBox<String> comboBox;
 
@@ -47,7 +46,6 @@ public class LabeledComboBox extends HBox {
 
 		this.label = new Label();
 		this.label.setAlignment(Pos.BASELINE_LEFT);
-		this.label.setContentDisplay(ContentDisplay.LEFT);
 		// Space the text field and label out a little bit.
 		HBox.setMargin(this.label, new Insets(0, LABEL_RIGHT_PADDING, 0, 0));
 

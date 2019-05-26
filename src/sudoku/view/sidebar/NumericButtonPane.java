@@ -59,7 +59,7 @@ public class NumericButtonPane extends GridPane {
 	private void configure() {
 		this.getStyleClass().add(CSS_CLASS);
 		this.setPadding(new Insets(PADDING_FOR_PANE));
-		this.setHgap(38.5);
+		this.setHgap(36.5);
 		this.setVgap(20);
 		this.setMinWidth(DEFAULT_WIDTH);
 		this.setMaxWidth(DEFAULT_WIDTH);

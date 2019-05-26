@@ -42,6 +42,7 @@
 .sudoku-cell-candidate-label {
 	-fx-font-size: 11pt;
 }
+
 .sudoku-puzzle-cell {
 	-fx-background-color: #eeeeee;
 	-fx-text-fill: -sudoku-color-bark;
@@ -225,12 +226,20 @@
 	-fx-prompt-text-fill: -sudoku-color-parchment;
 }
 
-.sudoku-side-bar-text-area {
-	-fx-border-width: 1;
+.sudoku-coloring-display-label {
 	-fx-background-radius: 2;
 	-fx-border-radius: 2;
+	-fx-border-width: 1;
+	-fx-border-color: -sudoku-color-bark;
+}
+
+.sudoku-coloring-candidate-display-label {
+    -fx-background-color: -fx-shadow-highlight-color, -fx-text-box-border, -fx-control-inner-background;
 	-fx-font-size: 30 pt;
-	-fx-prompt-text-fill: -sudoku-color-bark;
+	-fx-background-radius: 2;
+	-fx-border-radius: 2;
+	-fx-border-width: 1;
+	-fx-border-color: -sudoku-color-bark;
 }
 
 .sudoku-candidate-increment-decrement-button {
