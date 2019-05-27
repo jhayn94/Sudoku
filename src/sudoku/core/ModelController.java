@@ -4,7 +4,6 @@ import javafx.scene.input.KeyCode;
 import sudoku.state.ApplicationModelState;
 import sudoku.state.DefaultApplicationModelState;
 import sudoku.state.MouseModeChangedState;
-import sudoku.state.NewRandomPuzzleState;
 import sudoku.state.RedoActionState;
 import sudoku.state.UndoActionState;
 import sudoku.state.model.candidate.ToggleActiveCandidateState;
@@ -19,6 +18,8 @@ import sudoku.state.model.coloring.ToggleCandidateColorState;
 import sudoku.state.model.coloring.ToggleCellColorState;
 import sudoku.state.model.filter.ApplyFilterState;
 import sudoku.state.model.filter.CycleActiveFilterState;
+import sudoku.state.model.puzzle.NewEmptyPuzzleState;
+import sudoku.state.model.puzzle.NewRandomPuzzleState;
 import sudoku.state.window.ApplicationWindowState;
 import sudoku.state.window.ClosedState;
 import sudoku.state.window.MaximizedState;
@@ -160,6 +161,11 @@ public class ModelController {
 
 	public void transitionToNewRandomPuzzleState(final String generateSudokuString) {
 		this.applicationModelState = new NewRandomPuzzleState(generateSudokuString, this.applicationModelState);
+		this.applicationModelState.onEnter();
+	}
+
+	public void transitionToNewEmptyPuzzleState() {
+		this.applicationModelState = new NewEmptyPuzzleState(this.applicationModelState);
 		this.applicationModelState.onEnter();
 	}
 }

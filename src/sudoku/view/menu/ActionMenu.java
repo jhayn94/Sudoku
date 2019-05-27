@@ -41,6 +41,12 @@ public class ActionMenu extends ContextMenu {
 		});
 		newPuzzleMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN));
 		final MenuItem newBlankPuzzleMenuItem = new MenuItem(LabelConstants.NEW_BLANK_PUZZLE);
+		newBlankPuzzleMenuItem.setOnAction(event -> {
+			final String generateSudokuString = HodokuFacade.getInstance().generateSudokuString();
+			ModelController.getInstance().transitionToNewEmptyPuzzleState();
+		});
+		newBlankPuzzleMenuItem
+				.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
 		final MenuItem openPuzzleMenuItem = new MenuItem(LabelConstants.OPEN);
 		final MenuItem savePuzzleMenuItem = new MenuItem(LabelConstants.SAVE);
 		final MenuItem savePuzzleAsMenuItem = new MenuItem(LabelConstants.SAVE_AS);
@@ -55,7 +61,11 @@ public class ActionMenu extends ContextMenu {
 	private Menu createEditMenu() {
 		final Menu editMenu = new Menu(LabelConstants.EDIT);
 		final MenuItem undoMenuItem = new MenuItem(LabelConstants.UNDO_LONG);
+		undoMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN));
+		undoMenuItem.setOnAction(event -> ModelController.getInstance().transitionToUndoActionState());
 		final MenuItem redoMenuItem = new MenuItem(LabelConstants.REDO_LONG);
+		redoMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.Y, KeyCombination.CONTROL_DOWN));
+		redoMenuItem.setOnAction(event -> ModelController.getInstance().transitionToUndoActionState());
 		final MenuItem restartMenuItem = new MenuItem(LabelConstants.RESTART);
 		editMenu.getItems().addAll(undoMenuItem, redoMenuItem, new SeparatorMenuItem(), restartMenuItem);
 		return editMenu;

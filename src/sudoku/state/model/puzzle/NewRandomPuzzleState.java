@@ -1,4 +1,4 @@
-package sudoku.state;
+package sudoku.state.model.puzzle;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import org.apache.logging.log4j.util.Strings;
 
 import sudoku.core.ViewController;
 import sudoku.model.SudokuPuzzleValues;
+import sudoku.state.ApplicationModelState;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 
 /**
@@ -20,6 +21,8 @@ public class NewRandomPuzzleState extends ApplicationModelState {
 		super(lastState, false);
 		this.puzzleString = puzzleString;
 		this.applicationStateHistory.clearRedoStack();
+		this.applicationStateHistory.clearUndoStack();
+		this.updateUndoRedoButtons();
 	}
 
 	@Override
@@ -27,6 +30,24 @@ public class NewRandomPuzzleState extends ApplicationModelState {
 		this.resetAllFilters();
 		this.resetColorStates();
 		this.sudokuPuzzleValues = new SudokuPuzzleValues(this.puzzleString);
+		this.updateCells();
+		// Must do this after because the cell values need to be finished before setting
+		// candidates. Otherwise the doesCellSeeFixedDigit checks will not be correct.
+		this.updateCandidates();
+	}
+
+	private void updateCandidates() {
+		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
+			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
+				final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
+				final int givenCellDigit = this.sudokuPuzzleValues.getGivenCellDigit(row, col);
+				final boolean isCellGiven = givenCellDigit != 0;
+				this.setCandidateVisibility(row, col, sudokuPuzzleCell, isCellGiven);
+			}
+		}
+	}
+
+	private void updateCells() {
 		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
 			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
 				final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
@@ -36,14 +57,6 @@ public class NewRandomPuzzleState extends ApplicationModelState {
 				sudokuPuzzleCell.setCandidatesVisible(!isCellGiven);
 				sudokuPuzzleCell.setCellGiven(isCellGiven);
 				this.updateFixedCellTypeCssClass(sudokuPuzzleCell, isCellGiven ? GIVEN_CELL_CSS_CLASS : UNFIXED_CELL_CSS_CLASS);
-			}
-		}
-		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
-			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
-				final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
-				final int givenCellDigit = this.sudokuPuzzleValues.getGivenCellDigit(row, col);
-				final boolean isCellGiven = givenCellDigit != 0;
-				this.setCandidateVisibility(row, col, sudokuPuzzleCell, isCellGiven);
 			}
 		}
 	}

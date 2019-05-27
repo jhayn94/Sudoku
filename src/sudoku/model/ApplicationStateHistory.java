@@ -45,6 +45,11 @@ public class ApplicationStateHistory {
 		this.redoStack.clear();
 	}
 
+	/** Clears the undoStack. Mostly used for when the puzzle changes. */
+	public void clearUndoStack() {
+		this.undoStack.clear();
+	}
+
 	public boolean isUndoStackEmpty() {
 		return this.undoStack.isEmpty();
 	}

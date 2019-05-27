@@ -33,6 +33,7 @@ public class HintTextArea extends Pane {
 
 	private void createChildElements() {
 		this.hintTextArea = new TextArea();
+		this.hintTextArea.setFocusTraversable(false);
 		this.hintTextArea.setWrapText(true);
 		this.hintTextArea.setEditable(false);
 		this.hintTextArea.setMinWidth(DEFAULT_WIDTH - PADDING_FOR_PANE);

@@ -52,24 +52,28 @@ public class HintButtonPane extends GridPane {
 		this.vagueHintButton.setMinHeight(BUTTON_HEIGHT);
 		this.vagueHintButton.setMinWidth(BUTTON_WIDTH);
 		this.vagueHintButton.setMaxWidth(BUTTON_WIDTH);
+		this.vagueHintButton.setFocusTraversable(false);
 		this.add(this.vagueHintButton, 0, 0);
 		this.specificHintButton = new Button(LabelConstants.SPECIFIC_HINT);
 		this.specificHintButton.setMinHeight(BUTTON_HEIGHT);
 		this.specificHintButton.setMaxHeight(BUTTON_HEIGHT);
 		this.specificHintButton.setMinWidth(BUTTON_WIDTH);
 		this.specificHintButton.setMaxWidth(BUTTON_WIDTH);
+		this.specificHintButton.setFocusTraversable(false);
 		this.add(this.specificHintButton, 1, 0);
 		this.applyHintButton = new Button(LabelConstants.APPLY_HINT);
 		this.applyHintButton.setMinHeight(BUTTON_HEIGHT);
 		this.applyHintButton.setMaxHeight(BUTTON_HEIGHT);
 		this.applyHintButton.setMinWidth(BUTTON_WIDTH);
 		this.applyHintButton.setMaxWidth(BUTTON_WIDTH);
+		this.applyHintButton.setFocusTraversable(false);
 		this.add(this.applyHintButton, 0, 1);
 		this.hideHintButton = new Button(LabelConstants.HIDE_HINT);
 		this.hideHintButton.setMinHeight(BUTTON_HEIGHT);
 		this.hideHintButton.setMaxHeight(BUTTON_HEIGHT);
 		this.hideHintButton.setMinWidth(BUTTON_WIDTH);
 		this.hideHintButton.setMaxWidth(BUTTON_WIDTH);
+		this.hideHintButton.setFocusTraversable(false);
 		this.add(this.hideHintButton, 1, 1);
 
 	}
