@@ -81,7 +81,7 @@ public class LabelConstants {
 	public static final String NO_MOVES = "No possible moves found! Please double check the currently"
 			+ " set cells for contradictions. Otherwise, there might not be enough givens to solve the puzzle.";
 
-	public static final String VAGUE_HINT_PREFIX = "Possible solution step in the current state: ";
+	public static final String VAGUE_HINT_PREFIX = "Possible solution step: ";
 
 	public static final String SET_GIVENS = "Set Givens";
 

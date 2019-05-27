@@ -14,6 +14,10 @@ public class EditMenu extends Menu {
 
 	public EditMenu() {
 		super();
+		this.configure();
+	}
+
+	private void configure() {
 		this.setText(LabelConstants.EDIT);
 		this.createChildElements();
 	}

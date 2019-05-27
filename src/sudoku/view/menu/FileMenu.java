@@ -20,6 +20,10 @@ public class FileMenu extends Menu {
 
 	public FileMenu() {
 		super();
+		this.configure();
+	}
+
+	private void configure() {
 		this.setText(LabelConstants.FILE);
 		this.createChildElements();
 	}
