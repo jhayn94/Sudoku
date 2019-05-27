@@ -2,6 +2,7 @@ package sudoku.core;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import sudoku.model.SudokuPuzzleValues;
 import sudoku.view.hint.HintButtonPane;
@@ -43,7 +44,12 @@ public class ViewController {
 	private ColorSelectionPane colorSelectionPane;
 
 	private HintButtonPane hintButtonPane;
+
 	private HintTextArea hintTextArea;
+
+	private MenuItem undoMenuItem;
+
+	private MenuItem redoMenuItem;
 
 	private ViewController() {
 		this.stage = null;
@@ -55,6 +61,8 @@ public class ViewController {
 		this.colorSelectionPane = null;
 		this.hintButtonPane = null;
 		this.hintTextArea = null;
+		this.undoMenuItem = null;
+		this.redoMenuItem = null;
 	}
 
 	public Stage getStage() {
@@ -93,6 +101,14 @@ public class ViewController {
 		return this.hintTextArea;
 	}
 
+	public MenuItem getUndoMenuItem() {
+		return this.undoMenuItem;
+	}
+
+	public MenuItem getRedoMenuItem() {
+		return this.redoMenuItem;
+	}
+
 	public void setHintTextArea(final HintTextArea hintTextArea) {
 		this.hintTextArea = hintTextArea;
 	}
@@ -127,6 +143,14 @@ public class ViewController {
 
 	public void setColorSelectionPane(final ColorSelectionPane colorSelectionPane) {
 		this.colorSelectionPane = colorSelectionPane;
+	}
+
+	public void setUndoMenuItem(MenuItem undoMenuItem) {
+		this.undoMenuItem = undoMenuItem;
+	}
+
+	public void setRedoMenuItem(MenuItem redoMenuItem) {
+		this.redoMenuItem = redoMenuItem;
 	}
 
 }

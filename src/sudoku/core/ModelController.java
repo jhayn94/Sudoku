@@ -15,6 +15,7 @@ import sudoku.state.model.cell.ArrowKeyboardInputState;
 import sudoku.state.model.cell.ClickedCellState;
 import sudoku.state.model.cell.RemoveDigitState;
 import sudoku.state.model.cell.SetDigitState;
+import sudoku.state.model.cell.SetGivenCellsState;
 import sudoku.state.model.coloring.ActiveColorState;
 import sudoku.state.model.coloring.ResetAllColorsState;
 import sudoku.state.model.coloring.ToggleCandidateColorState;
@@ -201,6 +202,11 @@ public class ModelController {
 
 	public void transitionToShowSpecificHintState() {
 		this.applicationModelState = new ShowSpecificHintState(this.applicationModelState);
+		this.applicationModelState.onEnter();
+	}
+
+	public void transitionToSetGivenCellsState() {
+		this.applicationModelState = new SetGivenCellsState(this.applicationModelState);
 		this.applicationModelState.onEnter();
 	}
 

@@ -308,6 +308,8 @@ public class ApplicationModelState {
 		final FilterButtonPane filterButtonPane = ViewController.getInstance().getFilterButtonPane();
 		filterButtonPane.getUndoButton().setDisable(this.applicationStateHistory.isUndoStackEmpty());
 		filterButtonPane.getRedoButton().setDisable(this.applicationStateHistory.isRedoStackEmpty());
+		ViewController.getInstance().getUndoMenuItem().setDisable(this.applicationStateHistory.isUndoStackEmpty());
+		ViewController.getInstance().getRedoMenuItem().setDisable(this.applicationStateHistory.isRedoStackEmpty());
 	}
 
 	/**

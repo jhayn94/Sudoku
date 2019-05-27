@@ -1,5 +1,6 @@
 package sudoku.state.model.hint;
 
+import sudoku.SolutionType;
 import sudoku.core.HodokuFacade;
 import sudoku.core.ViewController;
 import sudoku.state.ApplicationModelState;
@@ -20,7 +21,7 @@ public class ShowVagueHintState extends ApplicationModelState {
 	public void onEnter() {
 		this.displayedHint = HodokuFacade.getInstance().getHint(this.sudokuPuzzleValues.getStringRepresentation(false));
 		final HintTextArea hintTextArea = ViewController.getInstance().getHintTextArea();
-		final String newHintText = this.displayedHint == null ? LabelConstants.NO_MOVES
+		final String newHintText = SolutionType.GIVE_UP == this.displayedHint.getType() ? LabelConstants.NO_MOVES
 				: LabelConstants.VAGUE_HINT_PREFIX + this.displayedHint.getType().getStepName();
 		hintTextArea.getHintTextArea().setText(newHintText);
 		final HintButtonPane hintButtonPane = ViewController.getInstance().getHintButtonPane();

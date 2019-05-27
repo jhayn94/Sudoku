@@ -1,5 +1,6 @@
 package sudoku.state.model.hint;
 
+import sudoku.SolutionType;
 import sudoku.core.HodokuFacade;
 import sudoku.core.ViewController;
 import sudoku.state.ApplicationModelState;
@@ -20,7 +21,8 @@ public class ShowSpecificHintState extends ApplicationModelState {
 	public void onEnter() {
 		this.displayedHint = HodokuFacade.getInstance().getHint(this.sudokuPuzzleValues.getStringRepresentation(false));
 		final HintTextArea hintTextArea = ViewController.getInstance().getHintTextArea();
-		final String newHintText = this.displayedHint == null ? LabelConstants.NO_MOVES : this.displayedHint.toString();
+		final String newHintText = SolutionType.GIVE_UP == this.displayedHint.getType() ? LabelConstants.NO_MOVES
+				: this.displayedHint.toString();
 		hintTextArea.getHintTextArea().setText(newHintText);
 		final HintButtonPane hintButtonPane = ViewController.getInstance().getHintButtonPane();
 		hintButtonPane.getApplyHintButton().setDisable(false);
