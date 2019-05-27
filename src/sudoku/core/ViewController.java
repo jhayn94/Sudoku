@@ -30,8 +30,6 @@ public class ViewController {
 
 	private Button maximizeWindowButton;
 
-	private Stage helpStage;
-
 	private FilterButtonPane filterButtonPane;
 
 	private SudokuPuzzleView sudokuPuzzleView;
@@ -45,7 +43,6 @@ public class ViewController {
 	private ViewController() {
 		this.stage = null;
 		this.maximizeWindowButton = null;
-		this.helpStage = null;
 		this.filterButtonPane = null;
 		this.sudokuPuzzleView = null;
 		this.sudokuPuzzleCells = new SudokuPuzzleCell[SudokuPuzzleValues.CELLS_PER_HOUSE][SudokuPuzzleValues.CELLS_PER_HOUSE];
@@ -59,10 +56,6 @@ public class ViewController {
 
 	public Button getMaximizeWindowButton() {
 		return this.maximizeWindowButton;
-	}
-
-	public Stage getHelpStage() {
-		return this.helpStage;
 	}
 
 	public FilterButtonPane getFilterButtonPane() {
@@ -91,10 +84,6 @@ public class ViewController {
 
 	public void setMaximizeWindowButton(final MaximizeMenuButton maximizeMenuButton) {
 		this.maximizeWindowButton = maximizeMenuButton;
-	}
-
-	public void setHelpStage(final Stage helpStage) {
-		this.helpStage = helpStage;
 	}
 
 	public void setFilterButtonPane(final FilterButtonPane filterButtonPane) {

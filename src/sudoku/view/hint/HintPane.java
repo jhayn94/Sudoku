@@ -1,8 +1,10 @@
 package sudoku.view.hint;
 
 import javafx.geometry.Insets;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import sudoku.factories.LayoutFactory;
+import sudoku.view.util.LabelConstants;
 
 /**
  * This class corresponds to the 4 x 3 button grid on the top left of the
@@ -12,6 +14,8 @@ import sudoku.factories.LayoutFactory;
  * redo, respectively.
  */
 public class HintPane extends VBox {
+
+	private static final int PADDING_BETWEEN_CHILDREN = 15;
 
 	private static final int PADDING_FOR_PANE = 15;
 
@@ -32,10 +36,12 @@ public class HintPane extends VBox {
 	}
 
 	private void createChildElements() {
+		final Label label = new Label(LabelConstants.HINT);
+		VBox.setMargin(label, new Insets(0, 0, PADDING_BETWEEN_CHILDREN, 0));
 		final HintButtonPane hintButtonPane = LayoutFactory.getInstance().createHintButtonPane();
-		VBox.setMargin(hintButtonPane, new Insets(0, 0, 15, 0));
+		VBox.setMargin(hintButtonPane, new Insets(0, 0, PADDING_BETWEEN_CHILDREN, 0));
 		final HintTextArea hintTextArea = LayoutFactory.getInstance().createHintTextArea();
-		this.getChildren().addAll(hintButtonPane, hintTextArea);
+		this.getChildren().addAll(label, hintButtonPane, hintTextArea);
 	}
 
 }

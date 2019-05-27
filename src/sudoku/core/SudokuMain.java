@@ -74,9 +74,6 @@ public class SudokuMain extends Application {
 		WindowHelper.addResizeAndDragListener(stage, root);
 		// Initializes the model controller with default states + behaviors.
 		ModelController.getInstance();
-
-		final String generateSudokuString = HodokuFacade.getInstance().generateSudokuString();
-		HodokuFacade.getInstance().getSolutionForSudoku(generateSudokuString);
 	}
 
 	public static void main(final String[] args) {

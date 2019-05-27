@@ -15,7 +15,7 @@ public class HintTextArea extends Pane {
 
 	private static final int DEFAULT_WIDTH = 300;
 
-	private static final int TEXT_AREA_HEIGHT = 410;
+	private static final int TEXT_AREA_HEIGHT = 350;
 
 	private TextArea hintTextArea;
 
@@ -34,6 +34,7 @@ public class HintTextArea extends Pane {
 	private void createChildElements() {
 		this.hintTextArea = new TextArea();
 		this.hintTextArea.setWrapText(true);
+		this.hintTextArea.setEditable(false);
 		this.hintTextArea.setMinWidth(DEFAULT_WIDTH - PADDING_FOR_PANE);
 		this.hintTextArea.setMaxWidth(DEFAULT_WIDTH - PADDING_FOR_PANE);
 		this.hintTextArea.setMinHeight(TEXT_AREA_HEIGHT);

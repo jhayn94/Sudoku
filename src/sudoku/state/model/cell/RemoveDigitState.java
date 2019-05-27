@@ -20,15 +20,15 @@ public class RemoveDigitState extends ApplicationModelState {
 	@Override
 	public void onEnter() {
 		final SudokuPuzzleCell selectedCell = this.getSelectedCell();
-		final int fixedDigit = selectedCell.getFixedDigit();
-
-		selectedCell.setCandidatesVisible(true);
-		selectedCell.setFixedDigit(Strings.EMPTY);
-		this.updateFixedCellTypeCssClass(this.getSelectedCell(), UNFIXED_CELL_CSS_CLASS);
-		this.sudokuPuzzleValues.setCellFixedDigit(selectedCell.getRow(), selectedCell.getCol(), 0);
-		this.addDigitAsCandidateToSeenCells(fixedDigit);
-
-		this.reapplyActiveFilter();
+		if (!selectedCell.isCellGiven()) {
+			final int fixedDigit = selectedCell.getFixedDigit();
+			selectedCell.setCandidatesVisible(true);
+			selectedCell.setFixedDigit(Strings.EMPTY);
+			this.updateFixedCellTypeCssClass(this.getSelectedCell(), UNFIXED_CELL_CSS_CLASS);
+			this.sudokuPuzzleValues.setCellFixedDigit(selectedCell.getRow(), selectedCell.getCol(), 0);
+			this.addDigitAsCandidateToSeenCells(fixedDigit);
+			this.reapplyActiveFilter();
+		}
 	}
 
 }

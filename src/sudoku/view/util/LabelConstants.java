@@ -70,6 +70,10 @@ public class LabelConstants {
 
 	public static final String HIDE_HINT = "Hide";
 
+	public static final String HINT = "Hints:";
+
+	public static final String OK = "OK";
+
 	private LabelConstants() {
 		// Private constructor to prevent instantiation.
 	}

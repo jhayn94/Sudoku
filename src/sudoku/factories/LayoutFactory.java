@@ -1,14 +1,16 @@
 package sudoku.factories;
 
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import sudoku.core.ViewController;
 import sudoku.view.ApplicationSideBar;
 import sudoku.view.HelpView;
 import sudoku.view.MainApplicationView;
+import sudoku.view.ModalDialog;
+import sudoku.view.ModalStage;
 import sudoku.view.RootStackPane;
 import sudoku.view.control.LabeledComboBox;
 import sudoku.view.control.ToggleButton;
@@ -22,6 +24,7 @@ import sudoku.view.sidebar.ColorSelectionPane;
 import sudoku.view.sidebar.FilterButtonPane;
 import sudoku.view.sidebar.MouseModePane;
 import sudoku.view.sidebar.MouseToolsPane;
+import sudoku.view.util.LabelConstants;
 import sudoku.view.util.ResourceConstants;
 import sudoku.view.util.ShadowRectangle;
 import sudoku.view.util.WindowHelper;
@@ -32,9 +35,9 @@ import sudoku.view.util.WindowHelper;
  */
 public class LayoutFactory {
 
-	private static final int HELP_STAGE_HEIGHT = 600;
+	private static final int HELP_SCENE_HEIGHT = 600;
 
-	private static final int HELP_STAGE_WIDTH = 700;
+	private static final int HELP_SCENE_WIDTH = 700;
 
 	private static LayoutFactory layoutFactoryInstance;
 
@@ -118,41 +121,26 @@ public class LayoutFactory {
 	}
 
 	public void showHelpView() {
-		final Stage helpStage = ViewController.getInstance().getHelpStage();
-		// Don't create a second instance if one is already available.
-		if (helpStage != null) {
-			helpStage.toFront();
-		} else {
-			this.createNewHelpView();
-		}
-	}
-
-	/** Creates a new stage, scene, and then a HelpView, which is nested inside. */
-	private void createNewHelpView() {
-		final Stage helpStage = this.createHelpStage();
+		final Stage helpStage = new ModalStage();
 		final HelpView helpView = new HelpView(helpStage);
-		final RootStackPane rootStackPane = LayoutFactory.getInstance().createRootStackPane(helpView);
-		final Scene helpScene = new Scene(rootStackPane, HELP_STAGE_WIDTH, HELP_STAGE_HEIGHT);
-		helpScene.getStylesheets().add(ResourceConstants.APPLICATION_CSS);
-		helpScene.setFill(Color.TRANSPARENT);
+		final RootStackPane rootStackPane = this.createRootStackPane(helpView);
+		final Scene helpScene = new Scene(rootStackPane, HELP_SCENE_WIDTH, HELP_SCENE_HEIGHT);
+		this.configureScene(helpScene);
 		helpStage.setScene(helpScene);
 		WindowHelper.addResizeAndDragListener(helpStage, helpView);
 		helpStage.show();
 	}
 
-	private Stage createHelpStage() {
-		final Stage helpStage = this.createBasicStage();
-		ViewController.getInstance().setHelpStage(helpStage);
-		return helpStage;
+	public void showNewBlankPuzzleDialog() {
+		final Stage modalStage = new ModalStage();
+		final Button button = new Button(LabelConstants.OK);
+		new ModalDialog(modalStage).withConfirmButton(button);
 	}
 
-	/** Creates a stage with some common project variables set. */
-	private Stage createBasicStage() {
-		final Stage helpStage = new Stage();
-		helpStage.initStyle(StageStyle.TRANSPARENT);
-		helpStage.centerOnScreen();
-		helpStage.setMinHeight(600);
-		return helpStage;
+	/** Offers some standard configuration of a scene for the project. */
+	private void configureScene(final Scene scene) {
+		scene.getStylesheets().add(ResourceConstants.APPLICATION_CSS);
+		scene.setFill(Color.TRANSPARENT);
 	}
 
 	private LayoutFactory() {

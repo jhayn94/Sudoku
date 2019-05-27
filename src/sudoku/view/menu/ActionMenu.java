@@ -7,6 +7,7 @@ import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
+import sudoku.core.HodokuFacade;
 import sudoku.core.ModelController;
 import sudoku.factories.LayoutFactory;
 import sudoku.view.util.LabelConstants;
@@ -34,6 +35,11 @@ public class ActionMenu extends ContextMenu {
 	private Menu createFileMenu() {
 		final Menu fileMenu = new Menu(LabelConstants.FILE);
 		final MenuItem newPuzzleMenuItem = new MenuItem(LabelConstants.NEW_PUZZLE);
+		newPuzzleMenuItem.setOnAction(event -> {
+			final String generateSudokuString = HodokuFacade.getInstance().generateSudokuString();
+			ModelController.getInstance().transitionToNewRandomPuzzleState(generateSudokuString);
+		});
+		newPuzzleMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN));
 		final MenuItem newBlankPuzzleMenuItem = new MenuItem(LabelConstants.NEW_BLANK_PUZZLE);
 		final MenuItem openPuzzleMenuItem = new MenuItem(LabelConstants.OPEN);
 		final MenuItem savePuzzleMenuItem = new MenuItem(LabelConstants.SAVE);

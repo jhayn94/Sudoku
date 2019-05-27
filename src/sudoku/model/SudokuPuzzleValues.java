@@ -49,7 +49,7 @@ public class SudokuPuzzleValues {
 				final int position = row * CELLS_PER_HOUSE + col;
 				final char charAtPosition = initialGivens.charAt(position);
 				if (Character.isDigit(charAtPosition)) {
-					this.givenCells[col][row] = Integer.valueOf(charAtPosition);
+					this.givenCells[col][row] = Integer.valueOf(charAtPosition) - '0';
 				}
 			}
 		}

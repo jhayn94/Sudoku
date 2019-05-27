@@ -4,6 +4,7 @@ import javafx.scene.input.KeyCode;
 import sudoku.state.ApplicationModelState;
 import sudoku.state.DefaultApplicationModelState;
 import sudoku.state.MouseModeChangedState;
+import sudoku.state.NewRandomPuzzleState;
 import sudoku.state.RedoActionState;
 import sudoku.state.UndoActionState;
 import sudoku.state.model.candidate.ToggleActiveCandidateState;
@@ -154,6 +155,11 @@ public class ModelController {
 
 	public void transitionToToggleActiveColorState(final boolean increment) {
 		this.applicationModelState = new ActiveColorState(increment, this.applicationModelState);
+		this.applicationModelState.onEnter();
+	}
+
+	public void transitionToNewRandomPuzzleState(final String generateSudokuString) {
+		this.applicationModelState = new NewRandomPuzzleState(generateSudokuString, this.applicationModelState);
 		this.applicationModelState.onEnter();
 	}
 }
