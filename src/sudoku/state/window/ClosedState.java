@@ -13,7 +13,12 @@ public class ClosedState extends ApplicationWindowState {
 
 	@Override
 	public void onEnter() {
-		Platform.runLater(Platform::exit);
+		// There are various other threads that need to be stopped; this configuration
+		// seems to do that.
+		Platform.runLater(() -> {
+			Platform.exit();
+			System.exit(0);
+		});
 	}
 
 }
