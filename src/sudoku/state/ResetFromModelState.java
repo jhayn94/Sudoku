@@ -22,19 +22,20 @@ public abstract class ResetFromModelState extends ApplicationModelState {
 
 	/**
 	 * Uses the value of SudokuPuzzleValues in this.sudokuPuzzleValues, and resets
-	 * the rest of the model + view to match it. This is used for redo / undo.
+	 * the rest of the model + view to match it. This is used for redo, undo and
+	 * restart.
 	 */
 	protected void resetApplicationFromPuzzleState() {
-
 		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
 			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
 				final int fixedCellDigit = this.sudokuPuzzleValues.getFixedCellDigit(row, col);
 				final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
 				if (fixedCellDigit != 0) {
-					this.sudokuPuzzleValues.setCellFixedDigit(row, col, fixedCellDigit);
 					sudokuPuzzleCell.setCandidatesVisible(false);
 					sudokuPuzzleCell.setFixedDigit(String.valueOf(fixedCellDigit));
-					this.updateFixedCellTypeCssClass(sudokuPuzzleCell, FIXED_CELL_CSS_CLASS);
+					final int givenCellDigit = this.sudokuPuzzleValues.getGivenCellDigit(row, col);
+					this.updateFixedCellTypeCssClass(sudokuPuzzleCell,
+							givenCellDigit == 0 ? FIXED_CELL_CSS_CLASS : GIVEN_CELL_CSS_CLASS);
 				} else {
 					this.sudokuPuzzleValues.setCellFixedDigit(row, col, 0);
 					sudokuPuzzleCell.setCandidatesVisible(true);

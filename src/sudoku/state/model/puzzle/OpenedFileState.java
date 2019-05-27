@@ -61,8 +61,6 @@ public class OpenedFileState extends ApplicationModelState {
 		this.sudokuPuzzleValues = new SudokuPuzzleValues(this.givens);
 		this.updateGivenCells();
 		this.updateOtherSetCells();
-		// Must do this after because the cell values need to be finished before setting
-		// candidates. Otherwise the doesCellSeeFixedDigit checks will not be correct.
 		this.updateCandidates();
 	}
 

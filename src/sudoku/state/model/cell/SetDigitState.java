@@ -26,21 +26,23 @@ public class SetDigitState extends ApplicationModelState {
 		final int selectedCellCol = this.sudokuPuzzleStyle.getSelectedCellCol();
 		if (selectedCellRow != -1 && selectedCellCol != -1) {
 			final SudokuPuzzleCell selectedCell = this.getSelectedCell();
-			final int oldFixedDigit = selectedCell.getFixedDigit();
+			if (!selectedCell.isCellGiven()) {
+				final int oldFixedDigit = selectedCell.getFixedDigit();
 
-			selectedCell.setCandidatesVisible(false);
-			selectedCell.setFixedDigit(this.lastKeyCode.toString());
-			this.updateFixedCellTypeCssClass(this.getSelectedCell(), FIXED_CELL_CSS_CLASS);
+				selectedCell.setCandidatesVisible(false);
+				selectedCell.setFixedDigit(this.lastKeyCode.toString());
+				this.updateFixedCellTypeCssClass(this.getSelectedCell(), FIXED_CELL_CSS_CLASS);
 
-			if (oldFixedDigit != -1) {
-				this.addDigitAsCandidateToSeenCells(oldFixedDigit);
+				if (oldFixedDigit != -1) {
+					this.addDigitAsCandidateToSeenCells(oldFixedDigit);
+				}
+
+				this.removeImpermissibleCandidates(selectedCell);
+				final int digit = Integer.parseInt(this.lastKeyCode.toString().replace(DIGIT_REPLACE_TEXT, Strings.EMPTY)
+						.replace(NUMPAD_REPLACE_TEXT, Strings.EMPTY));
+				this.sudokuPuzzleValues.setCellFixedDigit(selectedCell.getRow(), selectedCell.getCol(), digit);
+				this.reapplyActiveFilter();
 			}
-
-			this.removeImpermissibleCandidates(selectedCell);
-			final int digit = Integer.parseInt(this.lastKeyCode.toString().replace(DIGIT_REPLACE_TEXT, Strings.EMPTY)
-					.replace(NUMPAD_REPLACE_TEXT, Strings.EMPTY));
-			this.sudokuPuzzleValues.setCellFixedDigit(selectedCell.getRow(), selectedCell.getCol(), digit);
-			this.reapplyActiveFilter();
 		}
 	}
 

@@ -7,6 +7,7 @@ import sudoku.state.ApplicationModelState;
 import sudoku.state.DefaultApplicationModelState;
 import sudoku.state.MouseModeChangedState;
 import sudoku.state.RedoActionState;
+import sudoku.state.RestartPuzzleState;
 import sudoku.state.UndoActionState;
 import sudoku.state.model.candidate.ToggleActiveCandidateState;
 import sudoku.state.model.candidate.ToggleCandidateVisibleState;
@@ -181,6 +182,11 @@ public class ModelController {
 
 	public void transitionToSavedFileState(final File selectedFile) {
 		this.applicationModelState = new SavedFileState(selectedFile, this.applicationModelState);
+		this.applicationModelState.onEnter();
+	}
+
+	public void transitionToRestartPuzzleState() {
+		this.applicationModelState = new RestartPuzzleState(this.applicationModelState);
 		this.applicationModelState.onEnter();
 	}
 
