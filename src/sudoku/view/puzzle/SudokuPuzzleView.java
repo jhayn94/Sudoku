@@ -136,7 +136,10 @@ public class SudokuPuzzleView extends GridPane {
 	private void onPressLetter(final KeyEvent event, final KeyCode keyCode) {
 		if (KeyCode.R == keyCode) {
 			ModelController.getInstance().transitionToResetAllColorsState();
-		} else if (ColorUtils.getApplyColorKeyCodes().contains(keyCode)) {
+		} else if (KeyCode.M == keyCode && event.isControlDown()) {
+			ModelController.getInstance().transitionToShowContextMenuState();
+		}
+		if (ColorUtils.getApplyColorKeyCodes().contains(keyCode)) {
 			this.onPressColoringKey(event, keyCode);
 		}
 	}

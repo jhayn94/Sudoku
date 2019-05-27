@@ -8,6 +8,7 @@ import sudoku.state.DefaultApplicationModelState;
 import sudoku.state.MouseModeChangedState;
 import sudoku.state.RedoActionState;
 import sudoku.state.RestartPuzzleState;
+import sudoku.state.ShowContextMenuState;
 import sudoku.state.UndoActionState;
 import sudoku.state.model.candidate.ToggleActiveCandidateState;
 import sudoku.state.model.candidate.ToggleCandidateVisibleState;
@@ -218,6 +219,12 @@ public class ModelController {
 	public void transitionToHideHintState() {
 		this.applicationModelState = new HideHintState(this.applicationModelState);
 		this.applicationModelState.onEnter();
+	}
+
+	public void transitionToShowContextMenuState() {
+		this.applicationModelState = new ShowContextMenuState(this.applicationModelState);
+		this.applicationModelState.onEnter();
+
 	}
 
 }

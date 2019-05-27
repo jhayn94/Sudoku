@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import sudoku.model.SudokuPuzzleValues;
 import sudoku.view.hint.HintButtonPane;
 import sudoku.view.hint.HintTextArea;
+import sudoku.view.menu.button.ContextMenuButton;
 import sudoku.view.menu.button.MaximizeMenuButton;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 import sudoku.view.puzzle.SudokuPuzzleView;
@@ -51,6 +52,8 @@ public class ViewController {
 
 	private MenuItem redoMenuItem;
 
+	private ContextMenuButton contextMenuButton;
+
 	private ViewController() {
 		this.stage = null;
 		this.maximizeWindowButton = null;
@@ -63,6 +66,7 @@ public class ViewController {
 		this.hintTextArea = null;
 		this.undoMenuItem = null;
 		this.redoMenuItem = null;
+		this.contextMenuButton = null;
 	}
 
 	public Stage getStage() {
@@ -109,6 +113,10 @@ public class ViewController {
 		return this.redoMenuItem;
 	}
 
+	public ContextMenuButton getContextMenuButton() {
+		return this.contextMenuButton;
+	}
+
 	public void setHintTextArea(final HintTextArea hintTextArea) {
 		this.hintTextArea = hintTextArea;
 	}
@@ -145,12 +153,16 @@ public class ViewController {
 		this.colorSelectionPane = colorSelectionPane;
 	}
 
-	public void setUndoMenuItem(MenuItem undoMenuItem) {
+	public void setUndoMenuItem(final MenuItem undoMenuItem) {
 		this.undoMenuItem = undoMenuItem;
 	}
 
-	public void setRedoMenuItem(MenuItem redoMenuItem) {
+	public void setRedoMenuItem(final MenuItem redoMenuItem) {
 		this.redoMenuItem = redoMenuItem;
+	}
+
+	public void setContextMenuButton(final ContextMenuButton contextMenuButton) {
+		this.contextMenuButton = contextMenuButton;
 	}
 
 }
