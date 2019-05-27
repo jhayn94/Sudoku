@@ -55,6 +55,7 @@ public class OpenedFileState extends ApplicationModelState {
 
 	@Override
 	public void onEnter() {
+		this.sudokuPuzzleStyle.setActiveCellFilter(Strings.EMPTY);
 		this.resetAllFilters();
 		this.updateFilterButtonStates(Strings.EMPTY);
 		this.resetColorStates();

@@ -23,7 +23,7 @@ public class EditMenu extends Menu {
 		undoMenuItem.setOnAction(event -> ModelController.getInstance().transitionToUndoActionState());
 		final MenuItem redoMenuItem = new MenuItem(LabelConstants.REDO_LONG);
 		redoMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.Y, KeyCombination.CONTROL_DOWN));
-		redoMenuItem.setOnAction(event -> ModelController.getInstance().transitionToUndoActionState());
+		redoMenuItem.setOnAction(event -> ModelController.getInstance().transitionToRedoActionState());
 		final MenuItem restartMenuItem = new MenuItem(LabelConstants.RESTART);
 		this.getItems().addAll(undoMenuItem, redoMenuItem, new SeparatorMenuItem(), restartMenuItem);
 		restartMenuItem.setOnAction(event -> ModelController.getInstance().transitionToRestartPuzzleState());

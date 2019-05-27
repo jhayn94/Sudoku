@@ -40,7 +40,7 @@ public class HodokuFacade {
 	 */
 	public String generateSudokuString() {
 		final BackgroundGenerator generator = new BackgroundGenerator();
-		return generator.generate(Options.getInstance().getDifficultyLevel(5), GameMode.PLAYING);
+		return generator.generate(Options.getInstance().getDifficultyLevel(3), GameMode.PLAYING);
 	}
 
 	/**
