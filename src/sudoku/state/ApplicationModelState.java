@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
+import sudoku.SolutionStep;
 import sudoku.core.ViewController;
 import sudoku.factories.ModelFactory;
 import sudoku.model.ApplicationStateHistory;
@@ -24,6 +25,9 @@ import sudoku.view.util.MouseMode;
 /**
  * This class is a representation of the current state of the application model,
  * with methods to invoke when a state change occurs.
+ *
+ * TODO - this class is getting too big, maybe some of the methods should be
+ * moved out into other classes.
  */
 public class ApplicationModelState {
 
@@ -50,6 +54,8 @@ public class ApplicationModelState {
 
 	protected MouseMode mouseMode;
 
+	protected SolutionStep displayedHint;
+
 	protected ApplicationStateHistory applicationStateHistory;
 
 	/** Constructor for the initialization of the application. */
@@ -57,6 +63,7 @@ public class ApplicationModelState {
 		this.sudokuPuzzleValues = ModelFactory.getInstance().createSudokuPuzzleValues();
 		this.sudokuPuzzleStyle = ModelFactory.getInstance().createSudokuPuzzleStyle();
 		this.lastKeyCode = null;
+		this.displayedHint = null;
 		this.applicationStateHistory = ModelFactory.getInstance().createApplicationStateHistory();
 		this.mouseMode = MouseMode.SELECT_CELLS;
 		this.resetColorStates();
@@ -72,13 +79,15 @@ public class ApplicationModelState {
 		this.sudokuPuzzleValues = lastState.sudokuPuzzleValues;
 		this.sudokuPuzzleStyle = lastState.sudokuPuzzleStyle;
 		this.lastKeyCode = lastState.lastKeyCode;
+		this.displayedHint = lastState.displayedHint;
 		this.mouseMode = lastState.mouseMode;
 		this.applicationStateHistory = lastState.applicationStateHistory;
 		if (addToHistory) {
 			this.addPuzzleStateToUndoStack();
 		}
-		// Some states are invoked by clicks. So, refocus grid so the keyboard actions
-		// always work (see SudokuPuzzleView for more notes on why this is done).
+		// Some states are invoked by clicks. So, refocus grid is called to make
+		// keyboard actions always work (see SudokuPuzzleView for more notes on why this
+		// is done).
 		ViewController.getInstance().getSudokuPuzzleView().requestFocus();
 	}
 

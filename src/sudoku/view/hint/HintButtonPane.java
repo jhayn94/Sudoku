@@ -3,6 +3,7 @@ package sudoku.view.hint;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import sudoku.core.ModelController;
 import sudoku.view.util.LabelConstants;
 
 /**
@@ -47,35 +48,57 @@ public class HintButtonPane extends GridPane {
 	}
 
 	private void createChildElements() {
-		this.vagueHintButton = new Button(LabelConstants.VAGUE_HINT);
-		this.vagueHintButton.setMaxHeight(BUTTON_HEIGHT);
-		this.vagueHintButton.setMinHeight(BUTTON_HEIGHT);
-		this.vagueHintButton.setMinWidth(BUTTON_WIDTH);
-		this.vagueHintButton.setMaxWidth(BUTTON_WIDTH);
-		this.vagueHintButton.setFocusTraversable(false);
+		this.createVagueHintButton();
+		this.createSpecificHintButton();
+		this.createApplyHintButton();
+		this.createHideHintButton();
 		this.add(this.vagueHintButton, 0, 0);
-		this.specificHintButton = new Button(LabelConstants.SPECIFIC_HINT);
-		this.specificHintButton.setMinHeight(BUTTON_HEIGHT);
-		this.specificHintButton.setMaxHeight(BUTTON_HEIGHT);
-		this.specificHintButton.setMinWidth(BUTTON_WIDTH);
-		this.specificHintButton.setMaxWidth(BUTTON_WIDTH);
-		this.specificHintButton.setFocusTraversable(false);
 		this.add(this.specificHintButton, 1, 0);
-		this.applyHintButton = new Button(LabelConstants.APPLY_HINT);
-		this.applyHintButton.setMinHeight(BUTTON_HEIGHT);
-		this.applyHintButton.setMaxHeight(BUTTON_HEIGHT);
-		this.applyHintButton.setMinWidth(BUTTON_WIDTH);
-		this.applyHintButton.setMaxWidth(BUTTON_WIDTH);
-		this.applyHintButton.setFocusTraversable(false);
 		this.add(this.applyHintButton, 0, 1);
+		this.add(this.hideHintButton, 1, 1);
+
+	}
+
+	private void createHideHintButton() {
 		this.hideHintButton = new Button(LabelConstants.HIDE_HINT);
 		this.hideHintButton.setMinHeight(BUTTON_HEIGHT);
 		this.hideHintButton.setMaxHeight(BUTTON_HEIGHT);
 		this.hideHintButton.setMinWidth(BUTTON_WIDTH);
 		this.hideHintButton.setMaxWidth(BUTTON_WIDTH);
 		this.hideHintButton.setFocusTraversable(false);
-		this.add(this.hideHintButton, 1, 1);
+		this.hideHintButton.setDisable(true);
+		this.hideHintButton.setOnAction(event -> ModelController.getInstance().transitionToHideHintState());
+	}
 
+	private void createApplyHintButton() {
+		this.applyHintButton = new Button(LabelConstants.APPLY_HINT);
+		this.applyHintButton.setMinHeight(BUTTON_HEIGHT);
+		this.applyHintButton.setMaxHeight(BUTTON_HEIGHT);
+		this.applyHintButton.setMinWidth(BUTTON_WIDTH);
+		this.applyHintButton.setMaxWidth(BUTTON_WIDTH);
+		this.applyHintButton.setFocusTraversable(false);
+		this.applyHintButton.setDisable(true);
+		this.applyHintButton.setOnAction(event -> ModelController.getInstance().transitionToApplyHintState());
+	}
+
+	private void createSpecificHintButton() {
+		this.specificHintButton = new Button(LabelConstants.SPECIFIC_HINT);
+		this.specificHintButton.setMinHeight(BUTTON_HEIGHT);
+		this.specificHintButton.setMaxHeight(BUTTON_HEIGHT);
+		this.specificHintButton.setMinWidth(BUTTON_WIDTH);
+		this.specificHintButton.setMaxWidth(BUTTON_WIDTH);
+		this.specificHintButton.setFocusTraversable(false);
+		this.specificHintButton.setOnAction(event -> ModelController.getInstance().transitionToShowSpecificHintState());
+	}
+
+	private void createVagueHintButton() {
+		this.vagueHintButton = new Button(LabelConstants.VAGUE_HINT);
+		this.vagueHintButton.setMaxHeight(BUTTON_HEIGHT);
+		this.vagueHintButton.setMinHeight(BUTTON_HEIGHT);
+		this.vagueHintButton.setMinWidth(BUTTON_WIDTH);
+		this.vagueHintButton.setMaxWidth(BUTTON_WIDTH);
+		this.vagueHintButton.setFocusTraversable(false);
+		this.vagueHintButton.setOnAction(event -> ModelController.getInstance().transitionToShowVagueHintState());
 	}
 
 	public Button getHideHintButton() {

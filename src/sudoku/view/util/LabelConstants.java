@@ -78,6 +78,11 @@ public class LabelConstants {
 
 	public static final String SAVE_FILE = "Save Puzzle File";
 
+	public static final String NO_MOVES = "No possible moves found! Please double check the currently"
+			+ " set cells for contradictions.";
+
+	public static final String VAGUE_HINT_PREFIX = "Possible solution step in the current state: ";
+
 	private LabelConstants() {
 		// Private constructor to prevent instantiation.
 	}

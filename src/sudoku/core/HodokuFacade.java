@@ -48,7 +48,6 @@ public class HodokuFacade {
 	 * Note that this is not the only solution.
 	 */
 	public List<SolutionStep> getSolutionForSudoku(final String sudokuString) {
-		// TODO - do we want our own class for this as a wrapper?
 		final List<SolutionStep> solutionSteps = new ArrayList<>();
 		final Sudoku2 tempSudoku = new Sudoku2();
 		tempSudoku.setSudoku(sudokuString, true);
@@ -70,6 +69,21 @@ public class HodokuFacade {
 		LOG.debug(tempSudoku.getLevel().getName());
 		LOG.debug(tempSudoku.getScore());
 		return solutionSteps;
+	}
+
+	/** Returns the next solution step for the given puzzle string. */
+	public SolutionStep getHint(final String sudokuString) {
+		final Sudoku2 tempSudoku = new Sudoku2();
+		tempSudoku.setSudoku(sudokuString, true);
+		final Sudoku2 solvedSudoku = tempSudoku.clone();
+		final SudokuSolver solver = SudokuSolverFactory.getDefaultSolverInstance();
+		// TODO - should the difficulty be the current one?
+		solver.solve(Options.getInstance().getDifficultyLevel(5), solvedSudoku, true, false,
+				Options.getInstance().solverSteps, GameMode.PLAYING);
+		tempSudoku.setLevel(solvedSudoku.getLevel());
+		tempSudoku.setScore(solvedSudoku.getScore());
+		final SudokuSolver sudokuSolver = new SudokuSolver();
+		return sudokuSolver.getHint(tempSudoku, false);
 	}
 
 }

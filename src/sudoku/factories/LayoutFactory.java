@@ -101,11 +101,15 @@ public class LayoutFactory {
 	}
 
 	public HintButtonPane createHintButtonPane() {
-		return new HintButtonPane();
+		final HintButtonPane hintButtonPane = new HintButtonPane();
+		ViewController.getInstance().setHintButtonPane(hintButtonPane);
+		return hintButtonPane;
 	}
 
 	public HintTextArea createHintTextArea() {
-		return new HintTextArea();
+		final HintTextArea hintTextArea = new HintTextArea();
+		ViewController.getInstance().setHintTextArea(hintTextArea);
+		return hintTextArea;
 	}
 
 	public ShadowRectangle createShadowRectangle() {

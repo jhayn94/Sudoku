@@ -4,6 +4,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import sudoku.model.SudokuPuzzleValues;
+import sudoku.view.hint.HintButtonPane;
+import sudoku.view.hint.HintTextArea;
 import sudoku.view.menu.button.MaximizeMenuButton;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 import sudoku.view.puzzle.SudokuPuzzleView;
@@ -40,6 +42,9 @@ public class ViewController {
 
 	private ColorSelectionPane colorSelectionPane;
 
+	private HintButtonPane hintButtonPane;
+	private HintTextArea hintTextArea;
+
 	private ViewController() {
 		this.stage = null;
 		this.maximizeWindowButton = null;
@@ -48,6 +53,8 @@ public class ViewController {
 		this.sudokuPuzzleCells = new SudokuPuzzleCell[SudokuPuzzleValues.CELLS_PER_HOUSE][SudokuPuzzleValues.CELLS_PER_HOUSE];
 		this.activeColoringCandidateLabel = null;
 		this.colorSelectionPane = null;
+		this.hintButtonPane = null;
+		this.hintTextArea = null;
 	}
 
 	public Stage getStage() {
@@ -76,6 +83,22 @@ public class ViewController {
 
 	public ColorSelectionPane getColorSelectionPane() {
 		return this.colorSelectionPane;
+	}
+
+	public HintButtonPane getHintButtonPane() {
+		return this.hintButtonPane;
+	}
+
+	public HintTextArea getHintTextArea() {
+		return this.hintTextArea;
+	}
+
+	public void setHintTextArea(final HintTextArea hintTextArea) {
+		this.hintTextArea = hintTextArea;
+	}
+
+	public void setHintButtonPane(final HintButtonPane hintButtonPane) {
+		this.hintButtonPane = hintButtonPane;
 	}
 
 	public void setStage(final Stage stage) {

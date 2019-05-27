@@ -21,6 +21,10 @@ import sudoku.state.model.coloring.ToggleCandidateColorState;
 import sudoku.state.model.coloring.ToggleCellColorState;
 import sudoku.state.model.filter.ApplyFilterState;
 import sudoku.state.model.filter.CycleActiveFilterState;
+import sudoku.state.model.hint.ApplyHintState;
+import sudoku.state.model.hint.HideHintState;
+import sudoku.state.model.hint.ShowSpecificHintState;
+import sudoku.state.model.hint.ShowVagueHintState;
 import sudoku.state.model.puzzle.NewEmptyPuzzleState;
 import sudoku.state.model.puzzle.NewRandomPuzzleState;
 import sudoku.state.model.puzzle.OpenedFileState;
@@ -187,6 +191,26 @@ public class ModelController {
 
 	public void transitionToRestartPuzzleState() {
 		this.applicationModelState = new RestartPuzzleState(this.applicationModelState);
+		this.applicationModelState.onEnter();
+	}
+
+	public void transitionToShowVagueHintState() {
+		this.applicationModelState = new ShowVagueHintState(this.applicationModelState);
+		this.applicationModelState.onEnter();
+	}
+
+	public void transitionToShowSpecificHintState() {
+		this.applicationModelState = new ShowSpecificHintState(this.applicationModelState);
+		this.applicationModelState.onEnter();
+	}
+
+	public void transitionToApplyHintState() {
+		this.applicationModelState = new ApplyHintState(this.applicationModelState);
+		this.applicationModelState.onEnter();
+	}
+
+	public void transitionToHideHintState() {
+		this.applicationModelState = new HideHintState(this.applicationModelState);
 		this.applicationModelState.onEnter();
 	}
 
