@@ -74,6 +74,10 @@ public class LabelConstants {
 
 	public static final String OK = "OK";
 
+	public static final String OPEN_FILE = "Open Puzzle File";
+
+	public static final String SAVE_FILE = "Save Puzzle File";
+
 	private LabelConstants() {
 		// Private constructor to prevent instantiation.
 	}

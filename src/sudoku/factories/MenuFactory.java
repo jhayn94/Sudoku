@@ -10,6 +10,7 @@ import sudoku.view.menu.ActionMenu;
 import sudoku.view.menu.ApplicationMenu;
 import sudoku.view.menu.ApplicationMenuSpacer;
 import sudoku.view.menu.ApplicationTitleBar;
+import sudoku.view.menu.FileMenu;
 import sudoku.view.menu.SystemMenu;
 import sudoku.view.menu.button.AbstractMenuButton;
 import sudoku.view.menu.button.ApplicationMenuButtonType;
@@ -44,6 +45,10 @@ public class MenuFactory {
 
 	public ActionMenu createActionMenu() {
 		return new ActionMenu();
+	}
+
+	public FileMenu createFileMenu() {
+		return new FileMenu();
 	}
 
 	public ApplicationMenuSpacer createApplicationMenuSpacer() {

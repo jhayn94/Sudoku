@@ -28,6 +28,7 @@ public class NewRandomPuzzleState extends ApplicationModelState {
 	@Override
 	public void onEnter() {
 		this.resetAllFilters();
+		this.updateFilterButtonStates(Strings.EMPTY);
 		this.resetColorStates();
 		this.sudokuPuzzleValues = new SudokuPuzzleValues(this.puzzleString);
 		this.updateCells();

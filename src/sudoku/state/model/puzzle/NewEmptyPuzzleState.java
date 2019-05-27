@@ -23,6 +23,7 @@ public class NewEmptyPuzzleState extends ApplicationModelState {
 	@Override
 	public void onEnter() {
 		this.resetAllFilters();
+		this.updateFilterButtonStates(Strings.EMPTY);
 		this.resetColorStates();
 		this.sudokuPuzzleValues = new SudokuPuzzleValues();
 		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {

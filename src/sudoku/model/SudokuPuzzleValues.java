@@ -50,6 +50,7 @@ public class SudokuPuzzleValues {
 				final char charAtPosition = initialGivens.charAt(position);
 				if (Character.isDigit(charAtPosition)) {
 					this.givenCells[col][row] = Integer.valueOf(charAtPosition) - '0';
+					this.fixedCells[col][row] = Integer.valueOf(charAtPosition) - '0';
 				}
 			}
 		}
@@ -81,6 +82,14 @@ public class SudokuPuzzleValues {
 
 	public void setCellCandidateDigits(final int row, final int col, final List<Integer> candidates) {
 		this.candidatesForCells[col][row] = candidates;
+	}
+
+	public void addCellCandidateDigit(final int row, final int col, final int candidate) {
+		this.candidatesForCells[col][row].add(candidate);
+	}
+
+	public void removeCellCandidateDigit(final int row, final int col, final int candidate) {
+		this.candidatesForCells[col][row].remove((Object) candidate);
 	}
 
 	/**

@@ -1,5 +1,7 @@
 package sudoku.core;
 
+import java.io.File;
+
 import javafx.scene.input.KeyCode;
 import sudoku.state.ApplicationModelState;
 import sudoku.state.DefaultApplicationModelState;
@@ -20,6 +22,8 @@ import sudoku.state.model.filter.ApplyFilterState;
 import sudoku.state.model.filter.CycleActiveFilterState;
 import sudoku.state.model.puzzle.NewEmptyPuzzleState;
 import sudoku.state.model.puzzle.NewRandomPuzzleState;
+import sudoku.state.model.puzzle.OpenedFileState;
+import sudoku.state.model.puzzle.SavedFileState;
 import sudoku.state.window.ApplicationWindowState;
 import sudoku.state.window.ClosedState;
 import sudoku.state.window.MaximizedState;
@@ -168,4 +172,16 @@ public class ModelController {
 		this.applicationModelState = new NewEmptyPuzzleState(this.applicationModelState);
 		this.applicationModelState.onEnter();
 	}
+
+	public void transitionToOpenedFileState(final File selectedFile) {
+		this.applicationModelState = new OpenedFileState(selectedFile, this.applicationModelState);
+		this.applicationModelState.onEnter();
+
+	}
+
+	public void transitionToSavedFileState(final File selectedFile) {
+		this.applicationModelState = new SavedFileState(selectedFile, this.applicationModelState);
+		this.applicationModelState.onEnter();
+	}
+
 }

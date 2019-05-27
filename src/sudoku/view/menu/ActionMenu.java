@@ -7,9 +7,9 @@ import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
-import sudoku.core.HodokuFacade;
 import sudoku.core.ModelController;
 import sudoku.factories.LayoutFactory;
+import sudoku.factories.MenuFactory;
 import sudoku.view.util.LabelConstants;
 
 /**
@@ -23,39 +23,13 @@ public class ActionMenu extends ContextMenu {
 	}
 
 	private void createChildElements() {
-		final Menu fileMenu = this.createFileMenu();
+		final Menu fileMenu = MenuFactory.getInstance().createFileMenu();
 		final Menu editMenu = this.createEditMenu();
 		final Menu settingsMenu = this.createSettingsMenu();
 		final MenuItem helpMenuItem = new MenuItem(LabelConstants.HELP);
 		helpMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.H, KeyCombination.SHORTCUT_DOWN));
 		helpMenuItem.setOnAction(event -> LayoutFactory.getInstance().showHelpView());
 		this.getItems().addAll(fileMenu, editMenu, settingsMenu, new SeparatorMenuItem(), helpMenuItem);
-	}
-
-	private Menu createFileMenu() {
-		final Menu fileMenu = new Menu(LabelConstants.FILE);
-		final MenuItem newPuzzleMenuItem = new MenuItem(LabelConstants.NEW_PUZZLE);
-		newPuzzleMenuItem.setOnAction(event -> {
-			final String generateSudokuString = HodokuFacade.getInstance().generateSudokuString();
-			ModelController.getInstance().transitionToNewRandomPuzzleState(generateSudokuString);
-		});
-		newPuzzleMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN));
-		final MenuItem newBlankPuzzleMenuItem = new MenuItem(LabelConstants.NEW_BLANK_PUZZLE);
-		newBlankPuzzleMenuItem.setOnAction(event -> {
-			final String generateSudokuString = HodokuFacade.getInstance().generateSudokuString();
-			ModelController.getInstance().transitionToNewEmptyPuzzleState();
-		});
-		newBlankPuzzleMenuItem
-				.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
-		final MenuItem openPuzzleMenuItem = new MenuItem(LabelConstants.OPEN);
-		final MenuItem savePuzzleMenuItem = new MenuItem(LabelConstants.SAVE);
-		final MenuItem savePuzzleAsMenuItem = new MenuItem(LabelConstants.SAVE_AS);
-		final MenuItem closeMenuItem = new MenuItem(LabelConstants.CLOSE);
-		closeMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.F4, KeyCombination.ALT_DOWN));
-		closeMenuItem.setOnAction(event -> ModelController.getInstance().transitionToClosedState());
-		fileMenu.getItems().addAll(newPuzzleMenuItem, newBlankPuzzleMenuItem, new SeparatorMenuItem(), openPuzzleMenuItem,
-				savePuzzleMenuItem, savePuzzleAsMenuItem, new SeparatorMenuItem(), closeMenuItem);
-		return fileMenu;
 	}
 
 	private Menu createEditMenu() {
