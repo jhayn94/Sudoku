@@ -4,6 +4,7 @@ import org.apache.logging.log4j.util.Strings;
 
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
+import sudoku.view.util.LabelConstants;
 
 public class HelpView extends ModalDialog {
 
@@ -15,6 +16,7 @@ public class HelpView extends ModalDialog {
 	@Override
 	protected void configure() {
 		super.configure();
+		this.setTitle(LabelConstants.HELP);
 		this.createChildElements();
 	}
 

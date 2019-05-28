@@ -24,22 +24,11 @@ public class ActionMenu extends ContextMenu {
 	private void createChildElements() {
 		final Menu fileMenu = MenuFactory.getInstance().createFileMenu();
 		final Menu editMenu = MenuFactory.getInstance().createEditMenu();
-		final Menu settingsMenu = this.createSettingsMenu();
+		final Menu settingsMenu = MenuFactory.getInstance().createSettingsMenu();
 		final MenuItem helpMenuItem = new MenuItem(LabelConstants.HELP);
 		helpMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.H, KeyCombination.SHORTCUT_DOWN));
 		helpMenuItem.setOnAction(event -> LayoutFactory.getInstance().showHelpView());
 		this.getItems().addAll(fileMenu, editMenu, settingsMenu, new SeparatorMenuItem(), helpMenuItem);
 	}
 
-	private Menu createSettingsMenu() {
-		final Menu settingsMenu = new Menu(LabelConstants.SETTINGS);
-		final MenuItem puzzleGenerationMenuItem = new MenuItem(LabelConstants.PUZZLE_GENERATION);
-		final MenuItem difficultyMenuItem = new MenuItem(LabelConstants.DIFFICULTY);
-		final MenuItem solverMenuItem = new MenuItem(LabelConstants.SOLVER);
-		final MenuItem colorsMenuItem = new MenuItem(LabelConstants.COLORS);
-		final MenuItem miscellaneousMenuItem = new MenuItem(LabelConstants.MISCELLANEOUS);
-		settingsMenu.getItems().addAll(puzzleGenerationMenuItem, difficultyMenuItem, solverMenuItem, colorsMenuItem,
-				new SeparatorMenuItem(), miscellaneousMenuItem);
-		return settingsMenu;
-	}
 }

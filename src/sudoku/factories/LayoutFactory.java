@@ -19,6 +19,7 @@ import sudoku.view.hint.HintPane;
 import sudoku.view.hint.HintTextArea;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 import sudoku.view.puzzle.SudokuPuzzleView;
+import sudoku.view.settings.MiscellaneousSettingsView;
 import sudoku.view.sidebar.CandidateSelectionPane;
 import sudoku.view.sidebar.ColorSelectionPane;
 import sudoku.view.sidebar.FilterButtonPane;
@@ -35,9 +36,9 @@ import sudoku.view.util.WindowHelper;
  */
 public class LayoutFactory {
 
-	private static final int HELP_SCENE_HEIGHT = 600;
+	private static final int MODAL_DIALOG_SCENE_HEIGHT = 600;
 
-	private static final int HELP_SCENE_WIDTH = 700;
+	private static final int MODAL_DIALOG_SCENE_WIDTH = 700;
 
 	private static LayoutFactory layoutFactoryInstance;
 
@@ -128,17 +129,22 @@ public class LayoutFactory {
 		final Stage helpStage = new ModalStage();
 		final HelpView helpView = new HelpView(helpStage);
 		final RootStackPane rootStackPane = this.createRootStackPane(helpView);
-		final Scene helpScene = new Scene(rootStackPane, HELP_SCENE_WIDTH, HELP_SCENE_HEIGHT);
+		final Scene helpScene = new Scene(rootStackPane, MODAL_DIALOG_SCENE_WIDTH, MODAL_DIALOG_SCENE_HEIGHT);
 		this.configureScene(helpScene);
 		helpStage.setScene(helpScene);
 		WindowHelper.addResizeAndDragListener(helpStage, helpView);
 		helpStage.show();
 	}
 
-	public void showNewBlankPuzzleDialog() {
-		final Stage modalStage = new ModalStage();
-		final Button button = new Button(LabelConstants.OK);
-		new ModalDialog(modalStage).withConfirmButton(button);
+	public void showMiscellaneousSettingsView() {
+		final Stage settingsStage = new ModalStage();
+		final Button button = new Button(LabelConstants.SAVE_AND_APPLY);
+		final ModalDialog modalDialog = new MiscellaneousSettingsView(settingsStage).withConfirmButton(button);
+		final RootStackPane rootStackPane = this.createRootStackPane(modalDialog);
+		final Scene settingsScene = new Scene(rootStackPane, MODAL_DIALOG_SCENE_WIDTH, MODAL_DIALOG_SCENE_HEIGHT);
+		this.configureScene(settingsScene);
+		settingsStage.setScene(settingsScene);
+		settingsStage.show();
 	}
 
 	/** Offers some standard configuration of a scene for the project. */

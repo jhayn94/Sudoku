@@ -9,7 +9,6 @@ import sudoku.factories.MenuFactory;
 import sudoku.view.menu.ApplicationMenuSpacer;
 import sudoku.view.menu.button.AbstractMenuButton;
 import sudoku.view.menu.button.ApplicationMenuButtonType;
-import sudoku.view.util.LabelConstants;
 
 public class ModalDialog extends BorderPane {
 
@@ -19,23 +18,21 @@ public class ModalDialog extends BorderPane {
 
 	private Button confirmButton;
 
+	private ApplicationMenuSpacer applicationMenuSpacer;
+
 	public ModalDialog(final Stage stage) {
 		super();
 		this.stage = stage;
 		this.configure();
 	}
 
+	public void setTitle(final String title) {
+		this.applicationMenuSpacer.setTitle(title);
+	}
+
 	/** Adds a confirm button. Returns this for convenience. */
 	public ModalDialog withConfirmButton(final Button confirmButton) {
 		this.confirmButton = confirmButton;
-		this.confirmButton.setOnAction(event -> {
-			// Override the on action to call the original handler, then close the stage.
-			this.confirmButton.getOnAction().handle(event);
-			// Client may have included this in their handler.
-			if (this.stage != null) {
-				this.stage.close();
-			}
-		});
 		final HBox buttonPane = new HBox();
 		buttonPane.getChildren().add(this.confirmButton);
 		this.setBottom(buttonPane);
@@ -52,13 +49,12 @@ public class ModalDialog extends BorderPane {
 		closeButton.setOnAction(event -> {
 			this.stage.close();
 		});
-		final ApplicationMenuSpacer applicationMenuSpacer = MenuFactory.getInstance().createApplicationMenuSpacer();
-		applicationMenuSpacer.setTitle(LabelConstants.HELP);
+		this.applicationMenuSpacer = MenuFactory.getInstance().createApplicationMenuSpacer();
 		final HBox systemMenuBar = new HBox();
 		systemMenuBar.getStyleClass().add(MENU_BAR_CSS_CLASS);
-		HBox.setHgrow(applicationMenuSpacer, Priority.SOMETIMES);
+		HBox.setHgrow(this.applicationMenuSpacer, Priority.SOMETIMES);
 		this.setTop(systemMenuBar);
-		systemMenuBar.getChildren().addAll(applicationMenuSpacer, closeButton);
+		systemMenuBar.getChildren().addAll(this.applicationMenuSpacer, closeButton);
 	}
 
 }

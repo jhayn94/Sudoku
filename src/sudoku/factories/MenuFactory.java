@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javafx.scene.control.Menu;
 import javafx.stage.Stage;
 import sudoku.view.menu.ActionMenu;
 import sudoku.view.menu.ApplicationMenu;
@@ -12,6 +13,7 @@ import sudoku.view.menu.ApplicationMenuSpacer;
 import sudoku.view.menu.ApplicationTitleBar;
 import sudoku.view.menu.EditMenu;
 import sudoku.view.menu.FileMenu;
+import sudoku.view.menu.SettingsMenu;
 import sudoku.view.menu.SystemMenu;
 import sudoku.view.menu.button.AbstractMenuButton;
 import sudoku.view.menu.button.ApplicationMenuButtonType;
@@ -56,6 +58,10 @@ public class MenuFactory {
 		return new EditMenu();
 	}
 
+	public Menu createSettingsMenu() {
+		return new SettingsMenu();
+	}
+
 	public ApplicationMenuSpacer createApplicationMenuSpacer() {
 		return new ApplicationMenuSpacer();
 	}
@@ -73,4 +79,5 @@ public class MenuFactory {
 	private MenuFactory() {
 		// Private constructor to prevent external instantiation.
 	}
+
 }

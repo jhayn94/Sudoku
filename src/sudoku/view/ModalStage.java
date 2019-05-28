@@ -19,6 +19,7 @@ public class ModalStage extends Stage {
 	}
 
 	private void configure() {
+
 		final Stage mainStage = ViewController.getInstance().getStage();
 		this.initOwner(mainStage);
 		this.initModality(Modality.APPLICATION_MODAL);

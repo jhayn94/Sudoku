@@ -85,6 +85,10 @@ public class LabelConstants {
 
 	public static final String SET_GIVENS = "Set Givens";
 
+	public static final String MISCELLANEOUS_SETTINGS = "Miscellaneous Settings";
+
+	public static final String SAVE_AND_APPLY = "Save and Apply";
+
 	private LabelConstants() {
 		// Private constructor to prevent instantiation.
 	}
