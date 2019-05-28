@@ -8,7 +8,8 @@ import sudoku.view.hint.HintButtonPane;
 import sudoku.view.hint.HintTextArea;
 
 /**
- * This class updates the state of the application when a cell's digit is set.
+ * This class updates the state of the application to hide a displayed hint
+ * (i.e. clear the view).
  */
 public class HideHintState extends ApplicationModelState {
 

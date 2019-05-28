@@ -5,8 +5,8 @@ import sudoku.state.ApplicationModelState;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 
 /**
- * This class updates the state of the application to reply to a CTRL + digit
- * key press, which should toggle a candidate's visibility in the active cell.
+ * This class updates the state of the application to reply to toggle a
+ * candidate's visibility in the active cell.
  */
 public class ToggleCandidateVisibleState extends ApplicationModelState {
 

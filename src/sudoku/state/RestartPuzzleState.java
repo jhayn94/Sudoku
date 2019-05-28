@@ -3,7 +3,7 @@ package sudoku.state;
 import sudoku.model.SudokuPuzzleValues;
 
 /**
- * This class resets the application to the initiate state for the current
+ * This class resets the application to the initial state for the current
  * puzzle.
  */
 public class RestartPuzzleState extends ResetFromModelState {

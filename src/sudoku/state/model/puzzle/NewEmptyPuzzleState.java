@@ -8,8 +8,8 @@ import sudoku.state.ApplicationModelState;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 
 /**
- * This class updates the state of the application when the user invokes a
- * "redo", either through the keyboard or a button press in the UI.
+ * This class updates the state of the application when the user presses the
+ * "New Empty Puzzle" menu item.
  */
 public class NewEmptyPuzzleState extends ApplicationModelState {
 

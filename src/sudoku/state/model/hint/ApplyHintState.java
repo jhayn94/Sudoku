@@ -8,7 +8,8 @@ import sudoku.view.hint.HintButtonPane;
 import sudoku.view.hint.HintTextArea;
 
 /**
- * This class updates the state of the application when a cell's digit is set.
+ * This class updates the state of the application to apply a displayed hint to
+ * the puzzle.
  */
 public class ApplyHintState extends ApplicationModelState {
 

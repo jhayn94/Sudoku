@@ -10,16 +10,12 @@ import sudoku.model.SudokuPuzzleValues;
 import sudoku.state.ApplicationModelState;
 
 /**
- * This class updates the state of the application when the user invokes a
- * "redo", either through the keyboard or a button press in the UI.
+ * This class updates the state of the application when the user saves an
+ * existing puzzle file.
  */
 public class SavedFileState extends ApplicationModelState {
 
-	private String puzzleString;
-
-	private String[][] candidatesForCellsFromFile;
-
-	private String givens;
+	private static final String NEW_LINE = "\n";
 
 	private final File selectedFile;
 
@@ -50,8 +46,8 @@ public class SavedFileState extends ApplicationModelState {
 				setValues.append(this.sudokuPuzzleValues.getFixedCellDigit(row, col));
 			}
 		}
-		bufferedWriter.write(givens.toString() + "\n");
-		bufferedWriter.write(setValues.toString() + "\n");
+		bufferedWriter.write(givens.toString() + NEW_LINE);
+		bufferedWriter.write(setValues.toString() + NEW_LINE);
 	}
 
 	private void writeCandidates(final BufferedWriter bufferedWriter) throws IOException {
@@ -61,7 +57,7 @@ public class SavedFileState extends ApplicationModelState {
 				for (final int candidate : candidateDigitsForCell) {
 					bufferedWriter.write(String.valueOf(candidate));
 				}
-				bufferedWriter.write("\n");
+				bufferedWriter.write(NEW_LINE);
 			}
 		}
 

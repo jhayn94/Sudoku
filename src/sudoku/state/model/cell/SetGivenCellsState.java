@@ -7,8 +7,7 @@ import sudoku.view.puzzle.SudokuPuzzleCell;
 
 /**
  * This class updates the state of the application when cells are set as given.
- * TODO - does this need to be a state? Should it be part of a "new puzzle"
- * state?
+ * This is done via the context menu.
  */
 public class SetGivenCellsState extends ApplicationModelState {
 

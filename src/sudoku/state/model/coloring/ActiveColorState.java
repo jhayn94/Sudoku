@@ -8,6 +8,11 @@ import sudoku.state.ApplicationModelState;
 import sudoku.view.sidebar.ColorSelectionPane;
 import sudoku.view.util.ColorUtils;
 
+/**
+ * This class updates the state of the application when the user changes the
+ * active color. This color is used mostly by the mouse when coloring modes are
+ * selected.
+ */
 public class ActiveColorState extends ApplicationModelState {
 
 	private final boolean increment;

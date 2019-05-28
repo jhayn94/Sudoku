@@ -9,7 +9,8 @@ import sudoku.view.hint.HintTextArea;
 import sudoku.view.util.LabelConstants;
 
 /**
- * This class updates the state of the application when a cell's digit is set.
+ * This class updates the state of the application when the user requests a
+ * vague hint (i.e. the next step's type).
  */
 public class ShowVagueHintState extends ApplicationModelState {
 

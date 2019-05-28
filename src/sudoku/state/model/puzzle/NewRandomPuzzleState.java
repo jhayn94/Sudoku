@@ -10,8 +10,9 @@ import sudoku.state.ApplicationModelState;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 
 /**
- * This class updates the state of the application when the user invokes a
- * "redo", either through the keyboard or a button press in the UI.
+ * This class updates the state of the application when the user presses the
+ * "New Puzzle" menu item. This creates a new random puzzle with the current
+ * puzzle settings.
  */
 public class NewRandomPuzzleState extends ApplicationModelState {
 

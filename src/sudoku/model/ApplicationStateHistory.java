@@ -9,6 +9,7 @@ import java.util.Stack;
 public class ApplicationStateHistory {
 
 	private final Stack<SudokuPuzzleValues> undoStack;
+
 	private final Stack<SudokuPuzzleValues> redoStack;
 
 	public ApplicationStateHistory() {

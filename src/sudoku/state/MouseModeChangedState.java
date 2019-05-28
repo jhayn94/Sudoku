@@ -3,8 +3,8 @@ package sudoku.state;
 import sudoku.view.util.MouseMode;
 
 /**
- * This class updates the state of the application when the user invokes an
- * "undo", either through the keyboard or a button press in the UI.
+ * This class updates the state of the application when the user changes the
+ * mouse mode.
  */
 public class MouseModeChangedState extends ResetFromModelState {
 

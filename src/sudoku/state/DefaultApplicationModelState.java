@@ -9,13 +9,12 @@ public class DefaultApplicationModelState extends ApplicationModelState {
 
 	public DefaultApplicationModelState() {
 		super();
-		this.getSelectedCell().setIsSelected(true);
 		this.onEnter();
 	}
 
 	@Override
 	public void onEnter() {
-
+		this.getSelectedCell().setIsSelected(true);
 	}
 
 }

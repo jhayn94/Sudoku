@@ -6,9 +6,9 @@ import sudoku.view.puzzle.SudokuPuzzleCell;
 import sudoku.view.util.ColorUtils.ColorState;
 
 /**
- * This class updates the state of the application to reply to a ASDFG key
- * press, which should set the active cell's color. Note that SHIFT also may be
- * pressed as well to apply a slightly different color.
+ * This class updates the state of the application to reply to set the active
+ * cell's color. Note that SHIFT also may be pressed as well to apply a slightly
+ * different color.
  */
 public class ToggleCellColorState extends ApplicationModelState {
 

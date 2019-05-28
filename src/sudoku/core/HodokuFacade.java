@@ -65,7 +65,6 @@ public class HodokuFacade {
 			solutionSteps.add(solutionStep);
 			sudokuSolver.doStep(tempSudoku, solutionStep);
 		}
-
 		LOG.debug(tempSudoku.getLevel().getName());
 		LOG.debug(tempSudoku.getScore());
 		return solutionSteps;
