@@ -14,12 +14,18 @@ public class SetGivenCellsState extends ApplicationModelState {
 	public SetGivenCellsState(final ApplicationModelState lastState) {
 		super(lastState, false);
 		// Don't want the user to be able to undo back to another puzzle.
-		this.applicationStateHistory.clearRedoStack();
 	}
 
 	@Override
 	public void onEnter() {
+		this.applicationStateHistory.clearUndoStack();
+		this.applicationStateHistory.clearRedoStack();
+		this.updateUndoRedoButtons();
+		this.setFilledCellsAsGiven();
+		this.reapplyActiveFilter();
+	}
 
+	private void setFilledCellsAsGiven() {
 		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
 			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
 				final int givenDigit = this.sudokuPuzzleValues.getFixedCellDigit(row, col);
@@ -33,7 +39,6 @@ public class SetGivenCellsState extends ApplicationModelState {
 				}
 			}
 		}
-		this.reapplyActiveFilter();
 	}
 
 }
