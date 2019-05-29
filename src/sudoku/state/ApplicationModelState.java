@@ -253,7 +253,7 @@ public class ApplicationModelState {
 	protected void updateCandidateColorForCell(final SudokuPuzzleCell cell, final ColorState colorStateToApply) {
 		final int row = cell.getRow();
 		final int col = cell.getCol();
-		final int activeColorCandidateDigit = this.sudokuPuzzleStyle.getActiveColorCandidateDigit();
+		final int activeColorCandidateDigit = this.sudokuPuzzleStyle.getActiveCandidateDigit();
 		final ColorState currentColorState = this.sudokuPuzzleStyle.getCandidateColorState(row, col,
 				activeColorCandidateDigit);
 		final Label candidateLabelForDigit = ViewController.getInstance().getSudokuPuzzleCell(row, col)

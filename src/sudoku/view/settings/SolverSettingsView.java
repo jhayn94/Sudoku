@@ -33,7 +33,7 @@ public class SolverSettingsView extends ModalDialog {
 	private void createButtonPane() {
 		final Button confirmButton = new Button(LabelConstants.SAVE_AND_APPLY);
 		confirmButton.setOnAction(event -> {
-			ModelController.getInstance().transitionToSavePuzzleGenerationSettingsState();
+			ModelController.getInstance().transitionToSaveSolverSettingsState();
 			this.stage.close();
 		});
 		final Button restoreDefaultsButton = new Button(LabelConstants.RESTORE_DEFAULTS);
