@@ -3,7 +3,7 @@ package sudoku.state.model.hint;
 import org.apache.logging.log4j.util.Strings;
 
 import sudoku.core.ViewController;
-import sudoku.state.ApplicationModelState;
+import sudoku.state.model.ApplicationModelState;
 import sudoku.view.hint.HintButtonPane;
 import sudoku.view.hint.HintTextArea;
 

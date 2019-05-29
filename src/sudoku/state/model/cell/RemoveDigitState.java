@@ -3,7 +3,8 @@ package sudoku.state.model.cell;
 import org.apache.logging.log4j.util.Strings;
 
 import javafx.scene.input.KeyCode;
-import sudoku.state.ApplicationModelState;
+import sudoku.model.ApplicationSettings;
+import sudoku.state.model.ApplicationModelState;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 
 /**
@@ -26,7 +27,9 @@ public class RemoveDigitState extends ApplicationModelState {
 			selectedCell.setFixedDigit(Strings.EMPTY);
 			this.updateFixedCellTypeCssClass(this.getSelectedCell(), UNFIXED_CELL_CSS_CLASS);
 			this.sudokuPuzzleValues.setCellFixedDigit(selectedCell.getRow(), selectedCell.getCol(), 0);
-			this.addDigitAsCandidateToSeenCells(fixedDigit);
+			if (ApplicationSettings.getInstance().isAutoManageCandidates()) {
+				this.addDigitAsCandidateToSeenCells(fixedDigit);
+			}
 			this.reapplyActiveFilter();
 		}
 	}

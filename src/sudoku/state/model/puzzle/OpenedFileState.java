@@ -10,7 +10,7 @@ import org.apache.logging.log4j.util.Strings;
 
 import sudoku.core.ViewController;
 import sudoku.model.SudokuPuzzleValues;
-import sudoku.state.ApplicationModelState;
+import sudoku.state.model.ApplicationModelState;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 
 /**

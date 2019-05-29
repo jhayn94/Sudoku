@@ -7,9 +7,9 @@ import sudoku.view.util.ColorUtils;
 import sudoku.view.util.ColorUtils.ColorState;
 
 /**
- * This class represents all the underlying style data for a sudoku puzzle. For
- * example, it tracks the selected cell index, the current color of each cell +
- * candidate, and.
+ * This class represents all the underlying settings and style data for a sudoku
+ * puzzle. For example, it tracks the selected cell index, the current color of
+ * each cell + candidate, etc.
  *
  * This component is mostly concerned with the style component of the state. For
  * data related to the more mathematical / numeric values, see
@@ -41,12 +41,12 @@ public class SudokuPuzzleStyle {
 	// This is the candidate digit whose color should be toggled when the event
 	// occurs. It is very difficult to allow the user to do any digit at once, so
 	// a separate control changes this value.
-	protected int activeColorCandidateDigit;
+	protected int activeCandidateDigit;
 
 	private Color activeColor;
 
 	public SudokuPuzzleStyle() {
-		this.activeColorCandidateDigit = 1;
+		this.activeCandidateDigit = 1;
 		this.activeCellFilter = Strings.EMPTY;
 		this.activeColor = ColorUtils.getColors().get(0);
 		this.filterAllowedCells = false;
@@ -104,8 +104,8 @@ public class SudokuPuzzleStyle {
 		return this.candidateColorStates[col][row][candidate - 1];
 	}
 
-	public int getActiveColorCandidateDigit() {
-		return this.activeColorCandidateDigit;
+	public int getActiveCandidateDigit() {
+		return this.activeCandidateDigit;
 	}
 
 	public void setActiveCellFilter(final String activeCellFilter) {
@@ -137,8 +137,8 @@ public class SudokuPuzzleStyle {
 		this.candidateColorStates[col][row][candidate - 1] = candidateColorState;
 	}
 
-	public void setActiveColorCandidateDigit(final int activeColorCandidateDigit) {
-		this.activeColorCandidateDigit = activeColorCandidateDigit;
+	public void setActiveCandidateDigit(final int activeCandidateDigit) {
+		this.activeCandidateDigit = activeCandidateDigit;
 	}
 
 }

@@ -22,7 +22,7 @@ import sudoku.view.util.TooltipConstants;
  */
 public class CandidateSelectionPane extends HBox {
 
-	private static final int TEXT_FIELD_SIZE = 62;
+	private static final int TEXT_FIELD_SIZE = 57;
 
 	private static final String DEFAULT_COLORING_CANDIDATE = "1";
 

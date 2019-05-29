@@ -15,7 +15,7 @@ import sudoku.core.ModelController;
  */
 public class WindowHelper {
 
-	public static void addResizeAndDragListener(final Stage stage, Region applicationView) {
+	public static void addResizeAndDragListener(final Stage stage, final Region applicationView) {
 		final ResizeListener resizeListener = new ResizeListener(stage);
 		applicationView.addEventHandler(MouseEvent.MOUSE_MOVED, resizeListener);
 		applicationView.addEventHandler(MouseEvent.MOUSE_PRESSED, resizeListener);
@@ -67,8 +67,7 @@ public class WindowHelper {
 			// If the user tries to drag the stage while maximized, the view should
 			// now be considered "restored". The sizes are reset, but the location is
 			// not.
-			if (this.stage.isMaximized() && MouseEvent.MOUSE_DRAGGED.equals(mouseEventType)
-					&& Cursor.DEFAULT.equals(this.cursorEvent) && !this.cursorOnMenuButtons()) {
+			if (this.draggingTitleBarWhileMaximized(mouseEventType) || this.resizingWhileMaximized(mouseEventType)) {
 				ModelController.getInstance().transitionToSoftRestoredState();
 			}
 
@@ -92,9 +91,20 @@ public class WindowHelper {
 			}
 		}
 
+		private boolean draggingTitleBarWhileMaximized(final EventType<? extends MouseEvent> mouseEventType) {
+			return this.stage.isMaximized() && MouseEvent.MOUSE_DRAGGED.equals(mouseEventType)
+					&& Cursor.DEFAULT.equals(this.cursorEvent) && !this.cursorOnMenuButtons();
+		}
+
+		private boolean resizingWhileMaximized(final EventType<? extends MouseEvent> mouseEventType) {
+			return this.stage.isMaximized() && MouseEvent.MOUSE_DRAGGED.equals(mouseEventType)
+					&& !Cursor.DEFAULT.equals(this.cursorEvent) && !Cursor.CLOSED_HAND.equals(this.cursorEvent)
+					&& !Cursor.CROSSHAIR.equals(this.cursorEvent);
+		}
+
 		/**
-		 * Updates the cursor event reference for this class to match the application
-		 * state.
+		 * Updates the cursor event reference for this class to match the
+		 * application state.
 		 */
 		private void updateCursorEvent(final double mouseEventX, final double mouseEventY, final double sceneWidth,
 				final double sceneHeight) {
@@ -148,8 +158,7 @@ public class WindowHelper {
 
 		/** Handles the vertical component of the event. */
 		private void updateVerticalComponent(final MouseEvent mouseEvent, final double mouseEventY) {
-			final double minHeight = this.stage.getMinHeight() > (BORDER * 2) ? this.stage.getMinHeight()
-					: (BORDER * 2);
+			final double minHeight = this.stage.getMinHeight() > (BORDER * 2) ? this.stage.getMinHeight() : (BORDER * 2);
 			if (Cursor.NW_RESIZE.equals(this.cursorEvent) || Cursor.N_RESIZE.equals(this.cursorEvent)
 					|| Cursor.NE_RESIZE.equals(this.cursorEvent)) {
 				if (this.stage.getHeight() > minHeight || mouseEventY < 0) {

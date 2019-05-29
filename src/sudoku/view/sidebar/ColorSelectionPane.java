@@ -10,6 +10,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -27,7 +28,7 @@ import sudoku.view.util.TooltipConstants;
  */
 public class ColorSelectionPane extends HBox {
 
-	private static final int TEXT_FIELD_SIZE = 62;
+	private static final int TEXT_FIELD_SIZE = 57;
 
 	private static final Color DEFAULT_COLOR = ColorUtils.getColors().get(0);
 
@@ -82,7 +83,7 @@ public class ColorSelectionPane extends HBox {
 		this.candidateToColorDisplayArea = new Label();
 		this.setLabelBackgroundColor(DEFAULT_COLOR);
 		final BorderStroke borderStroke = new BorderStroke(Color.valueOf("#2a2922"), BorderStrokeStyle.SOLID,
-				new CornerRadii(2), BorderStroke.THIN);
+				new CornerRadii(2), new BorderWidths(2));
 		final Border border = new Border(borderStroke);
 		this.candidateToColorDisplayArea.setBorder(border);
 		this.candidateToColorDisplayArea.setTooltip(new Tooltip(TooltipConstants.ACTIVE_COLOR));

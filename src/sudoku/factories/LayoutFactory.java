@@ -1,11 +1,11 @@
 package sudoku.factories;
 
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import sudoku.core.ViewController;
+import sudoku.view.ApplicationRootPane;
 import sudoku.view.ApplicationSideBar;
 import sudoku.view.HelpView;
 import sudoku.view.MainApplicationView;
@@ -19,13 +19,16 @@ import sudoku.view.hint.HintPane;
 import sudoku.view.hint.HintTextArea;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 import sudoku.view.puzzle.SudokuPuzzleView;
+import sudoku.view.settings.ColorSettingsView;
+import sudoku.view.settings.DifficultySettingsView;
 import sudoku.view.settings.MiscellaneousSettingsView;
+import sudoku.view.settings.PuzzleGenerationSettingsView;
+import sudoku.view.settings.SolverSettingsView;
 import sudoku.view.sidebar.CandidateSelectionPane;
 import sudoku.view.sidebar.ColorSelectionPane;
 import sudoku.view.sidebar.FilterButtonPane;
 import sudoku.view.sidebar.MouseModePane;
 import sudoku.view.sidebar.MouseToolsPane;
-import sudoku.view.util.LabelConstants;
 import sudoku.view.util.ResourceConstants;
 import sudoku.view.util.ShadowRectangle;
 import sudoku.view.util.WindowHelper;
@@ -36,9 +39,9 @@ import sudoku.view.util.WindowHelper;
  */
 public class LayoutFactory {
 
-	private static final int MODAL_DIALOG_SCENE_HEIGHT = 600;
+	private static final int DEFAULT_MODAL_DIALOG_SCENE_HEIGHT = 600;
 
-	private static final int MODAL_DIALOG_SCENE_WIDTH = 700;
+	private static final int DEFAULT_MODAL_DIALOG_SCENE_WIDTH = 700;
 
 	private static LayoutFactory layoutFactoryInstance;
 
@@ -47,6 +50,12 @@ public class LayoutFactory {
 			layoutFactoryInstance = new LayoutFactory();
 		}
 		return layoutFactoryInstance;
+	}
+
+	public ApplicationRootPane createApplicationRootPane() {
+		final ApplicationRootPane applicationRootPane = new ApplicationRootPane();
+		ViewController.getInstance().setRootPane(applicationRootPane);
+		return applicationRootPane;
 	}
 
 	public RootStackPane createRootStackPane(final Region applicationView) {
@@ -128,22 +137,56 @@ public class LayoutFactory {
 	public void showHelpView() {
 		final Stage helpStage = new ModalStage();
 		final HelpView helpView = new HelpView(helpStage);
-		final RootStackPane rootStackPane = this.createRootStackPane(helpView);
-		final Scene helpScene = new Scene(rootStackPane, MODAL_DIALOG_SCENE_WIDTH, MODAL_DIALOG_SCENE_HEIGHT);
-		this.configureScene(helpScene);
-		helpStage.setScene(helpScene);
-		WindowHelper.addResizeAndDragListener(helpStage, helpView);
-		helpStage.show();
+		this.showNewStageWithRootElement(helpStage, helpView);
+	}
+
+	public void showPuzzleGenerationSettingsView() {
+		final Stage settingsStage = new ModalStage();
+		final PuzzleGenerationSettingsView puzzleGenerationSettingsView = new PuzzleGenerationSettingsView(settingsStage);
+		ViewController.getInstance().setPuzzleGenerationSettingsView(puzzleGenerationSettingsView);
+		this.showNewStageWithRootElement(settingsStage, puzzleGenerationSettingsView);
+	}
+
+	public void showSolverSettingsView() {
+		final Stage settingsStage = new ModalStage();
+		final SolverSettingsView solverSettingsView = new SolverSettingsView(settingsStage);
+		ViewController.getInstance().setSolverSettingsView(solverSettingsView);
+		this.showNewStageWithRootElement(settingsStage, solverSettingsView);
+	}
+
+	public void showDifficultySettingsView() {
+		final Stage settingsStage = new ModalStage();
+		final DifficultySettingsView difficultySettingsView = new DifficultySettingsView(settingsStage);
+		ViewController.getInstance().setDifficultySettingsView(difficultySettingsView);
+		this.showNewStageWithRootElement(settingsStage, difficultySettingsView);
+	}
+
+	public void showColorSettingsView() {
+		final Stage settingsStage = new ModalStage();
+		final ColorSettingsView colorSettingsView = new ColorSettingsView(settingsStage);
+		ViewController.getInstance().setColorSettingsView(colorSettingsView);
+		this.showNewStageWithRootElement(settingsStage, colorSettingsView, 745, DEFAULT_MODAL_DIALOG_SCENE_HEIGHT);
 	}
 
 	public void showMiscellaneousSettingsView() {
 		final Stage settingsStage = new ModalStage();
-		final Button button = new Button(LabelConstants.SAVE_AND_APPLY);
-		final ModalDialog modalDialog = new MiscellaneousSettingsView(settingsStage).withConfirmButton(button);
+		final MiscellaneousSettingsView miscellaneousSettingsView = new MiscellaneousSettingsView(settingsStage);
+		ViewController.getInstance().setMiscellaneousSettingsView(miscellaneousSettingsView);
+		this.showNewStageWithRootElement(settingsStage, miscellaneousSettingsView);
+	}
+
+	private void showNewStageWithRootElement(final Stage settingsStage, final ModalDialog modalDialog) {
+		this.showNewStageWithRootElement(settingsStage, modalDialog, DEFAULT_MODAL_DIALOG_SCENE_WIDTH,
+				DEFAULT_MODAL_DIALOG_SCENE_HEIGHT);
+	}
+
+	private void showNewStageWithRootElement(final Stage settingsStage, final ModalDialog modalDialog, final double width,
+			final double height) {
 		final RootStackPane rootStackPane = this.createRootStackPane(modalDialog);
-		final Scene settingsScene = new Scene(rootStackPane, MODAL_DIALOG_SCENE_WIDTH, MODAL_DIALOG_SCENE_HEIGHT);
+		final Scene settingsScene = new Scene(rootStackPane, width, height);
 		this.configureScene(settingsScene);
 		settingsStage.setScene(settingsScene);
+		WindowHelper.addResizeAndDragListener(settingsStage, modalDialog);
 		settingsStage.show();
 	}
 

@@ -5,12 +5,18 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import sudoku.model.SudokuPuzzleValues;
+import sudoku.view.ApplicationRootPane;
 import sudoku.view.hint.HintButtonPane;
 import sudoku.view.hint.HintTextArea;
 import sudoku.view.menu.button.ContextMenuButton;
 import sudoku.view.menu.button.MaximizeMenuButton;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 import sudoku.view.puzzle.SudokuPuzzleView;
+import sudoku.view.settings.ColorSettingsView;
+import sudoku.view.settings.DifficultySettingsView;
+import sudoku.view.settings.MiscellaneousSettingsView;
+import sudoku.view.settings.PuzzleGenerationSettingsView;
+import sudoku.view.settings.SolverSettingsView;
 import sudoku.view.sidebar.ColorSelectionPane;
 import sudoku.view.sidebar.FilterButtonPane;
 
@@ -31,6 +37,8 @@ public class ViewController {
 	}
 
 	private Stage stage;
+
+	private ApplicationRootPane rootPane;
 
 	private Button maximizeWindowButton;
 
@@ -54,6 +62,16 @@ public class ViewController {
 
 	private ContextMenuButton contextMenuButton;
 
+	private ColorSettingsView colorSettingsView;
+
+	private MiscellaneousSettingsView miscellaneousSettingsView;
+
+	private DifficultySettingsView difficultySettingsView;
+
+	private PuzzleGenerationSettingsView puzzleGenerationSettingsView;
+
+	private SolverSettingsView solverSettingsView;
+
 	private ViewController() {
 		this.stage = null;
 		this.maximizeWindowButton = null;
@@ -67,6 +85,12 @@ public class ViewController {
 		this.undoMenuItem = null;
 		this.redoMenuItem = null;
 		this.contextMenuButton = null;
+		this.rootPane = null;
+		this.colorSettingsView = null;
+		this.miscellaneousSettingsView = null;
+		this.difficultySettingsView = null;
+		this.puzzleGenerationSettingsView = null;
+		this.solverSettingsView = null;
 	}
 
 	public Stage getStage() {
@@ -117,6 +141,38 @@ public class ViewController {
 		return this.contextMenuButton;
 	}
 
+	public ApplicationRootPane getRootPane() {
+		return this.rootPane;
+	}
+
+	public ColorSettingsView getColorSettingsView() {
+		return this.colorSettingsView;
+	}
+
+	public MiscellaneousSettingsView getMiscellaneousSettingsView() {
+		return this.miscellaneousSettingsView;
+	}
+
+	public DifficultySettingsView getDifficultySettingsView() {
+		return this.difficultySettingsView;
+	}
+
+	public PuzzleGenerationSettingsView getPuzzleGenerationSettingsView() {
+		return this.puzzleGenerationSettingsView;
+	}
+
+	public SolverSettingsView getSolverSettingsView() {
+		return this.solverSettingsView;
+	}
+
+	public void setColorSettingsView(final ColorSettingsView colorSettingsView) {
+		this.colorSettingsView = colorSettingsView;
+	}
+
+	public void setRootPane(final ApplicationRootPane rootPane) {
+		this.rootPane = rootPane;
+	}
+
 	public void setHintTextArea(final HintTextArea hintTextArea) {
 		this.hintTextArea = hintTextArea;
 	}
@@ -163,6 +219,22 @@ public class ViewController {
 
 	public void setContextMenuButton(final ContextMenuButton contextMenuButton) {
 		this.contextMenuButton = contextMenuButton;
+	}
+
+	public void setMiscellaneousSettingsView(final MiscellaneousSettingsView miscellaneousSettingsView) {
+		this.miscellaneousSettingsView = miscellaneousSettingsView;
+	}
+
+	public void setDifficultySettingsView(final DifficultySettingsView difficultySettingsView) {
+		this.difficultySettingsView = difficultySettingsView;
+	}
+
+	public void setPuzzleGenerationSettingsView(final PuzzleGenerationSettingsView puzzleGenerationSettingsView) {
+		this.puzzleGenerationSettingsView = puzzleGenerationSettingsView;
+	}
+
+	public void setSolverSettingsView(final SolverSettingsView solverSettingsView) {
+		this.solverSettingsView = solverSettingsView;
 	}
 
 }

@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sudoku.factories.LayoutFactory;
 import sudoku.factories.MenuFactory;
+import sudoku.view.ApplicationRootPane;
 import sudoku.view.MainApplicationView;
 import sudoku.view.RootStackPane;
 import sudoku.view.menu.ApplicationTitleBar;
@@ -24,11 +25,14 @@ import sudoku.view.util.WindowHelper;
 /** Entry point for the execution of the project. */
 public class SudokuMain extends Application {
 
+	private static final double DEFAULT_STAGE_WIDTH = 1292.5;
+
+	private static final int DEFAULT_STAGE_HEIGHT = 725;
+
 	private static final Logger LOG = LogManager.getLogger(SudokuMain.class);
 
 	@Override
 	public void start(final Stage stage) throws IOException {
-
 		final BorderPane root = this.createRootPane(stage);
 		final RootStackPane rootStackPane = LayoutFactory.getInstance().createRootStackPane(root);
 		final Scene scene = this.createScene(rootStackPane);
@@ -40,7 +44,8 @@ public class SudokuMain extends Application {
 	}
 
 	/**
-	 * Creates and returns a Scene, using the given Parent object as a root element.
+	 * Creates and returns a Scene, using the given Parent object as a root
+	 * element.
 	 */
 	private Scene createScene(final Region root) {
 		final Scene scene = new Scene(root);
@@ -55,7 +60,7 @@ public class SudokuMain extends Application {
 	 * scene.
 	 */
 	private BorderPane createRootPane(final Stage stage) {
-		final BorderPane root = new BorderPane();
+		final ApplicationRootPane root = LayoutFactory.getInstance().createApplicationRootPane();
 		final ApplicationTitleBar menuContainer = MenuFactory.getInstance().createApplicationTitleBar(stage);
 		root.setTop(menuContainer);
 		final MainApplicationView topLevelSplitPane = LayoutFactory.getInstance().createMainApplicationView();
@@ -68,8 +73,11 @@ public class SudokuMain extends Application {
 		stage.getIcons().add(new Image(this.getClass().getResourceAsStream(ResourceConstants.APPLICATION_ICON)));
 		stage.initStyle(StageStyle.TRANSPARENT);
 		stage.setScene(scene);
-		stage.setMinHeight(600);
-		stage.setMaximized(true);
+		stage.setMinHeight(DEFAULT_STAGE_HEIGHT);
+		stage.setHeight(DEFAULT_STAGE_HEIGHT);
+		stage.setMinWidth(DEFAULT_STAGE_WIDTH);
+		stage.setWidth(DEFAULT_STAGE_WIDTH);
+		stage.setMaximized(false);
 		stage.show();
 		WindowHelper.addResizeAndDragListener(stage, root);
 		// Initializes the model controller with default states + behaviors.

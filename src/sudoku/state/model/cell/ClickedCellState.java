@@ -1,7 +1,7 @@
 package sudoku.state.model.cell;
 
 import sudoku.core.ViewController;
-import sudoku.state.ApplicationModelState;
+import sudoku.state.model.ApplicationModelState;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 import sudoku.view.util.ColorUtils.ColorState;
 import sudoku.view.util.MouseMode;
@@ -35,7 +35,7 @@ public class ClickedCellState extends ApplicationModelState {
 			}
 			this.updateSelectedCell();
 		} else if (MouseMode.TOGGLE_CANDIDATES == this.mouseMode) {
-			this.toggleCandidateActiveForCell(this.sudokuPuzzleStyle.getActiveColorCandidateDigit(), clickedCell);
+			this.toggleCandidateActiveForCell(this.sudokuPuzzleStyle.getActiveCandidateDigit(), clickedCell);
 		} else if (MouseMode.COLOR_CELLS == this.mouseMode) {
 			final ColorState baseColorState = ColorState.getStateForBaseColor(this.sudokuPuzzleStyle.getActiveColor());
 			final ColorState colorStateToApply = ColorState.getFromKeyCode(baseColorState.getKey(), this.isShiftDown);

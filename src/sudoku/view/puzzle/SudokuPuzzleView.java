@@ -82,9 +82,9 @@ public class SudokuPuzzleView extends GridPane {
 	}
 
 	/**
-	 * Handles all keyboard inputs for the application. The technical challenge with
-	 * keyboard inputs is that the node must be focused to receive input, and only
-	 * one node can be focused at once. This makes it impossible to listen on
+	 * Handles all keyboard inputs for the application. The technical challenge
+	 * with keyboard inputs is that the node must be focused to receive input, and
+	 * only one node can be focused at once. This makes it impossible to listen on
 	 * multiple nodes at once.
 	 */
 	private EventHandler<? super KeyEvent> onKeyPressed() {
@@ -138,8 +138,11 @@ public class SudokuPuzzleView extends GridPane {
 			ModelController.getInstance().transitionToResetAllColorsState();
 		} else if (KeyCode.M == keyCode && event.isControlDown()) {
 			ModelController.getInstance().transitionToShowContextMenuState();
-		}
-		if (ColorUtils.getApplyColorKeyCodes().contains(keyCode)) {
+		} else if (KeyCode.K == keyCode && event.isControlDown()) {
+			ModelController.getInstance().transitionToApplyHintState();
+		} else if (KeyCode.L == keyCode && event.isControlDown()) {
+			ModelController.getInstance().transitionToHideHintState();
+		} else if (ColorUtils.getApplyColorKeyCodes().contains(keyCode)) {
 			this.onPressColoringKey(event, keyCode);
 		}
 	}

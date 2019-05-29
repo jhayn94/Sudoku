@@ -8,12 +8,14 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
-/** This class pairs a text field with a label to the left of it. */
+/** This class pairs a text field paired with a label to the left. */
 public class LabeledComboBox extends HBox {
 
 	private static final int COMBO_BOX_WIDTH = 210;
 
 	private static final double LABEL_RIGHT_PADDING = 26;
+
+	private static final double LABEL_TOP_PADDING = 8;
 
 	private ComboBox<String> comboBox;
 
@@ -33,7 +35,6 @@ public class LabeledComboBox extends HBox {
 	}
 
 	private void configure() {
-		this.setAlignment(Pos.CENTER);
 		this.addChildElements();
 	}
 
@@ -47,9 +48,10 @@ public class LabeledComboBox extends HBox {
 		this.label = new Label();
 		this.label.setAlignment(Pos.BASELINE_LEFT);
 		// Space the text field and label out a little bit.
-		HBox.setMargin(this.label, new Insets(0, LABEL_RIGHT_PADDING, 0, 0));
 
 		final ObservableList<Node> children = this.getChildren();
+
+		HBox.setMargin(this.label, new Insets(LABEL_TOP_PADDING, LABEL_RIGHT_PADDING, 0, 0));
 		children.add(this.label);
 		children.add(this.comboBox);
 	}

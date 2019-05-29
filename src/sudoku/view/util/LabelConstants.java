@@ -87,7 +87,37 @@ public class LabelConstants {
 
 	public static final String MISCELLANEOUS_SETTINGS = "Miscellaneous Settings";
 
+	public static final String COLOR_SETTINGS = "Color Settings";
+
+	public static final String PUZZLE_GENERATION_SETTINGS = "New Puzzle Settings";
+
+	public static final String SOLVER_SETTINGS = "Solver Settings";
+
+	public static final String DIFFICULTY_SETTINGS = "Difficulty Settings";
+
 	public static final String SAVE_AND_APPLY = "Save and Apply";
+
+	public static final String AUTO_MANAGE_CANDIDATES = "Automatically manage candidates?";
+
+	public static final String FILTERED_CELL_COLOR = "Filter: ";
+
+	public static final String COLOR_PAIR = "Color Pair ";
+
+	public static final String RESTORE_DEFAULTS = "Restore Defaults";
+
+	public static final String EASY = "Easy";
+
+	public static final String MEDIUM = "Medium";
+
+	public static final String HARD = "Hard";
+
+	public static final String VERY_HARD = "Very Hard";
+
+	public static final String DIABOLICAL = "Diabolical";
+
+	public static final String MUST_CONTAIN = "Must Contain:";
+
+	public static final String SOLVE_UP_TO = "Solve up to Technique?";
 
 	private LabelConstants() {
 		// Private constructor to prevent instantiation.

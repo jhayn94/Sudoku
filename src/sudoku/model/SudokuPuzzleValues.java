@@ -35,8 +35,10 @@ public class SudokuPuzzleValues {
 				this.givenCells[col][row] = 0;
 				this.fixedCells[col][row] = 0;
 				this.candidatesForCells[col][row] = new ArrayList<>();
-				for (int candidate = 0; candidate < CELLS_PER_HOUSE; candidate++) {
-					this.candidatesForCells[col][row].add(candidate + 1);
+				if (ApplicationSettings.getInstance().isAutoManageCandidates()) {
+					for (int candidate = 0; candidate < CELLS_PER_HOUSE; candidate++) {
+						this.candidatesForCells[col][row].add(candidate + 1);
+					}
 				}
 			}
 		}
@@ -93,8 +95,8 @@ public class SudokuPuzzleValues {
 	}
 
 	/**
-	 * Gets the box number of the given cell. Returns -1 if row and col are outside
-	 * of the puzzle dimensions.
+	 * Gets the box number of the given cell. Returns -1 if row and col are
+	 * outside of the puzzle dimensions.
 	 */
 	public int getBoxForCell(final int row, final int col) {
 		if (row <= 2 && col <= 2) {
@@ -136,8 +138,8 @@ public class SudokuPuzzleValues {
 	}
 
 	/**
-	 * Returns the current state of the sudoku as string, where each digit is set if
-	 * fixed in the puzzle.. 0 is used if no digit is set.
+	 * Returns the current state of the sudoku as string, where each digit is set
+	 * if fixed in the puzzle.. 0 is used if no digit is set.
 	 */
 	public String getSudoku() {
 		final StringBuilder result = new StringBuilder();

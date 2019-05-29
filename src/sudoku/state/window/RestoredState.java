@@ -10,6 +10,10 @@ import sudoku.view.util.ResourceConstants;
  */
 public class RestoredState extends ApplicationWindowState {
 
+	public RestoredState() {
+		super();
+	}
+
 	public RestoredState(final ApplicationWindowState lastState) {
 		super(lastState);
 	}

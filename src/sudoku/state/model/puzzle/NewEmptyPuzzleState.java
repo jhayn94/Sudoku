@@ -3,8 +3,9 @@ package sudoku.state.model.puzzle;
 import org.apache.logging.log4j.util.Strings;
 
 import sudoku.core.ViewController;
+import sudoku.model.ApplicationSettings;
 import sudoku.model.SudokuPuzzleValues;
-import sudoku.state.ApplicationModelState;
+import sudoku.state.model.ApplicationModelState;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 
 /**
@@ -35,7 +36,7 @@ public class NewEmptyPuzzleState extends ApplicationModelState {
 				sudokuPuzzleCell.setCellGiven(false);
 				this.updateFixedCellTypeCssClass(sudokuPuzzleCell, UNFIXED_CELL_CSS_CLASS);
 				for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
-					sudokuPuzzleCell.setCandidateVisible(candidate, true);
+					sudokuPuzzleCell.setCandidateVisible(candidate, ApplicationSettings.getInstance().isAutoManageCandidates());
 				}
 			}
 		}

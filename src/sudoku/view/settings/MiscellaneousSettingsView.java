@@ -1,10 +1,25 @@
 package sudoku.view.settings;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Tooltip;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import sudoku.core.ModelController;
+import sudoku.model.ApplicationSettings;
+import sudoku.model.DefaultApplicationSettings;
 import sudoku.view.ModalDialog;
 import sudoku.view.util.LabelConstants;
+import sudoku.view.util.TooltipConstants;
 
 public class MiscellaneousSettingsView extends ModalDialog {
+
+	private static final int SMALL_PADDING = 20;
+
+	private CheckBox autoManageCandidatesCheckBox;
 
 	public MiscellaneousSettingsView(final Stage stage) {
 		super(stage);
@@ -13,13 +28,46 @@ public class MiscellaneousSettingsView extends ModalDialog {
 
 	@Override
 	protected void configure() {
-		super.configure();
 		this.setTitle(LabelConstants.MISCELLANEOUS_SETTINGS);
 		this.createChildElements();
 	}
 
-	private void createChildElements() {
+	@Override
+	protected void createChildElements() {
+		super.createChildElements();
+		final VBox contentPane = new VBox();
+		contentPane.setAlignment(Pos.TOP_LEFT);
+		contentPane.setPadding(new Insets(SMALL_PADDING));
+		this.autoManageCandidatesCheckBox = new CheckBox(LabelConstants.AUTO_MANAGE_CANDIDATES);
+		this.autoManageCandidatesCheckBox.setTooltip(new Tooltip(TooltipConstants.AUTO_MANAGE_CANDIDATES));
+		this.autoManageCandidatesCheckBox.setSelected(ApplicationSettings.getInstance().isAutoManageCandidates());
+		VBox.setMargin(this.autoManageCandidatesCheckBox, new Insets(SMALL_PADDING, 0, 0, 0));
+		contentPane.getChildren().add(this.autoManageCandidatesCheckBox);
+		this.setCenter(contentPane);
+		this.createButtonPane();
+	}
 
+	private void createButtonPane() {
+		final Button confirmButton = new Button(LabelConstants.SAVE_AND_APPLY);
+		confirmButton.setOnAction(event -> {
+			ModelController.getInstance().transitionToSaveMiscellaneousSettingsState();
+			this.stage.close();
+		});
+		final Button restoreDefaultsButton = new Button(LabelConstants.RESTORE_DEFAULTS);
+		restoreDefaultsButton.setOnAction(event -> this.resetViewToDefaults());
+		HBox.setMargin(restoreDefaultsButton, new Insets(0, 0, 0, SMALL_PADDING));
+		final HBox buttonPane = new HBox();
+		buttonPane.getChildren().addAll(confirmButton, restoreDefaultsButton);
+		this.setBottom(buttonPane);
+	}
+
+	private void resetViewToDefaults() {
+		final boolean isAutoManageCandidates = DefaultApplicationSettings.getInstance().isAutoManageCandidates();
+		this.autoManageCandidatesCheckBox.setSelected(isAutoManageCandidates);
+	}
+
+	public CheckBox getAutoManageCandidatesCheckBox() {
+		return this.autoManageCandidatesCheckBox;
 	}
 
 }

@@ -2,7 +2,7 @@ package sudoku.state.model.cell;
 
 import javafx.scene.input.KeyCode;
 import sudoku.model.SudokuPuzzleValues;
-import sudoku.state.ApplicationModelState;
+import sudoku.state.model.ApplicationModelState;
 
 /**
  * This class updates the state of the application when the selection changes by

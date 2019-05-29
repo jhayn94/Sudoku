@@ -3,13 +3,13 @@ package sudoku.core;
 import java.io.File;
 
 import javafx.scene.input.KeyCode;
-import sudoku.state.ApplicationModelState;
-import sudoku.state.DefaultApplicationModelState;
-import sudoku.state.MouseModeChangedState;
-import sudoku.state.RedoActionState;
-import sudoku.state.RestartPuzzleState;
-import sudoku.state.ShowContextMenuState;
-import sudoku.state.UndoActionState;
+import sudoku.state.model.ApplicationModelState;
+import sudoku.state.model.DefaultApplicationModelState;
+import sudoku.state.model.MouseModeChangedState;
+import sudoku.state.model.RedoActionState;
+import sudoku.state.model.RestartPuzzleState;
+import sudoku.state.model.ShowContextMenuState;
+import sudoku.state.model.UndoActionState;
 import sudoku.state.model.candidate.ToggleActiveCandidateState;
 import sudoku.state.model.candidate.ToggleCandidateVisibleState;
 import sudoku.state.model.cell.ArrowKeyboardInputState;
@@ -17,7 +17,7 @@ import sudoku.state.model.cell.ClickedCellState;
 import sudoku.state.model.cell.RemoveDigitState;
 import sudoku.state.model.cell.SetDigitState;
 import sudoku.state.model.cell.SetGivenCellsState;
-import sudoku.state.model.coloring.ActiveColorState;
+import sudoku.state.model.coloring.ToggleActiveColorState;
 import sudoku.state.model.coloring.ResetAllColorsState;
 import sudoku.state.model.coloring.ToggleCandidateColorState;
 import sudoku.state.model.coloring.ToggleCellColorState;
@@ -31,6 +31,11 @@ import sudoku.state.model.puzzle.NewEmptyPuzzleState;
 import sudoku.state.model.puzzle.NewRandomPuzzleState;
 import sudoku.state.model.puzzle.OpenedFileState;
 import sudoku.state.model.puzzle.SavedFileState;
+import sudoku.state.model.settings.SaveColorSettingsState;
+import sudoku.state.model.settings.SaveDifficultySettingsState;
+import sudoku.state.model.settings.SaveMiscellaneousSettingsState;
+import sudoku.state.model.settings.SavePuzzleGenerationSettingsState;
+import sudoku.state.model.settings.SaveSolverSettingsState;
 import sudoku.state.window.ApplicationWindowState;
 import sudoku.state.window.ClosedState;
 import sudoku.state.window.MaximizedState;
@@ -64,7 +69,7 @@ public class ModelController {
 
 	private ModelController() {
 		this.applicationModelState = new DefaultApplicationModelState();
-		this.applicationWindowState = new MaximizedState();
+		this.applicationWindowState = new RestoredState();
 		this.applicationModelState.onEnter();
 		this.applicationWindowState.onEnter();
 	}
@@ -166,7 +171,7 @@ public class ModelController {
 	}
 
 	public void transitionToToggleActiveColorState(final boolean increment) {
-		this.applicationModelState = new ActiveColorState(increment, this.applicationModelState);
+		this.applicationModelState = new ToggleActiveColorState(increment, this.applicationModelState);
 		this.applicationModelState.onEnter();
 	}
 
@@ -225,6 +230,31 @@ public class ModelController {
 		this.applicationModelState = new ShowContextMenuState(this.applicationModelState);
 		this.applicationModelState.onEnter();
 
+	}
+
+	public void transitionToSaveMiscellaneousSettingsState() {
+		this.applicationModelState = new SaveMiscellaneousSettingsState(this.applicationModelState);
+		this.applicationModelState.onEnter();
+	}
+
+	public void transitionToSaveColorSettingsState() {
+		this.applicationModelState = new SaveColorSettingsState(this.applicationModelState);
+		this.applicationModelState.onEnter();
+	}
+
+	public void transitionToSaveDifficultySettingsState() {
+		this.applicationModelState = new SaveDifficultySettingsState(this.applicationModelState);
+		this.applicationModelState.onEnter();
+	}
+
+	public void transitionToSavePuzzleGenerationSettingsState() {
+		this.applicationModelState = new SavePuzzleGenerationSettingsState(this.applicationModelState);
+		this.applicationModelState.onEnter();
+	}
+
+	public void transitionToSaveSolverSettingsState() {
+		this.applicationModelState = new SaveSolverSettingsState(this.applicationModelState);
+		this.applicationModelState.onEnter();
 	}
 
 }

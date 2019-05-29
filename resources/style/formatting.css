@@ -6,6 +6,18 @@
 	-sudoku-color-autumn-foliage: #e7472e;
 	-sudoku-color-leaves: #506d2f;
 	-sudoku-color-rocky-brown: #785a46;
+	
+	-sudoku-color-selected: #e5e2ca;
+	-sudoku-color-coloring1a: #f05c79;
+	-sudoku-color-coloring1b: #f8b9c6;
+	-sudoku-color-coloring2a: #4da6ff;
+	-sudoku-color-coloring2b: #b3d9ff;
+	-sudoku-color-coloring3a: #a385e0;
+	-sudoku-color-coloring3b: #d1c2f0;
+	-sudoku-color-coloring4a: #79d2a0;
+	-sudoku-color-coloring4b: #c6ecd6;
+	-sudoku-color-coloring5a: #ffc14d;
+	-sudoku-color-coloring5b: #ffe4b3;
 
 	-fx-font-family: "Quicksand";
 	-fx-font-size: 12pt;
@@ -28,7 +40,7 @@
 }
 
 .sudoku-main-app-view {
-	-fx-background-color: linear-gradient(to bottom, -sudoku-color-pebble, -sudoku-color-pebble, -sudoku-color-parchment);
+	-fx-background-color: -sudoku-color-pebble;
 }
 
 .sudoku-transparent-pane {
@@ -79,48 +91,48 @@
 
 .sudoku-active-filter-cell {
 	-fx-border-color: -sudoku-color-bark;
-	-fx-background-color: -sudoku-color-parchment;
+	-fx-background-color: -sudoku-color-selected;
 }
 
 /* These define colors used for the cell / candidate coloring. */
-.sudoku-puzzle-red-entity {
-	-fx-background-color: #f05c79;
+.sudoku-puzzle-color1a-entity {
+	-fx-background-color: -sudoku-color-coloring1a
 }
 
-.sudoku-puzzle-alt-red-entity {
-	-fx-background-color: #f8b9c6;
+.sudoku-puzzle-color1b-entity {
+	-fx-background-color: -sudoku-color-coloring1b;
 }
 
-.sudoku-puzzle-blue-entity {
-	-fx-background-color: #4da6ff;
+.sudoku-puzzle-color2a-entity {
+	-fx-background-color: -sudoku-color-coloring2a;
 }
 
-.sudoku-puzzle-alt-blue-entity {
-	-fx-background-color: #b3d9ff;
+.sudoku-puzzle-color2b-entity {
+	-fx-background-color: -sudoku-color-coloring2b;
 }
 
-.sudoku-puzzle-purple-entity {
-	-fx-background-color: #a385e0;
+.sudoku-puzzle-color3a-entity {
+	-fx-background-color: -sudoku-color-coloring3a;
 }
 
-.sudoku-puzzle-alt-purple-entity {
-	-fx-background-color: #d1c2f0;
+.sudoku-puzzle-color3b-entity {
+	-fx-background-color: -sudoku-color-coloring3b;
 }
 
-.sudoku-puzzle-green-entity {
-	-fx-background-color: #79d2a0;
+.sudoku-puzzle-color4a-entity {
+	-fx-background-color: -sudoku-color-coloring4a;
 }
 
-.sudoku-puzzle-alt-green-entity {
-	-fx-background-color: #c6ecd6;
+.sudoku-puzzle-color4b-entity {
+	-fx-background-color: -sudoku-color-coloring4b;
 }
 
-.sudoku-puzzle-orange-entity {
-	-fx-background-color: #ffc14d;
+.sudoku-puzzle-color5a-entity {
+	-fx-background-color: -sudoku-color-coloring5a;
 }
 
-.sudoku-puzzle-alt-orange-entity {
-	-fx-background-color: #ffe4b3;
+.sudoku-puzzle-color5b-entity {
+	-fx-background-color: -sudoku-color-coloring5b;
 }
 
 /* These are used to set extra borders on the cells that are on the edges of blocks. 
@@ -159,27 +171,13 @@
 }
 
 .button {
+	-fx-background-color: -sudoku-color-parchment;
 	-fx-text-fill: -sudoku-color-bark;
 	-fx-font-size: 14pt;
 	-fx-border-color: -sudoku-color-bark;
-	-fx-border-width: 3;
-	-fx-background-radius: 5;
-	-fx-border-radius: 5;
-}
-
-.combo-box-base {
-	-fx-border-width: 1;
-	-fx-border-radius: 2;
-}
-
-.combo-box-base > .arrow-button {
-	-fx-background-color: -sudoku-color-parchment;
-	-fx-background-insets: 0, 1, 2;
-	-fx-background-radius: 0 5 5 0, 0 4 4 0, 0 3 3 0;
-	-fx-padding: 0 0.667em 0 0.667em; /* 6 8 6 8 */
 	-fx-border-width: 2;
-	-fx-border-radius: 0 3 3 0;
-	-fx-border-color: -sudoku-color-bark;
+	-fx-background-radius: 3;
+	-fx-border-radius: 3;
 }
 
 /** Used for when a button is pressed and needs to retain a state. This must be after .button to override it. */
@@ -209,7 +207,7 @@
 
 /* Application system menu buttons (in the top corners of the screen). This must be after .button to override those configurations. */
 .sudoku-system-menu-button:hover {
-	-fx-background-color: linear-gradient(to bottom, derive(-sudoku-color-pebble,-30%), derive(-sudoku-color-parchment,-30%));
+	-fx-background-color: derive(-sudoku-color-pebble,-30%);
 }
 
 .menu-bar {
@@ -222,14 +220,14 @@
 	-fx-border-color: -sudoku-color-bark;
 	-fx-background-radius: 3;
 	-fx-border-radius: 3;
-	-fx-border-width: 3;
+	-fx-border-width: 2;
 	-fx-prompt-text-fill: -sudoku-color-parchment;
 }
 
 .sudoku-coloring-display-label {
 	-fx-background-radius: 2;
 	-fx-border-radius: 2;
-	-fx-border-width: 1;
+	-fx-border-width: 2;
 	-fx-border-color: -sudoku-color-bark;
 }
 
@@ -238,7 +236,7 @@
 	-fx-font-size: 30 pt;
 	-fx-background-radius: 2;
 	-fx-border-radius: 2;
-	-fx-border-width: 1;
+	-fx-border-width: 2;
 	-fx-border-color: -sudoku-color-bark;
 }
 
@@ -247,8 +245,8 @@
 }
 
 /* Defines the rectangle responsible for the shadow. */
-.decoration-shadow{
-    -fx-fill: linear-gradient(to bottom, -sudoku-color-pebble, -sudoku-color-parchment);
+.decoration-shadow {
+    -fx-fill: -sudoku-color-pebble;
     -fx-stroke-width: 0;
 	-fx-arc-width: 20px;
 	-fx-arc-height: 20px;
@@ -263,4 +261,52 @@
 
 .tooltip {
 	-fx-font-size: 12pt;
+}
+
+.text-field {
+	-fx-border-width: 2;	
+	-fx-border-radius: 3;
+	-fx-border-color: -sudoku-color-bark;
+	-fx-background-color: #eeeeee;
+}
+
+.combo-box-base {
+	-fx-background-color: #eeeeee;
+}
+
+.combo-box-base:editable > .text-field {
+	-fx-border-color: -sudoku-color-bark;
+	-fx-background-color: #eeeeee;
+	-fx-border-width: 2 0 2 2;
+	-fx-border-radius: 3 0 0 3;
+}
+
+.combo-box-base > .arrow-button {
+	-fx-background-color: -sudoku-color-parchment;
+	-fx-background-insets: 0, 1, 2;
+	-fx-background-radius: 0 5 5 0, 0 4 4 0, 0 3 3 0;
+	-fx-padding: 0 0.667em 0 0.667em; /* 6 8 6 8 */
+	-fx-border-width: 2;
+	-fx-border-radius: 0 3 3 0;
+	-fx-border-color: -sudoku-color-bark;
+}
+
+.check-box > .box {
+	-fx-background-color: #eeeeee;
+	-fx-border-color: -sudoku-color-bark;
+	-fx-border-width: 2;
+	-fx-background-radius: 3;
+	-fx-border-radius: 3;
+}
+
+
+.virtual-flow, .scroll-bar, .scroll-bar, .scroll-bar>.track, .scroll-bar>.track,
+	.scroll-bar>.track-background, .scroll-bar>.track-background,
+	.scroll-bar>.increment-button, .scroll-bar>.decrement-button {
+	-fx-background-color: transparent;
+}
+
+.scroll-bar>.increment-button>.increment-arrow, .scroll-bar>.decrement-button>.decrement-arrow,
+	.scroll-bar:horizontal>.thumb, .scroll-bar:vertical>.thumb {
+	-fx-background-color: -sudoku-color-stone-blue;
 }

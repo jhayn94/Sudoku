@@ -3,7 +3,7 @@ package sudoku.state.model.hint;
 import sudoku.SolutionType;
 import sudoku.core.HodokuFacade;
 import sudoku.core.ViewController;
-import sudoku.state.ApplicationModelState;
+import sudoku.state.model.ApplicationModelState;
 import sudoku.view.hint.HintButtonPane;
 import sudoku.view.hint.HintTextArea;
 import sudoku.view.util.LabelConstants;

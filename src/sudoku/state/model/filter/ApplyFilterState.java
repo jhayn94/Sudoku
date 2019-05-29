@@ -2,7 +2,7 @@ package sudoku.state.model.filter;
 
 import org.apache.logging.log4j.util.Strings;
 
-import sudoku.state.ApplicationModelState;
+import sudoku.state.model.ApplicationModelState;
 
 /**
  * This class updates the state of the application when the user presses a

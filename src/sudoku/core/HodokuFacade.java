@@ -13,6 +13,7 @@ import sudoku.GameMode;
 import sudoku.Options;
 import sudoku.SolutionStep;
 import sudoku.Sudoku2;
+import sudoku.model.ApplicationSettings;
 
 /**
  * This class contains various methods for accessing the APIs / components in
@@ -36,11 +37,13 @@ public class HodokuFacade {
 	}
 
 	/**
-	 * Generates a string which represents a sudoku puzzle with exactly 1 solution.
+	 * Generates a string which represents a sudoku puzzle with exactly 1
+	 * solution.
 	 */
 	public String generateSudokuString() {
 		final BackgroundGenerator generator = new BackgroundGenerator();
-		return generator.generate(Options.getInstance().getDifficultyLevel(3), GameMode.PLAYING);
+		final int ordinal = ApplicationSettings.getInstance().getDifficulty().ordinal();
+		return generator.generate(Options.getInstance().getDifficultyLevel(ordinal + 1), GameMode.PLAYING);
 	}
 
 	/**

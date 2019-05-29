@@ -1,61 +1,62 @@
 package sudoku.view.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.util.Strings;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import sudoku.model.ApplicationSettings;
 
 /**
  * This class contains various utilities for coloring cells or candidate.
  */
 public class ColorUtils {
 
-	private static final String RED = "#f05c79";
-
-	private static final String BLUE = "#4da6ff";
-
-	private static final String PURPLE = "#a385e0";
-
-	private static final String GREEN = "#79d2a0";
-
-	private static final String ORANGE = "#ffc14d";
-
-	private static final List<Color> COLORS = Arrays.asList(Color.valueOf(RED), Color.valueOf(BLUE),
-			Color.valueOf(PURPLE), Color.valueOf(GREEN), Color.valueOf(ORANGE));
-
 	private static final List<KeyCode> APPLY_COLOR_KEY_CODES = Arrays.asList(KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.F,
 			KeyCode.G);
 
-	public static final String RED_ENTITY_CSS_CLASS = "sudoku-puzzle-red-entity";
+	private static final String COLOR1A_ENTITY_CSS_CLASS = "sudoku-puzzle-color1a-entity";
 
-	public static final String ALT_RED_ENTITY_CSS_CLASS = "sudoku-puzzle-alt-red-entity";
+	private static final String COLOR1B_ENTITY_CSS_CLASS = "sudoku-puzzle-color1b-entity";
 
-	public static final String BLUE_ENTITY_CSS_CLASS = "sudoku-puzzle-blue-entity";
+	private static final String COLOR2A_ENTITY_CSS_CLASS = "sudoku-puzzle-color2a-entity";
 
-	public static final String ALT_BLUE_ENTITY_CSS_CLASS = "sudoku-puzzle-alt-blue-entity";
+	private static final String COLOR2B_ENTITY_CSS_CLASS = "sudoku-puzzle-color2b-entity";
 
-	public static final String PURPLE_ENTITY_CSS_CLASS = "sudoku-puzzle-purple-entity";
+	private static final String COLOR3A_ENTITY_CSS_CLASS = "sudoku-puzzle-color3a-entity";
 
-	public static final String ALT_PURPLE_ENTITY_CSS_CLASS = "sudoku-puzzle-alt-purple-entity";
+	private static final String COLOR3B_ENTITY_CSS_CLASS = "sudoku-puzzle-color3b-entity";
 
-	public static final String GREEN_ENTITY_CSS_CLASS = "sudoku-puzzle-green-entity";
+	private static final String COLOR4A_ENTITY_CSS_CLASS = "sudoku-puzzle-color4a-entity";
 
-	public static final String ALT_GREEN_ENTITY_CSS_CLASS = "sudoku-puzzle-alt-green-entity";
+	private static final String COLOR4B_ENTITY_CSS_CLASS = "sudoku-puzzle-color4b-entity";
 
-	public static final String ORANGE_ENTITY_CSS_CLASS = "sudoku-puzzle-orange-entity";
+	private static final String COLOR5A_ENTITY_CSS_CLASS = "sudoku-puzzle-color5a-entity";
 
-	public static final String ALT_ORANGE_ENTITY_CSS_CLASS = "sudoku-puzzle-alt-orange-entity";
+	private static final String COLOR5B_ENTITY_CSS_CLASS = "sudoku-puzzle-color5b-entity";
 
-	private static final List<String> COLOR_CSS_CLASSES = Arrays.asList(RED_ENTITY_CSS_CLASS, ALT_RED_ENTITY_CSS_CLASS,
-			BLUE_ENTITY_CSS_CLASS, ALT_BLUE_ENTITY_CSS_CLASS, PURPLE_ENTITY_CSS_CLASS, ALT_PURPLE_ENTITY_CSS_CLASS,
-			GREEN_ENTITY_CSS_CLASS, ALT_GREEN_ENTITY_CSS_CLASS, ORANGE_ENTITY_CSS_CLASS, ALT_ORANGE_ENTITY_CSS_CLASS);
+	private static final List<String> COLOR_CSS_CLASSES = Arrays.asList(COLOR1A_ENTITY_CSS_CLASS,
+			COLOR1B_ENTITY_CSS_CLASS, COLOR2A_ENTITY_CSS_CLASS, COLOR2B_ENTITY_CSS_CLASS, COLOR3A_ENTITY_CSS_CLASS,
+			COLOR3B_ENTITY_CSS_CLASS, COLOR4A_ENTITY_CSS_CLASS, COLOR4B_ENTITY_CSS_CLASS, COLOR5A_ENTITY_CSS_CLASS,
+			COLOR5B_ENTITY_CSS_CLASS);
 
+	/**
+	 * Returns the "base" colors used for coloring in the application. Note that
+	 * by default, each alternate color should be a lighter version of the base
+	 * color, but the user is permitted to deviate from this guideline.
+	 */
 	public static List<Color> getColors() {
-		return COLORS;
+		final List<String> hexCodes = new ArrayList<>();
+		final String[] colorsUsedInColoring = ApplicationSettings.getInstance().getColorsUsedInColoring();
+		for (int index = 0; index < colorsUsedInColoring.length; index += 2) {
+			hexCodes.add(colorsUsedInColoring[index]);
+		}
+		return hexCodes.stream().map(Color::valueOf).collect(Collectors.toList());
 	}
 
 	public List<String> getCssColorClasses() {
@@ -67,11 +68,17 @@ public class ColorUtils {
 	}
 
 	public enum ColorState {
-		RED(0, false, RED_ENTITY_CSS_CLASS), ALT_RED(0, true, ALT_RED_ENTITY_CSS_CLASS),
-		BLUE(1, false, BLUE_ENTITY_CSS_CLASS), ALT_BLUE(1, true, ALT_BLUE_ENTITY_CSS_CLASS),
-		PURPLE(2, false, PURPLE_ENTITY_CSS_CLASS), ALT_PURPLE(2, true, ALT_PURPLE_ENTITY_CSS_CLASS),
-		GREEN(3, false, GREEN_ENTITY_CSS_CLASS), ALT_GREEN(3, true, ALT_GREEN_ENTITY_CSS_CLASS),
-		ORANGE(4, false, ORANGE_ENTITY_CSS_CLASS), ALT_ORANGE(4, true, ALT_ORANGE_ENTITY_CSS_CLASS), NONE;
+		COLORSTATE1A(0, false, COLOR1A_ENTITY_CSS_CLASS),
+		COLORSTATE1B(0, true, COLOR1B_ENTITY_CSS_CLASS),
+		COLORSTATE2A(1, false, COLOR2A_ENTITY_CSS_CLASS),
+		COLORSTATE2B(1, true, COLOR2B_ENTITY_CSS_CLASS),
+		COLORSTATE3A(2, false, COLOR3A_ENTITY_CSS_CLASS),
+		COLORSTATE3B(2, true, COLOR3B_ENTITY_CSS_CLASS),
+		COLORSTATE4A(3, false, COLOR4A_ENTITY_CSS_CLASS),
+		COLORSTATE4B(3, true, COLOR4B_ENTITY_CSS_CLASS),
+		COLORSTATE5A(4, false, COLOR5A_ENTITY_CSS_CLASS),
+		COLORSTATE5B(4, true, COLOR5B_ENTITY_CSS_CLASS),
+		NONE;
 
 		private final int keyIndex;
 
@@ -105,12 +112,13 @@ public class ColorUtils {
 
 		/**
 		 * Gets a color state based on the color passed. This only will retrieve the
-		 * base color state, not the alternative (with shift down). To do this, get the
-		 * base color state, then call getFromKeyCode(baseState.getKey(), true).
+		 * base color state, not the alternative (with shift down). To do this, get
+		 * the base color state, then call getFromKeyCode(baseState.getKey(), true).
 		 */
 		public static ColorState getStateForBaseColor(final Color baseColor) {
 			return Arrays.asList(ColorState.values()).stream()
-					// The keys + color array list are in the same order, so we can use their
+					// The keys + color array list are in the same order, so we can use
+					// their
 					// indices interchangeably.
 					.filter(colorState -> ColorUtils.getColors().indexOf(baseColor) == colorState.keyIndex).findFirst()
 					.orElseThrow(NoSuchElementException::new);

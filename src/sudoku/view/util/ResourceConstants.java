@@ -20,8 +20,9 @@ public class ResourceConstants {
 
 	public static final String CLOSE_ICON = "/icons/close.png";
 
-	// TODO - remove?
-	public static final String SAVED_CONFIG = "./data/savedCharacterConfig.txt";
+	public static final String SAVED_SETTINGS = "./data/settings.txt";
+
+	public static final String DEFAULT_SETTINGS = "./data/defaults.txt";
 
 	private ResourceConstants() {
 		// Private constructor to prevent instantiation.

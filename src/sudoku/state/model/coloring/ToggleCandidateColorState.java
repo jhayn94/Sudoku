@@ -3,7 +3,7 @@ package sudoku.state.model.coloring;
 import java.util.List;
 
 import javafx.scene.input.KeyCode;
-import sudoku.state.ApplicationModelState;
+import sudoku.state.model.ApplicationModelState;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 import sudoku.view.util.ColorUtils.ColorState;
 
@@ -30,8 +30,7 @@ public class ToggleCandidateColorState extends ApplicationModelState {
 		if (!selectedCell.isCellFixed()) {
 			final List<Integer> candidatesForCell = this.sudokuPuzzleValues.getCandidateDigitsForCell(
 					this.sudokuPuzzleStyle.getSelectedCellRow(), this.sudokuPuzzleStyle.getSelectedCellCol());
-			final boolean isCandidateVisible = candidatesForCell
-					.contains(this.sudokuPuzzleStyle.getActiveColorCandidateDigit());
+			final boolean isCandidateVisible = candidatesForCell.contains(this.sudokuPuzzleStyle.getActiveCandidateDigit());
 			if (isCandidateVisible) {
 
 				final ColorState colorStateToApply = ColorState.getFromKeyCode(this.lastKeyCode, false);

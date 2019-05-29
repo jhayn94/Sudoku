@@ -15,12 +15,13 @@ public class HelpView extends ModalDialog {
 
 	@Override
 	protected void configure() {
-		super.configure();
 		this.setTitle(LabelConstants.HELP);
 		this.createChildElements();
 	}
 
-	private void createChildElements() {
+	@Override
+	protected void createChildElements() {
+		super.createChildElements();
 		final TextArea helpMessageTextArea = new TextArea();
 		helpMessageTextArea.setEditable(false);
 		helpMessageTextArea.setWrapText(true);

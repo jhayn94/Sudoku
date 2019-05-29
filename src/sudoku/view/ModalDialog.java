@@ -1,6 +1,5 @@
 package sudoku.view;
 
-import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -16,39 +15,30 @@ public class ModalDialog extends BorderPane {
 
 	protected final Stage stage;
 
-	private Button confirmButton;
-
 	private ApplicationMenuSpacer applicationMenuSpacer;
 
 	public ModalDialog(final Stage stage) {
 		super();
 		this.stage = stage;
-		this.configure();
+		this.createCloseButton();
 	}
 
 	public void setTitle(final String title) {
 		this.applicationMenuSpacer.setTitle(title);
 	}
 
-	/** Adds a confirm button. Returns this for convenience. */
-	public ModalDialog withConfirmButton(final Button confirmButton) {
-		this.confirmButton = confirmButton;
-		final HBox buttonPane = new HBox();
-		buttonPane.getChildren().add(this.confirmButton);
-		this.setBottom(buttonPane);
-		return this;
-	}
-
 	protected void configure() {
-		this.createChildElements();
+		// Nothing to do; only sub-classes will use this.
 	}
 
-	private void createChildElements() {
+	protected void createChildElements() {
+		// Nothing to do; only sub-classes will use this.
+	}
+
+	private void createCloseButton() {
 		final AbstractMenuButton closeButton = MenuFactory.getInstance()
 				.createApplicationMenuButton(ApplicationMenuButtonType.CLOSE);
-		closeButton.setOnAction(event -> {
-			this.stage.close();
-		});
+		closeButton.setOnAction(event -> this.stage.close());
 		this.applicationMenuSpacer = MenuFactory.getInstance().createApplicationMenuSpacer();
 		final HBox systemMenuBar = new HBox();
 		systemMenuBar.getStyleClass().add(MENU_BAR_CSS_CLASS);

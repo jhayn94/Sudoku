@@ -1,7 +1,7 @@
 package sudoku.state.model.candidate;
 
 import javafx.scene.input.KeyCode;
-import sudoku.state.ApplicationModelState;
+import sudoku.state.model.ApplicationModelState;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 
 /**

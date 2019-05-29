@@ -2,7 +2,7 @@ package sudoku.state.model.cell;
 
 import sudoku.core.ViewController;
 import sudoku.model.SudokuPuzzleValues;
-import sudoku.state.ApplicationModelState;
+import sudoku.state.model.ApplicationModelState;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 
 /**

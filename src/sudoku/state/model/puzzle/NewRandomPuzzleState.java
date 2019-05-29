@@ -5,8 +5,9 @@ import java.util.List;
 import org.apache.logging.log4j.util.Strings;
 
 import sudoku.core.ViewController;
+import sudoku.model.ApplicationSettings;
 import sudoku.model.SudokuPuzzleValues;
-import sudoku.state.ApplicationModelState;
+import sudoku.state.model.ApplicationModelState;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 
 /**
@@ -34,8 +35,10 @@ public class NewRandomPuzzleState extends ApplicationModelState {
 		this.resetColorStates();
 		this.sudokuPuzzleValues = new SudokuPuzzleValues(this.puzzleString);
 		this.updateCells();
-		// Must do this after because the cell values need to be finished before setting
-		// candidates. Otherwise the doesCellSeeFixedDigit checks will not be correct.
+		// Must do this after because the cell values need to be finished before
+		// setting
+		// candidates. Otherwise the doesCellSeeFixedDigit checks will not be
+		// correct.
 		this.updateCandidates();
 	}
 
@@ -73,7 +76,8 @@ public class NewRandomPuzzleState extends ApplicationModelState {
 				if (seesFixedDigit) {
 					candidateDigitsForCell.remove((Object) candidate);
 				}
-				sudokuPuzzleCell.setCandidateVisible(candidate, candidateDigitsForCell.contains(candidate) && !seesFixedDigit);
+				sudokuPuzzleCell.setCandidateVisible(candidate, candidateDigitsForCell.contains(candidate) && !seesFixedDigit
+						&& ApplicationSettings.getInstance().isAutoManageCandidates());
 			}
 		}
 	}

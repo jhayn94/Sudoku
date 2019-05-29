@@ -4,7 +4,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import sudoku.core.ViewController;
 import sudoku.model.SudokuPuzzleValues;
-import sudoku.state.ApplicationModelState;
+import sudoku.state.model.ApplicationModelState;
 
 /**
  * This class updates the state of the application contains methods to change
@@ -20,7 +20,7 @@ public class ToggleActiveCandidateState extends ApplicationModelState {
 
 	@Override
 	public void onEnter() {
-		int activeColorCandidateDigit = this.sudokuPuzzleStyle.getActiveColorCandidateDigit();
+		int activeColorCandidateDigit = this.sudokuPuzzleStyle.getActiveCandidateDigit();
 		if (KeyCode.PAGE_UP == this.lastKeyCode) {
 			activeColorCandidateDigit++;
 		} else {
@@ -32,7 +32,7 @@ public class ToggleActiveCandidateState extends ApplicationModelState {
 		} else if (activeColorCandidateDigit > SudokuPuzzleValues.CELLS_PER_HOUSE) {
 			activeColorCandidateDigit = 1;
 		}
-		this.sudokuPuzzleStyle.setActiveColorCandidateDigit(activeColorCandidateDigit);
+		this.sudokuPuzzleStyle.setActiveCandidateDigit(activeColorCandidateDigit);
 
 		final Label activeColoringCandidateTextArea = ViewController.getInstance().getActiveColoringCandidateLabel();
 		activeColoringCandidateTextArea.setText(String.valueOf(activeColorCandidateDigit));

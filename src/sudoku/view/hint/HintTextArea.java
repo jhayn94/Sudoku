@@ -17,7 +17,7 @@ public class HintTextArea extends Pane {
 
 	private static final int TEXT_AREA_HEIGHT = 373;
 
-	private TextArea hintTextArea;
+	private TextArea activeHintTextArea;
 
 	public HintTextArea() {
 		this.configure();
@@ -32,17 +32,17 @@ public class HintTextArea extends Pane {
 	}
 
 	private void createChildElements() {
-		this.hintTextArea = new TextArea();
-		this.hintTextArea.setFocusTraversable(false);
-		this.hintTextArea.setWrapText(true);
-		this.hintTextArea.setEditable(false);
-		this.hintTextArea.setMinWidth(DEFAULT_WIDTH - PADDING_FOR_PANE);
-		this.hintTextArea.setMaxWidth(DEFAULT_WIDTH - PADDING_FOR_PANE);
-		this.hintTextArea.setMinHeight(TEXT_AREA_HEIGHT);
-		this.getChildren().add(this.hintTextArea);
+		this.activeHintTextArea = new TextArea();
+		this.activeHintTextArea.setFocusTraversable(false);
+		this.activeHintTextArea.setWrapText(true);
+		this.activeHintTextArea.setEditable(false);
+		this.activeHintTextArea.setMinWidth(DEFAULT_WIDTH - PADDING_FOR_PANE);
+		this.activeHintTextArea.setMaxWidth(DEFAULT_WIDTH - PADDING_FOR_PANE);
+		this.activeHintTextArea.setMinHeight(TEXT_AREA_HEIGHT);
+		this.getChildren().add(this.activeHintTextArea);
 	}
 
 	public TextArea getHintTextArea() {
-		return this.hintTextArea;
+		return this.activeHintTextArea;
 	}
 }

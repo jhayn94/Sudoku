@@ -15,6 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import sudoku.core.ModelController;
+import sudoku.model.ApplicationSettings;
 import sudoku.model.SudokuPuzzleValues;
 
 /** This class corresponds to a single cell of a sudoku puzzle. */
@@ -33,7 +34,12 @@ public class SudokuPuzzleCell extends StackPane {
 	private static final String NUMPAD_REPLACE_TEXT = "NUMPAD";
 
 	public enum ReasonForChange {
-		CLICKED_TO_SELECT, CLICKED_TO_UNSELECT, ARROWED_OFF_OF_CELL, NEW_SELECTION_CLICKED, ARROWED_ON_TO_CELL, NONE;
+		CLICKED_TO_SELECT,
+		CLICKED_TO_UNSELECT,
+		ARROWED_OFF_OF_CELL,
+		NEW_SELECTION_CLICKED,
+		ARROWED_ON_TO_CELL,
+		NONE;
 	}
 
 	private static final String CSS_CLASS = "sudoku-puzzle-cell";
@@ -201,6 +207,7 @@ public class SudokuPuzzleCell extends StackPane {
 			this.candidateLabels[index - 1].setMaxWidth(CANDIDATE_LABEL_WIDTH);
 			this.candidateLabels[index - 1].setMinHeight(CANDIDATE_LABEL_HEIGHT);
 			this.candidateLabels[index - 1].setMaxHeight(CANDIDATE_LABEL_HEIGHT);
+			this.candidateLabels[index - 1].setVisible(ApplicationSettings.getInstance().isAutoManageCandidates());
 			// Integer division intentional!
 			this.candidatesGridPane.add(this.candidateLabels[index - 1], (index - 1) % 3, (index - 1) / 3);
 		}
@@ -211,9 +218,9 @@ public class SudokuPuzzleCell extends StackPane {
 	}
 
 	/**
-	 * This method resets the cell's event handlers to the current state's handler.
-	 * When the cell's state changes, event handlers have to be re-registered for
-	 * the new state to be used.
+	 * This method resets the cell's event handlers to the current state's
+	 * handler. When the cell's state changes, event handlers have to be
+	 * re-registered for the new state to be used.
 	 */
 	private void addEventHandlers() {
 		this.setEventHandler(MouseEvent.MOUSE_CLICKED, this.onClick());
