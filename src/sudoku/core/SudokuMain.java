@@ -27,7 +27,7 @@ public class SudokuMain extends Application {
 
 	private static final double DEFAULT_STAGE_WIDTH = 1292.5;
 
-	private static final int DEFAULT_STAGE_HEIGHT = 725;
+	private static final int DEFAULT_STAGE_HEIGHT = 690;
 
 	private static final Logger LOG = LogManager.getLogger(SudokuMain.class);
 
@@ -44,8 +44,7 @@ public class SudokuMain extends Application {
 	}
 
 	/**
-	 * Creates and returns a Scene, using the given Parent object as a root
-	 * element.
+	 * Creates and returns a Scene, using the given Parent object as a root element.
 	 */
 	private Scene createScene(final Region root) {
 		final Scene scene = new Scene(root);

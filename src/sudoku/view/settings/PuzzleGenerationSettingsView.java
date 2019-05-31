@@ -85,7 +85,8 @@ public class PuzzleGenerationSettingsView extends ModalDialog {
 		this.difficultyComboBox = LayoutFactory.getInstance().createLabeledComboBox();
 		Arrays.asList(Difficulty.values())
 				.forEach(difficulty -> this.difficultyComboBox.getComboBox().getItems().add(difficulty.getLabel()));
-		this.difficultyComboBox.getComboBox().getSelectionModel().select(0);
+		this.difficultyComboBox.getComboBox().getSelectionModel()
+				.select(ApplicationSettings.getInstance().getDifficulty().getLabel());
 		this.difficultyComboBox.getLabel().setText(LabelConstants.DIFFICULTY + ":");
 		VBox.setMargin(this.difficultyComboBox, new Insets(SMALL_PADDING, 0, LARGE_PADDING, 0));
 	}
