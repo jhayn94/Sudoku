@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import sudoku.factories.LayoutFactory;
+import sudoku.view.sidebar.PuzzleStatsPane;
 import sudoku.view.util.LabelConstants;
 
 /**
@@ -41,7 +42,8 @@ public class HintPane extends VBox {
 		final HintButtonPane hintButtonPane = LayoutFactory.getInstance().createHintButtonPane();
 		VBox.setMargin(hintButtonPane, new Insets(0, 0, PADDING_BETWEEN_CHILDREN, 0));
 		final HintTextArea hintTextArea = LayoutFactory.getInstance().createHintTextArea();
-		this.getChildren().addAll(label, hintButtonPane, hintTextArea);
+		final PuzzleStatsPane puzzleStatsPane = LayoutFactory.getInstance().createPuzzleStatsPane();
+		this.getChildren().addAll(label, hintButtonPane, hintTextArea, puzzleStatsPane);
 	}
 
 }

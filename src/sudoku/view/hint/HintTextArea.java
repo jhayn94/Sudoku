@@ -15,7 +15,7 @@ public class HintTextArea extends Pane {
 
 	private static final int DEFAULT_WIDTH = 300;
 
-	private static final int TEXT_AREA_HEIGHT = 373;
+	private static final int TEXT_AREA_HEIGHT = 160;
 
 	private TextArea activeHintTextArea;
 

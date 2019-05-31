@@ -1,6 +1,5 @@
 package sudoku.view.sidebar;
 
-import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -14,15 +13,13 @@ public class PuzzleStatsPane extends GridPane {
 
 	private static final String UNEDITABLE_TEXT_FIELD_CSS_CLASS = "sudoku-uneditable-text-field";
 
-	private static final int PADDING_FOR_PANE = 15;
-
 	private static final String CSS_CLASS = "sudoku-transparent-pane";
 
-	private static final int DEFAULT_WIDTH = 320;
+	private static final int DEFAULT_WIDTH = 300;
 
 	private static final int DEFAULT_HEIGHT = 116;
 
-	private static final int MAX_TEXT_FIELD_WIDTH = 140;
+	private static final int MAX_TEXT_FIELD_WIDTH = 137;
 
 	private TextField difficultyTextField;
 
@@ -36,7 +33,6 @@ public class PuzzleStatsPane extends GridPane {
 
 	private void configure() {
 		this.getStyleClass().add(CSS_CLASS);
-		this.setPadding(new Insets(PADDING_FOR_PANE - 2, PADDING_FOR_PANE, PADDING_FOR_PANE, PADDING_FOR_PANE));
 		this.setMinWidth(DEFAULT_WIDTH);
 		this.setMaxWidth(DEFAULT_WIDTH);
 		this.setMinHeight(DEFAULT_HEIGHT);
@@ -46,7 +42,7 @@ public class PuzzleStatsPane extends GridPane {
 
 	private void createChildElements() {
 		final GridPane statsGridPane = new GridPane();
-		statsGridPane.setVgap(7);
+		statsGridPane.setVgap(12);
 		statsGridPane.setHgap(60);
 		final Label difficultyLabel = new Label(LabelConstants.DIFFICULTY + ":");
 		statsGridPane.add(difficultyLabel, 0, 0);
