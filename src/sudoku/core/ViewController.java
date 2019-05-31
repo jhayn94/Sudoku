@@ -19,6 +19,7 @@ import sudoku.view.settings.PuzzleGenerationSettingsView;
 import sudoku.view.settings.SolverSettingsView;
 import sudoku.view.sidebar.ColorSelectionPane;
 import sudoku.view.sidebar.FilterButtonPane;
+import sudoku.view.sidebar.PuzzleStatsPane;
 
 /**
  * A controller class to facilitate view changes, as result of a model change.
@@ -72,6 +73,8 @@ public class ViewController {
 
 	private SolverSettingsView solverSettingsView;
 
+	private PuzzleStatsPane puzzleStatsPane;
+
 	private ViewController() {
 		this.stage = null;
 		this.maximizeWindowButton = null;
@@ -80,6 +83,7 @@ public class ViewController {
 		this.sudokuPuzzleCells = new SudokuPuzzleCell[SudokuPuzzleValues.CELLS_PER_HOUSE][SudokuPuzzleValues.CELLS_PER_HOUSE];
 		this.activeColoringCandidateLabel = null;
 		this.colorSelectionPane = null;
+		this.puzzleStatsPane = null;
 		this.hintButtonPane = null;
 		this.hintTextArea = null;
 		this.undoMenuItem = null;
@@ -143,6 +147,10 @@ public class ViewController {
 
 	public ApplicationRootPane getRootPane() {
 		return this.rootPane;
+	}
+
+	public PuzzleStatsPane getPuzzleStatsPane() {
+		return this.puzzleStatsPane;
 	}
 
 	public ColorSettingsView getColorSettingsView() {
@@ -235,6 +243,10 @@ public class ViewController {
 
 	public void setSolverSettingsView(final SolverSettingsView solverSettingsView) {
 		this.solverSettingsView = solverSettingsView;
+	}
+
+	public void setPuzzleStatsPane(final PuzzleStatsPane puzzleStatsPane) {
+		this.puzzleStatsPane = puzzleStatsPane;
 	}
 
 }

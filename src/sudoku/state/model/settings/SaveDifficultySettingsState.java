@@ -24,10 +24,13 @@ public class SaveDifficultySettingsState extends AbstractSaveSettingsState {
 		final DifficultySettingsView difficultySettingsView = ViewController.getInstance().getDifficultySettingsView();
 		Arrays.asList(Difficulty.values()).forEach(difficulty -> {
 			final TextField maxScoreInput = difficultySettingsView.getMaxScoreInput(difficulty);
-			final int maxScore = Integer.parseInt(maxScoreInput.getText());
+			String maxScoreText = maxScoreInput.getText();
+			if (maxScoreText.isEmpty()) {
+				maxScoreText = String.valueOf(0);
+			}
+			final int maxScore = Integer.parseInt(maxScoreText);
 			ApplicationSettings.getInstance().setMaxScoreForDifficulty(difficulty.name(), maxScore);
 		});
-		// TODO - map these to the Options settings from hodoku?
 		super.onEnter();
 	}
 }

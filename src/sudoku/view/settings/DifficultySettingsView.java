@@ -26,7 +26,7 @@ import sudoku.view.util.LabelConstants;
 
 public class DifficultySettingsView extends ModalDialog {
 
-	private static final String AT_LEAST_ONE_NON_ZERO_DIGIT_REGEX = "^[1-9]\\d*$";
+	private static final String DIGITS_ONLY_REGEX = "^\\d*$";
 
 	private static final int BUTTON_PANE_PADDING = 5;
 
@@ -60,7 +60,7 @@ public class DifficultySettingsView extends ModalDialog {
 			final TextField maxScoreInput = new TextField();
 			final UnaryOperator<Change> integerFilter = change -> {
 				final String newText = change.getControlNewText();
-				if (newText.matches(AT_LEAST_ONE_NON_ZERO_DIGIT_REGEX)) {
+				if (newText.matches(DIGITS_ONLY_REGEX)) {
 					return change;
 				}
 				return null;

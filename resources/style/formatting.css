@@ -270,6 +270,10 @@
 	-fx-background-color: #eeeeee;
 }
 
+.sudoku-uneditable-text-field {
+	-fx-background-color: -sudoku-color-pebble;
+}
+
 .combo-box-base {
 	-fx-background-color: #eeeeee;
 }

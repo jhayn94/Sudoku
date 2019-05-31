@@ -119,6 +119,10 @@ public class LabelConstants {
 
 	public static final String SOLVE_UP_TO = "Solve up to Technique?";
 
+	public static final String RATING = "Rating:";
+
+	public static final String REMAINING_RATING = "Remaining:";
+
 	private LabelConstants() {
 		// Private constructor to prevent instantiation.
 	}

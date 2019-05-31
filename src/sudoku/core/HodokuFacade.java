@@ -16,6 +16,7 @@ import sudoku.SolutionStep;
 import sudoku.Sudoku2;
 import sudoku.model.ApplicationSettings;
 import sudoku.model.SudokuPuzzleValues;
+import sudoku.view.util.Difficulty;
 
 /**
  * This class contains various methods for accessing the APIs / components in
@@ -103,4 +104,9 @@ public class HodokuFacade {
 		return sudokuSolver.getHint(tempSudoku, false);
 	}
 
+	public void updateMaxScoreForDifficulty(final Difficulty difficultyToChange, final int maxScore) {
+		final DifficultyLevel difficultyLevelToChange = Options.getInstance()
+				.getDifficultyLevel(difficultyToChange.ordinal() + 1);
+		difficultyLevelToChange.setMaxScore(maxScore);
+	}
 }

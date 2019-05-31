@@ -29,6 +29,7 @@ import sudoku.view.sidebar.ColorSelectionPane;
 import sudoku.view.sidebar.FilterButtonPane;
 import sudoku.view.sidebar.MouseModePane;
 import sudoku.view.sidebar.MouseToolsPane;
+import sudoku.view.sidebar.PuzzleStatsPane;
 import sudoku.view.util.ResourceConstants;
 import sudoku.view.util.ShadowRectangle;
 import sudoku.view.util.WindowHelper;
@@ -104,6 +105,12 @@ public class LayoutFactory {
 		final ColorSelectionPane colorSelectionPane = new ColorSelectionPane();
 		ViewController.getInstance().setColorSelectionPane(colorSelectionPane);
 		return colorSelectionPane;
+	}
+
+	public PuzzleStatsPane createPuzzleStatsPane() {
+		final PuzzleStatsPane puzzleStatsPane = new PuzzleStatsPane();
+		ViewController.getInstance().setPuzzleStatsPane(puzzleStatsPane);
+		return puzzleStatsPane;
 	}
 
 	public HintPane createHintPane() {
