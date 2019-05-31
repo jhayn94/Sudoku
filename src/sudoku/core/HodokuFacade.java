@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import generator.BackgroundGenerator;
 import solver.SudokuSolver;
 import solver.SudokuSolverFactory;
+import sudoku.ClipboardMode;
 import sudoku.DifficultyLevel;
 import sudoku.GameMode;
 import sudoku.Options;
@@ -45,9 +46,25 @@ public class HodokuFacade {
 	public String generateSudokuString() {
 		final BackgroundGenerator generator = new BackgroundGenerator();
 		final int ordinal = ApplicationSettings.getInstance().getDifficulty().ordinal();
-		final String generatedSudokuString = generator.generate(Options.getInstance().getDifficultyLevel(ordinal + 1),
+		String generatedSudokuString = generator.generate(Options.getInstance().getDifficultyLevel(ordinal + 1),
 				GameMode.PLAYING);
-		this.getSolutionForSudoku(generatedSudokuString);
+		final String mustContainStepWithName = ApplicationSettings.getInstance().getMustContainStepWithName();
+		if (!mustContainStepWithName.isEmpty()) {
+			List<SolutionStep> solutionForSudoku = this.getSolutionForSudoku(generatedSudokuString);
+			long matchingSteps = solutionForSudoku.stream()
+					.filter(solutionStep -> solutionStep.getType().getStepName().equals(mustContainStepWithName)).count();
+			while (matchingSteps == 0) {
+				generatedSudokuString = generator.generate(Options.getInstance().getDifficultyLevel(ordinal + 1),
+						GameMode.PLAYING);
+				solutionForSudoku = this.getSolutionForSudoku(generatedSudokuString);
+				matchingSteps = solutionForSudoku.stream()
+						.filter(solutionStep -> solutionStep.getType().getStepName().equals(mustContainStepWithName)).count();
+			}
+			if (ApplicationSettings.getInstance().isSolveToRequiredStep()) {
+				generatedSudokuString = this.solveSudokuUpToFirstInstanceOfStep(generatedSudokuString, mustContainStepWithName);
+			}
+		}
+
 		return generatedSudokuString;
 	}
 
@@ -71,6 +88,7 @@ public class HodokuFacade {
 		while (!tempSudoku.isSolved()) {
 			final SolutionStep solutionStep = sudokuSolver.getHint(tempSudoku, false);
 			solutionSteps.add(solutionStep);
+			LOG.info(solutionStep);
 			sudokuSolver.doStep(tempSudoku, solutionStep);
 		}
 		LOG.info(tempSudoku.getLevel().getName());
@@ -85,13 +103,58 @@ public class HodokuFacade {
 		final SudokuSolver solver = SudokuSolverFactory.getDefaultSolverInstance();
 		solver.solve(Options.getInstance().getDifficultyLevel(5), solvedSudoku, true, false,
 				Options.getInstance().solverSteps, Options.getInstance().getGameMode());
-		LOG.info(onlyGivens);
-		LOG.info(solvedSudoku.getLevel().getName());
-		LOG.info(solvedSudoku.getScore());
+		LOG.debug(onlyGivens);
+		LOG.debug(solvedSudoku.getLevel().getName());
+		LOG.debug(solvedSudoku.getScore());
 		return solvedSudoku.getScore();
 	}
 
-	/** Returns the next solution step for the given puzzle. */
+	/**
+	 * Solves the given sudoku string to just before where the first occurrence of
+	 * the given step name could be used. Note that if the given step is never used,
+	 * a solved puzzle will be returned.
+	 */
+	public String solveSudokuUpToFirstInstanceOfStep(final String sudokuString, final String stepName) {
+		final Sudoku2 tempSudoku = new Sudoku2();
+		tempSudoku.setSudoku(sudokuString, true);
+		final Sudoku2 solvedSudoku = tempSudoku.clone();
+		final SudokuSolver solver = SudokuSolverFactory.getDefaultSolverInstance();
+		solver.solve(Options.getInstance().getDifficultyLevel(5), solvedSudoku, true, false,
+				Options.getInstance().solverSteps, Options.getInstance().getGameMode());
+		tempSudoku.setLevel(solvedSudoku.getLevel());
+		tempSudoku.setScore(solvedSudoku.getScore());
+
+		final SudokuSolver sudokuSolver = new SudokuSolver();
+		while (!tempSudoku.isSolved()) {
+			final SolutionStep solutionStep = sudokuSolver.getHint(tempSudoku, false);
+			LOG.debug(solutionStep);
+			if (solutionStep.getType().getStepName().equals(stepName)) {
+				return this.buildStringRepresentation(tempSudoku);
+			}
+			sudokuSolver.doStep(tempSudoku, solutionStep);
+		}
+
+		return this.buildStringRepresentation(tempSudoku);
+	}
+
+	private String buildStringRepresentation(final Sudoku2 tempSudoku) {
+		final String baseResult = tempSudoku.getSudoku(ClipboardMode.VALUES_ONLY);
+		final StringBuilder result = new StringBuilder(baseResult);
+		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
+			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
+				final int linearIndex = row * SudokuPuzzleValues.CELLS_PER_HOUSE + col;
+				if (tempSudoku.getCell(linearIndex) > 0) {
+					result.append("[r" + row + "c" + col + "=" + tempSudoku.getCandidateString(linearIndex) + "]");
+				}
+			}
+		}
+		LOG.debug(result.toString());
+		return result.toString();
+	}
+
+	/**
+	 * Returns the next solution step for the given puzzle.
+	 */
 	public SolutionStep getHint(final SudokuPuzzleValues sudoku) {
 		final Sudoku2 tempSudoku = this.convertSudokuPuzzleValuesToSudoku2(sudoku, false);
 		final Sudoku2 solvedSudoku = tempSudoku.clone();

@@ -15,6 +15,8 @@ import sudoku.factories.ModelFactory;
  */
 public class SudokuPuzzleValues {
 
+	private static final String LEFT_BRACKET = "[";
+
 	public static final int CELLS_PER_HOUSE = 9;
 
 	private final Integer[][] givenCells;
@@ -46,6 +48,31 @@ public class SudokuPuzzleValues {
 
 	public SudokuPuzzleValues(final String initialGivens) {
 		this();
+		if (initialGivens.contains(LEFT_BRACKET)) {
+			this.initializePuzzleWithProgress(initialGivens);
+		} else {
+			this.initializePuzzleWithNoProgress(initialGivens);
+		}
+	}
+
+	private void initializePuzzleWithProgress(final String initialGivens) {
+		this.initializePuzzleWithNoProgress(initialGivens);
+		final String[] candidateStrings = initialGivens.split("\\[");
+		// Skip 0th index since it is just the regular cell givens.
+		for (int index = 1; index < candidateStrings.length; index++) {
+			final String candidatesStringForIndex = candidateStrings[index];
+			final int row = Integer.valueOf(candidatesStringForIndex.charAt(1) - '0');
+			final int col = Integer.valueOf(candidatesStringForIndex.charAt(3) - '0');
+			final String candidates = candidatesStringForIndex.substring(5);
+			for (int candidate = 1; candidate <= CELLS_PER_HOUSE; candidate++) {
+				if (!candidates.contains(String.valueOf(candidate))) {
+					this.candidatesForCells[col][row].remove((Object) candidate);
+				}
+			}
+		}
+	}
+
+	private void initializePuzzleWithNoProgress(final String initialGivens) {
 		for (int row = 0; row < CELLS_PER_HOUSE; row++) {
 			for (int col = 0; col < CELLS_PER_HOUSE; col++) {
 				final int position = row * CELLS_PER_HOUSE + col;
