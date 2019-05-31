@@ -43,6 +43,7 @@ public class RemoveDigitState extends ApplicationModelState {
 				}
 			}
 			this.reapplyActiveFilter();
+			this.updateRemainingScoreForPuzzle();
 		}
 	}
 

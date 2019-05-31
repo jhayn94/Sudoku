@@ -36,10 +36,11 @@ public class NewRandomPuzzleState extends ApplicationModelState {
 		this.sudokuPuzzleValues = new SudokuPuzzleValues(this.puzzleString);
 		this.updateCells();
 		// Must do this after because the cell values need to be finished before
-		// setting
-		// candidates. Otherwise the doesCellSeeFixedDigit checks will not be
+		// setting candidates. Otherwise the doesCellSeeFixedDigit checks will not be
 		// correct.
 		this.updateCandidates();
+
+		this.updatePuzzleStatsForNewPuzzle();
 	}
 
 	private void updateCandidates() {

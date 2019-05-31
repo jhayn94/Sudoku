@@ -20,6 +20,7 @@ public class ToggleCandidateVisibleState extends ApplicationModelState {
 		final int pressedDigit = Integer.parseInt(this.lastKeyCode.getName());
 		final SudokuPuzzleCell selectedCell = this.getSelectedCell();
 		this.toggleCandidateActiveForCell(pressedDigit, selectedCell);
+		this.updateRemainingScoreForPuzzle();
 	}
 
 }

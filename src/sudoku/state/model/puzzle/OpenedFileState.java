@@ -8,7 +8,9 @@ import java.util.List;
 
 import org.apache.logging.log4j.util.Strings;
 
+import sudoku.core.HodokuFacade;
 import sudoku.core.ViewController;
+import sudoku.model.ApplicationSettings;
 import sudoku.model.SudokuPuzzleValues;
 import sudoku.state.model.ApplicationModelState;
 import sudoku.view.puzzle.SudokuPuzzleCell;
@@ -63,6 +65,14 @@ public class OpenedFileState extends ApplicationModelState {
 		this.updateGivenCells();
 		this.updateOtherSetCells();
 		this.updateCandidates();
+
+		final int scoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues, true);
+		final int remainingScoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues, false);
+		ViewController.getInstance().getPuzzleStatsPane().getDifficultyTextField()
+				.setText(ApplicationSettings.getInstance().getDifficulty().getLabel());
+		ViewController.getInstance().getPuzzleStatsPane().getRatingTextField().setText(String.valueOf(scoreForPuzzle));
+		ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField()
+				.setText(String.valueOf(remainingScoreForPuzzle));
 	}
 
 	private void updateGivenCells() {

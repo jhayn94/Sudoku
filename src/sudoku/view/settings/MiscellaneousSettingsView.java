@@ -46,8 +46,7 @@ public class MiscellaneousSettingsView extends ModalDialog {
 		this.autoManageCandidatesCheckBox.setTooltip(new Tooltip(TooltipConstants.AUTO_MANAGE_CANDIDATES));
 		this.autoManageCandidatesCheckBox.setSelected(ApplicationSettings.getInstance().isAutoManageCandidates());
 		VBox.setMargin(this.autoManageCandidatesCheckBox, new Insets(SMALL_PADDING, 0, 0, 0));
-		this.showPuzzleProgressCheckBox = new CheckBox(LabelConstants.AUTO_MANAGE_CANDIDATES);
-		this.showPuzzleProgressCheckBox.setTooltip(new Tooltip(TooltipConstants.SHOW_PUZZLE_PROGRESS));
+		this.showPuzzleProgressCheckBox = new CheckBox(LabelConstants.SHOW_PUZZLE_PROGRESS);
 		this.showPuzzleProgressCheckBox.setSelected(ApplicationSettings.getInstance().isShowPuzzleProgress());
 		VBox.setMargin(this.showPuzzleProgressCheckBox, new Insets(SMALL_PADDING, 0, 0, 0));
 		contentPane.getChildren().addAll(this.autoManageCandidatesCheckBox, this.showPuzzleProgressCheckBox);

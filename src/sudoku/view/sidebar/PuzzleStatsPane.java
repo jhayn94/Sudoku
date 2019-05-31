@@ -47,6 +47,7 @@ public class PuzzleStatsPane extends GridPane {
 		final Label difficultyLabel = new Label(LabelConstants.DIFFICULTY + ":");
 		statsGridPane.add(difficultyLabel, 0, 0);
 		this.difficultyTextField = new TextField();
+		this.difficultyTextField.setFocusTraversable(false);
 		this.difficultyTextField.setEditable(false);
 		this.difficultyTextField.getStyleClass().add(UNEDITABLE_TEXT_FIELD_CSS_CLASS);
 		this.difficultyTextField.setMaxWidth(MAX_TEXT_FIELD_WIDTH);
@@ -54,6 +55,7 @@ public class PuzzleStatsPane extends GridPane {
 		final Label ratingLabel = new Label(LabelConstants.RATING);
 		statsGridPane.add(ratingLabel, 0, 1);
 		this.ratingTextField = new TextField();
+		this.ratingTextField.setFocusTraversable(false);
 		this.ratingTextField.setEditable(false);
 		this.ratingTextField.getStyleClass().add(UNEDITABLE_TEXT_FIELD_CSS_CLASS);
 		this.ratingTextField.setMaxWidth(MAX_TEXT_FIELD_WIDTH);
@@ -61,6 +63,7 @@ public class PuzzleStatsPane extends GridPane {
 		final Label remainingRatingLabel = new Label(LabelConstants.REMAINING_RATING);
 		statsGridPane.add(remainingRatingLabel, 0, 2);
 		this.remainingRatingTextField = new TextField();
+		this.remainingRatingTextField.setFocusTraversable(false);
 		this.remainingRatingTextField.setEditable(false);
 		this.remainingRatingTextField.getStyleClass().add(UNEDITABLE_TEXT_FIELD_CSS_CLASS);
 		this.remainingRatingTextField.setMaxWidth(MAX_TEXT_FIELD_WIDTH);

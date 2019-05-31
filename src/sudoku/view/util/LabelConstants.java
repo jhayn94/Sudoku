@@ -123,6 +123,10 @@ public class LabelConstants {
 
 	public static final String REMAINING_RATING = "Remaining:";
 
+	public static final String SHOW_PUZZLE_PROGRESS = "Show remaining puzzle rating";
+
+	public static final String UNKNOWN = "Unknown";
+
 	private LabelConstants() {
 		// Private constructor to prevent instantiation.
 	}

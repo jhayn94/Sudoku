@@ -7,6 +7,7 @@ import sudoku.model.ApplicationSettings;
 import sudoku.model.SudokuPuzzleValues;
 import sudoku.state.model.ApplicationModelState;
 import sudoku.view.puzzle.SudokuPuzzleCell;
+import sudoku.view.util.LabelConstants;
 
 /**
  * This class updates the state of the application when the user presses the
@@ -40,6 +41,10 @@ public class NewEmptyPuzzleState extends ApplicationModelState {
 				}
 			}
 		}
+
+		ViewController.getInstance().getPuzzleStatsPane().getDifficultyTextField().setText(LabelConstants.UNKNOWN);
+		ViewController.getInstance().getPuzzleStatsPane().getRatingTextField().setText(LabelConstants.UNKNOWN);
+		ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField().setText(LabelConstants.UNKNOWN);
 	}
 
 }

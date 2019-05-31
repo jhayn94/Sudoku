@@ -53,7 +53,8 @@ public class HodokuFacade {
 
 	/**
 	 * Returns an order list of steps which can be used to solve the given puzzle.
-	 * Note that this is not the only solution.
+	 * Note that this is not the only solution. Also note that this method assumes
+	 * no candidate eliminations have been made by the user.
 	 */
 	public List<SolutionStep> getSolutionForSudoku(final String sudokuString) {
 		final List<SolutionStep> solutionSteps = new ArrayList<>();
@@ -69,7 +70,6 @@ public class HodokuFacade {
 		final SudokuSolver sudokuSolver = new SudokuSolver();
 		while (!tempSudoku.isSolved()) {
 			final SolutionStep solutionStep = sudokuSolver.getHint(tempSudoku, false);
-			LOG.debug(solutionStep);
 			solutionSteps.add(solutionStep);
 			sudokuSolver.doStep(tempSudoku, solutionStep);
 		}
@@ -78,21 +78,22 @@ public class HodokuFacade {
 		return solutionSteps;
 	}
 
+	/** Returns the rating to finish solving the given puzzle. */
+	public int getScoreForPuzzle(final SudokuPuzzleValues sudoku, final boolean onlyGivens) {
+		final Sudoku2 tempSudoku = this.convertSudokuPuzzleValuesToSudoku2(sudoku, onlyGivens);
+		final Sudoku2 solvedSudoku = tempSudoku.clone();
+		final SudokuSolver solver = SudokuSolverFactory.getDefaultSolverInstance();
+		solver.solve(Options.getInstance().getDifficultyLevel(5), solvedSudoku, true, false,
+				Options.getInstance().solverSteps, Options.getInstance().getGameMode());
+		LOG.info(onlyGivens);
+		LOG.info(solvedSudoku.getLevel().getName());
+		LOG.info(solvedSudoku.getScore());
+		return solvedSudoku.getScore();
+	}
+
 	/** Returns the next solution step for the given puzzle. */
 	public SolutionStep getHint(final SudokuPuzzleValues sudoku) {
-		final Sudoku2 tempSudoku = new Sudoku2();
-		final String sudokuString = sudoku.getStringRepresentation(false);
-		tempSudoku.setSudoku(sudokuString, true);
-		// Since the 81 digit string passed doesn't reflect user eliminated candidates,
-		// they must be manually set individually.
-		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
-			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
-				final List<Integer> candidateDigitsForCell = sudoku.getCandidateDigitsForCell(row, col);
-				for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
-					tempSudoku.setCandidate(row, col, candidate, candidateDigitsForCell.contains(candidate));
-				}
-			}
-		}
+		final Sudoku2 tempSudoku = this.convertSudokuPuzzleValuesToSudoku2(sudoku, false);
 		final Sudoku2 solvedSudoku = tempSudoku.clone();
 		final SudokuSolver solver = SudokuSolverFactory.getDefaultSolverInstance();
 		final int ordinal = ApplicationSettings.getInstance().getDifficulty().ordinal();
@@ -108,5 +109,28 @@ public class HodokuFacade {
 		final DifficultyLevel difficultyLevelToChange = Options.getInstance()
 				.getDifficultyLevel(difficultyToChange.ordinal() + 1);
 		difficultyLevelToChange.setMaxScore(maxScore);
+	}
+
+	private Sudoku2 convertSudokuPuzzleValuesToSudoku2(final SudokuPuzzleValues sudoku, final boolean onlyGivens) {
+		final Sudoku2 tempSudoku = new Sudoku2();
+		final String sudokuString = sudoku.getStringRepresentation(onlyGivens);
+		tempSudoku.setSudoku(sudokuString, true);
+		if (!onlyGivens) {
+			this.removeUserInputCandidateChanges(sudoku, tempSudoku);
+		}
+		return tempSudoku;
+	}
+
+	private void removeUserInputCandidateChanges(final SudokuPuzzleValues sudoku, final Sudoku2 tempSudoku) {
+		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
+			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
+				if (sudoku.getFixedCellDigit(row, col) == 0) {
+					final List<Integer> candidateDigitsForCell = sudoku.getCandidateDigitsForCell(row, col);
+					for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
+						tempSudoku.setCandidate(row, col, candidate, candidateDigitsForCell.contains(candidate));
+					}
+				}
+			}
+		}
 	}
 }

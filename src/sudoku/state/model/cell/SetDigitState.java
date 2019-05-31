@@ -45,6 +45,7 @@ public class SetDigitState extends ApplicationModelState {
 						.replace(NUMPAD_REPLACE_TEXT, Strings.EMPTY));
 				this.sudokuPuzzleValues.setCellFixedDigit(selectedCell.getRow(), selectedCell.getCol(), digit);
 				this.reapplyActiveFilter();
+				updateRemainingScoreForPuzzle();
 			}
 		}
 	}

@@ -7,13 +7,17 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.apache.logging.log4j.util.Strings;
+
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import sudoku.SolutionStep;
+import sudoku.core.HodokuFacade;
 import sudoku.core.ViewController;
 import sudoku.factories.ModelFactory;
+import sudoku.model.ApplicationSettings;
 import sudoku.model.ApplicationStateHistory;
 import sudoku.model.SudokuPuzzleStyle;
 import sudoku.model.SudokuPuzzleValues;
@@ -337,6 +341,29 @@ public class ApplicationModelState {
 				this.sudokuPuzzleValues.getCandidateDigitsForCell(cell.getRow(), cell.getCol()).add(fixedDigit);
 			}
 		});
+	}
+
+	protected void updatePuzzleStatsForNewPuzzle() {
+		final int scoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues, false);
+		ViewController.getInstance().getPuzzleStatsPane().getDifficultyTextField()
+				.setText(ApplicationSettings.getInstance().getDifficulty().getLabel());
+		ViewController.getInstance().getPuzzleStatsPane().getRatingTextField().setText(String.valueOf(scoreForPuzzle));
+		if (ApplicationSettings.getInstance().isShowPuzzleProgress()) {
+			ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField()
+					.setText(String.valueOf(scoreForPuzzle));
+		} else {
+			ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField().setText(Strings.EMPTY);
+		}
+	}
+
+	protected void updateRemainingScoreForPuzzle() {
+		if (ApplicationSettings.getInstance().isShowPuzzleProgress()) {
+			final int remainingScoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues, false);
+			ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField()
+					.setText(String.valueOf(remainingScoreForPuzzle));
+		} else {
+			ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField().setText(Strings.EMPTY);
+		}
 	}
 
 	protected void updateFixedCellTypeCssClass(final SudokuPuzzleCell cell, final String newFixedCellTypeCssClass) {

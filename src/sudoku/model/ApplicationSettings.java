@@ -113,6 +113,7 @@ public class ApplicationSettings {
 			}
 			bufferedWriter.write(SOLVE_TO_REQUIRED_STEP_KEY + EQUALS + this.solveToRequiredStep + NEW_LINE);
 			bufferedWriter.write(AUTO_MANAGE_CANDIDATES_KEY + EQUALS + this.autoManageCandidates + NEW_LINE);
+			bufferedWriter.write(SHOW_PUZZLE_PROGRESS_KEY + EQUALS + this.showPuzzleProgress + NEW_LINE);
 			bufferedWriter.write(COLOR_FOR_FILTERING_KEY + EQUALS + this.colorForFiltering + NEW_LINE);
 			for (int index = 0; index < this.colorsUsedInColoring.length; index++) {
 				bufferedWriter.write(COLOR_FOR_COLORING_KEY + index + EQUALS + this.colorsUsedInColoring[index] + NEW_LINE);
