@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import sudoku.DifficultyLevel;
+import sudoku.Options;
 import sudoku.StepConfig;
 import sudoku.view.util.Difficulty;
 import sudoku.view.util.ResourceConstants;
@@ -32,7 +34,8 @@ public class ApplicationSettings {
 
 	public static ApplicationSettings getInstance() {
 		if (ApplicationSettings.instance == null) {
-			ApplicationSettings.instance = new ApplicationSettings(readSettingsFromFile(ResourceConstants.SAVED_SETTINGS));
+			ApplicationSettings.instance = new ApplicationSettings(
+					ApplicationSettings.readSettingsFromFile(ResourceConstants.SAVED_SETTINGS));
 		}
 		return ApplicationSettings.instance;
 	}
@@ -176,7 +179,11 @@ public class ApplicationSettings {
 	}
 
 	public void setMaxScoreForDifficulty(final String difficultyName, final int maxScore) {
-		this.maxScoreForDifficulty.put(Difficulty.valueOf(difficultyName.toUpperCase()), maxScore);
+		final Difficulty difficultyToChange = Difficulty.valueOf(difficultyName.toUpperCase());
+		this.maxScoreForDifficulty.put(difficultyToChange, maxScore);
+		final DifficultyLevel difficultyLevelToChange = Options.getInstance()
+				.getDifficultyLevel(difficultyToChange.ordinal() + 1);
+		difficultyLevelToChange.setMaxScore(maxScore);
 	}
 
 	private static Map<String, String> readSettingsFromFile(final String filePath) {

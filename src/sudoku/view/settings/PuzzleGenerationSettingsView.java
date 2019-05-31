@@ -37,6 +37,8 @@ import sudoku.view.util.LabelConstants;
  */
 public class PuzzleGenerationSettingsView extends ModalDialog {
 
+	private static final int BUTTON_PANE_PADDING = 5;
+
 	private static final int SMALL_PADDING = 20;
 
 	private static final int LARGE_PADDING = 30;
@@ -135,6 +137,7 @@ public class PuzzleGenerationSettingsView extends ModalDialog {
 		restoreDefaultsButton.setOnAction(event -> this.resetViewToDefaults());
 		HBox.setMargin(restoreDefaultsButton, new Insets(0, 0, 0, SMALL_PADDING));
 		final HBox buttonPane = new HBox();
+		buttonPane.setPadding(new Insets(0, 0, BUTTON_PANE_PADDING, BUTTON_PANE_PADDING));
 		buttonPane.getChildren().addAll(this.confirmButton, restoreDefaultsButton);
 		this.setBottom(buttonPane);
 	}

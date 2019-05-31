@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import generator.BackgroundGenerator;
 import solver.SudokuSolver;
 import solver.SudokuSolverFactory;
+import sudoku.DifficultyLevel;
 import sudoku.GameMode;
 import sudoku.Options;
 import sudoku.SolutionStep;
@@ -37,13 +38,15 @@ public class HodokuFacade {
 	}
 
 	/**
-	 * Generates a string which represents a sudoku puzzle with exactly 1
-	 * solution.
+	 * Generates a string which represents a sudoku puzzle with exactly 1 solution.
 	 */
 	public String generateSudokuString() {
 		final BackgroundGenerator generator = new BackgroundGenerator();
 		final int ordinal = ApplicationSettings.getInstance().getDifficulty().ordinal();
-		return generator.generate(Options.getInstance().getDifficultyLevel(ordinal + 1), GameMode.PLAYING);
+		final String generatedSudokuString = generator.generate(Options.getInstance().getDifficultyLevel(ordinal + 1),
+				GameMode.PLAYING);
+		this.getSolutionForSudoku(generatedSudokuString);
+		return generatedSudokuString;
 	}
 
 	/**
@@ -68,8 +71,8 @@ public class HodokuFacade {
 			solutionSteps.add(solutionStep);
 			sudokuSolver.doStep(tempSudoku, solutionStep);
 		}
-		LOG.debug(tempSudoku.getLevel().getName());
-		LOG.debug(tempSudoku.getScore());
+		LOG.info(tempSudoku.getLevel().getName());
+		LOG.info(tempSudoku.getScore());
 		return solutionSteps;
 	}
 
@@ -79,9 +82,9 @@ public class HodokuFacade {
 		tempSudoku.setSudoku(sudokuString, true);
 		final Sudoku2 solvedSudoku = tempSudoku.clone();
 		final SudokuSolver solver = SudokuSolverFactory.getDefaultSolverInstance();
-		// TODO - should the difficulty be the current one?
-		solver.solve(Options.getInstance().getDifficultyLevel(5), solvedSudoku, true, false,
-				Options.getInstance().solverSteps, GameMode.PLAYING);
+		final int ordinal = ApplicationSettings.getInstance().getDifficulty().ordinal();
+		final DifficultyLevel difficultyLevel = Options.getInstance().getDifficultyLevel(ordinal + 1);
+		solver.solve(difficultyLevel, solvedSudoku, true, false, Options.getInstance().solverSteps, GameMode.PLAYING);
 		tempSudoku.setLevel(solvedSudoku.getLevel());
 		tempSudoku.setScore(solvedSudoku.getScore());
 		final SudokuSolver sudokuSolver = new SudokuSolver();
