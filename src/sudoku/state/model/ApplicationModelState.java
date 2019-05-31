@@ -72,8 +72,8 @@ public class ApplicationModelState {
 	}
 
 	/**
-	 * Constructor for state transitions. Use addToHistory = true to allow the
-	 * state change to be reverted (undo).
+	 * Constructor for state transitions. Use addToHistory = true to allow the state
+	 * change to be reverted (undo).
 	 */
 	protected ApplicationModelState(final ApplicationModelState lastState, final boolean addToHistory) {
 		this.sudokuPuzzleValues = lastState.sudokuPuzzleValues;
@@ -103,8 +103,8 @@ public class ApplicationModelState {
 	}
 
 	/**
-	 * This method resets the coloring state of every cell and candidate label to
-	 * no color.
+	 * This method resets the coloring state of every cell and candidate label to no
+	 * color.
 	 */
 	protected void resetColorStates() {
 		this.sudokuPuzzleStyle.resetColorStates();
@@ -198,12 +198,11 @@ public class ApplicationModelState {
 	}
 
 	/**
-	 * Updates each of the filter buttons with the correct background, indicating
-	 * if it is active or not.
+	 * Updates each of the filter buttons with the correct background, indicating if
+	 * it is active or not.
 	 *
-	 * @param newCellFilter
-	 *          - the new filter to apply, for which a corresponding button needs
-	 *          to be set as active.
+	 * @param newCellFilter - the new filter to apply, for which a corresponding
+	 *                      button needs to be set as active.
 	 */
 	protected void updateFilterButtonStates(final String newCellFilter) {
 		final FilterButtonPane filterButtonPane = ViewController.getInstance().getFilterButtonPane();
@@ -253,8 +252,8 @@ public class ApplicationModelState {
 	}
 
 	/**
-	 * Given a cell and a color state, applies that color state to the cell for
-	 * the active candidate.
+	 * Given a cell and a color state, applies that color state to the cell for the
+	 * active candidate.
 	 */
 	protected void updateCandidateColorForCell(final SudokuPuzzleCell cell, final ColorState colorStateToApply) {
 		final int row = cell.getRow();
@@ -279,10 +278,13 @@ public class ApplicationModelState {
 	}
 
 	/**
-	 * Determines which candidates no longer are possible because of the set
-	 * number, and removes them from the model / view.
+	 * Determines which candidates no longer are possible because of the set number,
+	 * and removes them from the model / view.
 	 */
 	protected void removeImpermissibleCandidates(final SudokuPuzzleCell cell) {
+		for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
+			cell.setCandidateVisible(candidate, false);
+		}
 		final int fixedDigit = cell.getFixedDigit();
 		final List<SudokuPuzzleCell> visibleCells = this.getCellsSeenFrom(cell.getRow(), cell.getCol());
 		visibleCells.forEach(otherCell -> {

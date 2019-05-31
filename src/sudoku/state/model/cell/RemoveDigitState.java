@@ -1,9 +1,12 @@
 package sudoku.state.model.cell;
 
+import java.util.List;
+
 import org.apache.logging.log4j.util.Strings;
 
 import javafx.scene.input.KeyCode;
 import sudoku.model.ApplicationSettings;
+import sudoku.model.SudokuPuzzleValues;
 import sudoku.state.model.ApplicationModelState;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 
@@ -29,6 +32,15 @@ public class RemoveDigitState extends ApplicationModelState {
 			this.sudokuPuzzleValues.setCellFixedDigit(selectedCell.getRow(), selectedCell.getCol(), 0);
 			if (ApplicationSettings.getInstance().isAutoManageCandidates()) {
 				this.addDigitAsCandidateToSeenCells(fixedDigit);
+			}
+
+			final List<Integer> candidateDigitsForCell = this.sudokuPuzzleValues
+					.getCandidateDigitsForCell(selectedCell.getRow(), selectedCell.getCol());
+			for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
+				if (!this.doesCellSeeFixedDigit(selectedCell.getRow(), selectedCell.getCol(), candidate)) {
+					selectedCell.setCandidateVisible(candidate, true);
+					candidateDigitsForCell.add(candidate);
+				}
 			}
 			this.reapplyActiveFilter();
 		}

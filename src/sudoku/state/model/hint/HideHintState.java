@@ -14,7 +14,7 @@ import sudoku.view.hint.HintTextArea;
 public class HideHintState extends ApplicationModelState {
 
 	public HideHintState(final ApplicationModelState lastState) {
-		super(lastState, true);
+		super(lastState, false);
 	}
 
 	@Override

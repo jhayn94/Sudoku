@@ -15,12 +15,12 @@ import sudoku.view.util.LabelConstants;
 public class ShowVagueHintState extends ApplicationModelState {
 
 	public ShowVagueHintState(final ApplicationModelState lastState) {
-		super(lastState, true);
+		super(lastState, false);
 	}
 
 	@Override
 	public void onEnter() {
-		this.displayedHint = HodokuFacade.getInstance().getHint(this.sudokuPuzzleValues.getStringRepresentation(false));
+		this.displayedHint = HodokuFacade.getInstance().getHint(this.sudokuPuzzleValues);
 		final HintTextArea hintTextArea = ViewController.getInstance().getHintTextArea();
 		final String newHintText = SolutionType.GIVE_UP == this.displayedHint.getType() ? LabelConstants.NO_MOVES
 				: LabelConstants.VAGUE_HINT_PREFIX + this.displayedHint.getType().getStepName();

@@ -73,12 +73,14 @@ public class SudokuPuzzleValues {
 	}
 
 	public void setGivenCellDigit(final int row, final int col, final int given) {
+		this.candidatesForCells[col][row].clear();
 		this.givenCells[col][row] = given;
 		// A given cell is also fixed by definition.
 		this.fixedCells[col][row] = given;
 	}
 
 	public void setCellFixedDigit(final int row, final int col, final int fixedDigit) {
+		this.candidatesForCells[col][row].clear();
 		this.fixedCells[col][row] = fixedDigit;
 	}
 
@@ -95,8 +97,8 @@ public class SudokuPuzzleValues {
 	}
 
 	/**
-	 * Gets the box number of the given cell. Returns -1 if row and col are
-	 * outside of the puzzle dimensions.
+	 * Gets the box number of the given cell. Returns -1 if row and col are outside
+	 * of the puzzle dimensions.
 	 */
 	public int getBoxForCell(final int row, final int col) {
 		if (row <= 2 && col <= 2) {
@@ -138,8 +140,8 @@ public class SudokuPuzzleValues {
 	}
 
 	/**
-	 * Returns the current state of the sudoku as string, where each digit is set
-	 * if fixed in the puzzle.. 0 is used if no digit is set.
+	 * Returns the current state of the sudoku as string, where each digit is set if
+	 * fixed in the puzzle.. 0 is used if no digit is set.
 	 */
 	public String getSudoku() {
 		final StringBuilder result = new StringBuilder();
@@ -187,14 +189,14 @@ public class SudokuPuzzleValues {
 		final StringBuilder sb = new StringBuilder();
 		Integer[][] arrayToIterate;
 		if (onlyGivens) {
-			arrayToIterate = this.fixedCells;
-		} else {
 			arrayToIterate = this.givenCells;
+		} else {
+			arrayToIterate = this.fixedCells;
 		}
 		for (int row = 0; row < CELLS_PER_HOUSE; row++) {
 			for (int col = 0; col < CELLS_PER_HOUSE; col++) {
 				final Integer valueForCell = arrayToIterate[col][row];
-				sb.append(valueForCell == null ? '.' : valueForCell);
+				sb.append(String.valueOf(valueForCell));
 			}
 		}
 		return sb.toString();

@@ -14,7 +14,7 @@ import sudoku.view.hint.HintTextArea;
 public class ApplyHintState extends ApplicationModelState {
 
 	public ApplyHintState(final ApplicationModelState lastState) {
-		super(lastState, true);
+		super(lastState, false);
 	}
 
 	@Override
@@ -23,10 +23,10 @@ public class ApplyHintState extends ApplicationModelState {
 		final HintTextArea hintTextArea = ViewController.getInstance().getHintTextArea();
 		hintTextArea.getHintTextArea().setText(Strings.EMPTY);
 		final HintButtonPane hintButtonPane = ViewController.getInstance().getHintButtonPane();
-		hintButtonPane.getApplyHintButton().setDisable(false);
-		hintButtonPane.getHideHintButton().setDisable(false);
-		hintButtonPane.getSpecificHintButton().setDisable(true);
-		hintButtonPane.getVagueHintButton().setDisable(true);
+		hintButtonPane.getApplyHintButton().setDisable(true);
+		hintButtonPane.getHideHintButton().setDisable(true);
+		hintButtonPane.getSpecificHintButton().setDisable(false);
+		hintButtonPane.getVagueHintButton().setDisable(false);
 		// TODO - apply the hint to the SudokuPuzzleValues model + view.
 	}
 }
