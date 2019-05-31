@@ -17,6 +17,8 @@ public class TooltipConstants {
 
 	public static final String AUTO_MANAGE_CANDIDATES = "Check this to have the application automatically add and remove candidates when you change the value of a cell.";
 
+	public static final String SHOW_PUZZLE_PROGRESS = "Show remaining puzzle rating";
+
 	private TooltipConstants() {
 		// Private constructor to prevent instantiation.
 	}

@@ -28,7 +28,7 @@ public class DefaultApplicationSettings {
 	public static DefaultApplicationSettings getInstance() {
 		if (DefaultApplicationSettings.instance == null) {
 			DefaultApplicationSettings.instance = new DefaultApplicationSettings(
-					readSettingsFromFile(ResourceConstants.DEFAULT_SETTINGS));
+					DefaultApplicationSettings.readSettingsFromFile(ResourceConstants.DEFAULT_SETTINGS));
 		}
 		return DefaultApplicationSettings.instance;
 	}
@@ -44,6 +44,8 @@ public class DefaultApplicationSettings {
 	private static final String MUST_CONTAIN_STEP_WITH_NAME_KEY = "mustContainStepWithName";
 
 	private static final String AUTO_MANAGE_CANDIDATES_KEY = "autoManageCandidates";
+
+	private static final String SHOW_PUZZLE_PROGRESS_KEY = "showPuzzleProgress";
 
 	private static final String COLOR_FOR_FILTERING_KEY = "colorForFiltering";
 
@@ -63,6 +65,8 @@ public class DefaultApplicationSettings {
 	// Miscellaneous settings.
 	private final boolean autoManageCandidates;
 
+	private final boolean showPuzzleProgress;
+
 	// Solver settings.
 	// TODO - confirm how this will work.
 	private StepConfig[] solutionStepConfigurations;
@@ -74,6 +78,7 @@ public class DefaultApplicationSettings {
 
 	public DefaultApplicationSettings(final Map<String, String> settingsToLoad) {
 		this.autoManageCandidates = settingsToLoad.get(AUTO_MANAGE_CANDIDATES_KEY).equals(TRUE);
+		this.showPuzzleProgress = settingsToLoad.get(SHOW_PUZZLE_PROGRESS_KEY).equals(TRUE);
 		this.difficulty = Difficulty.valueOf(settingsToLoad.get(DIFFICULTY_KEY));
 		this.solveToRequiredStep = settingsToLoad.get(SOLVE_TO_REQUIRED_STEP_KEY).equals(TRUE);
 		this.maxScoreForDifficulty = new EnumMap<>(Difficulty.class);
@@ -103,6 +108,10 @@ public class DefaultApplicationSettings {
 
 	public boolean isAutoManageCandidates() {
 		return this.autoManageCandidates;
+	}
+
+	public boolean isShowPuzzleProgress() {
+		return this.showPuzzleProgress;
 	}
 
 	public StepConfig[] getSolutionStepConfigurations() {

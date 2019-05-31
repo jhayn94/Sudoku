@@ -23,6 +23,8 @@ public class MiscellaneousSettingsView extends ModalDialog {
 
 	private CheckBox autoManageCandidatesCheckBox;
 
+	private CheckBox showPuzzleProgressCheckBox;
+
 	public MiscellaneousSettingsView(final Stage stage) {
 		super(stage);
 		this.configure();
@@ -44,7 +46,11 @@ public class MiscellaneousSettingsView extends ModalDialog {
 		this.autoManageCandidatesCheckBox.setTooltip(new Tooltip(TooltipConstants.AUTO_MANAGE_CANDIDATES));
 		this.autoManageCandidatesCheckBox.setSelected(ApplicationSettings.getInstance().isAutoManageCandidates());
 		VBox.setMargin(this.autoManageCandidatesCheckBox, new Insets(SMALL_PADDING, 0, 0, 0));
-		contentPane.getChildren().add(this.autoManageCandidatesCheckBox);
+		this.showPuzzleProgressCheckBox = new CheckBox(LabelConstants.AUTO_MANAGE_CANDIDATES);
+		this.showPuzzleProgressCheckBox.setTooltip(new Tooltip(TooltipConstants.SHOW_PUZZLE_PROGRESS));
+		this.showPuzzleProgressCheckBox.setSelected(ApplicationSettings.getInstance().isShowPuzzleProgress());
+		VBox.setMargin(this.showPuzzleProgressCheckBox, new Insets(SMALL_PADDING, 0, 0, 0));
+		contentPane.getChildren().addAll(this.autoManageCandidatesCheckBox, this.showPuzzleProgressCheckBox);
 		this.setCenter(contentPane);
 		this.createButtonPane();
 	}
@@ -67,10 +73,16 @@ public class MiscellaneousSettingsView extends ModalDialog {
 	private void resetViewToDefaults() {
 		final boolean isAutoManageCandidates = DefaultApplicationSettings.getInstance().isAutoManageCandidates();
 		this.autoManageCandidatesCheckBox.setSelected(isAutoManageCandidates);
+		final boolean isShowPuzzleProgress = DefaultApplicationSettings.getInstance().isShowPuzzleProgress();
+		this.showPuzzleProgressCheckBox.setSelected(isShowPuzzleProgress);
 	}
 
 	public CheckBox getAutoManageCandidatesCheckBox() {
 		return this.autoManageCandidatesCheckBox;
+	}
+
+	public CheckBox getShowPuzzleProgressCheckBox() {
+		return this.showPuzzleProgressCheckBox;
 	}
 
 }

@@ -21,6 +21,8 @@ public class SaveMiscellaneousSettingsState extends AbstractSaveSettingsState {
 				.getMiscellaneousSettingsView();
 		final boolean isAutoManageCandidates = miscellaneousSettingsView.getAutoManageCandidatesCheckBox().isSelected();
 		ApplicationSettings.getInstance().setAutoManageCandidates(isAutoManageCandidates);
+		final boolean isShowPuzzleProgress = miscellaneousSettingsView.getShowPuzzleProgressCheckBox().isSelected();
+		ApplicationSettings.getInstance().setShowPuzzleProgress(isShowPuzzleProgress);
 		super.onEnter();
 	}
 }

@@ -51,6 +51,8 @@ public class ApplicationSettings {
 
 	private static final String AUTO_MANAGE_CANDIDATES_KEY = "autoManageCandidates";
 
+	private static final String SHOW_PUZZLE_PROGRESS_KEY = "showPuzzleProgress";
+
 	private static final String COLOR_FOR_FILTERING_KEY = "colorForFiltering";
 
 	private static final String COLOR_FOR_COLORING_KEY = "colorsUsedInColoring";
@@ -69,6 +71,8 @@ public class ApplicationSettings {
 
 	// Miscellaneous settings.
 	private boolean autoManageCandidates;
+
+	private boolean showPuzzleProgress;
 
 	// Solver settings.
 	// TODO - confirm how this will work.
@@ -89,6 +93,7 @@ public class ApplicationSettings {
 					Integer.parseInt(settingsToLoad.get(MAX_SCORE_FOR_KEY + tmpDifficulty.name())));
 		}
 		this.autoManageCandidates = settingsToLoad.get(AUTO_MANAGE_CANDIDATES_KEY).equals(TRUE);
+		this.showPuzzleProgress = settingsToLoad.get(SHOW_PUZZLE_PROGRESS_KEY).equals(TRUE);
 		this.colorForFiltering = settingsToLoad.get(COLOR_FOR_FILTERING_KEY);
 		this.colorsUsedInColoring = new String[NUM_COLORS_USED_IN_COLORING];
 		for (int index = 0; index < this.colorsUsedInColoring.length; index++) {
@@ -133,6 +138,10 @@ public class ApplicationSettings {
 		return this.autoManageCandidates;
 	}
 
+	public boolean isShowPuzzleProgress() {
+		return this.showPuzzleProgress;
+	}
+
 	public StepConfig[] getSolutionStepConfigurations() {
 		return this.solutionStepConfigurations;
 	}
@@ -167,6 +176,10 @@ public class ApplicationSettings {
 
 	public void setAutoManageCandidates(final boolean autoManageCandidates) {
 		this.autoManageCandidates = autoManageCandidates;
+	}
+
+	public void setShowPuzzleProgress(final boolean showPuzzleProgress) {
+		this.showPuzzleProgress = showPuzzleProgress;
 	}
 
 	public void setColorForFiltering(final String colorForFiltering) {
