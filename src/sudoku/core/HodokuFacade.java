@@ -1,7 +1,9 @@
 package sudoku.core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import generator.BackgroundGenerator;
 import solver.SudokuSolver;
@@ -95,6 +97,18 @@ public class HodokuFacade {
 		solver.solve(Options.getInstance().getDifficultyLevel(5), solvedSudoku, false, false,
 				Options.getInstance().solverSteps, Options.getInstance().getGameMode());
 		return solvedSudoku.getScore();
+	}
+
+	/** Returns the rating to finish solving the given puzzle. */
+	public Difficulty getDifficultyForPuzzle(final SudokuPuzzleValues sudoku, final boolean onlyGivens) {
+		final Sudoku2 tempSudoku = this.convertSudokuPuzzleValuesToSudoku2(sudoku, onlyGivens);
+		final Sudoku2 solvedSudoku = tempSudoku.clone();
+		final SudokuSolver solver = SudokuSolverFactory.getDefaultSolverInstance();
+		solver.solve(Options.getInstance().getDifficultyLevel(5), solvedSudoku, false, false,
+				Options.getInstance().solverSteps, Options.getInstance().getGameMode());
+		return Arrays.asList(Difficulty.values()).stream()
+				.filter(difficulty -> difficulty.getInternalDifficulty().equals(solvedSudoku.getLevel().getType())).findFirst()
+				.orElseThrow(NoSuchElementException::new);
 	}
 
 	/**

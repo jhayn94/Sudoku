@@ -24,6 +24,7 @@ import sudoku.view.puzzle.SudokuPuzzleCell;
 import sudoku.view.puzzle.SudokuPuzzleCellUtils;
 import sudoku.view.sidebar.FilterButtonPane;
 import sudoku.view.util.ColorUtils.ColorState;
+import sudoku.view.util.Difficulty;
 import sudoku.view.util.MouseMode;
 
 /**
@@ -198,13 +199,13 @@ public class ApplicationModelState {
 	 * this.sudokuPuzzleValues.
 	 */
 	protected void updateAllPuzzleStatsForNewPuzzle() {
-		final int remainingScoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues, false);
+		final Difficulty difficultyForPuzzle = HodokuFacade.getInstance().getDifficultyForPuzzle(this.sudokuPuzzleValues,
+				false);
+		ViewController.getInstance().getPuzzleStatsPane().getDifficultyTextField().setText(difficultyForPuzzle.getLabel());
 		final int scoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues, true);
-		// TODO - make this actually the puzzle's.
-		ViewController.getInstance().getPuzzleStatsPane().getDifficultyTextField()
-				.setText(ApplicationSettings.getInstance().getDifficulty().getLabel());
 		ViewController.getInstance().getPuzzleStatsPane().getRatingTextField().setText(String.valueOf(scoreForPuzzle));
 		if (ApplicationSettings.getInstance().isShowPuzzleProgress()) {
+			final int remainingScoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues, false);
 			ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField()
 					.setText(String.valueOf(remainingScoreForPuzzle));
 		} else {
