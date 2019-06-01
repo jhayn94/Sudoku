@@ -193,14 +193,14 @@ public class LayoutFactory {
 				DEFAULT_MODAL_DIALOG_SCENE_HEIGHT);
 	}
 
-	private void showNewStageWithRootElement(final Stage settingsStage, final ModalDialog modalDialog, final double width,
+	private void showNewStageWithRootElement(final Stage stage, final ModalDialog modalDialog, final double width,
 			final double height) {
 		final RootStackPane rootStackPane = this.createRootStackPane(modalDialog);
-		final Scene settingsScene = new Scene(rootStackPane, width, height);
-		this.configureScene(settingsScene);
-		settingsStage.setScene(settingsScene);
-		WindowHelper.addResizeAndDragListener(settingsStage, modalDialog);
-		settingsStage.show();
+		final Scene scene = new Scene(rootStackPane, width, height);
+		this.configureScene(scene);
+		stage.setScene(scene);
+		stage.show();
+		WindowHelper.addResizeAndDragListener(stage, modalDialog);
 	}
 
 	/** Offers some standard configuration of a scene for the project. */

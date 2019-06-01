@@ -48,8 +48,8 @@ public class SudokuMain extends Application {
 	 */
 	private Scene createScene(final Region root) {
 		final Scene scene = new Scene(root);
-		final String applicationCSS = this.getClass().getResource(ResourceConstants.APPLICATION_CSS).toExternalForm();
-		scene.getStylesheets().add(applicationCSS);
+
+		scene.getStylesheets().add(ResourceConstants.APPLICATION_CSS);
 		scene.setFill(Color.TRANSPARENT);
 		return scene;
 	}
