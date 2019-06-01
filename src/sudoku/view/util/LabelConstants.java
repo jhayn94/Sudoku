@@ -97,7 +97,7 @@ public class LabelConstants {
 
 	public static final String SAVE_AND_APPLY = "Save and Apply";
 
-	public static final String AUTO_MANAGE_CANDIDATES = "Automatically manage candidates?";
+	public static final String AUTO_MANAGE_CANDIDATES = "Automatically manage candidates";
 
 	public static final String FILTERED_CELL_COLOR = "Filter: ";
 
@@ -132,6 +132,8 @@ public class LabelConstants {
 	public static final String COPY_CELLS = "Copy All Cells";
 
 	public static final String PASTE = "Paste";
+
+	public static final String ENABLED = "Enabled:";
 
 	private LabelConstants() {
 		// Private constructor to prevent instantiation.

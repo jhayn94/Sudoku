@@ -40,6 +40,10 @@ import sudoku.view.util.WindowHelper;
  */
 public class LayoutFactory {
 
+	private static final int SOLVER_SETTINGS_DIALOG_SCENE_WIDTH = 730;
+
+	private static final int COLOR_SETTINGS_DIALOG_SCENE_WIDTH = 745;
+
 	private static final int DEFAULT_MODAL_DIALOG_SCENE_HEIGHT = 600;
 
 	private static final int DEFAULT_MODAL_DIALOG_SCENE_WIDTH = 700;
@@ -158,7 +162,8 @@ public class LayoutFactory {
 		final Stage settingsStage = new ModalStage();
 		final SolverSettingsView solverSettingsView = new SolverSettingsView(settingsStage);
 		ViewController.getInstance().setSolverSettingsView(solverSettingsView);
-		this.showNewStageWithRootElement(settingsStage, solverSettingsView);
+		this.showNewStageWithRootElement(settingsStage, solverSettingsView, SOLVER_SETTINGS_DIALOG_SCENE_WIDTH,
+				DEFAULT_MODAL_DIALOG_SCENE_HEIGHT);
 	}
 
 	public void showDifficultySettingsView() {
@@ -172,7 +177,8 @@ public class LayoutFactory {
 		final Stage settingsStage = new ModalStage();
 		final ColorSettingsView colorSettingsView = new ColorSettingsView(settingsStage);
 		ViewController.getInstance().setColorSettingsView(colorSettingsView);
-		this.showNewStageWithRootElement(settingsStage, colorSettingsView, 745, DEFAULT_MODAL_DIALOG_SCENE_HEIGHT);
+		this.showNewStageWithRootElement(settingsStage, colorSettingsView, COLOR_SETTINGS_DIALOG_SCENE_WIDTH,
+				DEFAULT_MODAL_DIALOG_SCENE_HEIGHT);
 	}
 
 	public void showMiscellaneousSettingsView() {

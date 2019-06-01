@@ -13,6 +13,7 @@ import sudoku.DifficultyLevel;
 import sudoku.GameMode;
 import sudoku.Options;
 import sudoku.SolutionStep;
+import sudoku.StepConfig;
 import sudoku.Sudoku2;
 import sudoku.model.ApplicationSettings;
 import sudoku.model.SudokuPuzzleValues;
@@ -171,6 +172,10 @@ public class HodokuFacade {
 		final DifficultyLevel difficultyLevelToChange = Options.getInstance()
 				.getDifficultyLevel(difficultyToChange.ordinal() + 1);
 		difficultyLevelToChange.setMaxScore(maxScore);
+	}
+
+	public List<StepConfig> getCurrentSolverConfig() {
+		return Arrays.asList(Options.getInstance().copyStepConfigs(Options.getInstance().solverSteps, true, false));
 	}
 
 	private Sudoku2 convertSudokuPuzzleValuesToSudoku2(final SudokuPuzzleValues sudoku, final boolean onlyGivens) {

@@ -314,3 +314,8 @@
 	.scroll-bar:horizontal>.thumb, .scroll-bar:vertical>.thumb {
 	-fx-background-color: -sudoku-color-stone-blue;
 }
+
+.list-view {
+	-fx-border-color: -sudoku-color-bark;
+	-fx-border-width: 2;
+}
