@@ -1,6 +1,5 @@
 package sudoku.state.model;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
@@ -22,6 +21,7 @@ import sudoku.model.ApplicationStateHistory;
 import sudoku.model.SudokuPuzzleStyle;
 import sudoku.model.SudokuPuzzleValues;
 import sudoku.view.puzzle.SudokuPuzzleCell;
+import sudoku.view.puzzle.SudokuPuzzleCellUtils;
 import sudoku.view.sidebar.FilterButtonPane;
 import sudoku.view.util.ColorUtils.ColorState;
 import sudoku.view.util.MouseMode;
@@ -30,8 +30,6 @@ import sudoku.view.util.MouseMode;
  * This class is a representation of the current state of the application model,
  * with methods to invoke when a state change occurs.
  *
- * TODO - this class is getting too big, maybe some of the methods should be
- * moved out into other classes.
  */
 public class ApplicationModelState {
 
@@ -100,33 +98,148 @@ public class ApplicationModelState {
 		// Nothing to do.
 	}
 
-	protected void addPuzzleStateToUndoStack() {
-		this.applicationStateHistory.addToUndoStack(this.sudokuPuzzleValues);
-		this.applicationStateHistory.clearRedoStack();
-		this.updateUndoRedoButtons();
+	// Methods concerning the cells of the puzzle.
+
+	protected SudokuPuzzleCell getSelectedCell() {
+		return ViewController.getInstance().getSudokuPuzzleCell(this.sudokuPuzzleStyle.getSelectedCellRow(),
+				this.sudokuPuzzleStyle.getSelectedCellCol());
 	}
 
 	/**
-	 * This method resets the coloring state of every cell and candidate label to no
-	 * color.
+	 * Updates the cells (the view) to match the model.
 	 */
-	protected void resetColorStates() {
-		this.sudokuPuzzleStyle.resetColorStates();
+	protected void updateCells() {
 		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
 			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
 				final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
-				final ObservableList<String> styleClass = sudokuPuzzleCell.getStyleClass();
-				final List<String> colorCssClasses = Arrays.asList(ColorState.values()).stream().map(ColorState::getCssClass)
-						.collect(Collectors.toList());
-				colorCssClasses.forEach(styleClass::remove);
-				for (int candidate = 0; candidate < SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
-					final Label candidateLabelForDigit = sudokuPuzzleCell.getCandidateLabelForDigit(candidate + 1);
-					final ObservableList<String> candidateLabelStyleClass = candidateLabelForDigit.getStyleClass();
-					colorCssClasses.forEach(candidateLabelStyleClass::remove);
-				}
+				final int givenCellDigit = this.sudokuPuzzleValues.getGivenCellDigit(row, col);
+				final boolean isCellGiven = givenCellDigit != 0;
+				sudokuPuzzleCell.setFixedDigit(isCellGiven ? String.valueOf(givenCellDigit) : Strings.EMPTY);
+				sudokuPuzzleCell.setCandidatesVisible(!isCellGiven);
+				sudokuPuzzleCell.setCellGiven(isCellGiven);
+				this.updateFixedCellTypeCssClass(sudokuPuzzleCell, isCellGiven ? GIVEN_CELL_CSS_CLASS : UNFIXED_CELL_CSS_CLASS);
 			}
 		}
 	}
+
+	// Methods that update the candidate labels / view components.
+
+	/**
+	 * Toggles the visibility of the given candidate active for the given cell.
+	 */
+	protected void toggleCandidateActiveForCell(final int pressedDigit, final SudokuPuzzleCell cell) {
+		if (!cell.isCellFixed()) {
+			final List<Integer> candidatesForCell = this.sudokuPuzzleValues.getCandidateDigitsForCell(cell.getRow(),
+					cell.getCol());
+			final boolean isCandidateVisible = candidatesForCell.contains(pressedDigit);
+			cell.setCandidateVisible(pressedDigit, !isCandidateVisible);
+			if (isCandidateVisible) {
+				candidatesForCell.remove((Object) pressedDigit);
+			} else {
+				candidatesForCell.add(pressedDigit);
+			}
+		}
+		this.reapplyActiveFilter();
+	}
+
+	/**
+	 * Determines which candidates no longer are possible because of the number set
+	 * in the given cell, and removes them from the model / view.
+	 */
+	protected void removeImpermissibleCandidates(final SudokuPuzzleCell cell) {
+		for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
+			cell.setCandidateVisible(candidate, false);
+		}
+		final int fixedDigit = cell.getFixedDigit();
+		final List<SudokuPuzzleCell> visibleCells = SudokuPuzzleCellUtils.getCellsSeenFrom(cell.getRow(), cell.getCol());
+		visibleCells.forEach(otherCell -> {
+			otherCell.setCandidateVisible(fixedDigit, false);
+			// Cast to object forces the list to remove by object reference instead
+			// of index.
+			this.sudokuPuzzleValues.getCandidateDigitsForCell(otherCell.getRow(), otherCell.getCol())
+					.remove((Object) fixedDigit);
+		});
+	}
+
+	/**
+	 * Adds the given digit to the cells seen by the selected cell, if no other
+	 * fixed instances of that digit see the cell.
+	 */
+	protected void addDigitAsCandidateToSeenCells(final int fixedDigit) {
+		final List<SudokuPuzzleCell> visibleCells = SudokuPuzzleCellUtils
+				.getCellsSeenFrom(this.sudokuPuzzleStyle.getSelectedCellRow(), this.sudokuPuzzleStyle.getSelectedCellCol());
+		visibleCells.forEach(cell -> {
+			if (!SudokuPuzzleCellUtils.doesCellSeeFixedDigit(cell.getRow(), cell.getCol(), fixedDigit)) {
+				cell.setCandidateVisible(fixedDigit, true);
+				this.sudokuPuzzleValues.getCandidateDigitsForCell(cell.getRow(), cell.getCol()).add(fixedDigit);
+			}
+		});
+	}
+
+	/**
+	 * Updates the candidates pane in the view to match the model. This should
+	 * pretty much always be called after updateCells().
+	 */
+	protected void updateCandidates() {
+		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
+			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
+				final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
+				final int givenCellDigit = this.sudokuPuzzleValues.getGivenCellDigit(row, col);
+				final boolean isCellGiven = givenCellDigit != 0;
+				this.setCandidateVisibility(row, col, sudokuPuzzleCell, isCellGiven);
+			}
+		}
+	}
+
+	// Puzzle Stat related methods.
+
+	/**
+	 * Updates the stats for the puzzle to match the currently set puzzle in
+	 * this.sudokuPuzzleValues.
+	 */
+	protected void updateAllPuzzleStatsForNewPuzzle() {
+		final int remainingScoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues, false);
+		final int scoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues, true);
+		// TODO - make this actually the puzzle's.
+		ViewController.getInstance().getPuzzleStatsPane().getDifficultyTextField()
+				.setText(ApplicationSettings.getInstance().getDifficulty().getLabel());
+		ViewController.getInstance().getPuzzleStatsPane().getRatingTextField().setText(String.valueOf(scoreForPuzzle));
+		if (ApplicationSettings.getInstance().isShowPuzzleProgress()) {
+			ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField()
+					.setText(String.valueOf(remainingScoreForPuzzle));
+		} else {
+			ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField().setText(Strings.EMPTY);
+		}
+	}
+
+	/** Updates only the remaining score for the puzzle in the view. */
+	protected void updateRemainingScoreForPuzzle() {
+		// If the puzzle has no givens, skip this step for performance reasons for now.
+		// the puzzle is trying to use brute force after each change, which makes things
+		// quite slow.
+		if (this.sudokuPuzzleValues.hasGivens()) {
+			if (ApplicationSettings.getInstance().isShowPuzzleProgress()) {
+				final int remainingScoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues,
+						false);
+				ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField()
+						.setText(String.valueOf(remainingScoreForPuzzle));
+			} else {
+				ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField().setText(Strings.EMPTY);
+			}
+		}
+	}
+
+	/**
+	 * Clears the cell of CSS classes regarding the cell's fixed / unfixed / given
+	 * state, then adds the given CSS class.
+	 */
+	protected void updateFixedCellTypeCssClass(final SudokuPuzzleCell cell, final String newFixedCellTypeCssClass) {
+		final ObservableList<String> styleClass = cell.getStyleClass();
+		FIXED_CELL_TYPE_CSS_CLASSES.forEach(styleClass::remove);
+		styleClass.add(newFixedCellTypeCssClass);
+	}
+
+	// Filter state based methods.
 
 	/** Clears the filter from every cell, if any. */
 	protected void resetAllFilters() {
@@ -136,57 +249,6 @@ public class ApplicationModelState {
 				sudokuPuzzleCell.getStyleClass().remove(ACTIVE_FILTER_CELL_CSS_CLASS);
 			}
 		}
-	}
-
-	protected SudokuPuzzleCell getSelectedCell() {
-		return ViewController.getInstance().getSudokuPuzzleCell(this.sudokuPuzzleStyle.getSelectedCellRow(),
-				this.sudokuPuzzleStyle.getSelectedCellCol());
-	}
-
-	/** Gets a list of cells seen from the given row and column. */
-	protected List<SudokuPuzzleCell> getCellsSeenFrom(final int row, final int col) {
-		final SudokuPuzzleCell cell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
-		final List<SudokuPuzzleCell> cells = new ArrayList<>();
-		for (int rowIndex = 0; rowIndex < SudokuPuzzleValues.CELLS_PER_HOUSE; rowIndex++) {
-			if (rowIndex != row) {
-				cells.add(ViewController.getInstance().getSudokuPuzzleCell(rowIndex, col));
-			}
-		}
-		for (int colIndex = 0; colIndex < SudokuPuzzleValues.CELLS_PER_HOUSE; colIndex++) {
-			if (colIndex != col) {
-				cells.add(ViewController.getInstance().getSudokuPuzzleCell(row, colIndex));
-			}
-		}
-		final int boxForCell = this.sudokuPuzzleValues.getBoxForCell(cell.getRow(), cell.getCol());
-		this.getCellsInBox(boxForCell).forEach(cells::add);
-		return cells.stream().distinct().collect(Collectors.toList());
-	}
-
-	/**
-	 * Returns a list of cells in the given box (1 - 9). Any other inputs will
-	 * return an empty list.
-	 */
-	protected List<SudokuPuzzleCell> getCellsInBox(final int box) {
-		final List<SudokuPuzzleCell> cells = new ArrayList<>();
-		for (int rowIndex = 0; rowIndex < SudokuPuzzleValues.CELLS_PER_HOUSE; rowIndex++) {
-			for (int colIndex = 0; colIndex < SudokuPuzzleValues.CELLS_PER_HOUSE; colIndex++) {
-				final SudokuPuzzleCell cell = ViewController.getInstance().getSudokuPuzzleCell(rowIndex, colIndex);
-				if (this.sudokuPuzzleValues.getBoxForCell(rowIndex, colIndex) == box) {
-					cells.add(cell);
-				}
-			}
-		}
-		return cells;
-	}
-
-	/**
-	 * Returns true iff the cell at the given row and column see a fixed cell with
-	 * the given digit.
-	 */
-	protected boolean doesCellSeeFixedDigit(final int row, final int col, final int fixedDigit) {
-		final List<SudokuPuzzleCell> visibleCells = this.getCellsSeenFrom(row, col);
-		final long numDigitInstancesSeen = visibleCells.stream().filter(cell -> cell.getFixedDigit() == fixedDigit).count();
-		return numDigitInstancesSeen > 0;
 	}
 
 	/**
@@ -214,21 +276,6 @@ public class ApplicationModelState {
 		filterButtons.forEach(button -> this.updateFilterButton(newCellFilter, button));
 	}
 
-	protected void toggleCandidateActiveForCell(final int pressedDigit, final SudokuPuzzleCell cell) {
-		if (!cell.isCellFixed()) {
-			final List<Integer> candidatesForCell = this.sudokuPuzzleValues.getCandidateDigitsForCell(cell.getRow(),
-					cell.getCol());
-			final boolean isCandidateVisible = candidatesForCell.contains(pressedDigit);
-			cell.setCandidateVisible(pressedDigit, !isCandidateVisible);
-			if (isCandidateVisible) {
-				candidatesForCell.remove((Object) pressedDigit);
-			} else {
-				candidatesForCell.add(pressedDigit);
-			}
-		}
-		this.reapplyActiveFilter();
-	}
-
 	/**
 	 * Adds a CSS class to every applicable cell that satisfies the
 	 * activeCellFilter. These cells get the CSS class
@@ -253,6 +300,30 @@ public class ApplicationModelState {
 						styleClass.add(ACTIVE_FILTER_CELL_CSS_CLASS);
 					}
 				}));
+	}
+
+	// Color state based methods.
+
+	/**
+	 * This method resets the coloring state of every cell and candidate label to no
+	 * color.
+	 */
+	protected void resetColorStates() {
+		this.sudokuPuzzleStyle.resetColorStates();
+		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
+			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
+				final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
+				final ObservableList<String> styleClass = sudokuPuzzleCell.getStyleClass();
+				final List<String> colorCssClasses = Arrays.asList(ColorState.values()).stream().map(ColorState::getCssClass)
+						.collect(Collectors.toList());
+				colorCssClasses.forEach(styleClass::remove);
+				for (int candidate = 0; candidate < SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
+					final Label candidateLabelForDigit = sudokuPuzzleCell.getCandidateLabelForDigit(candidate + 1);
+					final ObservableList<String> candidateLabelStyleClass = candidateLabelForDigit.getStyleClass();
+					colorCssClasses.forEach(candidateLabelStyleClass::remove);
+				}
+			}
+		}
 	}
 
 	/**
@@ -282,25 +353,6 @@ public class ApplicationModelState {
 	}
 
 	/**
-	 * Determines which candidates no longer are possible because of the set number,
-	 * and removes them from the model / view.
-	 */
-	protected void removeImpermissibleCandidates(final SudokuPuzzleCell cell) {
-		for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
-			cell.setCandidateVisible(candidate, false);
-		}
-		final int fixedDigit = cell.getFixedDigit();
-		final List<SudokuPuzzleCell> visibleCells = this.getCellsSeenFrom(cell.getRow(), cell.getCol());
-		visibleCells.forEach(otherCell -> {
-			otherCell.setCandidateVisible(fixedDigit, false);
-			// Cast to object forces the list to remove by object reference instead
-			// of index.
-			this.sudokuPuzzleValues.getCandidateDigitsForCell(otherCell.getRow(), otherCell.getCol())
-					.remove((Object) fixedDigit);
-		});
-	}
-
-	/**
 	 * Given a row, col and a color state, applies that color state to the
 	 * registered cell in the row and col.
 	 */
@@ -320,6 +372,17 @@ public class ApplicationModelState {
 		}
 	}
 
+	// Undo / redo based methods.
+
+	protected void addPuzzleStateToUndoStack() {
+		this.applicationStateHistory.addToUndoStack(this.sudokuPuzzleValues);
+		this.applicationStateHistory.clearRedoStack();
+		this.updateUndoRedoButtons();
+	}
+
+	/**
+	 * Updates the undo and redo buttons / menu items based on their current sizes.
+	 */
 	protected void updateUndoRedoButtons() {
 		final FilterButtonPane filterButtonPane = ViewController.getInstance().getFilterButtonPane();
 		filterButtonPane.getUndoButton().setDisable(this.applicationStateHistory.isUndoStackEmpty());
@@ -328,67 +391,22 @@ public class ApplicationModelState {
 		ViewController.getInstance().getRedoMenuItem().setDisable(this.applicationStateHistory.isRedoStackEmpty());
 	}
 
+	private Boolean candidatesMatchFilter(final Function<List<Integer>, Boolean> predicate,
+			final List<Integer> candidates) {
+		return predicate.apply(candidates);
+	}
+
 	/**
-	 * Adds the given digit to the cells seen by the selected cell, if no other
-	 * fixed instances of that digit see the cell.
+	 * Sets the visibility for the given cell at the row / position based on the
+	 * currently fixed cell values. Note that you should not call this in the same
+	 * loops as updateCells(), since the values will be changing mid-iteration.
 	 */
-	protected void addDigitAsCandidateToSeenCells(final int fixedDigit) {
-		final List<SudokuPuzzleCell> visibleCells = this.getCellsSeenFrom(this.sudokuPuzzleStyle.getSelectedCellRow(),
-				this.sudokuPuzzleStyle.getSelectedCellCol());
-		visibleCells.forEach(cell -> {
-			if (!this.doesCellSeeFixedDigit(cell.getRow(), cell.getCol(), fixedDigit)) {
-				cell.setCandidateVisible(fixedDigit, true);
-				this.sudokuPuzzleValues.getCandidateDigitsForCell(cell.getRow(), cell.getCol()).add(fixedDigit);
-			}
-		});
-	}
-
-	protected void updatePuzzleStatsForNewPuzzle() {
-		final int remainingScoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues, false);
-		final int scoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues, true);
-		// TODO - make this actually the puzzle's.
-		ViewController.getInstance().getPuzzleStatsPane().getDifficultyTextField()
-				.setText(ApplicationSettings.getInstance().getDifficulty().getLabel());
-		ViewController.getInstance().getPuzzleStatsPane().getRatingTextField().setText(String.valueOf(scoreForPuzzle));
-		if (ApplicationSettings.getInstance().isShowPuzzleProgress()) {
-			ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField()
-					.setText(String.valueOf(remainingScoreForPuzzle));
-		} else {
-			ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField().setText(Strings.EMPTY);
-		}
-	}
-
-	protected void updateCandidates() {
-		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
-			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
-				final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
-				final int givenCellDigit = this.sudokuPuzzleValues.getGivenCellDigit(row, col);
-				final boolean isCellGiven = givenCellDigit != 0;
-				this.setCandidateVisibility(row, col, sudokuPuzzleCell, isCellGiven);
-			}
-		}
-	}
-
-	protected void updateCells() {
-		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
-			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
-				final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
-				final int givenCellDigit = this.sudokuPuzzleValues.getGivenCellDigit(row, col);
-				final boolean isCellGiven = givenCellDigit != 0;
-				sudokuPuzzleCell.setFixedDigit(isCellGiven ? String.valueOf(givenCellDigit) : Strings.EMPTY);
-				sudokuPuzzleCell.setCandidatesVisible(!isCellGiven);
-				sudokuPuzzleCell.setCellGiven(isCellGiven);
-				this.updateFixedCellTypeCssClass(sudokuPuzzleCell, isCellGiven ? GIVEN_CELL_CSS_CLASS : UNFIXED_CELL_CSS_CLASS);
-			}
-		}
-	}
-
-	protected void setCandidateVisibility(final int row, final int col, final SudokuPuzzleCell sudokuPuzzleCell,
+	private void setCandidateVisibility(final int row, final int col, final SudokuPuzzleCell sudokuPuzzleCell,
 			final boolean isCellGiven) {
 		if (!isCellGiven) {
 			final List<Integer> candidateDigitsForCell = this.sudokuPuzzleValues.getCandidateDigitsForCell(row, col);
 			for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
-				final boolean seesFixedDigit = this.doesCellSeeFixedDigit(row, col, candidate);
+				final boolean seesFixedDigit = SudokuPuzzleCellUtils.doesCellSeeFixedDigit(row, col, candidate);
 				if (seesFixedDigit) {
 					candidateDigitsForCell.remove((Object) candidate);
 				}
@@ -398,33 +416,10 @@ public class ApplicationModelState {
 		}
 	}
 
-	protected void updateRemainingScoreForPuzzle() {
-		// If the puzzle has no givens, skip this step for performance reasons for now.
-		// the puzzle is trying to use brute force after each change, which makes things
-		// quite slow.
-		if (this.sudokuPuzzleValues.hasGivens()) {
-			if (ApplicationSettings.getInstance().isShowPuzzleProgress()) {
-				final int remainingScoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues,
-						false);
-				ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField()
-						.setText(String.valueOf(remainingScoreForPuzzle));
-			} else {
-				ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField().setText(Strings.EMPTY);
-			}
-		}
-	}
-
-	protected void updateFixedCellTypeCssClass(final SudokuPuzzleCell cell, final String newFixedCellTypeCssClass) {
-		final ObservableList<String> styleClass = cell.getStyleClass();
-		FIXED_CELL_TYPE_CSS_CLASSES.forEach(styleClass::remove);
-		styleClass.add(newFixedCellTypeCssClass);
-	}
-
-	private Boolean candidatesMatchFilter(final Function<List<Integer>, Boolean> predicate,
-			final List<Integer> candidates) {
-		return predicate.apply(candidates);
-	}
-
+	/**
+	 * Updates the CSS class of the given filter button based on the new active
+	 * filter.
+	 */
 	private void updateFilterButton(final String newCellFilter, final Button button) {
 		final ObservableList<String> styleClass = button.getStyleClass();
 		// Since we iterate over every button every time, the classes are fully
@@ -439,6 +434,10 @@ public class ApplicationModelState {
 		}
 	}
 
+	/**
+	 * Returns true if the new filter should result in the given button being marked
+	 * as selected.
+	 */
 	private boolean shouldSetFilterButtonSelected(final String newCellFilter, final Button button) {
 		final String buttonText = button.getText();
 		return buttonText.equals(newCellFilter) && !buttonText.equals(this.sudokuPuzzleStyle.getActiveCellFilter());

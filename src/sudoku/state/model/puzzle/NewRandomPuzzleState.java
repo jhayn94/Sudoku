@@ -4,13 +4,14 @@ import org.apache.logging.log4j.util.Strings;
 
 import sudoku.model.SudokuPuzzleValues;
 import sudoku.state.model.ApplicationModelState;
+import sudoku.state.model.ResetFromModelState;
 
 /**
  * This class updates the state of the application when the user presses the
  * "New Puzzle" menu item. This creates a new random puzzle with the current
  * puzzle settings.
  */
-public class NewRandomPuzzleState extends ApplicationModelState {
+public class NewRandomPuzzleState extends ResetFromModelState {
 
 	private final String puzzleString;
 
@@ -29,13 +30,7 @@ public class NewRandomPuzzleState extends ApplicationModelState {
 		this.updateFilterButtonStates(Strings.EMPTY);
 		this.resetColorStates();
 		this.sudokuPuzzleValues = new SudokuPuzzleValues(this.puzzleString);
-		this.updateCells();
-		// Must do this after because the cell values need to be finished before
-		// setting candidates. Otherwise the doesCellSeeFixedDigit checks will not be
-		// correct.
-		this.updateCandidates();
-
-		this.updatePuzzleStatsForNewPuzzle();
+		this.resetApplicationFromPuzzleState();
 	}
 
 }

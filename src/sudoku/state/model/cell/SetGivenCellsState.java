@@ -23,7 +23,7 @@ public class SetGivenCellsState extends ApplicationModelState {
 		this.updateUndoRedoButtons();
 		this.setFilledCellsAsGiven();
 		this.reapplyActiveFilter();
-		this.updatePuzzleStatsForNewPuzzle();
+		this.updateAllPuzzleStatsForNewPuzzle();
 	}
 
 	private void setFilledCellsAsGiven() {

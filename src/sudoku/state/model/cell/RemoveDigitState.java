@@ -9,6 +9,7 @@ import sudoku.model.ApplicationSettings;
 import sudoku.model.SudokuPuzzleValues;
 import sudoku.state.model.ApplicationModelState;
 import sudoku.view.puzzle.SudokuPuzzleCell;
+import sudoku.view.puzzle.SudokuPuzzleCellUtils;
 
 /**
  * This class updates the state of the application when the user removes a set
@@ -37,7 +38,7 @@ public class RemoveDigitState extends ApplicationModelState {
 			final List<Integer> candidateDigitsForCell = this.sudokuPuzzleValues
 					.getCandidateDigitsForCell(selectedCell.getRow(), selectedCell.getCol());
 			for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
-				if (!this.doesCellSeeFixedDigit(selectedCell.getRow(), selectedCell.getCol(), candidate)) {
+				if (!SudokuPuzzleCellUtils.doesCellSeeFixedDigit(selectedCell.getRow(), selectedCell.getCol(), candidate)) {
 					selectedCell.setCandidateVisible(candidate, true);
 					candidateDigitsForCell.add(candidate);
 				}
