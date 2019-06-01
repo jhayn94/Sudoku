@@ -344,13 +344,14 @@ public class ApplicationModelState {
 	}
 
 	protected void updatePuzzleStatsForNewPuzzle() {
-		final int scoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues, false);
+		final int remainingScoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues, false);
+		final int scoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues, true);
 		ViewController.getInstance().getPuzzleStatsPane().getDifficultyTextField()
 				.setText(ApplicationSettings.getInstance().getDifficulty().getLabel());
 		ViewController.getInstance().getPuzzleStatsPane().getRatingTextField().setText(String.valueOf(scoreForPuzzle));
 		if (ApplicationSettings.getInstance().isShowPuzzleProgress()) {
 			ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField()
-					.setText(String.valueOf(scoreForPuzzle));
+					.setText(String.valueOf(remainingScoreForPuzzle));
 		} else {
 			ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField().setText(Strings.EMPTY);
 		}

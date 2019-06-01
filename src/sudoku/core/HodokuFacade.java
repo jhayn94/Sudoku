@@ -64,7 +64,6 @@ public class HodokuFacade {
 				generatedSudokuString = this.solveSudokuUpToFirstInstanceOfStep(generatedSudokuString, mustContainStepWithName);
 			}
 		}
-
 		return generatedSudokuString;
 	}
 
@@ -79,7 +78,7 @@ public class HodokuFacade {
 		tempSudoku.setSudoku(sudokuString, true);
 		final Sudoku2 solvedSudoku = tempSudoku.clone();
 		final SudokuSolver solver = SudokuSolverFactory.getDefaultSolverInstance();
-		solver.solve(Options.getInstance().getDifficultyLevel(5), solvedSudoku, true, false,
+		solver.solve(Options.getInstance().getDifficultyLevel(5), solvedSudoku, false, false,
 				Options.getInstance().solverSteps, Options.getInstance().getGameMode());
 		tempSudoku.setLevel(solvedSudoku.getLevel());
 		tempSudoku.setScore(solvedSudoku.getScore());
@@ -88,11 +87,8 @@ public class HodokuFacade {
 		while (!tempSudoku.isSolved()) {
 			final SolutionStep solutionStep = sudokuSolver.getHint(tempSudoku, false);
 			solutionSteps.add(solutionStep);
-			LOG.info(solutionStep);
 			sudokuSolver.doStep(tempSudoku, solutionStep);
 		}
-		LOG.info(tempSudoku.getLevel().getName());
-		LOG.info(tempSudoku.getScore());
 		return solutionSteps;
 	}
 
@@ -101,11 +97,8 @@ public class HodokuFacade {
 		final Sudoku2 tempSudoku = this.convertSudokuPuzzleValuesToSudoku2(sudoku, onlyGivens);
 		final Sudoku2 solvedSudoku = tempSudoku.clone();
 		final SudokuSolver solver = SudokuSolverFactory.getDefaultSolverInstance();
-		solver.solve(Options.getInstance().getDifficultyLevel(5), solvedSudoku, true, false,
+		solver.solve(Options.getInstance().getDifficultyLevel(5), solvedSudoku, false, false,
 				Options.getInstance().solverSteps, Options.getInstance().getGameMode());
-		LOG.debug(onlyGivens);
-		LOG.debug(solvedSudoku.getLevel().getName());
-		LOG.debug(solvedSudoku.getScore());
 		return solvedSudoku.getScore();
 	}
 
@@ -119,7 +112,7 @@ public class HodokuFacade {
 		tempSudoku.setSudoku(sudokuString, true);
 		final Sudoku2 solvedSudoku = tempSudoku.clone();
 		final SudokuSolver solver = SudokuSolverFactory.getDefaultSolverInstance();
-		solver.solve(Options.getInstance().getDifficultyLevel(5), solvedSudoku, true, false,
+		solver.solve(Options.getInstance().getDifficultyLevel(5), solvedSudoku, false, false,
 				Options.getInstance().solverSteps, Options.getInstance().getGameMode());
 		tempSudoku.setLevel(solvedSudoku.getLevel());
 		tempSudoku.setScore(solvedSudoku.getScore());
@@ -127,13 +120,11 @@ public class HodokuFacade {
 		final SudokuSolver sudokuSolver = new SudokuSolver();
 		while (!tempSudoku.isSolved()) {
 			final SolutionStep solutionStep = sudokuSolver.getHint(tempSudoku, false);
-			LOG.debug(solutionStep);
 			if (solutionStep.getType().getStepName().equals(stepName)) {
 				return this.buildStringRepresentation(tempSudoku);
 			}
 			sudokuSolver.doStep(tempSudoku, solutionStep);
 		}
-
 		return this.buildStringRepresentation(tempSudoku);
 	}
 
@@ -148,7 +139,6 @@ public class HodokuFacade {
 				}
 			}
 		}
-		LOG.debug(result.toString());
 		return result.toString();
 	}
 
@@ -161,7 +151,7 @@ public class HodokuFacade {
 		final SudokuSolver solver = SudokuSolverFactory.getDefaultSolverInstance();
 		final int ordinal = ApplicationSettings.getInstance().getDifficulty().ordinal();
 		final DifficultyLevel difficultyLevel = Options.getInstance().getDifficultyLevel(ordinal + 1);
-		solver.solve(difficultyLevel, solvedSudoku, true, false, Options.getInstance().solverSteps, GameMode.PLAYING);
+		solver.solve(difficultyLevel, solvedSudoku, false, false, Options.getInstance().solverSteps, GameMode.PLAYING);
 		tempSudoku.setLevel(solvedSudoku.getLevel());
 		tempSudoku.setScore(solvedSudoku.getScore());
 		final SudokuSolver sudokuSolver = new SudokuSolver();
@@ -187,9 +177,11 @@ public class HodokuFacade {
 	private void removeUserInputCandidateChanges(final SudokuPuzzleValues sudoku, final Sudoku2 tempSudoku) {
 		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
 			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
-				if (sudoku.getFixedCellDigit(row, col) == 0) {
-					final List<Integer> candidateDigitsForCell = sudoku.getCandidateDigitsForCell(row, col);
-					for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
+				final List<Integer> candidateDigitsForCell = sudoku.getCandidateDigitsForCell(row, col);
+				for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
+					if (sudoku.getFixedCellDigit(row, col) != 0) {
+						tempSudoku.setCandidate(row, col, candidate, false);
+					} else {
 						tempSudoku.setCandidate(row, col, candidate, candidateDigitsForCell.contains(candidate));
 					}
 				}
