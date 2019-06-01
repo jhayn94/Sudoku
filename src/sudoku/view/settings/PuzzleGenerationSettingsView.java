@@ -18,6 +18,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -30,6 +31,7 @@ import sudoku.view.ModalDialog;
 import sudoku.view.control.LabeledComboBox;
 import sudoku.view.util.Difficulty;
 import sudoku.view.util.LabelConstants;
+import sudoku.view.util.TooltipConstants;
 
 /**
  * This class contains methods to allow the user to view or change the puzzle
@@ -100,6 +102,7 @@ public class PuzzleGenerationSettingsView extends ModalDialog {
 		selectionModel.select(ApplicationSettings.getInstance().getMustContainStepWithName());
 		comboBox.setMinWidth(300);
 		this.mustContainTechniqueComboBox.getLabel().setText(LabelConstants.MUST_CONTAIN);
+		this.mustContainTechniqueComboBox.getComboBox().setTooltip(new Tooltip(TooltipConstants.MUST_CONTAIN));
 		comboBox.valueProperty().addListener(this.onTechniqueChangeListener());
 
 		comboBox.getEditor().setEditable(true);
@@ -117,6 +120,7 @@ public class PuzzleGenerationSettingsView extends ModalDialog {
 	private ChangeListener<? super String> onTechniqueChangeListener() {
 		return (observableValue, oldValue, newValue) -> {
 			this.solveUpToStepCheckBox.setDisable(newValue == null || Strings.EMPTY.equals(newValue));
+			this.solveUpToStepCheckBox.setTooltip(new Tooltip(TooltipConstants.SOLVE_UP_TO));
 			this.solveUpToStepCheckBox
 					.setSelected(!this.solveUpToStepCheckBox.isDisabled() && this.solveUpToStepCheckBox.isSelected());
 		};

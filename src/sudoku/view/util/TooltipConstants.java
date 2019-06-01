@@ -15,8 +15,6 @@ public class TooltipConstants {
 
 	public static final String ACTIVE_COLOR = "Determines which color is used for various actions where it is otherwise not explicit.";
 
-	public static final String AUTO_MANAGE_CANDIDATES = "Check this to have the application automatically add and remove candidates when you change the value of a cell.";
-
 	public static final String DIFFICULTY_DISPLAY = "The relative difficulty of the current puzzle.";
 
 	public static final String RATING = "A numeric difficulty rating for the current puzzle.";
@@ -36,6 +34,18 @@ public class TooltipConstants {
 	public static final String APPLY_BIVALUE_FILTER = "Highlight all bi-value cells.";
 
 	public static final String HIDE_HINT = "Hide the hint display and annotations.";
+
+	public static final String AUTO_MANAGE_CANDIDATES = "Check this to have the application automatically add and remove candidates when you change the value of a cell.";
+
+	public static final String SHOW_PUZZLE_PROGRESS = "Check this to receive progress updates each time you make a move.";
+
+	public static final String MUST_CONTAIN = "If non-empty, generated puzzles must have this technique.";
+
+	public static final String SOLVE_UP_TO = "Check this to solve the puzzle so the above step is a next possible step.";
+
+	public static final String MAX_DIFFICULTY_SCORE_PREFIX = "The highest number a puzzle of '";
+
+	public static final String MAX_DIFFICULTY_SCORE_SUFFIX = "' difficulty is allowed to have..";
 
 	private TooltipConstants() {
 		// Private constructor to prevent instantiation.

@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextFormatter.Change;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -23,6 +24,7 @@ import sudoku.model.DefaultApplicationSettings;
 import sudoku.view.ModalDialog;
 import sudoku.view.util.Difficulty;
 import sudoku.view.util.LabelConstants;
+import sudoku.view.util.TooltipConstants;
 
 public class DifficultySettingsView extends ModalDialog {
 
@@ -58,6 +60,8 @@ public class DifficultySettingsView extends ModalDialog {
 			final Label difficultyLabel = new Label(difficulty.getLabel());
 			final int maxScoreForDifficulty = ApplicationSettings.getInstance().getMaxScoreForDifficulty(difficulty.name());
 			final TextField maxScoreInput = new TextField();
+			maxScoreInput.setTooltip(new Tooltip(TooltipConstants.MAX_DIFFICULTY_SCORE_PREFIX + difficulty.getLabel()
+					+ TooltipConstants.MAX_DIFFICULTY_SCORE_SUFFIX));
 			final UnaryOperator<Change> integerFilter = change -> {
 				final String newText = change.getControlNewText();
 				if (newText.matches(DIGITS_ONLY_REGEX)) {
