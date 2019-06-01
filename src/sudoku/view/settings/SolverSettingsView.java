@@ -75,7 +75,7 @@ public class SolverSettingsView extends ModalDialog {
 		final GridPane settingsForStepConfigPane = new GridPane();
 		HBox.setMargin(settingsForStepConfigPane, new Insets(SMALL_PADDING, 0, 0, 0));
 		settingsForStepConfigPane.setVgap(LARGE_PADDING);
-		settingsForStepConfigPane.setHgap(15);
+		settingsForStepConfigPane.setHgap(SMALL_PADDING);
 
 		final Label enabledLabel = new Label(LabelConstants.ENABLED);
 		final Label difficultyLabel = new Label(LabelConstants.DIFFICULTY + ":");
@@ -84,6 +84,8 @@ public class SolverSettingsView extends ModalDialog {
 		final ComboBox<String> difficultyComboBox = new ComboBox<String>();
 		difficultyComboBox.setMinWidth(DIFFICULTY_COMBO_BOX_WIDTH);
 		difficultyComboBox.setMaxWidth(DIFFICULTY_COMBO_BOX_WIDTH);
+		difficultyComboBox.setEditable(true);
+		difficultyComboBox.getEditor().setEditable(false);
 		final ObservableList<String> difficultyComboBoxItems = difficultyComboBox.getItems();
 		Arrays.asList(Difficulty.values()).stream().map(Difficulty::getLabel).forEach(difficultyComboBoxItems::add);
 		final TextField ratingTextField = new TextField();

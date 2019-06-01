@@ -22,6 +22,8 @@ import sudoku.view.util.LabelConstants;
  */
 public class ColorSettingsView extends ModalDialog {
 
+	private static final String COLOR_PICKER_CSS_CLASS = "sudoku-color-picker";
+
 	private static final int BUTTON_PANE_PADDING = 5;
 
 	private static final int SMALL_PADDING = 20;

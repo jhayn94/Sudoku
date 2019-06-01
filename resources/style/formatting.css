@@ -278,7 +278,8 @@
 	-fx-background-color: #eeeeee;
 }
 
-.combo-box-base:editable > .text-field {
+.combo-box-base:editable > .text-field,
+.color-picker-label {
 	-fx-border-color: -sudoku-color-bark;
 	-fx-background-color: #eeeeee;
 	-fx-border-width: 2 0 2 2;
