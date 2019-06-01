@@ -1,14 +1,5 @@
 package sudoku.state.model;
 
-import java.util.List;
-import java.util.stream.IntStream;
-
-import org.apache.logging.log4j.util.Strings;
-
-import sudoku.core.ViewController;
-import sudoku.model.SudokuPuzzleValues;
-import sudoku.view.puzzle.SudokuPuzzleCell;
-
 /**
  * This class contains methods to reset the application according to the current
  * sudoku puzzle set. This is used mainly as a parent class for undo + redo
@@ -26,30 +17,46 @@ public abstract class ResetFromModelState extends ApplicationModelState {
 	 * restart.
 	 */
 	protected void resetApplicationFromPuzzleState() {
-		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
-			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
-				final int fixedCellDigit = this.sudokuPuzzleValues.getFixedCellDigit(row, col);
-				final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
-				if (fixedCellDigit != 0) {
-					sudokuPuzzleCell.setCandidatesVisible(false);
-					sudokuPuzzleCell.setFixedDigit(String.valueOf(fixedCellDigit));
-					final int givenCellDigit = this.sudokuPuzzleValues.getGivenCellDigit(row, col);
-					this.updateFixedCellTypeCssClass(sudokuPuzzleCell,
-							givenCellDigit == 0 ? FIXED_CELL_CSS_CLASS : GIVEN_CELL_CSS_CLASS);
-				} else {
-					this.sudokuPuzzleValues.setCellFixedDigit(row, col, 0);
-					sudokuPuzzleCell.setCandidatesVisible(true);
-					sudokuPuzzleCell.setFixedDigit(Strings.EMPTY);
-					this.updateFixedCellTypeCssClass(sudokuPuzzleCell, UNFIXED_CELL_CSS_CLASS);
-				}
-				final List<Integer> candidateDigitsForCell = this.sudokuPuzzleValues.getCandidateDigitsForCell(row, col);
-				IntStream.rangeClosed(1, SudokuPuzzleValues.CELLS_PER_HOUSE).forEach(digit -> {
-					sudokuPuzzleCell.setCandidateVisible(digit, candidateDigitsForCell.contains(digit));
-				});
+//		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
+//			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
+//				final int fixedCellDigit = this.sudokuPuzzleValues.getFixedCellDigit(row, col);
+//				final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
+//				if (fixedCellDigit != 0) {
+//					sudokuPuzzleCell.setCandidatesVisible(false);
+//					sudokuPuzzleCell.setFixedDigit(String.valueOf(fixedCellDigit));
+//					final int givenCellDigit = this.sudokuPuzzleValues.getGivenCellDigit(row, col);
+//					this.sudokuPuzzleValues.getCandidateDigitsForCell(row, col).clear();
+//					this.updateFixedCellTypeCssClass(sudokuPuzzleCell,
+//							givenCellDigit == 0 ? FIXED_CELL_CSS_CLASS : GIVEN_CELL_CSS_CLASS);
+//				} else {
+//					this.sudokuPuzzleValues.setCellFixedDigit(row, col, 0);
+//					sudokuPuzzleCell.setCandidatesVisible(true);
+//					sudokuPuzzleCell.setFixedDigit(Strings.EMPTY);
+//
+//					this.updateFixedCellTypeCssClass(sudokuPuzzleCell, UNFIXED_CELL_CSS_CLASS);
+//				}
+//
+//			}
+//		}
+//
+//		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
+//			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
+//				final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
+//				final List<Integer> candidateDigitsForCell = this.sudokuPuzzleValues.getCandidateDigitsForCell(row, col);
+//				for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
+//					if (this.doesCellSeeFixedDigit(row, col, candidate)) {
+//						candidateDigitsForCell.remove((Object) candidate);
+//					}
+//					sudokuPuzzleCell.setCandidateVisible(candidate, candidateDigitsForCell.contains(candidate));
+//				}
+//			}
+//		}
 
-			}
-		}
-
+		this.updateCells();
+		// Must do this after because the cell values need to be finished before
+		// setting candidates. Otherwise the doesCellSeeFixedDigit checks will not be
+		// correct.
+		this.updateCandidates();
 		this.reapplyActiveFilter();
 	}
 }

@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import sudoku.StepConfig;
 import sudoku.view.util.Difficulty;
 import sudoku.view.util.ResourceConstants;
@@ -22,6 +25,8 @@ import sudoku.view.util.ResourceConstants;
  * defaults.
  */
 public class DefaultApplicationSettings {
+
+	private static final Logger LOG = LogManager.getLogger(DefaultApplicationSettings.class);
 
 	private static DefaultApplicationSettings instance;
 
@@ -141,7 +146,7 @@ public class DefaultApplicationSettings {
 					.toMap(line -> line.substring(0, line.indexOf('=')), line -> line.substring(line.indexOf('=') + 1)));
 			settings.putAll(tempMapping);
 		} catch (final IOException e) {
-			e.printStackTrace();
+			LOG.error("{}", e);
 		}
 		return settings;
 	}

@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.Strings;
 
 import sudoku.core.HodokuFacade;
@@ -21,6 +23,8 @@ import sudoku.view.puzzle.SudokuPuzzleCell;
  */
 public class OpenedFileState extends ApplicationModelState {
 
+	private static final Logger LOG = LogManager.getLogger(OpenedFileState.class);
+
 	private String puzzleString;
 
 	private String[][] candidatesForCellsFromFile;
@@ -30,12 +34,12 @@ public class OpenedFileState extends ApplicationModelState {
 	public OpenedFileState(final File selectedFile, final ApplicationModelState lastState) {
 		super(lastState, false);
 		this.parseSelectedFile(selectedFile);
-		this.applicationStateHistory.clearRedoStack();
-		this.applicationStateHistory.clearUndoStack();
-		this.updateUndoRedoButtons();
 	}
 
 	private void parseSelectedFile(final File selectedFile) {
+		this.applicationStateHistory.clearRedoStack();
+		this.applicationStateHistory.clearUndoStack();
+		this.updateUndoRedoButtons();
 		try {
 			final FileReader fileReader = new FileReader(selectedFile);
 			final BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -51,7 +55,7 @@ public class OpenedFileState extends ApplicationModelState {
 			}
 			bufferedReader.close();
 		} catch (final IOException ioe) {
-			ioe.printStackTrace();
+			LOG.error("{}", ioe);
 		}
 	}
 
@@ -107,32 +111,32 @@ public class OpenedFileState extends ApplicationModelState {
 			}
 		}
 	}
+//
+//	private void updateCandidates() {
+//		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
+//			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
+//				final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
+//				for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
+//					this.setCandidateVisibility(row, col, sudokuPuzzleCell);
+//				}
+//			}
+//		}
+//	}
 
-	private void updateCandidates() {
-		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
-			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
-				final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
-				for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
-					this.setCandidateVisibility(row, col, sudokuPuzzleCell);
-				}
-			}
-		}
-	}
-
-	private void setCandidateVisibility(final int row, final int col, final SudokuPuzzleCell sudokuPuzzleCell) {
-		final int givenCellDigit = this.sudokuPuzzleValues.getGivenCellDigit(row, col);
-		final boolean isCellGiven = givenCellDigit != 0;
-		if (!isCellGiven) {
-			final List<Integer> candidateDigitsForCell = this.sudokuPuzzleValues.getCandidateDigitsForCell(row, col);
-			for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
-				final String candidatesFromFile = this.candidatesForCellsFromFile[col][row];
-				final boolean shouldShowCandidate = candidatesFromFile.contains(String.valueOf(candidate));
-				sudokuPuzzleCell.setCandidateVisible(candidate, shouldShowCandidate);
-				if (!shouldShowCandidate) {
-					candidateDigitsForCell.remove((Object) candidate);
-				}
-			}
-		}
-	}
+//	private void setCandidateVisibility(final int row, final int col, final SudokuPuzzleCell sudokuPuzzleCell) {
+//		final int givenCellDigit = this.sudokuPuzzleValues.getGivenCellDigit(row, col);
+//		final boolean isCellGiven = givenCellDigit != 0;
+//		if (!isCellGiven) {
+//			final List<Integer> candidateDigitsForCell = this.sudokuPuzzleValues.getCandidateDigitsForCell(row, col);
+//			for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
+//				final String candidatesFromFile = this.candidatesForCellsFromFile[col][row];
+//				final boolean shouldShowCandidate = candidatesFromFile.contains(String.valueOf(candidate));
+//				sudokuPuzzleCell.setCandidateVisible(candidate, shouldShowCandidate);
+//				if (!shouldShowCandidate) {
+//					candidateDigitsForCell.remove((Object) candidate);
+//				}
+//			}
+//		}
+//	}
 
 }

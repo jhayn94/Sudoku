@@ -19,6 +19,8 @@ public class SudokuPuzzleValues {
 
 	public static final int CELLS_PER_HOUSE = 9;
 
+	private boolean hasGivens;
+
 	private final Integer[][] givenCells;
 
 	private final Integer[][] fixedCells;
@@ -29,6 +31,7 @@ public class SudokuPuzzleValues {
 
 	@SuppressWarnings("unchecked")
 	public SudokuPuzzleValues() {
+		this.hasGivens = false;
 		this.givenCells = new Integer[CELLS_PER_HOUSE][CELLS_PER_HOUSE];
 		this.fixedCells = new Integer[CELLS_PER_HOUSE][CELLS_PER_HOUSE];
 		this.candidatesForCells = new ArrayList[CELLS_PER_HOUSE][CELLS_PER_HOUSE];
@@ -56,6 +59,7 @@ public class SudokuPuzzleValues {
 	}
 
 	private void initializePuzzleWithProgress(final String initialGivens) {
+		this.hasGivens = true;
 		this.initializePuzzleWithNoProgress(initialGivens);
 		final String[] candidateStrings = initialGivens.split("\\[");
 		// Skip 0th index since it is just the regular cell givens.
@@ -100,6 +104,7 @@ public class SudokuPuzzleValues {
 	}
 
 	public void setGivenCellDigit(final int row, final int col, final int given) {
+		this.hasGivens = true;
 		this.candidatesForCells[col][row].clear();
 		this.givenCells[col][row] = given;
 		// A given cell is also fixed by definition.
@@ -107,7 +112,9 @@ public class SudokuPuzzleValues {
 	}
 
 	public void setCellFixedDigit(final int row, final int col, final int fixedDigit) {
-		this.candidatesForCells[col][row].clear();
+		if (fixedDigit != 0) {
+			this.candidatesForCells[col][row].clear();
+		}
 		this.fixedCells[col][row] = fixedDigit;
 	}
 
@@ -170,49 +177,7 @@ public class SudokuPuzzleValues {
 	 * Returns the current state of the sudoku as string, where each digit is set if
 	 * fixed in the puzzle.. 0 is used if no digit is set.
 	 */
-	public String getSudoku() {
-		final StringBuilder result = new StringBuilder();
-		for (int row = 0; row < CELLS_PER_HOUSE; row++) {
-			for (int col = 0; col < CELLS_PER_HOUSE; col++) {
-				result.append(this.fixedCells[col][row]);
-			}
-		}
-		return result.toString();
-	}
-
-	/** Returns true iff this puzzle is solved. */
-	public boolean isSolved() {
-		for (int row = 0; row < CELLS_PER_HOUSE; row++) {
-			for (int col = 0; col < CELLS_PER_HOUSE; col++) {
-				if (this.fixedCells[col][row] == 0) {
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-
-	public int getDifficultyScore() {
-		return this.difficultyScore;
-	}
-
-	public void setDifficultyScore(final int score) {
-		this.difficultyScore = score;
-	}
-
-	public int getNumberOfUnsolvedCells() {
-		int unsolvedCellsCount = 0;
-		for (int row = 0; row < CELLS_PER_HOUSE; row++) {
-			for (int col = 0; col < CELLS_PER_HOUSE; col++) {
-				if (this.fixedCells[col][row] == 0) {
-					unsolvedCellsCount++;
-				}
-			}
-		}
-		return unsolvedCellsCount;
-	}
-
-	public String getStringRepresentation(final boolean onlyGivens) {
+	public String toString(final boolean onlyGivens) {
 		final StringBuilder sb = new StringBuilder();
 		Integer[][] arrayToIterate;
 		if (onlyGivens) {
@@ -227,5 +192,9 @@ public class SudokuPuzzleValues {
 			}
 		}
 		return sb.toString();
+	}
+
+	public boolean hasGivens() {
+		return this.hasGivens;
 	}
 }

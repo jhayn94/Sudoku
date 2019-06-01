@@ -346,6 +346,7 @@ public class ApplicationModelState {
 	protected void updatePuzzleStatsForNewPuzzle() {
 		final int remainingScoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues, false);
 		final int scoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues, true);
+		// TODO - make this actually the puzzle's.
 		ViewController.getInstance().getPuzzleStatsPane().getDifficultyTextField()
 				.setText(ApplicationSettings.getInstance().getDifficulty().getLabel());
 		ViewController.getInstance().getPuzzleStatsPane().getRatingTextField().setText(String.valueOf(scoreForPuzzle));
@@ -357,13 +358,59 @@ public class ApplicationModelState {
 		}
 	}
 
+	protected void updateCandidates() {
+		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
+			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
+				final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
+				final int givenCellDigit = this.sudokuPuzzleValues.getGivenCellDigit(row, col);
+				final boolean isCellGiven = givenCellDigit != 0;
+				this.setCandidateVisibility(row, col, sudokuPuzzleCell, isCellGiven);
+			}
+		}
+	}
+
+	protected void updateCells() {
+		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
+			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
+				final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
+				final int givenCellDigit = this.sudokuPuzzleValues.getGivenCellDigit(row, col);
+				final boolean isCellGiven = givenCellDigit != 0;
+				sudokuPuzzleCell.setFixedDigit(isCellGiven ? String.valueOf(givenCellDigit) : Strings.EMPTY);
+				sudokuPuzzleCell.setCandidatesVisible(!isCellGiven);
+				sudokuPuzzleCell.setCellGiven(isCellGiven);
+				this.updateFixedCellTypeCssClass(sudokuPuzzleCell, isCellGiven ? GIVEN_CELL_CSS_CLASS : UNFIXED_CELL_CSS_CLASS);
+			}
+		}
+	}
+
+	protected void setCandidateVisibility(final int row, final int col, final SudokuPuzzleCell sudokuPuzzleCell,
+			final boolean isCellGiven) {
+		if (!isCellGiven) {
+			final List<Integer> candidateDigitsForCell = this.sudokuPuzzleValues.getCandidateDigitsForCell(row, col);
+			for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
+				final boolean seesFixedDigit = this.doesCellSeeFixedDigit(row, col, candidate);
+				if (seesFixedDigit) {
+					candidateDigitsForCell.remove((Object) candidate);
+				}
+				sudokuPuzzleCell.setCandidateVisible(candidate, candidateDigitsForCell.contains(candidate) && !seesFixedDigit
+						&& ApplicationSettings.getInstance().isAutoManageCandidates());
+			}
+		}
+	}
+
 	protected void updateRemainingScoreForPuzzle() {
-		if (ApplicationSettings.getInstance().isShowPuzzleProgress()) {
-			final int remainingScoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues, false);
-			ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField()
-					.setText(String.valueOf(remainingScoreForPuzzle));
-		} else {
-			ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField().setText(Strings.EMPTY);
+		// If the puzzle has no givens, skip this step for performance reasons for now.
+		// the puzzle is trying to use brute force after each change, which makes things
+		// quite slow.
+		if (this.sudokuPuzzleValues.hasGivens()) {
+			if (ApplicationSettings.getInstance().isShowPuzzleProgress()) {
+				final int remainingScoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues,
+						false);
+				ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField()
+						.setText(String.valueOf(remainingScoreForPuzzle));
+			} else {
+				ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField().setText(Strings.EMPTY);
+			}
 		}
 	}
 

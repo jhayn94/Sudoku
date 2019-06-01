@@ -6,6 +6,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import sudoku.model.SudokuPuzzleValues;
 import sudoku.state.model.ApplicationModelState;
 
@@ -15,6 +18,8 @@ import sudoku.state.model.ApplicationModelState;
  */
 public class SavedFileState extends ApplicationModelState {
 
+	private static final Logger LOG = LogManager.getLogger(SavedFileState.class);
+
 	private static final String NEW_LINE = "\n";
 
 	private final File selectedFile;
@@ -22,7 +27,6 @@ public class SavedFileState extends ApplicationModelState {
 	public SavedFileState(final File selectedFile, final ApplicationModelState lastState) {
 		super(lastState, false);
 		this.selectedFile = selectedFile;
-
 	}
 
 	@Override
@@ -33,7 +37,7 @@ public class SavedFileState extends ApplicationModelState {
 			this.writeCandidates(bufferedWriter);
 			bufferedWriter.close();
 		} catch (final IOException ioe) {
-			ioe.printStackTrace();
+			LOG.error("{}", ioe);
 		}
 	}
 

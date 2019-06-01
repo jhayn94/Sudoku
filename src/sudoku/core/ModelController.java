@@ -17,8 +17,8 @@ import sudoku.state.model.cell.ClickedCellState;
 import sudoku.state.model.cell.RemoveDigitState;
 import sudoku.state.model.cell.SetDigitState;
 import sudoku.state.model.cell.SetGivenCellsState;
-import sudoku.state.model.coloring.ToggleActiveColorState;
 import sudoku.state.model.coloring.ResetAllColorsState;
+import sudoku.state.model.coloring.ToggleActiveColorState;
 import sudoku.state.model.coloring.ToggleCandidateColorState;
 import sudoku.state.model.coloring.ToggleCellColorState;
 import sudoku.state.model.filter.ApplyFilterState;
@@ -27,9 +27,11 @@ import sudoku.state.model.hint.ApplyHintState;
 import sudoku.state.model.hint.HideHintState;
 import sudoku.state.model.hint.ShowSpecificHintState;
 import sudoku.state.model.hint.ShowVagueHintState;
+import sudoku.state.model.puzzle.CopyPuzzleState;
 import sudoku.state.model.puzzle.NewEmptyPuzzleState;
 import sudoku.state.model.puzzle.NewRandomPuzzleState;
 import sudoku.state.model.puzzle.OpenedFileState;
+import sudoku.state.model.puzzle.PastePuzzleState;
 import sudoku.state.model.puzzle.SavedFileState;
 import sudoku.state.model.settings.SaveColorSettingsState;
 import sudoku.state.model.settings.SaveDifficultySettingsState;
@@ -254,6 +256,16 @@ public class ModelController {
 
 	public void transitionToSaveSolverSettingsState() {
 		this.applicationModelState = new SaveSolverSettingsState(this.applicationModelState);
+		this.applicationModelState.onEnter();
+	}
+
+	public void transitionToCopyPuzzleState(final boolean isGivensOnly) {
+		this.applicationModelState = new CopyPuzzleState(isGivensOnly, this.applicationModelState);
+		this.applicationModelState.onEnter();
+	}
+
+	public void transitionToPastePuzzleState() {
+		this.applicationModelState = new PastePuzzleState(this.applicationModelState);
 		this.applicationModelState.onEnter();
 	}
 

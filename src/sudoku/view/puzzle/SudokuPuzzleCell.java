@@ -34,12 +34,7 @@ public class SudokuPuzzleCell extends StackPane {
 	private static final String NUMPAD_REPLACE_TEXT = "NUMPAD";
 
 	public enum ReasonForChange {
-		CLICKED_TO_SELECT,
-		CLICKED_TO_UNSELECT,
-		ARROWED_OFF_OF_CELL,
-		NEW_SELECTION_CLICKED,
-		ARROWED_ON_TO_CELL,
-		NONE;
+		CLICKED_TO_SELECT, CLICKED_TO_UNSELECT, ARROWED_OFF_OF_CELL, NEW_SELECTION_CLICKED, ARROWED_ON_TO_CELL, NONE;
 	}
 
 	private static final String CSS_CLASS = "sudoku-puzzle-cell";
@@ -125,7 +120,7 @@ public class SudokuPuzzleCell extends StackPane {
 
 	/**
 	 * Sets the candidate at the given index visible based on the passed boolean.
-	 * Note that the digitIndex is one less than the digit (i.e. index of 1 is 0).
+	 * Note that pressedDigit is one less than the digit (i.e. index of 1 is 0).
 	 */
 	public void setCandidateVisible(final int pressedDigit, final boolean visible) {
 		this.candidateLabels[pressedDigit - 1].setVisible(visible);
@@ -218,9 +213,9 @@ public class SudokuPuzzleCell extends StackPane {
 	}
 
 	/**
-	 * This method resets the cell's event handlers to the current state's
-	 * handler. When the cell's state changes, event handlers have to be
-	 * re-registered for the new state to be used.
+	 * This method resets the cell's event handlers to the current state's handler.
+	 * When the cell's state changes, event handlers have to be re-registered for
+	 * the new state to be used.
 	 */
 	private void addEventHandlers() {
 		this.setEventHandler(MouseEvent.MOUSE_CLICKED, this.onClick());

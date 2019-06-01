@@ -3,9 +3,6 @@ package sudoku.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import generator.BackgroundGenerator;
 import solver.SudokuSolver;
 import solver.SudokuSolverFactory;
@@ -28,8 +25,6 @@ import sudoku.view.util.Difficulty;
  * In addition, this class offers a SPOC to the HoDoKu library.
  */
 public class HodokuFacade {
-
-	private static final Logger LOG = LogManager.getLogger(HodokuFacade.class);
 
 	private static HodokuFacade instance;
 
@@ -166,7 +161,7 @@ public class HodokuFacade {
 
 	private Sudoku2 convertSudokuPuzzleValuesToSudoku2(final SudokuPuzzleValues sudoku, final boolean onlyGivens) {
 		final Sudoku2 tempSudoku = new Sudoku2();
-		final String sudokuString = sudoku.getStringRepresentation(onlyGivens);
+		final String sudokuString = sudoku.toString(onlyGivens);
 		tempSudoku.setSudoku(sudokuString, true);
 		if (!onlyGivens) {
 			this.removeUserInputCandidateChanges(sudoku, tempSudoku);

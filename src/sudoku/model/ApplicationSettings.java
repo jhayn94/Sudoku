@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import sudoku.StepConfig;
 import sudoku.core.HodokuFacade;
 import sudoku.view.util.Difficulty;
@@ -24,6 +27,8 @@ import sudoku.view.util.ResourceConstants;
  * These settings can be changed based on various menu items.
  */
 public class ApplicationSettings {
+
+	private static final Logger LOG = LogManager.getLogger(ApplicationSettings.class);
 
 	private static final String EQUALS = "=";
 
@@ -119,6 +124,7 @@ public class ApplicationSettings {
 				bufferedWriter.write(COLOR_FOR_COLORING_KEY + index + EQUALS + this.colorsUsedInColoring[index] + NEW_LINE);
 			}
 		} catch (final IOException e) {
+			LOG.error("{}", e);
 			e.printStackTrace();
 		}
 	}
@@ -208,7 +214,7 @@ public class ApplicationSettings {
 					.toMap(line -> line.substring(0, line.indexOf('=')), line -> line.substring(line.indexOf('=') + 1)));
 			settings.putAll(tempMapping);
 		} catch (final IOException e) {
-			e.printStackTrace();
+			LOG.error("{}", e);
 		}
 		return settings;
 	}

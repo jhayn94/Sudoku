@@ -127,6 +127,12 @@ public class LabelConstants {
 
 	public static final String UNKNOWN = "Unknown";
 
+	public static final String COPY_GIVENS = "Copy Givens";
+
+	public static final String COPY_CELLS = "Copy All Cells";
+
+	public static final String PASTE = "Paste";
+
 	private LabelConstants() {
 		// Private constructor to prevent instantiation.
 	}

@@ -13,11 +13,11 @@ public class SetGivenCellsState extends ApplicationModelState {
 
 	public SetGivenCellsState(final ApplicationModelState lastState) {
 		super(lastState, false);
-		// Don't want the user to be able to undo back to another puzzle.
 	}
 
 	@Override
 	public void onEnter() {
+		// Don't want the user to be able to undo back to another puzzle.
 		this.applicationStateHistory.clearUndoStack();
 		this.applicationStateHistory.clearRedoStack();
 		this.updateUndoRedoButtons();

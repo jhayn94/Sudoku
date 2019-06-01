@@ -17,13 +17,13 @@ public class NewEmptyPuzzleState extends ApplicationModelState {
 
 	public NewEmptyPuzzleState(final ApplicationModelState lastState) {
 		super(lastState, false);
-		this.applicationStateHistory.clearRedoStack();
-		this.applicationStateHistory.clearUndoStack();
-		this.updateUndoRedoButtons();
 	}
 
 	@Override
 	public void onEnter() {
+		this.applicationStateHistory.clearRedoStack();
+		this.applicationStateHistory.clearUndoStack();
+		this.updateUndoRedoButtons();
 		this.sudokuPuzzleStyle.setActiveCellFilter(Strings.EMPTY);
 		this.resetAllFilters();
 		this.updateFilterButtonStates(Strings.EMPTY);
