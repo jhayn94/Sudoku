@@ -2,8 +2,10 @@ package sudoku.view.sidebar;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import sudoku.view.util.LabelConstants;
+import sudoku.view.util.TooltipConstants;
 
 /**
  * This class corresponds to the various puzzle data in the bottom left corner
@@ -51,6 +53,7 @@ public class PuzzleStatsPane extends GridPane {
 		this.difficultyTextField.setEditable(false);
 		this.difficultyTextField.getStyleClass().add(UNEDITABLE_TEXT_FIELD_CSS_CLASS);
 		this.difficultyTextField.setMaxWidth(MAX_TEXT_FIELD_WIDTH);
+		this.difficultyTextField.setTooltip(new Tooltip(TooltipConstants.DIFFICULTY_DISPLAY));
 		statsGridPane.add(this.difficultyTextField, 1, 0);
 		final Label ratingLabel = new Label(LabelConstants.RATING);
 		statsGridPane.add(ratingLabel, 0, 1);
@@ -59,6 +62,7 @@ public class PuzzleStatsPane extends GridPane {
 		this.ratingTextField.setEditable(false);
 		this.ratingTextField.getStyleClass().add(UNEDITABLE_TEXT_FIELD_CSS_CLASS);
 		this.ratingTextField.setMaxWidth(MAX_TEXT_FIELD_WIDTH);
+		this.ratingTextField.setTooltip(new Tooltip(TooltipConstants.RATING));
 		statsGridPane.add(this.ratingTextField, 1, 1);
 		final Label remainingRatingLabel = new Label(LabelConstants.REMAINING_RATING);
 		statsGridPane.add(remainingRatingLabel, 0, 2);
@@ -67,6 +71,7 @@ public class PuzzleStatsPane extends GridPane {
 		this.remainingRatingTextField.setEditable(false);
 		this.remainingRatingTextField.getStyleClass().add(UNEDITABLE_TEXT_FIELD_CSS_CLASS);
 		this.remainingRatingTextField.setMaxWidth(MAX_TEXT_FIELD_WIDTH);
+		this.remainingRatingTextField.setTooltip(new Tooltip(TooltipConstants.REMAINING_RATING));
 		statsGridPane.add(this.remainingRatingTextField, 1, 2);
 		this.getChildren().add(statsGridPane);
 	}

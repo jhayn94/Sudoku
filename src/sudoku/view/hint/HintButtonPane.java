@@ -2,9 +2,11 @@ package sudoku.view.hint;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import sudoku.core.ModelController;
 import sudoku.view.util.LabelConstants;
+import sudoku.view.util.TooltipConstants;
 
 /**
  * This class corresponds to the 4 x 3 button grid on the top left of the
@@ -59,15 +61,26 @@ public class HintButtonPane extends GridPane {
 
 	}
 
-	private void createHideHintButton() {
-		this.hideHintButton = new Button(LabelConstants.HIDE_HINT);
-		this.hideHintButton.setMinHeight(BUTTON_HEIGHT);
-		this.hideHintButton.setMaxHeight(BUTTON_HEIGHT);
-		this.hideHintButton.setMinWidth(BUTTON_WIDTH);
-		this.hideHintButton.setMaxWidth(BUTTON_WIDTH);
-		this.hideHintButton.setFocusTraversable(false);
-		this.hideHintButton.setDisable(true);
-		this.hideHintButton.setOnAction(event -> ModelController.getInstance().transitionToHideHintState());
+	private void createVagueHintButton() {
+		this.vagueHintButton = new Button(LabelConstants.VAGUE_HINT);
+		this.vagueHintButton.setMaxHeight(BUTTON_HEIGHT);
+		this.vagueHintButton.setMinHeight(BUTTON_HEIGHT);
+		this.vagueHintButton.setMinWidth(BUTTON_WIDTH);
+		this.vagueHintButton.setMaxWidth(BUTTON_WIDTH);
+		this.vagueHintButton.setFocusTraversable(false);
+		this.vagueHintButton.setOnAction(event -> ModelController.getInstance().transitionToShowVagueHintState());
+		this.vagueHintButton.setTooltip(new Tooltip(TooltipConstants.VAGUE_HINT));
+	}
+
+	private void createSpecificHintButton() {
+		this.specificHintButton = new Button(LabelConstants.SPECIFIC_HINT);
+		this.specificHintButton.setMinHeight(BUTTON_HEIGHT);
+		this.specificHintButton.setMaxHeight(BUTTON_HEIGHT);
+		this.specificHintButton.setMinWidth(BUTTON_WIDTH);
+		this.specificHintButton.setMaxWidth(BUTTON_WIDTH);
+		this.specificHintButton.setFocusTraversable(false);
+		this.specificHintButton.setOnAction(event -> ModelController.getInstance().transitionToShowSpecificHintState());
+		this.specificHintButton.setTooltip(new Tooltip(TooltipConstants.SPECIFIC_HINT));
 	}
 
 	private void createApplyHintButton() {
@@ -79,26 +92,19 @@ public class HintButtonPane extends GridPane {
 		this.applyHintButton.setFocusTraversable(false);
 		this.applyHintButton.setDisable(true);
 		this.applyHintButton.setOnAction(event -> ModelController.getInstance().transitionToApplyHintState());
+		this.applyHintButton.setTooltip(new Tooltip(TooltipConstants.APPLY_HINT));
 	}
 
-	private void createSpecificHintButton() {
-		this.specificHintButton = new Button(LabelConstants.SPECIFIC_HINT);
-		this.specificHintButton.setMinHeight(BUTTON_HEIGHT);
-		this.specificHintButton.setMaxHeight(BUTTON_HEIGHT);
-		this.specificHintButton.setMinWidth(BUTTON_WIDTH);
-		this.specificHintButton.setMaxWidth(BUTTON_WIDTH);
-		this.specificHintButton.setFocusTraversable(false);
-		this.specificHintButton.setOnAction(event -> ModelController.getInstance().transitionToShowSpecificHintState());
-	}
-
-	private void createVagueHintButton() {
-		this.vagueHintButton = new Button(LabelConstants.VAGUE_HINT);
-		this.vagueHintButton.setMaxHeight(BUTTON_HEIGHT);
-		this.vagueHintButton.setMinHeight(BUTTON_HEIGHT);
-		this.vagueHintButton.setMinWidth(BUTTON_WIDTH);
-		this.vagueHintButton.setMaxWidth(BUTTON_WIDTH);
-		this.vagueHintButton.setFocusTraversable(false);
-		this.vagueHintButton.setOnAction(event -> ModelController.getInstance().transitionToShowVagueHintState());
+	private void createHideHintButton() {
+		this.hideHintButton = new Button(LabelConstants.HIDE_HINT);
+		this.hideHintButton.setMinHeight(BUTTON_HEIGHT);
+		this.hideHintButton.setMaxHeight(BUTTON_HEIGHT);
+		this.hideHintButton.setMinWidth(BUTTON_WIDTH);
+		this.hideHintButton.setMaxWidth(BUTTON_WIDTH);
+		this.hideHintButton.setFocusTraversable(false);
+		this.hideHintButton.setDisable(true);
+		this.hideHintButton.setOnAction(event -> ModelController.getInstance().transitionToHideHintState());
+		this.hideHintButton.setTooltip(new Tooltip(TooltipConstants.HIDE_HINT));
 	}
 
 	public Button getHideHintButton() {

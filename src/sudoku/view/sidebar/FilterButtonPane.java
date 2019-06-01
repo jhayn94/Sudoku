@@ -69,11 +69,14 @@ public class FilterButtonPane extends GridPane {
 	private void createChildElements() {
 		for (int index = 1; index <= NUM_DIGIT_BUTTONS; index++) {
 			final Button digitFilterButton = LayoutFactory.getInstance().createToggleButton(String.valueOf(index));
+			digitFilterButton
+					.setTooltip(new Tooltip(TooltipConstants.APPLY_FILTER_PREFIX + index + TooltipConstants.APPLY_FILTER_SUFFIX));
 			// Integer division intentional!
 			this.add(digitFilterButton, (index - 1) % 3, (index - 1) / 3);
 			this.filterButtons.add(digitFilterButton);
 		}
 		final Button bivalueCellFilterButton = LayoutFactory.getInstance().createToggleButton(LabelConstants.BIVALUE_CELL);
+		bivalueCellFilterButton.setTooltip(new Tooltip(TooltipConstants.APPLY_BIVALUE_FILTER));
 		this.filterButtons.add(bivalueCellFilterButton);
 		this.add(bivalueCellFilterButton, 1, 3);
 		this.createUndoButton();
