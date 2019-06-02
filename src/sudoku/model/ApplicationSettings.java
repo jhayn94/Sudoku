@@ -98,7 +98,7 @@ public class ApplicationSettings {
 		this.solveToRequiredStep = settingsToLoad.get(SOLVE_TO_REQUIRED_STEP_KEY).equals(TRUE);
 		this.mustContainStepWithName = settingsToLoad.get(MUST_CONTAIN_STEP_WITH_NAME_KEY);
 		this.maxScoreForDifficulty = new EnumMap<>(Difficulty.class);
-		for (final Difficulty tmpDifficulty : Arrays.asList(Difficulty.values())) {
+		for (final Difficulty tmpDifficulty : Difficulty.getValidDifficulties()) {
 			this.maxScoreForDifficulty.put(tmpDifficulty,
 					Integer.parseInt(settingsToLoad.get(MAX_SCORE_FOR_KEY + tmpDifficulty.name())));
 		}
@@ -132,7 +132,7 @@ public class ApplicationSettings {
 				new FileWriter(new File(ResourceConstants.SAVED_SETTINGS)))) {
 			bufferedWriter.write(DIFFICULTY_KEY + EQUALS + this.difficulty.name() + NEW_LINE);
 			bufferedWriter.write(MUST_CONTAIN_STEP_WITH_NAME_KEY + EQUALS + this.mustContainStepWithName + NEW_LINE);
-			for (final Difficulty tmpDifficulty : Arrays.asList(Difficulty.values())) {
+			for (final Difficulty tmpDifficulty : Difficulty.getValidDifficulties()) {
 				bufferedWriter.write(MAX_SCORE_FOR_KEY + tmpDifficulty.name() + EQUALS
 						+ this.maxScoreForDifficulty.get(tmpDifficulty) + NEW_LINE);
 			}

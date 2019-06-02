@@ -1,6 +1,5 @@
 package sudoku.view.settings;
 
-import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.UnaryOperator;
@@ -60,7 +59,7 @@ public class DifficultySettingsView extends ModalDialog {
 		final GridPane difficultySettingsGridPane = new GridPane();
 		difficultySettingsGridPane.setHgap(30);
 		difficultySettingsGridPane.setVgap(30);
-		Arrays.asList(Difficulty.values()).forEach(difficulty -> {
+		Difficulty.getValidDifficulties().forEach(difficulty -> {
 			final Label difficultyLabel = new Label(difficulty.getLabel());
 			final int maxScoreForDifficulty = ApplicationSettings.getInstance().getMaxScoreForDifficulty(difficulty.name());
 			final TextField maxScoreInput = new TextField();

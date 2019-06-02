@@ -1,6 +1,5 @@
 package sudoku.view.settings;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -168,7 +167,7 @@ public class SolverSettingsView extends ModalDialog {
 		this.difficultyComboBox.setEditable(true);
 		this.difficultyComboBox.getEditor().setEditable(false);
 		final ObservableList<String> difficultyComboBoxItems = this.difficultyComboBox.getItems();
-		Arrays.asList(Difficulty.values()).stream().map(Difficulty::getLabel).forEach(difficultyComboBoxItems::add);
+		Difficulty.getValidDifficulties().stream().map(Difficulty::getLabel).forEach(difficultyComboBoxItems::add);
 		this.difficultyComboBox.getSelectionModel().select(firstStepConfig.getLevel() - 1);
 	}
 

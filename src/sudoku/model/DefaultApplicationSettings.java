@@ -89,7 +89,7 @@ public class DefaultApplicationSettings {
 		this.difficulty = Difficulty.valueOf(settingsToLoad.get(DIFFICULTY_KEY));
 		this.solveToRequiredStep = settingsToLoad.get(SOLVE_TO_REQUIRED_STEP_KEY).equals(TRUE);
 		this.maxScoreForDifficulty = new EnumMap<>(Difficulty.class);
-		for (final Difficulty tmpDifficulty : Arrays.asList(Difficulty.values())) {
+		for (final Difficulty tmpDifficulty : Difficulty.getValidDifficulties()) {
 			this.maxScoreForDifficulty.put(tmpDifficulty,
 					Integer.parseInt(settingsToLoad.get(MAX_SCORE_FOR_KEY + tmpDifficulty.name())));
 		}

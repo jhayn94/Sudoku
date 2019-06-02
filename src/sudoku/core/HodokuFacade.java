@@ -120,9 +120,13 @@ public class HodokuFacade {
 		final SudokuSolver solver = SudokuSolverFactory.getDefaultSolverInstance();
 		solver.solve(Options.getInstance().getDifficultyLevel(5), solvedSudoku, false, false,
 				Options.getInstance().solverSteps, Options.getInstance().getGameMode());
-		return Arrays.asList(Difficulty.values()).stream()
-				.filter(difficulty -> difficulty.getInternalDifficulty().equals(solvedSudoku.getLevel().getType())).findFirst()
-				.orElseThrow(NoSuchElementException::new);
+		try {
+			return Difficulty.getValidDifficulties().stream()
+					.filter(difficulty -> difficulty.getInternalDifficulty().equals(solvedSudoku.getLevel().getType()))
+					.findFirst().orElseThrow(NoSuchElementException::new);
+		} catch (final NullPointerException npe) {
+			return Difficulty.INVALID;
+		}
 	}
 
 	/**

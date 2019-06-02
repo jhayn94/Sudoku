@@ -1,7 +1,5 @@
 package sudoku.state.model.settings;
 
-import java.util.Arrays;
-
 import javafx.scene.control.TextField;
 import sudoku.core.ViewController;
 import sudoku.model.ApplicationSettings;
@@ -22,7 +20,7 @@ public class SaveDifficultySettingsState extends AbstractSaveSettingsState {
 	@Override
 	public void onEnter() {
 		final DifficultySettingsView difficultySettingsView = ViewController.getInstance().getDifficultySettingsView();
-		Arrays.asList(Difficulty.values()).forEach(difficulty -> {
+		Difficulty.getValidDifficulties().forEach(difficulty -> {
 			final TextField maxScoreInput = difficultySettingsView.getMaxScoreInput(difficulty);
 			String maxScoreText = maxScoreInput.getText();
 			if (maxScoreText.isEmpty()) {
