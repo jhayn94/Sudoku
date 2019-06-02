@@ -28,7 +28,5 @@ public class ShowSpecificHintState extends ApplicationModelState {
 		final HintButtonPane hintButtonPane = ViewController.getInstance().getHintButtonPane();
 		hintButtonPane.getApplyHintButton().setDisable(false);
 		hintButtonPane.getHideHintButton().setDisable(false);
-		hintButtonPane.getSpecificHintButton().setDisable(true);
-		hintButtonPane.getVagueHintButton().setDisable(true);
 	}
 }
