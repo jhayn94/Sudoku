@@ -27,7 +27,7 @@ public class ToggleCandidateColorState extends ApplicationModelState {
 	public void onEnter() {
 		final SudokuPuzzleCell selectedCell = this.getSelectedCell();
 
-		if (!selectedCell.isCellFixed()) {
+		if (this.sudokuPuzzleValues.getFixedCellDigit(selectedCell.getRow(), selectedCell.getCol()) == 0) {
 			final List<Integer> candidatesForCell = this.sudokuPuzzleValues.getCandidateDigitsForCell(
 					this.sudokuPuzzleStyle.getSelectedCellRow(), this.sudokuPuzzleStyle.getSelectedCellCol());
 			final boolean isCandidateVisible = candidatesForCell.contains(this.sudokuPuzzleStyle.getActiveCandidateDigit());

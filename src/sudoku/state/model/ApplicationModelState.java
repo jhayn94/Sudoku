@@ -112,7 +112,7 @@ public class ApplicationModelState {
 	 * Toggles the visibility of the given candidate active for the given cell.
 	 */
 	protected void toggleCandidateActiveForCell(final int pressedDigit, final SudokuPuzzleCell cell) {
-		if (!cell.isCellFixed()) {
+		if (this.sudokuPuzzleValues.getFixedCellDigit(cell.getRow(), cell.getCol()) == 0) {
 			final List<Integer> candidatesForCell = this.sudokuPuzzleValues.getCandidateDigitsForCell(cell.getRow(),
 					cell.getCol());
 			final boolean isCandidateVisible = candidatesForCell.contains(pressedDigit);
@@ -279,7 +279,8 @@ public class ApplicationModelState {
 				.forEach(row -> IntStream.rangeClosed(0, SudokuPuzzleValues.CELLS_PER_HOUSE - 1).forEach(col -> {
 					final List<Integer> candidates = this.sudokuPuzzleValues.getCandidateDigitsForCell(row, col);
 					final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
-					if (!sudokuPuzzleCell.isCellFixed() && this.candidatesMatchFilter(predicate, candidates)) {
+					if (this.sudokuPuzzleValues.getFixedCellDigit(row, col) == 0
+							&& this.candidatesMatchFilter(predicate, candidates)) {
 						final ObservableList<String> styleClass = sudokuPuzzleCell.getStyleClass();
 						styleClass.add(ACTIVE_FILTER_CELL_CSS_CLASS);
 					}

@@ -76,10 +76,6 @@ public class SudokuPuzzleCell extends StackPane {
 		return this.col;
 	}
 
-	public boolean isCellFixed() {
-		return !this.fixedDigitLabel.getText().isEmpty();
-	}
-
 	/** Returns the set value for the cell, or -1 if there isn't one. */
 	public int getFixedDigit() {
 		return this.isCellFixed() ? Integer.parseInt(this.fixedDigitLabel.getText()) : -1;
@@ -208,6 +204,10 @@ public class SudokuPuzzleCell extends StackPane {
 	 */
 	private void addEventHandlers() {
 		this.setEventHandler(MouseEvent.MOUSE_CLICKED, this.onClick());
+	}
+
+	private boolean isCellFixed() {
+		return !this.fixedDigitLabel.getText().isEmpty();
 	}
 
 }
