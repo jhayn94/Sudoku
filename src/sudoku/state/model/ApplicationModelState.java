@@ -106,23 +106,6 @@ public class ApplicationModelState {
 				this.sudokuPuzzleStyle.getSelectedCellCol());
 	}
 
-	/**
-	 * Updates the cells (the view) to match the model.
-	 */
-	protected void updateCells() {
-		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
-			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
-				final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
-				final int givenCellDigit = this.sudokuPuzzleValues.getGivenCellDigit(row, col);
-				final boolean isCellGiven = givenCellDigit != 0;
-				sudokuPuzzleCell.setFixedDigit(isCellGiven ? String.valueOf(givenCellDigit) : Strings.EMPTY);
-				sudokuPuzzleCell.setCandidatesVisible(!isCellGiven);
-				sudokuPuzzleCell.setCellGiven(isCellGiven);
-				this.updateFixedCellTypeCssClass(sudokuPuzzleCell, isCellGiven ? GIVEN_CELL_CSS_CLASS : UNFIXED_CELL_CSS_CLASS);
-			}
-		}
-	}
-
 	// Methods that update the candidate labels / view components.
 
 	/**

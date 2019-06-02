@@ -31,6 +31,7 @@ public class NewRandomPuzzleState extends ResetFromModelState {
 		this.resetColorStates();
 		this.sudokuPuzzleValues = new SudokuPuzzleValues(this.puzzleString);
 		this.resetApplicationFromPuzzleState();
+		this.updateAllPuzzleStatsForNewPuzzle();
 	}
 
 }

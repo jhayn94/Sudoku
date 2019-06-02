@@ -37,6 +37,7 @@ public class PastePuzzleState extends ResetFromModelState {
 				this.sudokuPuzzleValues = new SudokuPuzzleValues(puzzleString);
 
 				this.resetApplicationFromPuzzleState();
+				this.updateAllPuzzleStatsForNewPuzzle();
 				this.reapplyActiveFilter();
 
 				this.applicationStateHistory.clearRedoStack();
