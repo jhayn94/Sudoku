@@ -26,6 +26,10 @@ import sudoku.view.util.Difficulty;
 import sudoku.view.util.LabelConstants;
 import sudoku.view.util.TooltipConstants;
 
+/**
+ * This class contains methods to allow the user to view or change the
+ * difficulty settings of the application.
+ */
 public class DifficultySettingsView extends ModalDialog {
 
 	private static final String DIGITS_ONLY_REGEX = "^\\d*$";
@@ -62,17 +66,12 @@ public class DifficultySettingsView extends ModalDialog {
 			final TextField maxScoreInput = new TextField();
 			maxScoreInput.setTooltip(new Tooltip(TooltipConstants.MAX_DIFFICULTY_SCORE_PREFIX + difficulty.getLabel()
 					+ TooltipConstants.MAX_DIFFICULTY_SCORE_SUFFIX));
-			final UnaryOperator<Change> integerFilter = change -> {
-				final String newText = change.getControlNewText();
-				if (newText.matches(DIGITS_ONLY_REGEX)) {
-					return change;
-				}
-				return null;
-			};
+
 			if (Difficulty.DIABOLICAL == difficulty) {
 				maxScoreInput.setEditable(false);
 				maxScoreInput.setDisable(true);
 			}
+			final UnaryOperator<Change> integerFilter = this.getIntegerOnlyInputFilter();
 			maxScoreInput.setTextFormatter(
 					new TextFormatter<Integer>(new IntegerStringConverter(), maxScoreForDifficulty, integerFilter));
 			this.maxScoreInputs.put(difficulty, maxScoreInput);
@@ -82,6 +81,17 @@ public class DifficultySettingsView extends ModalDialog {
 		contentPane.getChildren().add(difficultySettingsGridPane);
 		this.setCenter(contentPane);
 		this.createButtonPane();
+	}
+
+	private UnaryOperator<Change> getIntegerOnlyInputFilter() {
+		final UnaryOperator<Change> integerFilter = change -> {
+			final String newText = change.getControlNewText();
+			if (newText.matches(DIGITS_ONLY_REGEX)) {
+				return change;
+			}
+			return null;
+		};
+		return integerFilter;
 	}
 
 	private void createButtonPane() {

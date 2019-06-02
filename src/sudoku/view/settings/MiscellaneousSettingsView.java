@@ -15,6 +15,10 @@ import sudoku.view.ModalDialog;
 import sudoku.view.util.LabelConstants;
 import sudoku.view.util.TooltipConstants;
 
+/**
+ * This class contains methods to allow the user to view or change miscellaneous
+ * settings of the application.
+ */
 public class MiscellaneousSettingsView extends ModalDialog {
 
 	private static final int BUTTON_PANE_PADDING = 5;
