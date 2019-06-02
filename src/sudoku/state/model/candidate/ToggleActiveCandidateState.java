@@ -36,6 +36,8 @@ public class ToggleActiveCandidateState extends ApplicationModelState {
 
 		final Label activeColoringCandidateTextArea = ViewController.getInstance().getActiveColoringCandidateLabel();
 		activeColoringCandidateTextArea.setText(String.valueOf(activeColorCandidateDigit));
+
+		this.updateRemainingScoreForPuzzle();
 	}
 
 }

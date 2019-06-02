@@ -9,6 +9,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import generator.BackgroundGenerator;
+import generator.SudokuGenerator;
+import generator.SudokuGeneratorFactory;
 import solver.SudokuSolver;
 import solver.SudokuSolverFactory;
 import sudoku.ClipboardMode;
@@ -94,6 +96,13 @@ public class HodokuFacade {
 			sudokuSolver.doStep(tempSudoku, solutionStep);
 		}
 		return solutionSteps;
+	}
+
+	public boolean isPuzzleValid(final SudokuPuzzleValues sudoku) {
+		final Sudoku2 tempSudoku = this.convertSudokuPuzzleValuesToSudoku2(sudoku, false);
+		final SudokuGenerator generator = SudokuGeneratorFactory.getDefaultGeneratorInstance();
+		LOG.info(generator.getNumberOfSolutions(tempSudoku) == 1);
+		return generator.getNumberOfSolutions(tempSudoku) == 1;
 	}
 
 	/** Returns the rating to finish solving the given puzzle. */

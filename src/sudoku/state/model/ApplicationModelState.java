@@ -11,6 +11,7 @@ import org.apache.logging.log4j.util.Strings;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import sudoku.SolutionStep;
 import sudoku.core.HodokuFacade;
@@ -25,6 +26,7 @@ import sudoku.view.puzzle.SudokuPuzzleCellUtils;
 import sudoku.view.sidebar.FilterButtonPane;
 import sudoku.view.util.ColorUtils.ColorState;
 import sudoku.view.util.Difficulty;
+import sudoku.view.util.LabelConstants;
 import sudoku.view.util.MouseMode;
 
 /**
@@ -202,13 +204,19 @@ public class ApplicationModelState {
 		// the puzzle is trying to use brute force after each change, which makes things
 		// quite slow.
 		if (this.sudokuPuzzleValues.hasGivens()) {
+			final TextField remainingRatingTextField = ViewController.getInstance().getPuzzleStatsPane()
+					.getRemainingRatingTextField();
 			if (ApplicationSettings.getInstance().isShowPuzzleProgress()) {
-				final int remainingScoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues,
-						false);
-				ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField()
-						.setText(String.valueOf(remainingScoreForPuzzle));
+				final boolean isPuzzleValid = HodokuFacade.getInstance().isPuzzleValid(this.sudokuPuzzleValues);
+				if (!isPuzzleValid) {
+					remainingRatingTextField.setText(LabelConstants.INVALID_PUZZLE);
+				} else {
+					final int remainingScoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues,
+							false);
+					remainingRatingTextField.setText(String.valueOf(remainingScoreForPuzzle));
+				}
 			} else {
-				ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField().setText(Strings.EMPTY);
+				remainingRatingTextField.setText(Strings.EMPTY);
 			}
 		}
 	}

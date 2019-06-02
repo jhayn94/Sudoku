@@ -28,12 +28,12 @@ public abstract class ResetFromModelState extends ApplicationModelState {
 	protected void resetApplicationFromPuzzleState() {
 		this.updateCells();
 		// Must do candidate updates after because the cell values need to be finished
-		// before
-		// setting candidates. Otherwise the doesCellSeeFixedDigit checks will not be
-		// correct.
+		// before setting candidates. Otherwise the doesCellSeeFixedDigit checks will
+		// not be correct.
 		this.updateCandidates();
 		this.resetColorStates();
 		this.reapplyActiveFilter();
+		this.updateRemainingScoreForPuzzle();
 	}
 
 	/**

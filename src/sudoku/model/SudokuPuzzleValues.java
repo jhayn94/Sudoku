@@ -141,6 +141,7 @@ public class SudokuPuzzleValues {
 				clone.candidatesForCells[col][row] = new ArrayList<>();
 				clone.candidatesForCells[col][row].addAll(this.candidatesForCells[col][row]);
 				clone.difficultyScore = this.difficultyScore;
+				clone.hasGivens = this.hasGivens;
 			}
 		}
 		return clone;

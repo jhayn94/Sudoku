@@ -135,6 +135,8 @@ public class LabelConstants {
 
 	public static final String ENABLED = "Enabled:";
 
+	public static final String INVALID_PUZZLE = "Invalid Puzzle!";
+
 	private LabelConstants() {
 		// Private constructor to prevent instantiation.
 	}
