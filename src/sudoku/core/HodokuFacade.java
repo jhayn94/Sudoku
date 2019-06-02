@@ -69,7 +69,6 @@ public class HodokuFacade {
 				generatedSudokuString = this.solveSudokuUpToFirstInstanceOfStep(generatedSudokuString, mustContainStepWithName);
 			}
 		}
-		this.getSolutionForSudoku(generatedSudokuString);
 		return generatedSudokuString;
 	}
 

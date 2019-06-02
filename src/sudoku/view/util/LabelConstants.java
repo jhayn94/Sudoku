@@ -89,7 +89,7 @@ public class LabelConstants {
 
 	public static final String COLOR_SETTINGS = "Color Settings";
 
-	public static final String PUZZLE_GENERATION_SETTINGS = "New Puzzle Settings";
+	public static final String PUZZLE_GENERATION_SETTINGS = "Puzzle Generation Settings";
 
 	public static final String SOLVER_SETTINGS = "Solver Settings";
 
@@ -97,7 +97,7 @@ public class LabelConstants {
 
 	public static final String SAVE_AND_APPLY = "Save and Apply";
 
-	public static final String AUTO_MANAGE_CANDIDATES = "Automatically manage candidates";
+	public static final String AUTO_MANAGE_CANDIDATES = "Automatically Manage Candidates";
 
 	public static final String FILTERED_CELL_COLOR = "Filter: ";
 
@@ -117,13 +117,13 @@ public class LabelConstants {
 
 	public static final String MUST_CONTAIN = "Must Contain:";
 
-	public static final String SOLVE_UP_TO = "Solve up to Technique?";
+	public static final String SOLVE_UP_TO = "Solve up to Technique";
 
 	public static final String RATING = "Rating:";
 
 	public static final String REMAINING_RATING = "Remaining:";
 
-	public static final String SHOW_PUZZLE_PROGRESS = "Show remaining puzzle rating";
+	public static final String SHOW_PUZZLE_PROGRESS = "Show Puzzle Progress";
 
 	public static final String UNKNOWN = "Unknown";
 
