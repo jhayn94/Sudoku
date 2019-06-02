@@ -5,6 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import generator.BackgroundGenerator;
 import solver.SudokuSolver;
 import solver.SudokuSolverFactory;
@@ -28,6 +31,8 @@ import sudoku.view.util.Difficulty;
  * In addition, this class offers a SPOC to the HoDoKu library.
  */
 public class HodokuFacade {
+
+	private static final Logger LOG = LogManager.getLogger(SudokuMain.class);
 
 	private static HodokuFacade instance;
 
@@ -62,6 +67,7 @@ public class HodokuFacade {
 				generatedSudokuString = this.solveSudokuUpToFirstInstanceOfStep(generatedSudokuString, mustContainStepWithName);
 			}
 		}
+		this.getSolutionForSudoku(generatedSudokuString);
 		return generatedSudokuString;
 	}
 
@@ -85,6 +91,7 @@ public class HodokuFacade {
 		while (!tempSudoku.isSolved()) {
 			final SolutionStep solutionStep = sudokuSolver.getHint(tempSudoku, false);
 			solutionSteps.add(solutionStep);
+			LOG.info(solutionStep);
 			sudokuSolver.doStep(tempSudoku, solutionStep);
 		}
 		return solutionSteps;
@@ -174,7 +181,13 @@ public class HodokuFacade {
 		difficultyLevelToChange.setMaxScore(maxScore);
 	}
 
-	public List<StepConfig> getCurrentSolverConfig() {
+	public void setSolverConfig(final List<StepConfig> stepConfigs) {
+		final StepConfig[] newStepConfigs = (StepConfig[]) stepConfigs.toArray();
+		Options.getInstance().solverSteps = Options.getInstance().copyStepConfigs(newStepConfigs, false, true);
+		Options.getInstance().adjustOrgSolverSteps();
+	}
+
+	public List<StepConfig> getSolverConfig() {
 		return Arrays.asList(Options.getInstance().copyStepConfigs(Options.getInstance().solverSteps, true, false));
 	}
 

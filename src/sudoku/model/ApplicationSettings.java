@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import sudoku.Options;
 import sudoku.StepConfig;
 import sudoku.core.HodokuFacade;
 import sudoku.view.util.Difficulty;
@@ -29,6 +31,8 @@ import sudoku.view.util.ResourceConstants;
 public class ApplicationSettings {
 
 	private static final Logger LOG = LogManager.getLogger(ApplicationSettings.class);
+
+	private static final String PIPE = "|";
 
 	private static final String EQUALS = "=";
 
@@ -64,6 +68,8 @@ public class ApplicationSettings {
 
 	private static final String MAX_SCORE_FOR_KEY = "maxScoreFor";
 
+	private static final String STEP_CONFIG_KEY = "stepConfig";
+
 	// Puzzle Generation settings.
 	private Difficulty difficulty;
 
@@ -80,8 +86,7 @@ public class ApplicationSettings {
 	private boolean showPuzzleProgress;
 
 	// Solver settings.
-	// TODO - confirm how this will work.
-	private StepConfig[] solutionStepConfigurations;
+	private List<StepConfig> stepConfigs;
 
 	// Color settings.
 	private String colorForFiltering;
@@ -104,6 +109,21 @@ public class ApplicationSettings {
 		for (int index = 0; index < this.colorsUsedInColoring.length; index++) {
 			this.colorsUsedInColoring[index] = settingsToLoad.get(COLOR_FOR_COLORING_KEY + index);
 		}
+		this.stepConfigs = new ArrayList<>();
+		// Use some other copy of the step configs to get access to the different names
+		// we need to search for (instead of hard-coding all 30+).
+		final List<StepConfig> allStepConfigs = HodokuFacade.getInstance().getSolverConfig();
+		allStepConfigs.forEach(tempStepConfig -> {
+			final String storedStepConfigData = settingsToLoad.get(STEP_CONFIG_KEY + tempStepConfig.getType().getStepName());
+			final String[] stepConfigParameters = storedStepConfigData.split("\\" + PIPE);
+			tempStepConfig.setIndex(Integer.parseInt(stepConfigParameters[0]));
+			tempStepConfig.setEnabled(Boolean.parseBoolean(stepConfigParameters[1]));
+			tempStepConfig.setBaseScore(Integer.parseInt(stepConfigParameters[2]));
+			tempStepConfig.setLevel(Integer.parseInt(stepConfigParameters[3]));
+			this.stepConfigs.add(tempStepConfig);
+		});
+		// A little redundant, but saves some code duplication.
+		this.setSolverConfig(this.stepConfigs);
 	}
 
 	/** Writes the current state of this to the saved settings file. */
@@ -122,6 +142,11 @@ public class ApplicationSettings {
 			bufferedWriter.write(COLOR_FOR_FILTERING_KEY + EQUALS + this.colorForFiltering + NEW_LINE);
 			for (int index = 0; index < this.colorsUsedInColoring.length; index++) {
 				bufferedWriter.write(COLOR_FOR_COLORING_KEY + index + EQUALS + this.colorsUsedInColoring[index] + NEW_LINE);
+			}
+			for (int index = 0; index < this.stepConfigs.size(); index++) {
+				final StepConfig stepConfig = this.stepConfigs.get(index);
+				bufferedWriter.write(STEP_CONFIG_KEY + stepConfig.getType().getStepName() + EQUALS + index + PIPE
+						+ stepConfig.isEnabled() + PIPE + stepConfig.getBaseScore() + PIPE + stepConfig.getLevel() + NEW_LINE);
 			}
 		} catch (final IOException e) {
 			LOG.error("{}", e);
@@ -149,10 +174,6 @@ public class ApplicationSettings {
 		return this.showPuzzleProgress;
 	}
 
-	public StepConfig[] getSolutionStepConfigurations() {
-		return this.solutionStepConfigurations;
-	}
-
 	public String getColorForFiltering() {
 		return this.colorForFiltering;
 	}
@@ -163,10 +184,6 @@ public class ApplicationSettings {
 
 	public int getMaxScoreForDifficulty(final String difficultyName) {
 		return this.maxScoreForDifficulty.get(Difficulty.valueOf(difficultyName.toUpperCase()));
-	}
-
-	public void setSolutionStepConfigurations(final StepConfig[] solutionStepConfigurations) {
-		this.solutionStepConfigurations = solutionStepConfigurations;
 	}
 
 	public void setDifficulty(final Difficulty difficulty) {
@@ -201,6 +218,17 @@ public class ApplicationSettings {
 		final Difficulty difficultyToChange = Difficulty.valueOf(difficultyName.toUpperCase());
 		this.maxScoreForDifficulty.put(difficultyToChange, maxScore);
 		HodokuFacade.getInstance().updateMaxScoreForDifficulty(difficultyToChange, maxScore);
+	}
+
+	public void setSolverConfig(final List<StepConfig> stepConfigs) {
+		this.stepConfigs = stepConfigs;
+		final StepConfig[] newSolverSteps = stepConfigs.stream().toArray(element -> new StepConfig[element]);
+		Options.getInstance().solverSteps = Options.getInstance().copyStepConfigs(newSolverSteps, false, true);
+		Options.getInstance().adjustOrgSolverSteps();
+	}
+
+	public List<StepConfig> getSolverConfig() {
+		return Arrays.asList(Options.getInstance().copyStepConfigs(Options.getInstance().solverSteps, true, false));
 	}
 
 	private static Map<String, String> readSettingsFromFile(final String filePath) {

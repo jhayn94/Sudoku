@@ -1,7 +1,9 @@
 package sudoku.view.settings;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.UnaryOperator;
 
 import javafx.beans.value.ChangeListener;
@@ -22,8 +24,8 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 import sudoku.StepConfig;
-import sudoku.core.HodokuFacade;
 import sudoku.core.ModelController;
+import sudoku.model.ApplicationSettings;
 import sudoku.view.ModalDialog;
 import sudoku.view.util.Difficulty;
 import sudoku.view.util.LabelConstants;
@@ -48,9 +50,9 @@ public class SolverSettingsView extends ModalDialog {
 
 	private static final int LARGE_PADDING = 30;
 
-	protected static final String DISABLED_STEP_CSS_CLASS = "sudoku-disabled-step";
+	private static final String DISABLED_STEP_CSS_CLASS = "sudoku-disabled-step";
 
-	protected static final String ENABLED_STEP_CSS_CLASS = "sudoku-enabled-step";
+	private static final String ENABLED_STEP_CSS_CLASS = "sudoku-enabled-step";
 
 	private List<StepConfig> stepConfigs;
 
@@ -60,8 +62,13 @@ public class SolverSettingsView extends ModalDialog {
 
 	private TextField ratingTextField;
 
+	private ListView<StepConfig> listView;
+
+	private final Map<StepConfig, ListCell<StepConfig>> listCells;
+
 	public SolverSettingsView(final Stage stage) {
 		super(stage);
+		this.listCells = new HashMap<>();
 		this.configure();
 	}
 
@@ -78,52 +85,22 @@ public class SolverSettingsView extends ModalDialog {
 		contentPane.setAlignment(Pos.TOP_LEFT);
 		contentPane.setPadding(new Insets(SMALL_PADDING));
 
-		final ListView<StepConfig> listView = new ListView<StepConfig>();
-		final ObservableList<StepConfig> items = listView.getItems();
-		this.stepConfigs = HodokuFacade.getInstance().getCurrentSolverConfig();
+		this.listView = new ListView<StepConfig>();
+		final ObservableList<StepConfig> items = this.listView.getItems();
+		this.stepConfigs = ApplicationSettings.getInstance().getSolverConfig();
 		this.stepConfigs.forEach(items::add);
-		listView.setMinWidth(STEP_LIST_VIEW_WIDTH);
-		listView.setMaxWidth(STEP_LIST_VIEW_WIDTH);
-		listView.getSelectionModel().select(0);
-		listView.getSelectionModel().selectedItemProperty().addListener(this.onChangeSelectionListener());
-		listView.setCellFactory(param -> new ListCell<StepConfig>() {
-			@Override
-			protected void updateItem(final StepConfig item, final boolean empty) {
-				super.updateItem(item, empty);
-
-				if (item == null || empty) {
-					this.setText(null);
-				} else {
-					this.setText(item.getType().getStepName());
-					if (item.isEnabled()) {
-						this.getStyleClass().add(ENABLED_STEP_CSS_CLASS);
-						this.getStyleClass().remove(DISABLED_STEP_CSS_CLASS);
-					} else {
-						this.getStyleClass().remove(ENABLED_STEP_CSS_CLASS);
-						this.getStyleClass().add(DISABLED_STEP_CSS_CLASS);
-					}
-				}
-			}
-		});
-		HBox.setMargin(listView, new Insets(SMALL_PADDING, SMALL_PADDING, 0, 0));
+		this.listView.setMinWidth(STEP_LIST_VIEW_WIDTH);
+		this.listView.setMaxWidth(STEP_LIST_VIEW_WIDTH);
+		this.listView.getSelectionModel().select(0);
+		this.listView.getSelectionModel().selectedItemProperty().addListener(this.onChangeSelectionListener());
+		this.listView.setCellFactory(param -> this.getListCellFactory());
+		HBox.setMargin(this.listView, new Insets(SMALL_PADDING, SMALL_PADDING, 0, 0));
 
 		final GridPane settingsForStepConfigPane = this.createStepSettingsPane();
 
-		contentPane.getChildren().addAll(listView, settingsForStepConfigPane);
+		contentPane.getChildren().addAll(this.listView, settingsForStepConfigPane);
 		this.setCenter(contentPane);
 		this.createButtonPane();
-	}
-
-	private ChangeListener<StepConfig> onChangeSelectionListener() {
-		return (observable, oldValue, newValue) -> {
-			final int indexOfSelection = this.stepConfigs.indexOf(newValue);
-			final StepConfig selectedStepConfig = this.stepConfigs.get(indexOfSelection);
-			this.difficultyComboBox.getSelectionModel().select(selectedStepConfig.getLevel() - 1);
-			final boolean enabled = selectedStepConfig.isEnabled();
-			this.enabledCheckbox.setSelected(enabled);
-			final int baseScore = selectedStepConfig.getBaseScore();
-			this.ratingTextField.setText(String.valueOf(baseScore));
-		};
 	}
 
 	private GridPane createStepSettingsPane() {
@@ -135,12 +112,17 @@ public class SolverSettingsView extends ModalDialog {
 		final Label enabledLabel = new Label(LabelConstants.ENABLED);
 		final Label difficultyLabel = new Label(LabelConstants.DIFFICULTY + ":");
 		final Label ratingLabel = new Label(LabelConstants.RATING);
+
+		final StepConfig firstStepConfig = this.stepConfigs.get(0);
 		this.enabledCheckbox = new CheckBox();
+		this.enabledCheckbox.setSelected(firstStepConfig.isEnabled());
+		this.enabledCheckbox.selectedProperty().addListener(this.getEnabledCheckboxChangeListener());
 		this.difficultyComboBox = new ComboBox<String>();
 		this.difficultyComboBox.setMinWidth(DIFFICULTY_COMBO_BOX_WIDTH);
 		this.difficultyComboBox.setMaxWidth(DIFFICULTY_COMBO_BOX_WIDTH);
 		this.difficultyComboBox.setEditable(true);
 		this.difficultyComboBox.getEditor().setEditable(false);
+		this.difficultyComboBox.getSelectionModel().select(firstStepConfig.getLevel() - 1);
 		final ObservableList<String> difficultyComboBoxItems = this.difficultyComboBox.getItems();
 		Arrays.asList(Difficulty.values()).stream().map(Difficulty::getLabel).forEach(difficultyComboBoxItems::add);
 		this.ratingTextField = new TextField();
@@ -148,7 +130,8 @@ public class SolverSettingsView extends ModalDialog {
 		this.ratingTextField.setMaxWidth(RATING_TEXT_FIELD_WIDTH);
 
 		final UnaryOperator<Change> integerFilter = this.getIntegerOnlyInputFilter();
-		this.ratingTextField.setTextFormatter(new TextFormatter<Integer>(new IntegerStringConverter(), 0, integerFilter));
+		this.ratingTextField.setTextFormatter(
+				new TextFormatter<Integer>(new IntegerStringConverter(), firstStepConfig.getBaseScore(), integerFilter));
 		settingsForStepConfigPane.add(enabledLabel, 0, 0);
 		settingsForStepConfigPane.add(difficultyLabel, 0, 1);
 		settingsForStepConfigPane.add(ratingLabel, 0, 2);
@@ -161,7 +144,9 @@ public class SolverSettingsView extends ModalDialog {
 	private void createButtonPane() {
 		final Button confirmButton = new Button(LabelConstants.SAVE_AND_APPLY);
 		confirmButton.setOnAction(event -> {
-			ModelController.getInstance().transitionToSaveSolverSettingsState();
+			final int selectedIndex = this.listView.getSelectionModel().getSelectedIndex();
+			this.updateStepFromView(this.stepConfigs.get(selectedIndex));
+			ModelController.getInstance().transitionToSaveSolverSettingsState(this.stepConfigs);
 			this.stage.close();
 		});
 		final Button restoreDefaultsButton = new Button(LabelConstants.RESTORE_DEFAULTS);
@@ -173,8 +158,77 @@ public class SolverSettingsView extends ModalDialog {
 		this.setBottom(buttonPane);
 	}
 
+	/**
+	 * Updates the given StepConfig to match the view elements' state. This is
+	 * triggered before leaving the screen, and when the list's selected item
+	 * changes.
+	 */
+	private void updateStepFromView(final StepConfig oldValue) {
+		final int indexOfSelection = this.stepConfigs.indexOf(oldValue);
+		final StepConfig stepConfig = this.stepConfigs.get(indexOfSelection);
+		final int difficultyLevel = this.difficultyComboBox.getSelectionModel().getSelectedIndex() + 1;
+		stepConfig.setLevel(difficultyLevel);
+		final int ratingForStep = Integer.parseInt(this.ratingTextField.getText());
+		stepConfig.setBaseScore(ratingForStep);
+		stepConfig.setEnabled(this.enabledCheckbox.isSelected());
+		this.updateListCellStyleClass(stepConfig, this.listCells.get(stepConfig));
+	}
+
+	private void updateListCellStyleClass(final StepConfig stepConfig, final ListCell<StepConfig> listCellForStep) {
+		if (stepConfig.isEnabled()) {
+			listCellForStep.getStyleClass().add(ENABLED_STEP_CSS_CLASS);
+			listCellForStep.getStyleClass().remove(DISABLED_STEP_CSS_CLASS);
+		} else {
+			listCellForStep.getStyleClass().remove(ENABLED_STEP_CSS_CLASS);
+			listCellForStep.getStyleClass().add(DISABLED_STEP_CSS_CLASS);
+		}
+	}
+
+	private void updateSettingsWithSelectedStep(final StepConfig newValue) {
+		final int indexOfSelection = this.stepConfigs.indexOf(newValue);
+		final StepConfig selectedStepConfig = this.stepConfigs.get(indexOfSelection);
+		this.difficultyComboBox.getSelectionModel().select(selectedStepConfig.getLevel() - 1);
+		final boolean enabled = selectedStepConfig.isEnabled();
+		this.enabledCheckbox.setSelected(enabled);
+		final int baseScore = selectedStepConfig.getBaseScore();
+		this.ratingTextField.setText(String.valueOf(baseScore));
+	}
+
 	private void resetViewToDefaults() {
 
+	}
+
+	private ListCell<StepConfig> getListCellFactory() {
+		return new ListCell<StepConfig>() {
+			@Override
+			protected void updateItem(final StepConfig item, final boolean empty) {
+				super.updateItem(item, empty);
+
+				if (item == null || empty) {
+					this.setText(null);
+				} else {
+					this.setText(item.getType().getStepName());
+					SolverSettingsView.this.updateListCellStyleClass(item, this);
+					SolverSettingsView.this.listCells.put(item, this);
+				}
+			}
+		};
+	}
+
+	private ChangeListener<StepConfig> onChangeSelectionListener() {
+		return (observable, oldValue, newValue) -> {
+			this.updateStepFromView(oldValue);
+			this.updateSettingsWithSelectedStep(newValue);
+		};
+	}
+
+	private ChangeListener<Boolean> getEnabledCheckboxChangeListener() {
+		return (ChangeListener<Boolean>) (observable, oldValue, newValue) -> {
+			final int selectedIndex = this.listView.getSelectionModel().getSelectedIndex();
+			final StepConfig stepConfig = this.stepConfigs.get(selectedIndex);
+			stepConfig.setEnabled(newValue);
+			this.updateListCellStyleClass(stepConfig, this.listCells.get(stepConfig));
+		};
 	}
 
 	private UnaryOperator<Change> getIntegerOnlyInputFilter() {

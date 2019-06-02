@@ -1,5 +1,9 @@
 package sudoku.state.model.settings;
 
+import java.util.List;
+
+import sudoku.StepConfig;
+import sudoku.model.ApplicationSettings;
 import sudoku.state.model.ApplicationModelState;
 
 /**
@@ -8,13 +12,16 @@ import sudoku.state.model.ApplicationModelState;
  */
 public class SaveSolverSettingsState extends AbstractSaveSettingsState {
 
-	public SaveSolverSettingsState(final ApplicationModelState lastState) {
+	private final List<StepConfig> stepConfigs;
+
+	public SaveSolverSettingsState(final List<StepConfig> stepConfigs, final ApplicationModelState lastState) {
 		super(lastState, false);
+		this.stepConfigs = stepConfigs;
 	}
 
 	@Override
 	public void onEnter() {
-
+		ApplicationSettings.getInstance().setSolverConfig(this.stepConfigs);
 		super.onEnter();
 	}
 }

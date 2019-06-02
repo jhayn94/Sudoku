@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import sudoku.Options;
 import sudoku.StepConfig;
 import sudoku.view.util.Difficulty;
 import sudoku.view.util.ResourceConstants;
@@ -133,6 +134,15 @@ public class DefaultApplicationSettings {
 
 	public int getMaxScoreForDifficulty(final String difficultyName) {
 		return this.maxScoreForDifficulty.get(Difficulty.valueOf(difficultyName.toUpperCase()));
+	}
+
+	/**
+	 * Gets the default solver config. Note that this isn't stored in the project's
+	 * default settings file. This is because the technique used in
+	 * ApplicationSettings wouldn't work here.
+	 */
+	public List<StepConfig> getSolverConfig() {
+		return Arrays.asList(Options.getInstance().copyStepConfigs(Options.DEFAULT_SOLVER_STEPS, true, false));
 	}
 
 	private static Map<String, String> readSettingsFromFile(final String filePath) {

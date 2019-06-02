@@ -1,8 +1,10 @@
 package sudoku.core;
 
 import java.io.File;
+import java.util.List;
 
 import javafx.scene.input.KeyCode;
+import sudoku.StepConfig;
 import sudoku.state.model.ApplicationModelState;
 import sudoku.state.model.DefaultApplicationModelState;
 import sudoku.state.model.MouseModeChangedState;
@@ -254,8 +256,8 @@ public class ModelController {
 		this.applicationModelState.onEnter();
 	}
 
-	public void transitionToSaveSolverSettingsState() {
-		this.applicationModelState = new SaveSolverSettingsState(this.applicationModelState);
+	public void transitionToSaveSolverSettingsState(final List<StepConfig> stepConfigs) {
+		this.applicationModelState = new SaveSolverSettingsState(stepConfigs, this.applicationModelState);
 		this.applicationModelState.onEnter();
 	}
 
