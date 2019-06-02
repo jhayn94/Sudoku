@@ -91,7 +91,6 @@ public class HodokuFacade {
 		while (!tempSudoku.isSolved()) {
 			final SolutionStep solutionStep = sudokuSolver.getHint(tempSudoku, false);
 			solutionSteps.add(solutionStep);
-			LOG.info(solutionStep);
 			sudokuSolver.doStep(tempSudoku, solutionStep);
 		}
 		return solutionSteps;

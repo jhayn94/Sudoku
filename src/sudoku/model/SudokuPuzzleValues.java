@@ -51,6 +51,7 @@ public class SudokuPuzzleValues {
 
 	public SudokuPuzzleValues(final String initialGivens) {
 		this();
+		this.hasGivens = true;
 		if (initialGivens.contains(LEFT_BRACKET)) {
 			this.initializePuzzleWithProgress(initialGivens);
 		} else {
@@ -59,7 +60,6 @@ public class SudokuPuzzleValues {
 	}
 
 	private void initializePuzzleWithProgress(final String initialGivens) {
-		this.hasGivens = true;
 		this.initializePuzzleWithNoProgress(initialGivens);
 		final String[] candidateStrings = initialGivens.split("\\[");
 		// Skip 0th index since it is just the regular cell givens.
