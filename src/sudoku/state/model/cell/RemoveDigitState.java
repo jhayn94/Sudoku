@@ -37,10 +37,12 @@ public class RemoveDigitState extends ApplicationModelState {
 
 			final List<Integer> candidateDigitsForCell = this.sudokuPuzzleValues
 					.getCandidateDigitsForCell(selectedCell.getRow(), selectedCell.getCol());
-			for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
-				if (!SudokuPuzzleCellUtils.doesCellSeeFixedDigit(selectedCell.getRow(), selectedCell.getCol(), candidate)) {
-					selectedCell.setCandidateVisible(candidate, true);
-					candidateDigitsForCell.add(candidate);
+			if (ApplicationSettings.getInstance().isAutoManageCandidates()) {
+				for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
+					if (!SudokuPuzzleCellUtils.doesCellSeeFixedDigit(selectedCell.getRow(), selectedCell.getCol(), candidate)) {
+						selectedCell.setCandidateVisible(candidate, true);
+						candidateDigitsForCell.add(candidate);
+					}
 				}
 			}
 			this.reapplyActiveFilter();

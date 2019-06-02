@@ -101,7 +101,6 @@ public class HodokuFacade {
 	public boolean isPuzzleValid(final SudokuPuzzleValues sudoku) {
 		final Sudoku2 tempSudoku = this.convertSudokuPuzzleValuesToSudoku2(sudoku, false);
 		final SudokuGenerator generator = SudokuGeneratorFactory.getDefaultGeneratorInstance();
-		LOG.info(generator.getNumberOfSolutions(tempSudoku) == 1);
 		return generator.getNumberOfSolutions(tempSudoku) == 1;
 	}
 
