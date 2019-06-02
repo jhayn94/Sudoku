@@ -1,5 +1,8 @@
 package sudoku.state.model.settings;
 
+import org.apache.logging.log4j.util.Strings;
+
+import sudoku.core.HodokuFacade;
 import sudoku.core.ViewController;
 import sudoku.model.ApplicationSettings;
 import sudoku.state.model.ApplicationModelState;
@@ -23,6 +26,13 @@ public class SaveMiscellaneousSettingsState extends AbstractSaveSettingsState {
 		ApplicationSettings.getInstance().setAutoManageCandidates(isAutoManageCandidates);
 		final boolean isShowPuzzleProgress = miscellaneousSettingsView.getShowPuzzleProgressCheckBox().isSelected();
 		ApplicationSettings.getInstance().setShowPuzzleProgress(isShowPuzzleProgress);
+		if (isShowPuzzleProgress) {
+			final int remainingScore = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues, false);
+			ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField()
+					.setText(String.valueOf(remainingScore));
+		} else {
+			ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField().setText(Strings.EMPTY);
+		}
 		super.onEnter();
 	}
 }
