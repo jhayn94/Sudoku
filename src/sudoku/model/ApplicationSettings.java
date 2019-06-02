@@ -228,7 +228,11 @@ public class ApplicationSettings {
 	}
 
 	public List<StepConfig> getSolverConfig() {
-		return Arrays.asList(Options.getInstance().copyStepConfigs(Options.getInstance().solverSteps, true, false));
+		final List<StepConfig> tempList = Arrays
+				.asList(Options.getInstance().copyStepConfigs(Options.getInstance().solverSteps, true, false));
+		final List<StepConfig> stepConfigs = new ArrayList<>();
+		stepConfigs.addAll(tempList);
+		return stepConfigs;
 	}
 
 	private static Map<String, String> readSettingsFromFile(final String filePath) {
