@@ -202,7 +202,10 @@ public class HodokuFacade {
 		final Sudoku2 tempSudoku = new Sudoku2();
 		final String sudokuString = sudoku.toString(onlyGivens);
 		tempSudoku.setSudoku(sudokuString, true);
-		if (!onlyGivens) {
+		// Only remove candidates if they're auto managed. Otherwise, the HoDoKu solver
+		// thinks the puzzle is closer to being solved than it actually is due to lots
+		// of candidate eliminations.
+		if (!onlyGivens && ApplicationSettings.getInstance().isAutoManageCandidates()) {
 			this.removeUserInputCandidateChanges(sudoku, tempSudoku);
 		}
 		return tempSudoku;
