@@ -11,6 +11,8 @@ import sudoku.view.util.LabelConstants;
  */
 public class ApplicationMenuSpacer extends Region {
 
+	private static final int MAX_HEIGHT = 50;
+
 	private static final String MENU_BAR_CSS_CLASS = "menu-bar";
 
 	private Label title;
@@ -20,7 +22,7 @@ public class ApplicationMenuSpacer extends Region {
 	}
 
 	private void configure() {
-		this.setMaxHeight(50);
+		this.setMaxHeight(MAX_HEIGHT);
 		this.getStyleClass().add(MENU_BAR_CSS_CLASS);
 		this.title = new Label(LabelConstants.APPLICATION_TITLE);
 		this.title.setPadding(new Insets(10, 0, 0, 0));

@@ -8,12 +8,15 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import sudoku.core.ModelController;
+import sudoku.core.ViewController;
 
 /**
  * This class provides methods to allow the resizing and dragging of an
  * undecorated window.
  */
 public class WindowHelper {
+
+	private static final int TITLE_BAR_MAX_HEIGHT = 50;
 
 	public static void addResizeAndDragListener(final Stage stage, final Region applicationView) {
 		final ResizeListener resizeListener = new ResizeListener(stage);
@@ -85,7 +88,7 @@ public class WindowHelper {
 			} else if (MouseEvent.MOUSE_DRAGGED.equals(mouseEventType) && !Cursor.DEFAULT.equals(this.cursorEvent)) {
 				this.handleMouseDraggedEvent(mouseEvent, mouseEventX, mouseEventY);
 			} else if (MouseEvent.MOUSE_DRAGGED.equals(mouseEventType) && Cursor.DEFAULT.equals(this.cursorEvent)
-					&& !this.cursorOnMenuButtons()) {
+					&& !this.cursorOnMenuButtons() && this.cursorOnTitleBar()) {
 				this.stage.setX(mouseEvent.getScreenX() - this.xOffset);
 				this.stage.setY(mouseEvent.getScreenY() - this.yOffset);
 			}
@@ -103,8 +106,8 @@ public class WindowHelper {
 		}
 
 		/**
-		 * Updates the cursor event reference for this class to match the
-		 * application state.
+		 * Updates the cursor event reference for this class to match the application
+		 * state.
 		 */
 		private void updateCursorEvent(final double mouseEventX, final double mouseEventY, final double sceneWidth,
 				final double sceneHeight) {
@@ -173,10 +176,22 @@ public class WindowHelper {
 		}
 
 		private boolean cursorOnMenuButtons() {
+			final Stage mainStage = ViewController.getInstance().getStage();
+
 			final Scene scene = this.stage.getScene();
 			final double sceneWidth = scene.getWidth();
-			return (MENU_BUTTON_WIDTH * 3) - RIGHT_MENU_BUTTON_TO_EDGE_OF_WINDOW_SPACING > this.startX
-					|| sceneWidth - MENU_BUTTON_WIDTH - LEFT_MENU_BUTTON_TO_EDGE_OF_WINDOW_SPACING < this.startX;
+			if (mainStage.equals(this.stage)) {
+				return ((MENU_BUTTON_WIDTH * 3) - RIGHT_MENU_BUTTON_TO_EDGE_OF_WINDOW_SPACING > this.startX
+						|| sceneWidth - MENU_BUTTON_WIDTH - LEFT_MENU_BUTTON_TO_EDGE_OF_WINDOW_SPACING < this.startX);
+			} else {
+				return MENU_BUTTON_WIDTH - RIGHT_MENU_BUTTON_TO_EDGE_OF_WINDOW_SPACING > this.startX;
+			}
+		}
+
+		private boolean cursorOnTitleBar() {
+			final Scene scene = this.stage.getScene();
+			final double sceneHeight = scene.getHeight();
+			return this.startY > sceneHeight - TITLE_BAR_MAX_HEIGHT;
 		}
 
 	}
