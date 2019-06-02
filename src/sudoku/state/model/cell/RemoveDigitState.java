@@ -25,7 +25,7 @@ public class RemoveDigitState extends ApplicationModelState {
 	@Override
 	public void onEnter() {
 		final SudokuPuzzleCell selectedCell = this.getSelectedCell();
-		if (!selectedCell.isCellGiven()) {
+		if (this.sudokuPuzzleValues.getGivenCellDigit(selectedCell.getRow(), selectedCell.getCol()) == 0) {
 			final int fixedDigit = selectedCell.getFixedDigit();
 			selectedCell.setCandidatesVisible(true);
 			selectedCell.setFixedDigit(Strings.EMPTY);

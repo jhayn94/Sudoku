@@ -27,7 +27,7 @@ public class SetDigitState extends ApplicationModelState {
 		final int selectedCellCol = this.sudokuPuzzleStyle.getSelectedCellCol();
 		if (selectedCellRow != -1 && selectedCellCol != -1) {
 			final SudokuPuzzleCell selectedCell = this.getSelectedCell();
-			if (!selectedCell.isCellGiven()) {
+			if (this.sudokuPuzzleValues.getGivenCellDigit(selectedCellRow, selectedCellCol) == 0) {
 				final int oldFixedDigit = selectedCell.getFixedDigit();
 
 				selectedCell.setCandidatesVisible(false);
@@ -45,7 +45,7 @@ public class SetDigitState extends ApplicationModelState {
 						.replace(NUMPAD_REPLACE_TEXT, Strings.EMPTY));
 				this.sudokuPuzzleValues.setCellFixedDigit(selectedCell.getRow(), selectedCell.getCol(), digit);
 				this.reapplyActiveFilter();
-				updateRemainingScoreForPuzzle();
+				this.updateRemainingScoreForPuzzle();
 			}
 		}
 	}

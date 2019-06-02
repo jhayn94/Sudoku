@@ -86,7 +86,6 @@ public class OpenedFileState extends ApplicationModelState {
 				final boolean isCellGiven = givenCellDigit != 0;
 				sudokuPuzzleCell.setFixedDigit(isCellGiven ? String.valueOf(givenCellDigit) : Strings.EMPTY);
 				sudokuPuzzleCell.setCandidatesVisible(!isCellGiven);
-				sudokuPuzzleCell.setCellGiven(isCellGiven);
 				if (isCellGiven) {
 					this.updateFixedCellTypeCssClass(sudokuPuzzleCell, GIVEN_CELL_CSS_CLASS);
 				}

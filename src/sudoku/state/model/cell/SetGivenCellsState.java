@@ -33,7 +33,6 @@ public class SetGivenCellsState extends ApplicationModelState {
 				if (givenDigit != 0) {
 					this.sudokuPuzzleValues.setGivenCellDigit(row, col, givenDigit);
 					final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
-					sudokuPuzzleCell.setCellGiven(true);
 					// They probably aren't visible already, but just in case.
 					sudokuPuzzleCell.setCandidatesVisible(false);
 					this.updateFixedCellTypeCssClass(sudokuPuzzleCell, GIVEN_CELL_CSS_CLASS);

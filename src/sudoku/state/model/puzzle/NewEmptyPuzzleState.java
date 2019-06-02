@@ -34,7 +34,6 @@ public class NewEmptyPuzzleState extends ApplicationModelState {
 				final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
 				sudokuPuzzleCell.setFixedDigit(Strings.EMPTY);
 				sudokuPuzzleCell.setCandidatesVisible(true);
-				sudokuPuzzleCell.setCellGiven(false);
 				this.updateFixedCellTypeCssClass(sudokuPuzzleCell, UNFIXED_CELL_CSS_CLASS);
 				for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
 					sudokuPuzzleCell.setCandidateVisible(candidate, ApplicationSettings.getInstance().isAutoManageCandidates());

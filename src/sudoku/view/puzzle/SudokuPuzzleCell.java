@@ -55,15 +55,12 @@ public class SudokuPuzzleCell extends StackPane {
 
 	private final int col;
 
-	private boolean isGiven;
-
 	private GridPane candidatesGridPane;
 
 	private Pane cellIsSelectedIndicator;
 
 	public SudokuPuzzleCell(final int row, final int col) {
 		super();
-		this.isGiven = false;
 		this.row = row;
 		this.col = col;
 		this.candidateLabels = new Label[SudokuPuzzleValues.CELLS_PER_HOUSE];
@@ -81,14 +78,6 @@ public class SudokuPuzzleCell extends StackPane {
 
 	public boolean isCellFixed() {
 		return !this.fixedDigitLabel.getText().isEmpty();
-	}
-
-	public boolean isCellGiven() {
-		return this.isGiven;
-	}
-
-	public void setCellGiven(final boolean given) {
-		this.isGiven = given;
 	}
 
 	/** Returns the set value for the cell, or -1 if there isn't one. */
