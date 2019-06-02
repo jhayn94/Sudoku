@@ -328,15 +328,3 @@
 	-fx-text-fill: -sudoku-color-off-white;
 }
 
-.sudoku-enabled-step {
-	-fx-text-fill: -sudoku-color-bark;
-}
-
-.sudoku-disabled-step {
-	-fx-text-fill: derive(-sudoku-color-bark, 50%);
-	-fx-opacity: .65;
-}
-
-.sudoku-disabled-step:selected {
-	-fx-background-color: derive(-sudoku-color-stone-blue, 30%);
-}

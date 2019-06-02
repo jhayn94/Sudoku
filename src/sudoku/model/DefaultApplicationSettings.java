@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -142,7 +143,13 @@ public class DefaultApplicationSettings {
 	 * ApplicationSettings wouldn't work here.
 	 */
 	public List<StepConfig> getSolverConfig() {
-		return Arrays.asList(Options.getInstance().copyStepConfigs(Options.DEFAULT_SOLVER_STEPS, true, false));
+		final List<StepConfig> tempList = Arrays
+				.asList(Options.getInstance().copyStepConfigs(Options.DEFAULT_SOLVER_STEPS, true, false));
+		final List<StepConfig> stepConfigs = new ArrayList<>();
+		// The copy to a new list is necessary because some code removes steps from the
+		// list.
+		stepConfigs.addAll(tempList);
+		return stepConfigs;
 	}
 
 	private static Map<String, String> readSettingsFromFile(final String filePath) {

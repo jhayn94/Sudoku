@@ -231,6 +231,8 @@ public class ApplicationSettings {
 		final List<StepConfig> tempList = Arrays
 				.asList(Options.getInstance().copyStepConfigs(Options.getInstance().solverSteps, true, false));
 		final List<StepConfig> stepConfigs = new ArrayList<>();
+		// The copy to a new list is necessary because some code removes steps from the
+		// list.
 		stepConfigs.addAll(tempList);
 		return stepConfigs;
 	}

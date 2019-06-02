@@ -127,7 +127,7 @@ public class SolverSettingsView extends ModalDialog {
 		this.stepConfigsListView.getSelectionModel().select(0);
 		this.stepConfigsListView.getSelectionModel().selectedItemProperty()
 				.addListener(this.onChangeListViewSelectionListener());
-//		this.stepConfigsListView.setCellFactory(param -> this.getListCellFactory());
+		this.stepConfigsListView.setCellFactory(param -> this.getListCellFactory());
 		HBox.setMargin(this.stepConfigsListView, new Insets(SMALL_PADDING, SMALL_PADDING, 0, 0));
 	}
 
@@ -257,15 +257,29 @@ public class SolverSettingsView extends ModalDialog {
 		final int ratingForStep = Integer.parseInt(ratingText == null || ratingText.isEmpty() ? "1" : ratingText);
 		stepConfig.setBaseScore(ratingForStep);
 		stepConfig.setEnabled(this.enabledCheckbox.isSelected());
+		this.updateListCellStyleClass(oldValue, this.listCells.get(oldValue));
 	}
 
 	private void updateListCellStyleClass(final StepConfig stepConfig, final ListCell<StepConfig> listCellForStep) {
+		if (listCellForStep == null) {
+			return;
+		}
+//		if (listCellForStep.isSelected()) {
+//			listCellForStep.setStyle("-fx-text-fill: -sudoku-color-off-white;");
+//			listCellForStep.setStyle("-fx-background-color: -sudoku-color-stone-blue;");
+//		} else
 		if (stepConfig.isEnabled()) {
-			listCellForStep.getStyleClass().add(ENABLED_STEP_CSS_CLASS);
-			listCellForStep.getStyleClass().remove(DISABLED_STEP_CSS_CLASS);
+			listCellForStep.setStyle("-fx-text-fill: -sudoku-color-bark;");
+//			listCellForStep.getStyleClass().add(ENABLED_STEP_CSS_CLASS);
+//			listCellForStep.getStyleClass().remove(DISABLED_STEP_CSS_CLASS);
 		} else {
-			listCellForStep.getStyleClass().remove(ENABLED_STEP_CSS_CLASS);
-			listCellForStep.getStyleClass().add(DISABLED_STEP_CSS_CLASS);
+			listCellForStep.setStyle("-fx-text-fill: derive(-sudoku-color-bark, 50%);");
+//			listCellForStep.setStyle("-fx-opacity: .65;");
+//			if (listCellForStep.isSelected()) {
+//				listCellForStep.setStyle("-fx-background-color: derive(-sudoku-color-stone-blue, 30%);");
+//			}
+//			listCellForStep.getStyleClass().remove(ENABLED_STEP_CSS_CLASS);
+//			listCellForStep.getStyleClass().add(DISABLED_STEP_CSS_CLASS);
 		}
 	}
 
@@ -279,53 +293,68 @@ public class SolverSettingsView extends ModalDialog {
 		this.enabledCheckbox.selectedProperty().addListener(this.enabledCheckboxChangeListener);
 		final int baseScore = selectedStepConfig.getBaseScore();
 		this.ratingTextField.setText(String.valueOf(baseScore));
+		this.updateListCellStyleClass(newValue, this.listCells.get(newValue));
 	}
 
 	private void resetViewToDefaults() {
 		this.stepConfigs = DefaultApplicationSettings.getInstance().getSolverConfig();
-		this.updateSettingsWithSelectedStep(this.stepConfigsListView.getSelectionModel().getSelectedItem());
+		final ObservableList<StepConfig> items = this.stepConfigsListView.getItems();
+		final MultipleSelectionModel<StepConfig> selectionModel = this.stepConfigsListView.getSelectionModel();
+		final int selectedIndex = selectionModel.getSelectedIndex();
+		items.clear();
+		this.stepConfigs.forEach(items::add);
+		selectionModel.select(selectedIndex);
+		final StepConfig selectedItem = this.stepConfigsListView.getSelectionModel().getSelectedItem();
+		this.updateSettingsWithSelectedStep(selectedItem);
+		this.updateListCellStyleClass(selectedItem, this.listCells.get(selectedItem));
 		// TODO - toggle active / inactive style.
 	}
 
-//	private ListCell<StepConfig> getListCellFactory() {
-//		return new ListCell<StepConfig>() {
-//			@Override
-//			protected void updateItem(final StepConfig item, final boolean empty) {
-//				super.updateItem(item, empty);
-//
-//				if (item == null || empty) {
-//					this.setText(null);
-//				} else {
-//					this.setText(item.getType().getStepName());
-//					if (!SolverSettingsView.this.listCells.containsKey(item)) {
-//						SolverSettingsView.this.updateListCellStyleClass(item, this);
-//						SolverSettingsView.this.listCells.put(item, this);
-//					}
-//				}
-//			}
-//		};
-//	}
+	private ListCell<StepConfig> getListCellFactory() {
+		return new ListCell<StepConfig>() {
+			@Override
+			protected void updateItem(final StepConfig item, final boolean empty) {
+				super.updateItem(item, empty);
+
+				if (item == null || empty) {
+					this.setText(null);
+				} else {
+					this.setText(item.getType().getStepName());
+					SolverSettingsView.this.updateListCellStyleClass(item, this);
+					SolverSettingsView.this.listCells.put(item, this);
+				}
+			}
+		};
+	}
 
 	private ChangeListener<StepConfig> onChangeListViewSelectionListener() {
 		return (observable, oldValue, newValue) -> {
-			this.updateStepFromView(oldValue);
-			this.updateSettingsWithSelectedStep(newValue);
-			this.moveStepDownButton.setDisable(false);
-			this.moveStepUpButton.setDisable(false);
-			final ObservableList<StepConfig> stepConfigs = this.stepConfigsListView.getItems();
-			if (newValue.equals(stepConfigs.get(0))) {
-				this.moveStepUpButton.setDisable(true);
-			} else if (newValue.equals(stepConfigs.get(stepConfigs.size() - 1))) {
-				this.moveStepDownButton.setDisable(true);
+			// If the selection changed because the list was cleared, there is nothing to
+			// do.
+			if (this.stepConfigs.contains(oldValue) && newValue != null) {
+				this.updateStepFromView(oldValue);
+				this.updateSettingsWithSelectedStep(newValue);
+				this.moveStepDownButton.setDisable(false);
+				this.moveStepUpButton.setDisable(false);
+				final ObservableList<StepConfig> stepConfigs = this.stepConfigsListView.getItems();
+				if (newValue.equals(stepConfigs.get(0))) {
+					this.moveStepUpButton.setDisable(true);
+				} else if (newValue.equals(stepConfigs.get(stepConfigs.size() - 1))) {
+					this.moveStepDownButton.setDisable(true);
+				}
 			}
 		};
 	}
 
 	private ChangeListener<Boolean> getEnabledCheckboxChangeListener() {
 		return (ChangeListener<Boolean>) (observable, oldValue, newValue) -> {
-			final StepConfig stepConfig = this.stepConfigsListView.getSelectionModel().getSelectedItem();
-			stepConfig.setEnabled(newValue);
-			this.updateListCellStyleClass(stepConfig, this.listCells.get(stepConfig));
+			// If the changed occurred because the list was cleared, there is nothing to
+			// do.
+			if (!this.stepConfigsListView.getItems().isEmpty()) {
+				final StepConfig stepConfig = this.stepConfigsListView.getSelectionModel().getSelectedItem();
+				stepConfig.setEnabled(newValue);
+				this.updateListCellStyleClass(stepConfig, this.listCells.get(stepConfig));
+			}
 		};
 	}
 
