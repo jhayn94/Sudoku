@@ -212,22 +212,22 @@ A,S,D,F,G | Applies a color to the selected cell.
 SHIFT+A,S,D,F,G | Applies an alternate color to the selected cell.
 R | Reset cell and candidate colors.
 CTRL+A,S,D,F,G | Applies a color to the active digit for the selected cell. Cell must be unfixed, not given, and the digit must be toggled on.
-PAGE UP | Increments the active digit
-PAGE DOWN | Decrements the active digit
-F1-F9 | Highlights cells that could have that digit
-F10 | Highlights bivalue cells
-COMMA | If a filter / highlight is selected, cycle the active filter downward
-PERIOD | If a filter / highlight is selected, cycle the active filter upward
-CTRL+M | Show the application menu
-CTRL+N | Creates a new random puzzle using the current settings
-ALT+N | Creates a new blank puzzle
-CTRL+O | Opens a puzzle
-ALT+F4 | Closes the application
-CTRL+Z | Undoes the last action
-CTRL+Y | Redoes the last undone action
-CTRL+C | Copies all fixed cells into clipboard
-CTRL+SHIFT+C | Copies given cells into clipboard
-CTRL+V | Pastes current clipboard as new puzzle
-CTRL+P | Sets all fixed cells as givens
-CTRL+H | Shows a brief help dialog
+PAGE UP | Increments the active digit.
+PAGE DOWN | Decrements the active digit.
+F1-F9 | Highlights cells that could have that digit.
+F10 | Highlights bivalue cells.
+COMMA | If a filter / highlight is selected, cycle the active filter downward.
+PERIOD | If a filter / highlight is selected, cycle the active filter upward.
+CTRL+M | Show the application menu.
+CTRL+N | Creates a new random puzzle using the current settings.
+ALT+N | Creates a new blank puzzle.
+CTRL+O | Opens a puzzle.
+ALT+F4 | Closes the application.
+CTRL+Z | Undoes the last action.
+CTRL+Y | Redoes the last undone action.
+CTRL+C | Copies all fixed cells into clipboard.
+CTRL+SHIFT+C | Copies given cells into clipboard.
+CTRL+V | Pastes current clipboard as new puzzle.
+CTRL+P | Sets all fixed cells as givens.
+CTRL+H | Shows a brief help dialog.
 <TODO - add hotkey for apply + hide hint once implemented>
