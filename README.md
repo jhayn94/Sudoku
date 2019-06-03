@@ -163,7 +163,7 @@ To color a candidate, type any of CTRL+ A,S,D, F, or G to color the active candi
 This application also supports filtering / highlighting of cells that meet various criteria. This can assist you in finding more complicated patterns and eliminations. To highlight cells which could have a specific digit, press that F+digit key (F1 - F9). In addition, F10 highlights bivalue cells. Pressing the key again will un-highlight the cells. Lastly, you may cycle the active filter with the PERIOD (.) and COMMA (,) keys. PERIOD increases the filter by one (i.e. F1 -> F10); COMMA works in the downward direction.
 
 ### 5.4 Hints:
-If you get stuck, F12 will display a specific hint in the hint text area. ALT+F12 will display only a partial hint: the technique name is shown instead of stating the specific eliminations made. <TODO - add info for apply + hide once done implementing>
+If you get stuck, F12 will display a specific hint in the hint text area. ALT+F12 will display only a partial hint: the technique name is shown instead of stating the specific eliminations made. Once a hint is shown, CTRL+K will apply the hint, and CTRL+L will hide it. In addition, changing any cell in the puzzle will hide the hint.
 
 ### 5.5 Menu:
 The menu is accessible using the keyboard. Use CTRL+M to open the keyboard. Then, the arrow keys allow you to navigate the menu, and enter will select the highlighted menu item. Note, however, that the settings menus will require use of a mouse.
@@ -192,9 +192,9 @@ To change the active color or candidate, you can use the up / down arrow buttons
 This application also supports filtering / highlighting of cells that meet various criteria. This can assist you in finding more complicated patterns and eliminations. To highlight cells which could have a specific digit, click that digit’s button in the top left area of the application. In addition, the X|Y button highlights bivalue cells. Clicking a button again will un-highlight the cells.
 
 ### 6.4 Hints:
-If you get stuck, the hint buttons in the top right of the screen can assist in finding a tricky step. Clicking the specific hint button will display a specific hint in the hint text area. The vague hint button will display only a partial hint: the technique name is shown instead of stating the specific eliminations made.
+If you get stuck, the hint buttons in the top right of the screen can assist in finding a tricky step. Clicking the specific hint button will display a specific hint in the hint text area. The vague hint button will display only a partial hint: the technique name is shown instead of stating the specific eliminations made. 
 
-To apply a hint after requesting it, click the apply hint button. In addition, the hide hint button will return the application to the pre-hint state without applying the hint.
+To apply a hint after requesting it, click the apply hint button. In addition, the hide hint button will return the application to the pre-hint state without applying the hint. In addition, changing any cell in the puzzle will hide the hint.
 
 ### 6.5 Menu:
 To access the menu, click the button in the top left, in the title bar.
@@ -218,6 +218,10 @@ F1-F9 | Highlights cells that could have that digit.
 F10 | Highlights bivalue cells.
 COMMA | If a filter / highlight is selected, cycle the active filter downward.
 PERIOD | If a filter / highlight is selected, cycle the active filter upward.
+F12 | Shows a specific hint.
+ALT+F12 | Shows a vague hint.
+CTRL+K | Applies the currently shown hint.
+CTRL+L | Hides the currently shown hint.
 CTRL+M | Show the application menu.
 CTRL+N | Creates a new random puzzle using the current settings.
 ALT+N | Creates a new blank puzzle.
@@ -231,4 +235,3 @@ CTRL+V | Pastes current clipboard as new puzzle.
 CTRL+P | Sets all fixed cells as givens.
 CTRL+H | Shows a brief about / help dialog.
 CTRL+\` | Shows the hotkey dialog.
-<TODO - add hotkey for apply + hide hint once implemented>
