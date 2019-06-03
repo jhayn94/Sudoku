@@ -82,7 +82,6 @@ public class SudokuMain extends Application {
 		// Initializes the model controller with default states + behaviors.
 		ModelController.getInstance();
 
-		LayoutFactory.getInstance().showMessageDialog("TEST!");
 	}
 
 	public static void main(final String[] args) {

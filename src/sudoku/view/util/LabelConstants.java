@@ -147,6 +147,9 @@ public class LabelConstants {
 			+ "the selected puzzle difficulty. Please either select a higher difficulty, or decrease the "
 			+ "difficulty level of the step.";
 
+	public static final String STEP_INACTIVE = "The required step may not be disabled. "
+			+ "Please enable the step, or choose a different one.";
+
 	private LabelConstants() {
 		// Private constructor to prevent instantiation.
 	}

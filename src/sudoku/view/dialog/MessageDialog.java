@@ -10,6 +10,8 @@ import sudoku.view.util.LabelConstants;
 /** This is a base class for creating a dialog to show a message to the user. */
 public class MessageDialog extends ModalDialog {
 
+	private static final int LABEL_WIDTH = 400;
+
 	private static final int BUTTON_PANE_PADDING = 5;
 
 	private Label messageLabel;
@@ -31,6 +33,9 @@ public class MessageDialog extends ModalDialog {
 	@Override
 	protected void createChildElements() {
 		this.messageLabel = new Label();
+		this.messageLabel.setMinWidth(LABEL_WIDTH);
+		this.messageLabel.setMaxWidth(LABEL_WIDTH);
+		this.messageLabel.setWrapText(true);
 		this.setCenter(this.messageLabel);
 		this.createButtonPane();
 	}

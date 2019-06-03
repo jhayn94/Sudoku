@@ -18,6 +18,7 @@ import sudoku.StepConfig;
 import sudoku.core.HodokuFacade;
 import sudoku.core.ModelController;
 import sudoku.core.ViewController;
+import sudoku.factories.LayoutFactory;
 import sudoku.model.ApplicationSettings;
 import sudoku.view.dialog.ModalStage;
 import sudoku.view.util.Difficulty;
@@ -67,22 +68,40 @@ public class FileMenu extends Menu {
 		final MenuItem newPuzzleMenuItem = new MenuItem(LabelConstants.NEW_PUZZLE);
 		newPuzzleMenuItem.setOnAction(event -> {
 
-			final boolean settingsValid = this.validatePuzzleGenerationSettings();
+			final boolean stepLevelTooHigh = !this.validatePuzzleAndStepLevel();
+			final boolean requiredStepEnabled = this.isRequiredStepEnabled();
+			if (stepLevelTooHigh) {
+				LayoutFactory.getInstance().showMessageDialog(LabelConstants.INVALID_SETTINGS,
+						LabelConstants.STEP_HARDER_THAN_PUZZLE_DIFFICULTY);
+			} else if (!requiredStepEnabled) {
+				LayoutFactory.getInstance().showMessageDialog(LabelConstants.INVALID_SETTINGS, LabelConstants.STEP_INACTIVE);
+			} else {
+				final String generateSudokuString = HodokuFacade.getInstance().generateSudokuString();
+				ModelController.getInstance().transitionToNewRandomPuzzleState(generateSudokuString);
+			}
 
-			final String generateSudokuString = HodokuFacade.getInstance().generateSudokuString();
-			ModelController.getInstance().transitionToNewRandomPuzzleState(generateSudokuString);
 		});
 		newPuzzleMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN));
 		return newPuzzleMenuItem;
 	}
 
-	private void boolean validatePuzzleGenerationSettings() {
+	private boolean isRequiredStepEnabled() {
+		final String mustContainStepWithName = ApplicationSettings.getInstance().getMustContainStepWithName();
+		final List<StepConfig> solverSteps = Arrays.asList(Options.getInstance().solverSteps);
+		final StepConfig requiredStep = solverSteps.stream()
+				.filter(solverStep -> solverStep.getType().getStepName().equals(mustContainStepWithName)).findFirst()
+				.orElseThrow(NoSuchElementException::new);
+		return requiredStep.isEnabled();
+	}
+
+	private boolean validatePuzzleAndStepLevel() {
 		final Difficulty difficulty = ApplicationSettings.getInstance().getDifficulty();
 		final String mustContainStepWithName = ApplicationSettings.getInstance().getMustContainStepWithName();
 		final List<StepConfig> solverSteps = Arrays.asList(Options.getInstance().solverSteps);
-		final StepConfig requiredStep = solverSteps.stream().filter(solverStep -> solverStep.getType().getStepName().equals(mustContainStepWithName))
-				.findFirst().orElseThrow(NoSuchElementException::new);
-		return requiredStep.getLevel() > difficulty.ordinal();
+		final StepConfig requiredStep = solverSteps.stream()
+				.filter(solverStep -> solverStep.getType().getStepName().equals(mustContainStepWithName)).findFirst()
+				.orElseThrow(NoSuchElementException::new);
+		return requiredStep.getLevel() <= difficulty.ordinal();
 	}
 
 	private void onOpenPuzzle() {
