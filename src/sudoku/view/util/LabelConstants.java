@@ -150,6 +150,9 @@ public class LabelConstants {
 	public static final String STEP_INACTIVE = "The required step may not be disabled. "
 			+ "Please enable the step, or choose a different one.";
 
+	public static final String OVER_SCORE_LIMIT = "The base score of the required step is higher than the maximum "
+			+ "score for the current difficulty. Please adjust the score of the step or difficulty level.";
+
 	private LabelConstants() {
 		// Private constructor to prevent instantiation.
 	}
