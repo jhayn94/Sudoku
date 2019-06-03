@@ -217,12 +217,10 @@
 }
 
 .text-area {
-	-fx-background-color: -sudoku-color-parchment;
 	-fx-border-color: -sudoku-color-bark;
 	-fx-background-radius: 3;
 	-fx-border-radius: 3;
 	-fx-border-width: 2;
-	-fx-prompt-text-fill: -sudoku-color-parchment;
 }
 
 .sudoku-coloring-display-label {
@@ -328,3 +326,7 @@
 	-fx-text-fill: -sudoku-color-off-white;
 }
 
+.scroll-pane,
+.scroll-pane > .corner {
+    -fx-background-color: -sudoku-color-pebble;
+}

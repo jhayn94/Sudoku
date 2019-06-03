@@ -24,6 +24,8 @@ public class ResourceConstants {
 
 	public static final String DEFAULT_SETTINGS = "./data/defaults.txt";
 
+	public static final String HOTKEYS = "./data/hotkeys.txt";
+
 	private ResourceConstants() {
 		// Private constructor to prevent instantiation.
 	}

@@ -161,6 +161,10 @@ public class LabelConstants {
 	public static final String RETRY_GENERATION = "Puzzle generation resulted in an error. Please retry generation. "
 			+ "If the problem persists, check the log file.";
 
+	public static final String OVERVIEW = "Overview";
+
+	public static final String HOTKEYS = "Hotkeys";
+
 	private LabelConstants() {
 		// Private constructor to prevent instantiation.
 	}

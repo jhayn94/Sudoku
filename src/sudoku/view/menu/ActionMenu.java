@@ -2,14 +2,8 @@ package sudoku.view.menu;
 
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
-import sudoku.factories.LayoutFactory;
 import sudoku.factories.MenuFactory;
-import sudoku.view.util.LabelConstants;
 
 /**
  * Contains code to create a menu of different actions the user can do (save,
@@ -25,10 +19,8 @@ public class ActionMenu extends ContextMenu {
 		final Menu fileMenu = MenuFactory.getInstance().createFileMenu();
 		final Menu editMenu = MenuFactory.getInstance().createEditMenu();
 		final Menu settingsMenu = MenuFactory.getInstance().createSettingsMenu();
-		final MenuItem helpMenuItem = new MenuItem(LabelConstants.HELP);
-		helpMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.H, KeyCombination.SHORTCUT_DOWN));
-		helpMenuItem.setOnAction(event -> LayoutFactory.getInstance().showHelpView());
-		this.getItems().addAll(fileMenu, editMenu, settingsMenu, new SeparatorMenuItem(), helpMenuItem);
+		final Menu helpMenu = MenuFactory.getInstance().createHelpMenu();
+		this.getItems().addAll(fileMenu, editMenu, settingsMenu, new SeparatorMenuItem(), helpMenu);
 	}
 
 }

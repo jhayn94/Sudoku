@@ -8,6 +8,7 @@ import sudoku.core.ViewController;
 import sudoku.view.ApplicationRootPane;
 import sudoku.view.ApplicationSideBar;
 import sudoku.view.HelpView;
+import sudoku.view.HotkeyView;
 import sudoku.view.MainApplicationView;
 import sudoku.view.RootStackPane;
 import sudoku.view.control.LabeledComboBox;
@@ -51,6 +52,8 @@ public class LayoutFactory {
 	private static final int DEFAULT_MODAL_DIALOG_WIDTH = 700;
 
 	public static final double MESSAGE_DIALOG_WIDTH = 500;
+
+	public static final double HOTKEY_DIALOG_WIDTH = 775;
 
 	public static final double MESSAGE_DIALOG_HEIGHT = 250;
 
@@ -152,9 +155,15 @@ public class LayoutFactory {
 	}
 
 	public void showHelpView() {
-		final Stage helpStage = new ModalStage();
-		final HelpView helpView = new HelpView(helpStage);
-		this.showNewStageWithRootElement(helpStage, helpView);
+		final Stage stage = new ModalStage();
+		final HelpView helpView = new HelpView(stage);
+		this.showNewStageWithRootElement(stage, helpView);
+	}
+
+	public void showHotkeyView() {
+		final Stage stage = new ModalStage();
+		final HotkeyView hotkeyView = new HotkeyView(stage);
+		this.showNewStageWithRootElement(stage, hotkeyView, HOTKEY_DIALOG_WIDTH, DEFAULT_MODAL_DIALOG_HEIGHT);
 	}
 
 	public void showPuzzleGenerationSettingsView() {
