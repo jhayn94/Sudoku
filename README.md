@@ -229,6 +229,6 @@ CTRL+C | Copies all fixed cells into clipboard.
 CTRL+SHIFT+C | Copies given cells into clipboard.
 CTRL+V | Pastes current clipboard as new puzzle.
 CTRL+P | Sets all fixed cells as givens.
-CTRL+H | Shows a brief help dialog.
+CTRL+H | Shows a brief about / help dialog.
 CTRL+\` | Shows the hotkey dialog.
 <TODO - add hotkey for apply + hide hint once implemented>
