@@ -135,7 +135,7 @@ public class PuzzleGenerationSettingsView extends ModalDialog {
 		this.confirmButton = new Button(LabelConstants.SAVE_AND_APPLY);
 		this.confirmButton.setOnAction(event -> {
 			ModelController.getInstance().transitionToSavePuzzleGenerationSettingsState();
-			this.stage.close();
+			this.getStage().close();
 		});
 		final Button restoreDefaultsButton = new Button(LabelConstants.RESTORE_DEFAULTS);
 		restoreDefaultsButton.setOnAction(event -> this.resetViewToDefaults());

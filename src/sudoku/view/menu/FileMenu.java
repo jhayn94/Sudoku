@@ -3,8 +3,11 @@ package sudoku.view.menu;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javafx.application.Platform;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
@@ -21,10 +24,13 @@ import sudoku.core.ViewController;
 import sudoku.factories.LayoutFactory;
 import sudoku.model.ApplicationSettings;
 import sudoku.view.dialog.ModalStage;
+import sudoku.view.dialog.WaitingDialog;
 import sudoku.view.util.Difficulty;
 import sudoku.view.util.LabelConstants;
 
 public class FileMenu extends Menu {
+
+	private static final Logger LOG = LogManager.getLogger(FileMenu.class);
 
 	public FileMenu() {
 		super();
@@ -68,7 +74,7 @@ public class FileMenu extends Menu {
 		final MenuItem newPuzzleMenuItem = new MenuItem(LabelConstants.NEW_PUZZLE);
 		newPuzzleMenuItem.setOnAction(event -> {
 
-			final boolean stepLevelTooHigh = !this.validatePuzzleAndStepLevel();
+			final boolean stepLevelTooHigh = this.isStepLevelTooHigh();
 			final boolean requiredStepEnabled = this.isRequiredStepEnabled();
 			final boolean isOverScoreLimit = this.isOverScoreLimit();
 			if (stepLevelTooHigh) {
@@ -76,11 +82,17 @@ public class FileMenu extends Menu {
 						LabelConstants.STEP_HARDER_THAN_PUZZLE_DIFFICULTY);
 			} else if (!requiredStepEnabled) {
 				LayoutFactory.getInstance().showMessageDialog(LabelConstants.INVALID_SETTINGS, LabelConstants.STEP_INACTIVE);
-			} else if (!isOverScoreLimit) {
+			} else if (isOverScoreLimit) {
 				LayoutFactory.getInstance().showMessageDialog(LabelConstants.INVALID_SETTINGS, LabelConstants.OVER_SCORE_LIMIT);
 			} else {
-				final String generateSudokuString = HodokuFacade.getInstance().generateSudokuString();
-				ModelController.getInstance().transitionToNewRandomPuzzleState(generateSudokuString);
+
+				final WaitingDialog waitingDialog = LayoutFactory.getInstance()
+						.createWaitingDialog(LabelConstants.GENERATING_PUZZLE_TITLE, LabelConstants.GENERATING_PUZZLE_MESSAGE);
+				final Thread puzzleGenerationThread = new Thread(() -> this.createNewPuzzle(waitingDialog));
+				waitingDialog.setExecutionThread(puzzleGenerationThread);
+				LayoutFactory.getInstance().showNewStageWithRootElement(waitingDialog.getStage(), waitingDialog,
+						LayoutFactory.MESSAGE_DIALOG_WIDTH, LayoutFactory.MESSAGE_DIALOG_HEIGHT);
+				puzzleGenerationThread.start();
 			}
 
 		});
@@ -88,14 +100,14 @@ public class FileMenu extends Menu {
 		return newPuzzleMenuItem;
 	}
 
-	private boolean validatePuzzleAndStepLevel() {
+	private boolean isStepLevelTooHigh() {
 		final Difficulty difficulty = ApplicationSettings.getInstance().getDifficulty();
 		final String mustContainStepWithName = ApplicationSettings.getInstance().getMustContainStepWithName();
 		final List<StepConfig> solverSteps = Arrays.asList(Options.getInstance().solverSteps);
 		final StepConfig requiredStep = solverSteps.stream()
 				.filter(solverStep -> solverStep.getType().getStepName().equals(mustContainStepWithName)).findFirst()
-				.orElseThrow(NoSuchElementException::new);
-		return requiredStep.getLevel() <= difficulty.ordinal();
+				.orElseGet(() -> null);
+		return requiredStep != null && requiredStep.getLevel() > difficulty.ordinal();
 	}
 
 	private boolean isRequiredStepEnabled() {
@@ -103,8 +115,8 @@ public class FileMenu extends Menu {
 		final List<StepConfig> solverSteps = Arrays.asList(Options.getInstance().solverSteps);
 		final StepConfig requiredStep = solverSteps.stream()
 				.filter(solverStep -> solverStep.getType().getStepName().equals(mustContainStepWithName)).findFirst()
-				.orElseThrow(NoSuchElementException::new);
-		return requiredStep.isEnabled();
+				.orElseGet(() -> null);
+		return requiredStep == null || requiredStep.isEnabled();
 	}
 
 	private boolean isOverScoreLimit() {
@@ -112,10 +124,25 @@ public class FileMenu extends Menu {
 		final List<StepConfig> solverSteps = Arrays.asList(Options.getInstance().solverSteps);
 		final StepConfig requiredStep = solverSteps.stream()
 				.filter(solverStep -> solverStep.getType().getStepName().equals(mustContainStepWithName)).findFirst()
-				.orElseThrow(NoSuchElementException::new);
+				.orElseGet(() -> null);
 		final Difficulty difficulty = ApplicationSettings.getInstance().getDifficulty();
-		return requiredStep.getBaseScore() <= ApplicationSettings.getInstance()
+		return requiredStep != null && requiredStep.getBaseScore() >= ApplicationSettings.getInstance()
 				.getMaxScoreForDifficulty(difficulty.getLabel());
+	}
+
+	private void createNewPuzzle(final WaitingDialog waitingDialog) {
+		try {
+			final String generateSudokuString = HodokuFacade.getInstance().generateSudokuString();
+			Platform.runLater(() -> {
+				ModelController.getInstance().transitionToNewRandomPuzzleState(generateSudokuString);
+				waitingDialog.close(false);
+			});
+		} catch (final Exception e) {
+			// Can't do much about these errors without opening up the HoDoKu source code,
+			// but directing the user to retry is better than nothing.
+			LOG.error("{}", e);
+			waitingDialog.onGenerationFailed();
+		}
 	}
 
 	private void onOpenPuzzle() {

@@ -15,6 +15,7 @@ import sudoku.view.control.ToggleButton;
 import sudoku.view.dialog.MessageDialog;
 import sudoku.view.dialog.ModalDialog;
 import sudoku.view.dialog.ModalStage;
+import sudoku.view.dialog.WaitingDialog;
 import sudoku.view.hint.HintButtonPane;
 import sudoku.view.hint.HintPane;
 import sudoku.view.hint.HintTextArea;
@@ -49,9 +50,9 @@ public class LayoutFactory {
 
 	private static final int DEFAULT_MODAL_DIALOG_WIDTH = 700;
 
-	private static final double MESSAGE_DIALOG_WIDTH = 500;
+	public static final double MESSAGE_DIALOG_WIDTH = 500;
 
-	private static final double MESSAGE_DIALOG_HEIGHT = 250;
+	public static final double MESSAGE_DIALOG_HEIGHT = 250;
 
 	private static LayoutFactory layoutFactoryInstance;
 
@@ -201,12 +202,19 @@ public class LayoutFactory {
 		this.showNewStageWithRootElement(stage, messageDialog, MESSAGE_DIALOG_WIDTH, MESSAGE_DIALOG_HEIGHT);
 	}
 
-	private void showNewStageWithRootElement(final Stage settingsStage, final ModalDialog modalDialog) {
-		this.showNewStageWithRootElement(settingsStage, modalDialog, DEFAULT_MODAL_DIALOG_WIDTH,
-				DEFAULT_MODAL_DIALOG_HEIGHT);
+	public WaitingDialog createWaitingDialog(final String title, final String message) {
+		final Stage stage = new ModalStage();
+		final WaitingDialog waitingDialog = new WaitingDialog(stage);
+		waitingDialog.setTitle(title);
+		waitingDialog.setMessage(message);
+		return waitingDialog;
 	}
 
-	private void showNewStageWithRootElement(final Stage stage, final ModalDialog modalDialog, final double width,
+	public void showNewStageWithRootElement(final Stage stage, final ModalDialog modalDialog) {
+		this.showNewStageWithRootElement(stage, modalDialog, DEFAULT_MODAL_DIALOG_WIDTH, DEFAULT_MODAL_DIALOG_HEIGHT);
+	}
+
+	public void showNewStageWithRootElement(final Stage stage, final ModalDialog modalDialog, final double width,
 			final double height) {
 		final RootStackPane rootStackPane = this.createRootStackPane(modalDialog);
 		final Scene scene = new Scene(rootStackPane, width, height);

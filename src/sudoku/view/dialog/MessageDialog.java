@@ -43,7 +43,7 @@ public class MessageDialog extends ModalDialog {
 	protected void createButtonPane() {
 		final Button okButton = new Button(LabelConstants.OK);
 		okButton.setOnAction(event -> {
-			this.stage.close();
+			this.getStage().close();
 		});
 		final HBox buttonPane = new HBox();
 		buttonPane.setPadding(new Insets(0, 0, BUTTON_PANE_PADDING, BUTTON_PANE_PADDING));

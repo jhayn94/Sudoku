@@ -97,7 +97,7 @@ public class DifficultySettingsView extends ModalDialog {
 		final Button confirmButton = new Button(LabelConstants.SAVE_AND_APPLY);
 		confirmButton.setOnAction(event -> {
 			ModelController.getInstance().transitionToSaveDifficultySettingsState();
-			this.stage.close();
+			this.getStage().close();
 		});
 		final Button restoreDefaultsButton = new Button(LabelConstants.RESTORE_DEFAULTS);
 		restoreDefaultsButton.setOnAction(event -> this.resetViewToDefaults());

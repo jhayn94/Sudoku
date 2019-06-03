@@ -110,7 +110,7 @@ public class ColorSettingsView extends ModalDialog {
 		final Button saveAndApplyButton = new Button(LabelConstants.SAVE_AND_APPLY);
 		saveAndApplyButton.setOnAction(event -> {
 			ModelController.getInstance().transitionToSaveColorSettingsState();
-			this.stage.close();
+			this.getStage().close();
 		});
 		final Button restoreDefaultsButton = new Button(LabelConstants.RESTORE_DEFAULTS);
 		restoreDefaultsButton.setOnAction(event -> this.resetViewToDefaults());

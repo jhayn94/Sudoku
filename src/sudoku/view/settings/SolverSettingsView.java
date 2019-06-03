@@ -230,7 +230,7 @@ public class SolverSettingsView extends ModalDialog {
 			final StepConfig stepConfig = this.stepConfigsListView.getSelectionModel().getSelectedItem();
 			this.updateStepFromView(stepConfig);
 			ModelController.getInstance().transitionToSaveSolverSettingsState(this.stepConfigs);
-			this.stage.close();
+			this.getStage().close();
 		});
 		final Button restoreDefaultsButton = new Button(LabelConstants.RESTORE_DEFAULTS);
 		restoreDefaultsButton.setOnAction(event -> this.resetViewToDefaults());

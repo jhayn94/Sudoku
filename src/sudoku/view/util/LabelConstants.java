@@ -153,6 +153,14 @@ public class LabelConstants {
 	public static final String OVER_SCORE_LIMIT = "The base score of the required step is higher than the maximum "
 			+ "score for the current difficulty. Please adjust the score of the step or difficulty level.";
 
+	public static final String GENERATING_PUZZLE_TITLE = "Generating Puzzle";
+
+	public static final String GENERATING_PUZZLE_MESSAGE = "Generating a new puzzle. This may take a few seconds. "
+			+ "If generation takes more than 10 - 15 seconds, your puzzle requirements might be too strict.";
+
+	public static final String RETRY_GENERATION = "Puzzle generation resulted in an error. Please retry generation. "
+			+ "If the problem persists, check the log file.";
+
 	private LabelConstants() {
 		// Private constructor to prevent instantiation.
 	}

@@ -13,7 +13,7 @@ public class ModalDialog extends BorderPane {
 
 	private static final String MENU_BAR_CSS_CLASS = "menu-bar";
 
-	protected final Stage stage;
+	private final Stage stage;
 
 	private ApplicationMenuSpacer applicationMenuSpacer;
 
@@ -45,6 +45,10 @@ public class ModalDialog extends BorderPane {
 		HBox.setHgrow(this.applicationMenuSpacer, Priority.SOMETIMES);
 		this.setTop(systemMenuBar);
 		systemMenuBar.getChildren().addAll(this.applicationMenuSpacer, closeButton);
+	}
+
+	public Stage getStage() {
+		return stage;
 	}
 
 }
