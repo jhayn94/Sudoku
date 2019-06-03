@@ -1,4 +1,4 @@
-package sudoku.view;
+package sudoku.view.dialog;
 
 import javafx.stage.Modality;
 import javafx.stage.Stage;

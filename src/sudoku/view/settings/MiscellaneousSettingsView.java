@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import sudoku.core.ModelController;
 import sudoku.model.ApplicationSettings;
 import sudoku.model.DefaultApplicationSettings;
-import sudoku.view.ModalDialog;
+import sudoku.view.dialog.ModalDialog;
 import sudoku.view.util.LabelConstants;
 import sudoku.view.util.TooltipConstants;
 

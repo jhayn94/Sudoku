@@ -1,4 +1,4 @@
-package sudoku.view;
+package sudoku.view.dialog;
 
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;

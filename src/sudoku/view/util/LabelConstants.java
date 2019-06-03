@@ -139,6 +139,14 @@ public class LabelConstants {
 
 	public static final String INVALID = "Invalid";
 
+	public static final String CANCEL = "Cancel";
+
+	public static final String INVALID_SETTINGS = "Invalid Settings";
+
+	public static final String STEP_HARDER_THAN_PUZZLE_DIFFICULTY = "The required step's difficulty may not exceed "
+			+ "the selected puzzle difficulty. Please either select a higher difficulty, or decrease the "
+			+ "difficulty level of the step.";
+
 	private LabelConstants() {
 		// Private constructor to prevent instantiation.
 	}

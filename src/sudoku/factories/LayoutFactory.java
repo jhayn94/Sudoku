@@ -9,11 +9,12 @@ import sudoku.view.ApplicationRootPane;
 import sudoku.view.ApplicationSideBar;
 import sudoku.view.HelpView;
 import sudoku.view.MainApplicationView;
-import sudoku.view.ModalDialog;
-import sudoku.view.ModalStage;
 import sudoku.view.RootStackPane;
 import sudoku.view.control.LabeledComboBox;
 import sudoku.view.control.ToggleButton;
+import sudoku.view.dialog.MessageDialog;
+import sudoku.view.dialog.ModalDialog;
+import sudoku.view.dialog.ModalStage;
 import sudoku.view.hint.HintButtonPane;
 import sudoku.view.hint.HintPane;
 import sudoku.view.hint.HintTextArea;
@@ -40,13 +41,17 @@ import sudoku.view.util.WindowHelper;
  */
 public class LayoutFactory {
 
-	private static final int SOLVER_SETTINGS_DIALOG_SCENE_WIDTH = 730;
+	private static final int SOLVER_SETTINGS_DIALOG_WIDTH = 730;
 
-	private static final int COLOR_SETTINGS_DIALOG_SCENE_WIDTH = 745;
+	private static final int COLOR_SETTINGS_DIALOG_WIDTH = 745;
 
-	private static final int DEFAULT_MODAL_DIALOG_SCENE_HEIGHT = 600;
+	private static final int DEFAULT_MODAL_DIALOG_HEIGHT = 600;
 
-	private static final int DEFAULT_MODAL_DIALOG_SCENE_WIDTH = 700;
+	private static final int DEFAULT_MODAL_DIALOG_WIDTH = 700;
+
+	private static final double MESSAGE_DIALOG_WIDTH = 500;
+
+	private static final double MESSAGE_DIALOG_HEIGHT = 250;
 
 	private static LayoutFactory layoutFactoryInstance;
 
@@ -162,8 +167,8 @@ public class LayoutFactory {
 		final Stage settingsStage = new ModalStage();
 		final SolverSettingsView solverSettingsView = new SolverSettingsView(settingsStage);
 		ViewController.getInstance().setSolverSettingsView(solverSettingsView);
-		this.showNewStageWithRootElement(settingsStage, solverSettingsView, SOLVER_SETTINGS_DIALOG_SCENE_WIDTH,
-				DEFAULT_MODAL_DIALOG_SCENE_HEIGHT);
+		this.showNewStageWithRootElement(settingsStage, solverSettingsView, SOLVER_SETTINGS_DIALOG_WIDTH,
+				DEFAULT_MODAL_DIALOG_HEIGHT);
 	}
 
 	public void showDifficultySettingsView() {
@@ -177,8 +182,8 @@ public class LayoutFactory {
 		final Stage settingsStage = new ModalStage();
 		final ColorSettingsView colorSettingsView = new ColorSettingsView(settingsStage);
 		ViewController.getInstance().setColorSettingsView(colorSettingsView);
-		this.showNewStageWithRootElement(settingsStage, colorSettingsView, COLOR_SETTINGS_DIALOG_SCENE_WIDTH,
-				DEFAULT_MODAL_DIALOG_SCENE_HEIGHT);
+		this.showNewStageWithRootElement(settingsStage, colorSettingsView, COLOR_SETTINGS_DIALOG_WIDTH,
+				DEFAULT_MODAL_DIALOG_HEIGHT);
 	}
 
 	public void showMiscellaneousSettingsView() {
@@ -188,9 +193,17 @@ public class LayoutFactory {
 		this.showNewStageWithRootElement(settingsStage, miscellaneousSettingsView);
 	}
 
+	public void showMessageDialog(final String title, final String message) {
+		final Stage stage = new ModalStage();
+		final MessageDialog messageDialog = new MessageDialog(stage);
+		messageDialog.setTitle(title);
+		messageDialog.setMessage(message);
+		this.showNewStageWithRootElement(stage, messageDialog, MESSAGE_DIALOG_WIDTH, MESSAGE_DIALOG_HEIGHT);
+	}
+
 	private void showNewStageWithRootElement(final Stage settingsStage, final ModalDialog modalDialog) {
-		this.showNewStageWithRootElement(settingsStage, modalDialog, DEFAULT_MODAL_DIALOG_SCENE_WIDTH,
-				DEFAULT_MODAL_DIALOG_SCENE_HEIGHT);
+		this.showNewStageWithRootElement(settingsStage, modalDialog, DEFAULT_MODAL_DIALOG_WIDTH,
+				DEFAULT_MODAL_DIALOG_HEIGHT);
 	}
 
 	private void showNewStageWithRootElement(final Stage stage, final ModalDialog modalDialog, final double width,

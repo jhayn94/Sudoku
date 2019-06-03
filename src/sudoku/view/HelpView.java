@@ -4,6 +4,7 @@ import org.apache.logging.log4j.util.Strings;
 
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
+import sudoku.view.dialog.ModalDialog;
 import sudoku.view.util.LabelConstants;
 
 public class HelpView extends ModalDialog {

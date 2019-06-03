@@ -1,6 +1,9 @@
 package sudoku.view.menu;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -10,10 +13,14 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import sudoku.Options;
+import sudoku.StepConfig;
 import sudoku.core.HodokuFacade;
 import sudoku.core.ModelController;
 import sudoku.core.ViewController;
-import sudoku.view.ModalStage;
+import sudoku.model.ApplicationSettings;
+import sudoku.view.dialog.ModalStage;
+import sudoku.view.util.Difficulty;
 import sudoku.view.util.LabelConstants;
 
 public class FileMenu extends Menu {
@@ -59,11 +66,23 @@ public class FileMenu extends Menu {
 	private MenuItem createNewPuzzleMenuItem() {
 		final MenuItem newPuzzleMenuItem = new MenuItem(LabelConstants.NEW_PUZZLE);
 		newPuzzleMenuItem.setOnAction(event -> {
+
+			final boolean settingsValid = this.validatePuzzleGenerationSettings();
+
 			final String generateSudokuString = HodokuFacade.getInstance().generateSudokuString();
 			ModelController.getInstance().transitionToNewRandomPuzzleState(generateSudokuString);
 		});
 		newPuzzleMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN));
 		return newPuzzleMenuItem;
+	}
+
+	private void boolean validatePuzzleGenerationSettings() {
+		final Difficulty difficulty = ApplicationSettings.getInstance().getDifficulty();
+		final String mustContainStepWithName = ApplicationSettings.getInstance().getMustContainStepWithName();
+		final List<StepConfig> solverSteps = Arrays.asList(Options.getInstance().solverSteps);
+		final StepConfig requiredStep = solverSteps.stream().filter(solverStep -> solverStep.getType().getStepName().equals(mustContainStepWithName))
+				.findFirst().orElseThrow(NoSuchElementException::new);
+		return requiredStep.getLevel() > difficulty.ordinal();
 	}
 
 	private void onOpenPuzzle() {

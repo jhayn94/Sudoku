@@ -81,6 +81,8 @@ public class SudokuMain extends Application {
 		WindowHelper.addResizeAndDragListener(stage, root);
 		// Initializes the model controller with default states + behaviors.
 		ModelController.getInstance();
+
+		LayoutFactory.getInstance().showMessageDialog("TEST!");
 	}
 
 	public static void main(final String[] args) {
