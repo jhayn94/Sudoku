@@ -161,7 +161,21 @@ public class LabelConstants {
 	public static final String RETRY_GENERATION = "Puzzle generation resulted in an error. Please retry generation. "
 			+ "If the problem persists, check the log file.";
 
-	public static final String OVERVIEW = "Overview";
+	public static final String ABOUT = "About";
+
+	public static final String ABOUT_CONTENT = "This application is a one-stop shop Sudoku application with a modern "
+			+ "design. You can create puzzles with various configurations / difficulty levels, then solve them (manually, or "
+			+ "with hints). In addition, most of the application is configurable to make it cater to your needs and preferences."
+			+ "\r\n\r\nThis application is designed with diverse computer users in mind: nearly every feature or action "
+			+ "should be possible with both mouse and keyboard, with just a few exceptions. So, whether you prefer to "
+			+ "memorize keyboard shortcuts, point and click with the mouse, or anywhere in between, this app can support it!"
+			+ "\r\n\r\nThe solving algorithm and hint generation components of the project are based on human-oriented "
+			+ "solving tactics. So, you can get real, usable hints if you are stuck. In addition, the solver is fully "
+			+ "configurable: you may define the order of solution techniques to better align with your preferred solving "
+			+ "tactics, and avoid ones you dislike. (Or, you can disable them altogether and generate puzzles that don’t "
+			+ "require a specific technique to solve.)\r\n\r\nOverall, this application is pretty feature dense, and as such, "
+			+ "it is suggested that you view the README in the GitHub project for the full user guide:\r\n\r\n"
+			+ "https://github.com/jhayn94/Sudoku/blob/master/README.md";
 
 	public static final String HOTKEYS = "Hotkeys";
 

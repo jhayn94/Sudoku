@@ -21,14 +21,14 @@ public class HelpMenu extends Menu {
 	}
 
 	private void createChildElements() {
-		final MenuItem helpMenuItem = new MenuItem(LabelConstants.OVERVIEW);
-		helpMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.H, KeyCombination.CONTROL_DOWN));
-		helpMenuItem.setOnAction(event -> LayoutFactory.getInstance().showHelpView());
+		final MenuItem aboutMenuItem = new MenuItem(LabelConstants.ABOUT);
+		aboutMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.H, KeyCombination.CONTROL_DOWN));
+		aboutMenuItem.setOnAction(event -> LayoutFactory.getInstance().showHelpView());
 
 		final MenuItem hotkeysMenuItem = new MenuItem(LabelConstants.HOTKEYS);
 		hotkeysMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.BACK_QUOTE, KeyCombination.SHORTCUT_DOWN));
 		hotkeysMenuItem.setOnAction(event -> LayoutFactory.getInstance().showHotkeyView());
 
-		this.getItems().addAll(helpMenuItem, hotkeysMenuItem);
+		this.getItems().addAll(aboutMenuItem, hotkeysMenuItem);
 	}
 }

@@ -1,7 +1,5 @@
 package sudoku.view;
 
-import org.apache.logging.log4j.util.Strings;
-
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import sudoku.view.dialog.ModalDialog;
@@ -16,7 +14,7 @@ public class HelpView extends ModalDialog {
 
 	@Override
 	protected void configure() {
-		this.setTitle(LabelConstants.HELP);
+		this.setTitle(LabelConstants.ABOUT);
 		this.createChildElements();
 	}
 
@@ -26,7 +24,7 @@ public class HelpView extends ModalDialog {
 		final TextArea helpMessageTextArea = new TextArea();
 		helpMessageTextArea.setEditable(false);
 		helpMessageTextArea.setWrapText(true);
-		helpMessageTextArea.setText(Strings.EMPTY);
+		helpMessageTextArea.setText(LabelConstants.ABOUT_CONTENT);
 		this.setCenter(helpMessageTextArea);
 	}
 
