@@ -37,15 +37,16 @@ public class ShowSpecificHintState extends ApplicationModelState {
 		hintButtonPane.getApplyHintButton().setDisable(false);
 		hintButtonPane.getHideHintButton().setDisable(false);
 
+		// The order of these cannot change! Otherwise the ALS candidate colors
+		// overwrite the other candidates.
+		this.updateColorForAlmostLockedSetCandidates();
 		this.updateChainHintCandidates();
-
 		this.updateColorForColorHintCandidates();
 		this.updateColorForPrimaryHintCandidates();
 		this.updateColorForSecondaryHintCandidates();
 		this.updateColorForTertiaryHintCandidates();
 		this.updateColorForDeletableCandidates();
 		this.updateColorForCannibalCandidates();
-		this.updateColorForAlmostLockedSets();
 
 	}
 
@@ -169,7 +170,7 @@ public class ShowSpecificHintState extends ApplicationModelState {
 		});
 	}
 
-	private void updateColorForAlmostLockedSets() {
+	private void updateColorForAlmostLockedSetCandidates() {
 		final int chainIndex = this.displayedHint.getChains().isEmpty() ? -1 : 0;
 		this.displayedHint.getAlses().forEach(almostLockedSet -> {
 			almostLockedSet.getIndices().forEach(linearCellIndex -> {
