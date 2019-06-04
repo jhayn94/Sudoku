@@ -107,7 +107,7 @@ public class FileMenu extends Menu {
 		final StepConfig requiredStep = solverSteps.stream()
 				.filter(solverStep -> solverStep.getType().getStepName().equals(mustContainStepWithName)).findFirst()
 				.orElseGet(() -> null);
-		return requiredStep != null && requiredStep.getLevel() > difficulty.ordinal();
+		return requiredStep != null && requiredStep.getLevel() > difficulty.ordinal() + 1;
 	}
 
 	private boolean isRequiredStepEnabled() {
