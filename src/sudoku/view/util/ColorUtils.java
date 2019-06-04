@@ -40,15 +40,22 @@ public class ColorUtils {
 
 	private static final String COLOR5B_ENTITY_CSS_CLASS = "sudoku-puzzle-color5b-entity";
 
-	private static final List<String> COLOR_CSS_CLASSES = Arrays.asList(COLOR1A_ENTITY_CSS_CLASS,
-			COLOR1B_ENTITY_CSS_CLASS, COLOR2A_ENTITY_CSS_CLASS, COLOR2B_ENTITY_CSS_CLASS, COLOR3A_ENTITY_CSS_CLASS,
-			COLOR3B_ENTITY_CSS_CLASS, COLOR4A_ENTITY_CSS_CLASS, COLOR4B_ENTITY_CSS_CLASS, COLOR5A_ENTITY_CSS_CLASS,
-			COLOR5B_ENTITY_CSS_CLASS);
+	public static final String PRIMARY_HINT_CANDIDATE_CSS_CLASS = "sudoku-puzzle-color-primary-hint-candidate";
+
+	public static final String SECONDARY_HINT_CANDIDATE_CSS_CLASS = "sudoku-puzzle-color-secondary-hint-candidate";
+
+	public static final String TERTIARY_HINT_CANDIDATE_CSS_CLASS = "sudoku-puzzle-color-tertiary-hint-candidate";
+
+	public static final String QUATERNARY_HINT_CANDIDATE_CSS_CLASS = "sudoku-puzzle-color-quaternary-hint-candidate";
+
+	public static final String QUINARY_HINT_CANDIDATE_CSS_CLASS = "sudoku-puzzle-color-quinary-hint-candidate";
+
+	public static final String DELETABLE_HINT_CANDIDATE_CSS_CLASS = "sudoku-puzzle-color-deletable-hint-candidate";
 
 	/**
-	 * Returns the "base" colors used for coloring in the application. Note that
-	 * by default, each alternate color should be a lighter version of the base
-	 * color, but the user is permitted to deviate from this guideline.
+	 * Returns the "base" colors used for coloring in the application. Note that by
+	 * default, each alternate color should be a lighter version of the base color,
+	 * but the user is permitted to deviate from this guideline.
 	 */
 	public static List<Color> getColors() {
 		final List<String> hexCodes = new ArrayList<>();
@@ -59,26 +66,22 @@ public class ColorUtils {
 		return hexCodes.stream().map(Color::valueOf).collect(Collectors.toList());
 	}
 
-	public List<String> getCssColorClasses() {
-		return COLOR_CSS_CLASSES;
-	}
-
 	public static List<KeyCode> getApplyColorKeyCodes() {
 		return APPLY_COLOR_KEY_CODES;
 	}
 
 	public enum ColorState {
-		COLORSTATE1A(0, false, COLOR1A_ENTITY_CSS_CLASS),
-		COLORSTATE1B(0, true, COLOR1B_ENTITY_CSS_CLASS),
-		COLORSTATE2A(1, false, COLOR2A_ENTITY_CSS_CLASS),
-		COLORSTATE2B(1, true, COLOR2B_ENTITY_CSS_CLASS),
-		COLORSTATE3A(2, false, COLOR3A_ENTITY_CSS_CLASS),
-		COLORSTATE3B(2, true, COLOR3B_ENTITY_CSS_CLASS),
-		COLORSTATE4A(3, false, COLOR4A_ENTITY_CSS_CLASS),
-		COLORSTATE4B(3, true, COLOR4B_ENTITY_CSS_CLASS),
-		COLORSTATE5A(4, false, COLOR5A_ENTITY_CSS_CLASS),
-		COLORSTATE5B(4, true, COLOR5B_ENTITY_CSS_CLASS),
-		NONE;
+		COLORSTATE1A(0, false, COLOR1A_ENTITY_CSS_CLASS), COLORSTATE1B(0, true, COLOR1B_ENTITY_CSS_CLASS),
+		COLORSTATE2A(1, false, COLOR2A_ENTITY_CSS_CLASS), COLORSTATE2B(1, true, COLOR2B_ENTITY_CSS_CLASS),
+		COLORSTATE3A(2, false, COLOR3A_ENTITY_CSS_CLASS), COLORSTATE3B(2, true, COLOR3B_ENTITY_CSS_CLASS),
+		COLORSTATE4A(3, false, COLOR4A_ENTITY_CSS_CLASS), COLORSTATE4B(3, true, COLOR4B_ENTITY_CSS_CLASS),
+		COLORSTATE5A(4, false, COLOR5A_ENTITY_CSS_CLASS), COLORSTATE5B(4, true, COLOR5B_ENTITY_CSS_CLASS),
+		PRIMARY_HINT_CANDIDATE(-1, false, PRIMARY_HINT_CANDIDATE_CSS_CLASS),
+		SECONDARY_HINT_CANDIDATE(-1, false, SECONDARY_HINT_CANDIDATE_CSS_CLASS),
+		TERTIARY_HINT_CANDIDATE(-1, false, TERTIARY_HINT_CANDIDATE_CSS_CLASS),
+		QUATERNARY_HINT_CANDIDATE(-1, false, QUATERNARY_HINT_CANDIDATE_CSS_CLASS),
+		DELETABLE_HINT_CANDIDATE(-1, false, DELETABLE_HINT_CANDIDATE_CSS_CLASS),
+		QUINARY_HINT_CANDIDATE(-1, false, QUINARY_HINT_CANDIDATE_CSS_CLASS), NONE;
 
 		private final int keyIndex;
 
@@ -112,14 +115,13 @@ public class ColorUtils {
 
 		/**
 		 * Gets a color state based on the color passed. This only will retrieve the
-		 * base color state, not the alternative (with shift down). To do this, get
-		 * the base color state, then call getFromKeyCode(baseState.getKey(), true).
+		 * base color state, not the alternative (with shift down). To do this, get the
+		 * base color state, then call getFromKeyCode(baseState.getKey(), true).
 		 */
 		public static ColorState getStateForBaseColor(final Color baseColor) {
 			return Arrays.asList(ColorState.values()).stream()
 					// The keys + color array list are in the same order, so we can use
-					// their
-					// indices interchangeably.
+					// their indices interchangeably.
 					.filter(colorState -> ColorUtils.getColors().indexOf(baseColor) == colorState.keyIndex).findFirst()
 					.orElseThrow(NoSuchElementException::new);
 		}
@@ -130,6 +132,60 @@ public class ColorUtils {
 							&& colorState.withShift == isWithShift)
 					.findFirst().orElseThrow(NoSuchElementException::new);
 		}
+	}
+
+	/**
+	 * Translate's HoDoKu's SolutionStep::getColorCandidates map values into color
+	 * state pairs. The order of colors used is orange, purple, blue, and green in
+	 * order to avoid using green as much as possible (since it is also used for
+	 * most other hint annotations).
+	 */
+	public static ColorState getColorStateForColoringIndex(final int colorIndex) {
+		// The darkest + lightest version of each color is used in an attempt to
+		// maximize contrast. It can be hard to see the difference otherwise because
+		// candidate labels are small.
+		if (colorIndex == 0) {
+			return ColorState.QUATERNARY_HINT_CANDIDATE;
+		} else if (colorIndex == 1) {
+			return ColorState.COLORSTATE5B;
+		} else if (colorIndex == 2) {
+			return ColorState.TERTIARY_HINT_CANDIDATE;
+		} else if (colorIndex == 3) {
+			return ColorState.COLORSTATE3B;
+		} else if (colorIndex == 4) {
+			return ColorState.SECONDARY_HINT_CANDIDATE;
+		} else if (colorIndex == 5) {
+			return ColorState.COLORSTATE2B;
+		} else if (colorIndex == 6) {
+			return ColorState.PRIMARY_HINT_CANDIDATE;
+		} else {
+			return ColorState.COLORSTATE4B;
+			// Since there are 9 boxes, there can only be 4 mutually exclusive
+			// conjugate pairs for a candidate. Thus, 8 colors are needed at most.
+		}
+	}
+
+	/**
+	 * Gets a color state that corresponds to an index of ALS. The colors are sorted
+	 * to avoid the blue and purple as much as possible, since these colors are
+	 * often used in ALS annotations.
+	 */
+	public static ColorState getColorStateForAlmostLockedSetIndex(final int alsIndex) {
+		if (alsIndex == 0) {
+			return ColorState.QUATERNARY_HINT_CANDIDATE;
+		} else if (alsIndex == 1) {
+			return ColorState.QUINARY_HINT_CANDIDATE;
+		} else if (alsIndex == 2) {
+			return ColorState.PRIMARY_HINT_CANDIDATE;
+		} else if (alsIndex == 3) {
+			return ColorState.COLORSTATE2B;
+		} else if (alsIndex == 4) {
+			return ColorState.COLORSTATE3B;
+		}
+		// Don't really know how many ALSes there can be at once, since I don't
+		// understand this tactic fully. But, if you see this color, more options need
+		// to be added.
+		return ColorState.COLORSTATE1B;
 	}
 
 }

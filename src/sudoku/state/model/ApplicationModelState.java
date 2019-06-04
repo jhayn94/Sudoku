@@ -323,10 +323,8 @@ public class ApplicationModelState {
 	 * Given a cell and a color state, applies that color state to the cell for the
 	 * active candidate.
 	 */
-	protected void setCandidateColorForCell(final SudokuPuzzleCell cell, final ColorState colorStateToApply,
+	protected void setCandidateColorForCell(final int row, final int col, final ColorState colorStateToApply,
 			final int candidate) {
-		final int row = cell.getRow();
-		final int col = cell.getCol();
 		final ColorState currentColorState = this.sudokuPuzzleStyle.getCandidateColorState(row, col, candidate);
 		final Label candidateLabelForDigit = ViewController.getInstance().getSudokuPuzzleCell(row, col)
 				.getCandidateLabelForDigit(candidate);

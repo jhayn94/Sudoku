@@ -1,9 +1,7 @@
 package sudoku.state.model.hint;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import sudoku.Candidate;
 import sudoku.Chain;
 import sudoku.SolutionType;
 import sudoku.core.HodokuFacade;
@@ -13,6 +11,7 @@ import sudoku.state.model.ApplicationModelState;
 import sudoku.view.hint.HintButtonPane;
 import sudoku.view.hint.HintTextArea;
 import sudoku.view.puzzle.SudokuPuzzleCell;
+import sudoku.view.util.ColorUtils;
 import sudoku.view.util.ColorUtils.ColorState;
 import sudoku.view.util.LabelConstants;
 
@@ -22,14 +21,13 @@ import sudoku.view.util.LabelConstants;
  */
 public class ShowSpecificHintState extends ApplicationModelState {
 
-	private static final int DELTA = 5;
-
 	public ShowSpecificHintState(final ApplicationModelState lastState) {
 		super(lastState, false);
 	}
 
 	@Override
 	public void onEnter() {
+		this.resetColorStates();
 		this.displayedHint = HodokuFacade.getInstance().getHint(this.sudokuPuzzleValues);
 		final HintTextArea hintTextArea = ViewController.getInstance().getHintTextArea();
 		final String newHintText = SolutionType.GIVE_UP == this.displayedHint.getType() ? LabelConstants.NO_MOVES
@@ -38,90 +36,154 @@ public class ShowSpecificHintState extends ApplicationModelState {
 		final HintButtonPane hintButtonPane = ViewController.getInstance().getHintButtonPane();
 		hintButtonPane.getApplyHintButton().setDisable(false);
 		hintButtonPane.getHideHintButton().setDisable(false);
+
+		this.updateChainHintCandidates();
+
+		this.updateColorForColorHintCandidates();
+		this.updateColorForPrimaryHintCandidates();
+		this.updateColorForSecondaryHintCandidates();
+		this.updateColorForTertiaryHintCandidates();
+		this.updateColorForDeletableCandidates();
+		this.updateColorForCannibalCandidates();
+		this.updateColorForAlmostLockedSets();
+
+	}
+
+	/**
+	 * This is mostly a direct port from HoDoKu. I seriously can't figure out what
+	 * is going on here, so I left it untouched. If there are any bugs with it, a
+	 * re-port with fewer tweaks might help.
+	 */
+	private void updateChainHintCandidates() {
 		final int chainIndex = this.displayedHint.getChains().isEmpty() ? -1 : 0;
-
-		// if chainIndex is != -1, alsToShow contains the indices of the ALS, that are
-		// part of the chain
-		final List<Integer> alsToShow = new ArrayList<Integer>();
-
 		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
 			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
 				for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
-					ColorState candColor = ColorState.NONE;
+					ColorState colorStateToApply = ColorState.NONE;
 					if (this.sudokuPuzzleValues.getCandidateDigitsForCell(row, col).contains(candidate)) {
 						final int linearCellIndex = row * SudokuPuzzleValues.CELLS_PER_HOUSE + col;
-						if (this.displayedHint.getIndices().indexOf(linearCellIndex) >= 0
-								&& this.displayedHint.getValues().indexOf(candidate) >= 0) {
-							candColor = ColorState.COLORSTATE4A;
-						}
-						final int alsIndex = this.displayedHint.getAlsIndex(linearCellIndex, chainIndex);
-						if (alsIndex != -1 && ((chainIndex == -1 && !this.displayedHint.getType().isKrakenFish())
-								|| alsToShow.contains(alsIndex))) {
-							candColor = ColorState.COLORSTATE4A;
-						}
 						for (int k = 0; k < this.displayedHint.getChains().size(); k++) {
-							if (this.displayedHint.getType().isKrakenFish() && chainIndex == -1) {
-								continue;
-							}
-							if (chainIndex != -1 && k != chainIndex) {
-								continue;
-							}
-							final Chain chain = this.displayedHint.getChains().get(k);
-							for (int j = chain.getStart(); j <= chain.getEnd(); j++) {
-								if (chain.getChain()[j] == Integer.MIN_VALUE) {
-									continue;
-								}
-								final int chainEntry = Math.abs(chain.getChain()[j]);
-								int index1 = -1, index2 = -1, index3 = -1;
-								if (Chain.getSNodeType(chainEntry) == Chain.NORMAL_NODE) {
-									index1 = Chain.getSCellIndex(chainEntry);
-								}
-								if (Chain.getSNodeType(chainEntry) == Chain.GROUP_NODE) {
-									index1 = Chain.getSCellIndex(chainEntry);
-									index2 = Chain.getSCellIndex2(chainEntry);
-									index3 = Chain.getSCellIndex3(chainEntry);
-								}
-								if ((linearCellIndex == index1 || linearCellIndex == index2 || linearCellIndex == index3)
-										&& Chain.getSCandidate(chainEntry) == candidate) {
-									if (Chain.isSStrong(chainEntry)) {
-										// strong link
-										candColor = ColorState.COLORSTATE4A;
-									} else {
-										candColor = ColorState.COLORSTATE2A;
+							if ((!this.displayedHint.getType().isKrakenFish() || chainIndex != -1)
+									&& (chainIndex == -1 || k == chainIndex)) {
+								final Chain chain = this.displayedHint.getChains().get(k);
+								for (int chainSegmentIndex = chain.getStart(); chainSegmentIndex <= chain
+										.getEnd(); chainSegmentIndex++) {
+									if (chain.getChain()[chainSegmentIndex] != Integer.MIN_VALUE) {
+										final int chainEntry = Math.abs(chain.getChain()[chainSegmentIndex]);
+										int index1 = -1, index2 = -1, index3 = -1;
+										if (Chain.getSNodeType(chainEntry) == Chain.NORMAL_NODE) {
+											index1 = Chain.getSCellIndex(chainEntry);
+										}
+										if (Chain.getSNodeType(chainEntry) == Chain.GROUP_NODE) {
+											index1 = Chain.getSCellIndex(chainEntry);
+											index2 = Chain.getSCellIndex2(chainEntry);
+											index3 = Chain.getSCellIndex3(chainEntry);
+										}
+										if ((linearCellIndex == index1 || linearCellIndex == index2 || linearCellIndex == index3)
+												&& Chain.getSCandidate(chainEntry) == candidate) {
+											if (Chain.isSStrong(chainEntry)) {
+												// strong link
+												colorStateToApply = ColorState.PRIMARY_HINT_CANDIDATE;
+											} else {
+												colorStateToApply = ColorState.SECONDARY_HINT_CANDIDATE;
+											}
+										}
 									}
 								}
 							}
 						}
-						for (final Candidate cand : this.displayedHint.getFins()) {
-							if (cand.getIndex() == linearCellIndex && cand.getValue() == candidate) {
-								candColor = ColorState.COLORSTATE2A;
-							}
-						}
-						for (final Candidate cand : this.displayedHint.getEndoFins()) {
-							if (cand.getIndex() == linearCellIndex && cand.getValue() == candidate) {
-								candColor = ColorState.COLORSTATE3A;
-							}
-						}
-						if (this.displayedHint.getValues().contains(candidate)
-								&& this.displayedHint.getColorCandidates().containsKey(linearCellIndex)) {
-							candColor = ColorState.COLORSTATE5A;
-						}
-						for (final Candidate cand : this.displayedHint.getCandidatesToDelete()) {
-							if (cand.getIndex() == linearCellIndex && cand.getValue() == candidate) {
-								candColor = ColorState.COLORSTATE1A;
-							}
-						}
-						for (final Candidate cand : this.displayedHint.getCannibalistic()) {
-							if (cand.getIndex() == linearCellIndex && cand.getValue() == candidate) {
-								candColor = ColorState.COLORSTATE5A;
-							}
-						}
 					}
 					final SudokuPuzzleCell cell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
-					this.setCandidateColorForCell(cell, candColor, candidate);
+					if (ColorState.NONE != colorStateToApply) {
+						this.setCandidateColorForCell(cell.getRow(), cell.getCol(), colorStateToApply, candidate);
+					}
 				}
 			}
 		}
+	}
+
+	private void updateColorForColorHintCandidates() {
+		// Technically, I think there can only be one, but I am porting the code from
+		// HoDoKu, so I didn't change it.
+		this.displayedHint.getValues().forEach(candidate -> {
+			this.displayedHint.getColorCandidates().forEach((linearCellIndex, colorIndex) -> {
+				final int row = linearCellIndex / SudokuPuzzleValues.CELLS_PER_HOUSE;
+				final int col = linearCellIndex % SudokuPuzzleValues.CELLS_PER_HOUSE;
+				final ColorState colorStateToApply = ColorUtils.getColorStateForColoringIndex(colorIndex);
+				this.setCandidateColorForCell(row, col, colorStateToApply, candidate);
+			});
+		});
 
 	}
+
+	private void updateColorForPrimaryHintCandidates() {
+		// Color primary candidates.
+		final List<Integer> cellIndiciesForHint = this.displayedHint.getIndices();
+		final List<Integer> candidatesForHint = this.displayedHint.getValues();
+		cellIndiciesForHint.forEach(linearCellIndex -> {
+			final int row = linearCellIndex / SudokuPuzzleValues.CELLS_PER_HOUSE;
+			final int col = linearCellIndex % SudokuPuzzleValues.CELLS_PER_HOUSE;
+			candidatesForHint.forEach(candidate -> {
+				this.setCandidateColorForCell(row, col, ColorState.PRIMARY_HINT_CANDIDATE, candidate);
+			});
+		});
+	}
+
+	private void updateColorForSecondaryHintCandidates() {
+		this.displayedHint.getFins().forEach(finCandidate -> {
+			final int linearCellIndex = finCandidate.getIndex();
+			final int row = linearCellIndex / SudokuPuzzleValues.CELLS_PER_HOUSE;
+			final int col = linearCellIndex % SudokuPuzzleValues.CELLS_PER_HOUSE;
+			final int candidate = finCandidate.getValue();
+			this.setCandidateColorForCell(row, col, ColorState.SECONDARY_HINT_CANDIDATE, candidate);
+		});
+	}
+
+	private void updateColorForTertiaryHintCandidates() {
+		this.displayedHint.getEndoFins().forEach(endoFinCandidate -> {
+			final int linearCellIndex = endoFinCandidate.getIndex();
+			final int row = linearCellIndex / SudokuPuzzleValues.CELLS_PER_HOUSE;
+			final int col = linearCellIndex % SudokuPuzzleValues.CELLS_PER_HOUSE;
+			final int candidate = endoFinCandidate.getValue();
+			this.setCandidateColorForCell(row, col, ColorState.TERTIARY_HINT_CANDIDATE, candidate);
+		});
+	}
+
+	private void updateColorForDeletableCandidates() {
+		this.displayedHint.getCandidatesToDelete().forEach(candidateToDelete -> {
+			final int linearCellIndex = candidateToDelete.getIndex();
+			final int row = linearCellIndex / SudokuPuzzleValues.CELLS_PER_HOUSE;
+			final int col = linearCellIndex % SudokuPuzzleValues.CELLS_PER_HOUSE;
+			final int candidate = candidateToDelete.getValue();
+			this.setCandidateColorForCell(row, col, ColorState.DELETABLE_HINT_CANDIDATE, candidate);
+		});
+	}
+
+	private void updateColorForCannibalCandidates() {
+		this.displayedHint.getCannibalistic().forEach(cannibalisticCandidate -> {
+			final int linearCellIndex = cannibalisticCandidate.getIndex();
+			final int row = linearCellIndex / SudokuPuzzleValues.CELLS_PER_HOUSE;
+			final int col = linearCellIndex % SudokuPuzzleValues.CELLS_PER_HOUSE;
+			final int candidate = cannibalisticCandidate.getValue();
+			this.setCandidateColorForCell(row, col, ColorState.QUINARY_HINT_CANDIDATE, candidate);
+		});
+	}
+
+	private void updateColorForAlmostLockedSets() {
+		final int chainIndex = this.displayedHint.getChains().isEmpty() ? -1 : 0;
+		this.displayedHint.getAlses().forEach(almostLockedSet -> {
+			almostLockedSet.getIndices().forEach(linearCellIndex -> {
+				final int row = linearCellIndex / SudokuPuzzleValues.CELLS_PER_HOUSE;
+				final int col = linearCellIndex % SudokuPuzzleValues.CELLS_PER_HOUSE;
+				almostLockedSet.getCandidates().forEach(candidate -> {
+					final int alsIndex = this.displayedHint.getAlsIndex(linearCellIndex, chainIndex);
+					if (!this.displayedHint.getType().isKrakenFish()) {
+						final ColorState colorStateToApply = ColorUtils.getColorStateForAlmostLockedSetIndex(alsIndex);
+						this.setCandidateColorForCell(row, col, colorStateToApply, candidate);
+					}
+				});
+			});
+		});
+	}
+
 }

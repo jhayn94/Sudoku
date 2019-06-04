@@ -43,7 +43,8 @@ public class ClickedCellState extends ApplicationModelState {
 		} else {
 			// MouseMode.COLOR_CANDIDATES case.
 			final ColorState baseColorState = ColorState.getStateForBaseColor(this.sudokuPuzzleStyle.getActiveColor());
-			this.setCandidateColorForCell(clickedCell, baseColorState, this.sudokuPuzzleStyle.getActiveCandidateDigit());
+			this.setCandidateColorForCell(this.row, this.col, baseColorState,
+					this.sudokuPuzzleStyle.getActiveCandidateDigit());
 		}
 	}
 

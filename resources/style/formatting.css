@@ -19,6 +19,12 @@
 	-sudoku-color-coloring4b: #c6ecd6;
 	-sudoku-color-coloring5a: #ffc14d;
 	-sudoku-color-coloring5b: #ffe4b3;
+	-sudoku-color-hint-primary: #53c685;
+	-sudoku-color-hint-secondary: #1a8cff;
+	-sudoku-color-hint-tertiary: #855dd5;
+	-sudoku-color-hint-quaternary: #ffaf1a;
+	-sudoku-color-hint-quinary: #ff4dd2;
+	-sudoku-color-hint-deletable: #eb2d53;
 
 	-fx-font-family: "Quicksand";
 	-fx-font-size: 12pt;
@@ -136,9 +142,33 @@
 	-fx-background-color: -sudoku-color-coloring5b;
 }
 
+.sudoku-puzzle-color-primary-hint-candidate {
+	-fx-background-color: -sudoku-color-hint-primary;
+}
+
+.sudoku-puzzle-color-secondary-hint-candidate {
+	-fx-background-color: -sudoku-color-hint-secondary;
+}
+
+.sudoku-puzzle-color-tertiary-hint-candidate {
+	-fx-background-color: -sudoku-color-hint-tertiary;
+}
+
+.sudoku-puzzle-color-quaternary-hint-candidate {
+	-fx-background-color: -sudoku-color-hint-quaternary;
+}
+
+.sudoku-puzzle-color-quinary-hint-candidate {
+	-fx-background-color: -sudoku-color-hint-quinary;
+}
+
+.sudoku-puzzle-color-deletable-hint-candidate {
+	-fx-background-color: -sudoku-color-hint-deletable;
+}
+
 /* These are used to set extra borders on the cells that are on the edges of blocks. 
-	It would be nice to be able to re-use them, but I can't figure out how to override only
-	one of the border sizes, and inherit the rest. */
+   It would be nice to be able to re-use them, but I can't figure out how to override only
+   one of the border sizes, and inherit the rest. */
 .sudoku-puzzle-cell-extra-top-border {
 	-fx-border-width: 2 1 1 1;
 }
