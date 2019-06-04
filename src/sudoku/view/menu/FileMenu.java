@@ -151,7 +151,7 @@ public class FileMenu extends Menu {
 		final ModalStage modalStage = new ModalStage();
 		final FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle(LabelConstants.OPEN_FILE);
-		fileChooser.setSelectedExtensionFilter(new ExtensionFilter("A sudoku puzzle file.", ".spf"));
+		fileChooser.getExtensionFilters().add(new ExtensionFilter("Sudoku puzzle file", "*.spf"));
 		final File selectedFile = fileChooser.showOpenDialog(modalStage);
 		if (selectedFile != null) {
 			ModelController.getInstance().transitionToOpenedFileState(selectedFile);
@@ -161,7 +161,7 @@ public class FileMenu extends Menu {
 	private void onSavePuzzle() {
 		final FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle(LabelConstants.SAVE_FILE);
-		fileChooser.setSelectedExtensionFilter(new ExtensionFilter("A sudoku puzzle file.", ".spf"));
+		fileChooser.getExtensionFilters().add(new ExtensionFilter("Sudoku puzzle file", "*.spf"));
 		final File selectedFile = fileChooser.showSaveDialog(ViewController.getInstance().getStage());
 		ModelController.getInstance().transitionToSavedFileState(selectedFile);
 	}
