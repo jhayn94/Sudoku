@@ -164,7 +164,10 @@ public class ApplicationModelState {
 
 	/**
 	 * Updates the candidates pane in the view to match the model. This should
-	 * pretty much always be called after updateCells().
+	 * pretty much always be called after updateCells(). The main exception would be
+	 * if you don't want all possible candidates to be shown (i.e. loading a saved
+	 * file). In this case, you should overwrite this::setCandidateVisibility.
+	 *
 	 */
 	protected void updateCandidates() {
 		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
@@ -173,6 +176,26 @@ public class ApplicationModelState {
 				final int givenCellDigit = this.sudokuPuzzleValues.getGivenCellDigit(row, col);
 				final boolean isCellGiven = givenCellDigit != 0;
 				this.setCandidateVisibility(row, col, sudokuPuzzleCell, isCellGiven);
+			}
+		}
+	}
+
+	/**
+	 * Sets the visibility for the given cell at the row / position based on the
+	 * currently fixed cell values. Note that you should not call this in the same
+	 * loops as updateCells(), since the values will be changing mid-iteration.
+	 */
+	protected void setCandidateVisibility(final int row, final int col, final SudokuPuzzleCell sudokuPuzzleCell,
+			final boolean isCellGiven) {
+		if (!isCellGiven) {
+			final List<Integer> candidateDigitsForCell = this.sudokuPuzzleValues.getCandidateDigitsForCell(row, col);
+			for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
+				final boolean seesFixedDigit = SudokuPuzzleCellUtils.doesCellSeeFixedDigit(row, col, candidate);
+				if (seesFixedDigit) {
+					candidateDigitsForCell.remove((Object) candidate);
+				}
+				sudokuPuzzleCell.setCandidateVisible(candidate, candidateDigitsForCell.contains(candidate) && !seesFixedDigit
+						&& ApplicationSettings.getInstance().isAutoManageCandidates());
 			}
 		}
 	}
@@ -384,26 +407,6 @@ public class ApplicationModelState {
 	private Boolean candidatesMatchFilter(final Function<List<Integer>, Boolean> predicate,
 			final List<Integer> candidates) {
 		return predicate.apply(candidates);
-	}
-
-	/**
-	 * Sets the visibility for the given cell at the row / position based on the
-	 * currently fixed cell values. Note that you should not call this in the same
-	 * loops as updateCells(), since the values will be changing mid-iteration.
-	 */
-	private void setCandidateVisibility(final int row, final int col, final SudokuPuzzleCell sudokuPuzzleCell,
-			final boolean isCellGiven) {
-		if (!isCellGiven) {
-			final List<Integer> candidateDigitsForCell = this.sudokuPuzzleValues.getCandidateDigitsForCell(row, col);
-			for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
-				final boolean seesFixedDigit = SudokuPuzzleCellUtils.doesCellSeeFixedDigit(row, col, candidate);
-				if (seesFixedDigit) {
-					candidateDigitsForCell.remove((Object) candidate);
-				}
-				sudokuPuzzleCell.setCandidateVisible(candidate, candidateDigitsForCell.contains(candidate) && !seesFixedDigit
-						&& ApplicationSettings.getInstance().isAutoManageCandidates());
-			}
-		}
 	}
 
 	/**
