@@ -82,9 +82,9 @@ public class SudokuPuzzleView extends GridPane {
 	}
 
 	/**
-	 * Handles all keyboard inputs for the application. The technical challenge
-	 * with keyboard inputs is that the node must be focused to receive input, and
-	 * only one node can be focused at once. This makes it impossible to listen on
+	 * Handles all keyboard inputs for the application. The technical challenge with
+	 * keyboard inputs is that the node must be focused to receive input, and only
+	 * one node can be focused at once. This makes it impossible to listen on
 	 * multiple nodes at once.
 	 */
 	private EventHandler<? super KeyEvent> onKeyPressed() {

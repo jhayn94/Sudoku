@@ -34,7 +34,8 @@ public class ToggleCandidateColorState extends ApplicationModelState {
 			if (isCandidateVisible) {
 
 				final ColorState colorStateToApply = ColorState.getFromKeyCode(this.lastKeyCode, false);
-				this.updateCandidateColorForCell(selectedCell, colorStateToApply);
+				this.setCandidateColorForCell(selectedCell, colorStateToApply,
+						this.sudokuPuzzleStyle.getActiveCandidateDigit());
 			}
 		}
 	}

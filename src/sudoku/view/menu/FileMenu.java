@@ -141,7 +141,9 @@ public class FileMenu extends Menu {
 			// Can't do much about these errors without opening up the HoDoKu source code,
 			// but directing the user to retry is better than nothing.
 			LOG.error("{}", e);
-			waitingDialog.onGenerationFailed();
+			Platform.runLater(() -> {
+				waitingDialog.onGenerationFailed();
+			});
 		}
 	}
 
