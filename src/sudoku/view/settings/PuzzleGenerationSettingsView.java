@@ -75,10 +75,7 @@ public class PuzzleGenerationSettingsView extends ModalDialog {
 		this.createSolveUpToStepCheckBox();
 		this.createMustContainStepComboBox();
 		// This code has to run after the combo box is created.
-		this.solveUpToStepCheckBox.setDisable(
-				Strings.EMPTY.equals(this.mustContainTechniqueComboBox.getComboBox().getSelectionModel().getSelectedItem()));
-		this.solveUpToStepCheckBox.setSelected(
-				!this.solveUpToStepCheckBox.isDisabled() && ApplicationSettings.getInstance().isSolveToRequiredStep());
+		this.solveUpToStepCheckBox.setSelected(ApplicationSettings.getInstance().isSolveToRequiredStep());
 		contentPane.getChildren().addAll(this.difficultyComboBox, this.mustContainTechniqueComboBox,
 				this.solveUpToStepCheckBox);
 		this.createButtonPane();
@@ -103,7 +100,6 @@ public class PuzzleGenerationSettingsView extends ModalDialog {
 		comboBox.setMinWidth(300);
 		this.mustContainTechniqueComboBox.getLabel().setText(LabelConstants.MUST_CONTAIN);
 		this.mustContainTechniqueComboBox.getComboBox().setTooltip(new Tooltip(TooltipConstants.MUST_CONTAIN));
-		comboBox.valueProperty().addListener(this.onTechniqueChangeListener());
 
 		comboBox.getEditor().setEditable(true);
 		final List<String> stepNames = Arrays.asList(SolutionType.values()).stream().map(SolutionType::getStepName)
@@ -117,18 +113,10 @@ public class PuzzleGenerationSettingsView extends ModalDialog {
 		VBox.setMargin(this.mustContainTechniqueComboBox, new Insets(0, 0, LARGE_PADDING, 0));
 	}
 
-	private ChangeListener<? super String> onTechniqueChangeListener() {
-		return (observableValue, oldValue, newValue) -> {
-			this.solveUpToStepCheckBox.setDisable(newValue == null || Strings.EMPTY.equals(newValue));
-			this.solveUpToStepCheckBox.setTooltip(new Tooltip(TooltipConstants.SOLVE_UP_TO));
-			this.solveUpToStepCheckBox
-					.setSelected(!this.solveUpToStepCheckBox.isDisabled() && this.solveUpToStepCheckBox.isSelected());
-		};
-	}
-
 	private void createSolveUpToStepCheckBox() {
 		this.solveUpToStepCheckBox = new CheckBox(LabelConstants.SOLVE_UP_TO);
 		VBox.setMargin(this.solveUpToStepCheckBox, new Insets(0));
+		this.solveUpToStepCheckBox.setTooltip(new Tooltip(TooltipConstants.SOLVE_UP_TO));
 	}
 
 	private void createButtonPane() {

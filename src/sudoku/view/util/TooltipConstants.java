@@ -35,13 +35,15 @@ public class TooltipConstants {
 
 	public static final String HIDE_HINT = "Hide the hint display and annotations.";
 
-	public static final String AUTO_MANAGE_CANDIDATES = "Check this to have the application automatically add and remove candidates when you change the value of a cell.";
+	public static final String AUTO_MANAGE_CANDIDATES = "Check this to have the application automatically add"
+			+ "and remove candidates when you change the value of a cell.";
 
-	public static final String SHOW_PUZZLE_PROGRESS = "Check this to receive progress updates each time you make a move.";
+	public static final String SHOW_PUZZLE_PROGRESS = "Check this to receive progress updates each time you make a move.\n";
 
 	public static final String MUST_CONTAIN = "If non-empty, generated puzzles must have this technique.";
 
-	public static final String SOLVE_UP_TO = "Check this to solve the puzzle so the above step is a next possible step.";
+	public static final String SOLVE_UP_TO = "Check this to solve the puzzle until the above step is possible.\n"
+			+ "No effect if no step is selected above.";
 
 	public static final String MAX_DIFFICULTY_SCORE_PREFIX = "The highest number a puzzle of '";
 
