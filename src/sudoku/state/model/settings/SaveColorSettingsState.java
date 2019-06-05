@@ -14,6 +14,8 @@ import sudoku.view.util.ColorUtils;
  */
 public class SaveColorSettingsState extends AbstractSaveSettingsState {
 
+	private static final int HINT_DELETE_COLOR_INDEX = 5;
+
 	private static final String COLOR_FORMAT_STRING = "#%02x%02x%02x";
 
 	public SaveColorSettingsState(final ApplicationModelState lastState) {
@@ -29,6 +31,18 @@ public class SaveColorSettingsState extends AbstractSaveSettingsState {
 		for (int index = 0; index < ApplicationSettings.NUM_COLORS_USED_IN_COLORING; index++) {
 			final Color coloringColor = colorSettingsView.getColoringColorPicker(index).getValue();
 			ApplicationSettings.getInstance().setColorUsedInColoring(index, this.convertColorToHex(coloringColor));
+		}
+		for (int index = 0; index < ApplicationSettings.NUM_COLORS_USED_IN_HINTS
+				+ ApplicationSettings.NUM_COLORS_USED_IN_ALSES + 1; index++) {
+			final Color hintColor = colorSettingsView.getHintColorPicker(index).getValue();
+			if (index < HINT_DELETE_COLOR_INDEX) {
+				ApplicationSettings.getInstance().setColorUsedInHints(index, this.convertColorToHex(hintColor));
+			} else if (index > HINT_DELETE_COLOR_INDEX) {
+				ApplicationSettings.getInstance().setColorUsedInAlses(index - HINT_DELETE_COLOR_INDEX - 1,
+						this.convertColorToHex(hintColor));
+			} else {
+				ApplicationSettings.getInstance().setHintDeleteColor(this.convertColorToHex(hintColor));
+			}
 		}
 
 		// Update the view in case the old colors were visible somewhere.

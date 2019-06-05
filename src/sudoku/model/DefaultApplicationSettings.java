@@ -40,6 +40,10 @@ public class DefaultApplicationSettings {
 		return DefaultApplicationSettings.instance;
 	}
 
+	private static final int NUM_COLORS_USED_IN_HINTS = 5;
+
+	private static final int NUM_COLORS_USED_IN_ALSES = 4;
+
 	private static final int NUM_COLORS_USED_IN_COLORING = 10;
 
 	private static final String TRUE = "true";
@@ -57,6 +61,12 @@ public class DefaultApplicationSettings {
 	private static final String COLOR_FOR_FILTERING_KEY = "colorForFiltering";
 
 	private static final String COLOR_FOR_COLORING_KEY = "colorsUsedInColoring";
+
+	private static final String COLOR_FOR_HINTS_KEY = "hintColor";
+
+	private static final String COLOR_FOR_ALSES_KEY = "alsColor";
+
+	private static final String HINT_DELETE_COLOR_KEY = "hintDeleteColor";
 
 	private static final String MAX_SCORE_FOR_KEY = "maxScoreFor";
 	// Puzzle Generation settings.
@@ -83,6 +93,12 @@ public class DefaultApplicationSettings {
 
 	private final String[] colorsUsedInColoring;
 
+	private final String[] hintColors;
+
+	private final String[] alsHintColors;
+
+	private final String hintDeleteColor;
+
 	public DefaultApplicationSettings(final Map<String, String> settingsToLoad) {
 		this.autoManageCandidates = settingsToLoad.get(AUTO_MANAGE_CANDIDATES_KEY).equals(TRUE);
 		this.showPuzzleProgress = settingsToLoad.get(SHOW_PUZZLE_PROGRESS_KEY).equals(TRUE);
@@ -99,6 +115,15 @@ public class DefaultApplicationSettings {
 		for (int index = 0; index < this.colorsUsedInColoring.length; index++) {
 			this.colorsUsedInColoring[index] = settingsToLoad.get(COLOR_FOR_COLORING_KEY + index);
 		}
+		this.hintColors = new String[NUM_COLORS_USED_IN_HINTS];
+		for (int index = 0; index < this.hintColors.length; index++) {
+			this.hintColors[index] = settingsToLoad.get(COLOR_FOR_HINTS_KEY + index);
+		}
+		this.alsHintColors = new String[NUM_COLORS_USED_IN_ALSES];
+		for (int index = 0; index < this.alsHintColors.length; index++) {
+			this.alsHintColors[index] = settingsToLoad.get(COLOR_FOR_ALSES_KEY + index);
+		}
+		this.hintDeleteColor = settingsToLoad.get(HINT_DELETE_COLOR_KEY);
 	}
 
 	public Difficulty getDifficulty() {
@@ -131,6 +156,18 @@ public class DefaultApplicationSettings {
 
 	public String[] getColorsUsedInColoring() {
 		return this.colorsUsedInColoring;
+	}
+
+	public String[] getHintColors() {
+		return this.hintColors;
+	}
+
+	public String[] getAlsColors() {
+		return this.alsHintColors;
+	}
+
+	public String getHintDeleteColor() {
+		return this.hintDeleteColor;
 	}
 
 	public int getMaxScoreForDifficulty(final String difficultyName) {

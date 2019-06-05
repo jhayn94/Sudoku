@@ -181,6 +181,12 @@ public class LabelConstants {
 
 	public static final String UNLOCK_GIVENS = "Unlock All Givens";
 
+	public static final String HINT_COLOR = "Hint Color ";
+
+	public static final String ALS_COLOR = "ALS Color ";
+
+	public static final String HINT_DELETE_COLOR = "Delete Color:";
+
 	private LabelConstants() {
 		// Private constructor to prevent instantiation.
 	}

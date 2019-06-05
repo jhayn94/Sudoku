@@ -25,6 +25,10 @@
 	-sudoku-color-hint-quaternary: #ffaf1a;
 	-sudoku-color-hint-quinary: #ff4dd2;
 	-sudoku-color-hint-deletable: #eb2d53;
+	-sudoku-color-hint-als1: #33cccc;
+	-sudoku-color-hint-als2: #e6e600;
+	-sudoku-color-hint-als3: #ffb3ff;
+	-sudoku-color-hint-als4: #ffc999;
 
 	-fx-font-family: "Quicksand";
 	-fx-font-size: 12pt;
@@ -164,6 +168,22 @@
 
 .sudoku-puzzle-color-deletable-hint-candidate {
 	-fx-background-color: -sudoku-color-hint-deletable;
+}
+
+.-sudoku-puzzle-color-hint-als1 {
+	-fx-background-color: -sudoku-color-hint-als1;
+}
+
+.-sudoku-puzzle-color-hint-als2 {
+	-fx-background-color: -sudoku-color-hint-als2;
+}
+
+.-sudoku-puzzle-color-hint-als3 {
+	-fx-background-color: -sudoku-color-hint-als3;
+}
+
+.-sudoku-puzzle-color-hint-als4 {
+	-fx-background-color: -sudoku-color-hint-als4;
 }
 
 /* These are used to set extra borders on the cells that are on the edges of blocks. 
@@ -313,6 +333,10 @@
 	-fx-background-color: -sudoku-color-off-white;
 	-fx-border-width: 2 0 2 2;
 	-fx-border-radius: 3 0 0 3;
+}
+
+.color-picker-label {
+	-fx-padding: 5;
 }
 
 .combo-box-base > .arrow-button {

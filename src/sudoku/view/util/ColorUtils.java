@@ -52,6 +52,14 @@ public class ColorUtils {
 
 	public static final String DELETABLE_HINT_CANDIDATE_CSS_CLASS = "sudoku-puzzle-color-deletable-hint-candidate";
 
+	public static final String ALS1_HINT_CANDIDATE_CSS_CLASS = "-sudoku-puzzle-color-hint-als1";
+
+	public static final String ALS2_HINT_CANDIDATE_CSS_CLASS = "-sudoku-puzzle-color-hint-als2";
+
+	public static final String ALS3_HINT_CANDIDATE_CSS_CLASS = "-sudoku-puzzle-color-hint-als3";
+
+	public static final String ALS4_HINT_CANDIDATE_CSS_CLASS = "-sudoku-puzzle-color-hint-als4";
+
 	/**
 	 * Returns the "base" colors used for coloring in the application. Note that by
 	 * default, each alternate color should be a lighter version of the base color,
@@ -80,8 +88,12 @@ public class ColorUtils {
 		SECONDARY_HINT_CANDIDATE(-1, false, SECONDARY_HINT_CANDIDATE_CSS_CLASS),
 		TERTIARY_HINT_CANDIDATE(-1, false, TERTIARY_HINT_CANDIDATE_CSS_CLASS),
 		QUATERNARY_HINT_CANDIDATE(-1, false, QUATERNARY_HINT_CANDIDATE_CSS_CLASS),
+		QUINARY_HINT_CANDIDATE(-1, false, QUINARY_HINT_CANDIDATE_CSS_CLASS),
 		DELETABLE_HINT_CANDIDATE(-1, false, DELETABLE_HINT_CANDIDATE_CSS_CLASS),
-		QUINARY_HINT_CANDIDATE(-1, false, QUINARY_HINT_CANDIDATE_CSS_CLASS), NONE;
+		ALS1_HINT_CANDIDATE(-1, false, ALS1_HINT_CANDIDATE_CSS_CLASS),
+		ALS2_HINT_CANDIDATE(-1, false, ALS2_HINT_CANDIDATE_CSS_CLASS),
+		ALS3_HINT_CANDIDATE(-1, false, ALS3_HINT_CANDIDATE_CSS_CLASS),
+		ALS4_HINT_CANDIDATE(-1, false, ALS4_HINT_CANDIDATE_CSS_CLASS), NONE;
 
 		private final int keyIndex;
 
@@ -172,20 +184,18 @@ public class ColorUtils {
 	 */
 	public static ColorState getColorStateForAlmostLockedSetIndex(final int alsIndex) {
 		if (alsIndex == 0) {
-			return ColorState.QUATERNARY_HINT_CANDIDATE;
+			return ColorState.ALS1_HINT_CANDIDATE;
 		} else if (alsIndex == 1) {
-			return ColorState.QUINARY_HINT_CANDIDATE;
+			return ColorState.ALS2_HINT_CANDIDATE;
 		} else if (alsIndex == 2) {
-			return ColorState.PRIMARY_HINT_CANDIDATE;
+			return ColorState.ALS3_HINT_CANDIDATE;
 		} else if (alsIndex == 3) {
-			return ColorState.COLORSTATE2B;
-		} else if (alsIndex == 4) {
-			return ColorState.COLORSTATE3B;
+			return ColorState.ALS4_HINT_CANDIDATE;
 		}
 		// Don't really know how many ALSes there can be at once, since I don't
 		// understand this tactic fully. But, if you see this color, more options need
 		// to be added.
-		return ColorState.COLORSTATE1B;
+		return ColorState.QUINARY_HINT_CANDIDATE;
 	}
 
 }

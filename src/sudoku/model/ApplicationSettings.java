@@ -50,6 +50,10 @@ public class ApplicationSettings {
 
 	public static final int NUM_COLORS_USED_IN_COLORING = 10;
 
+	public static final int NUM_COLORS_USED_IN_HINTS = 5;
+
+	public static final int NUM_COLORS_USED_IN_ALSES = 4;
+
 	private static final String TRUE = "true";
 
 	private static final String DIFFICULTY_KEY = "difficulty";
@@ -65,6 +69,12 @@ public class ApplicationSettings {
 	private static final String COLOR_FOR_FILTERING_KEY = "colorForFiltering";
 
 	private static final String COLOR_FOR_COLORING_KEY = "colorsUsedInColoring";
+
+	private static final String COLOR_FOR_HINTS_KEY = "hintColor";
+
+	private static final String COLOR_FOR_ALSES_KEY = "alsColor";
+
+	private static final String HINT_DELETE_COLOR_KEY = "hintDeleteColor";
 
 	private static final String MAX_SCORE_FOR_KEY = "maxScoreFor";
 
@@ -93,6 +103,12 @@ public class ApplicationSettings {
 
 	private final String[] colorsUsedInColoring;
 
+	private final String[] hintColors;
+
+	private final String[] alsHintColors;
+
+	private String hintDeleteColor;
+
 	public ApplicationSettings(final Map<String, String> settingsToLoad) {
 		this.difficulty = Difficulty.valueOf(settingsToLoad.get(DIFFICULTY_KEY));
 		this.solveToRequiredStep = settingsToLoad.get(SOLVE_TO_REQUIRED_STEP_KEY).equals(TRUE);
@@ -109,6 +125,15 @@ public class ApplicationSettings {
 		for (int index = 0; index < this.colorsUsedInColoring.length; index++) {
 			this.colorsUsedInColoring[index] = settingsToLoad.get(COLOR_FOR_COLORING_KEY + index);
 		}
+		this.hintColors = new String[NUM_COLORS_USED_IN_HINTS];
+		for (int index = 0; index < this.hintColors.length; index++) {
+			this.hintColors[index] = settingsToLoad.get(COLOR_FOR_HINTS_KEY + index);
+		}
+		this.alsHintColors = new String[NUM_COLORS_USED_IN_ALSES];
+		for (int index = 0; index < this.alsHintColors.length; index++) {
+			this.alsHintColors[index] = settingsToLoad.get(COLOR_FOR_ALSES_KEY + index);
+		}
+		this.hintDeleteColor = settingsToLoad.get(HINT_DELETE_COLOR_KEY);
 		this.stepConfigs = new ArrayList<>();
 		// Use some other copy of the step configs to get access to the different names
 		// we need to search for (instead of hard-coding all 30+).
@@ -143,6 +168,13 @@ public class ApplicationSettings {
 			for (int index = 0; index < this.colorsUsedInColoring.length; index++) {
 				bufferedWriter.write(COLOR_FOR_COLORING_KEY + index + EQUALS + this.colorsUsedInColoring[index] + NEW_LINE);
 			}
+			for (int index = 0; index < this.hintColors.length; index++) {
+				bufferedWriter.write(COLOR_FOR_HINTS_KEY + index + EQUALS + this.hintColors[index] + NEW_LINE);
+			}
+			for (int index = 0; index < this.alsHintColors.length; index++) {
+				bufferedWriter.write(COLOR_FOR_ALSES_KEY + index + EQUALS + this.alsHintColors[index] + NEW_LINE);
+			}
+			bufferedWriter.write(HINT_DELETE_COLOR_KEY + EQUALS + this.hintDeleteColor + NEW_LINE);
 			for (int index = 0; index < this.stepConfigs.size(); index++) {
 				final StepConfig stepConfig = this.stepConfigs.get(index);
 				bufferedWriter.write(STEP_CONFIG_KEY + stepConfig.getType().getStepName() + EQUALS + index + PIPE
@@ -182,6 +214,18 @@ public class ApplicationSettings {
 		return this.colorsUsedInColoring;
 	}
 
+	public String[] getHintColors() {
+		return this.hintColors;
+	}
+
+	public String[] getAlsColors() {
+		return this.alsHintColors;
+	}
+
+	public String getHintDeleteColor() {
+		return this.hintDeleteColor;
+	}
+
 	public int getMaxScoreForDifficulty(final String difficultyName) {
 		return this.maxScoreForDifficulty.get(Difficulty.valueOf(difficultyName.toUpperCase()));
 	}
@@ -212,6 +256,18 @@ public class ApplicationSettings {
 
 	public void setColorUsedInColoring(final int index, final String color) {
 		this.colorsUsedInColoring[index] = color;
+	}
+
+	public void setColorUsedInHints(final int index, final String color) {
+		this.hintColors[index] = color;
+	}
+
+	public void setColorUsedInAlses(final int index, final String color) {
+		this.alsHintColors[index] = color;
+	}
+
+	public void setHintDeleteColor(final String color) {
+		this.hintDeleteColor = color;
 	}
 
 	public void setMaxScoreForDifficulty(final String difficultyName, final int maxScore) {

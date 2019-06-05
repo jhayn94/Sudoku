@@ -47,6 +47,8 @@ public class LayoutFactory {
 
 	private static final int COLOR_SETTINGS_DIALOG_WIDTH = 745;
 
+	private static final int COLOR_SETTINGS_DIALOG_HEIGHT = 690;
+
 	private static final int DEFAULT_MODAL_DIALOG_HEIGHT = 600;
 
 	private static final int DEFAULT_MODAL_DIALOG_WIDTH = 700;
@@ -193,7 +195,7 @@ public class LayoutFactory {
 		final ColorSettingsView colorSettingsView = new ColorSettingsView(settingsStage);
 		ViewController.getInstance().setColorSettingsView(colorSettingsView);
 		this.showNewStageWithRootElement(settingsStage, colorSettingsView, COLOR_SETTINGS_DIALOG_WIDTH,
-				DEFAULT_MODAL_DIALOG_HEIGHT);
+				COLOR_SETTINGS_DIALOG_HEIGHT);
 	}
 
 	public void showMiscellaneousSettingsView() {
