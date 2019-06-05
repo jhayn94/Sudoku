@@ -213,8 +213,8 @@ SHIFT+A,S,D,F,G | Applies an alternate color to the selected cell.
 R | Reset cell and candidate colors.
 CTRL+A,S,D,F,G | Applies a color to the active digit for the selected cell. Cell must be unfixed, not given, and the digit must be toggled on.
 = | Increments the active digit.
-- | Decrements the active digit.
-ALT + 1-9 | Sets the digit as the active digit used for coloring candidates with the keyboard
+\`- | Decrements the active digit.
+ALT + 1-9 | Sets the digit as the active digit used for coloring candidates with the keyboard.
 F1-F9 | Highlights cells that could have that digit (remove the 'F' to get the digit).
 F10 | Highlights bivalue cells.
 COMMA | If a filter / highlight is selected, cycle the active filter downward.
