@@ -98,7 +98,7 @@ public class SudokuPuzzleView extends GridPane {
 				ModelController.getInstance().transitionToArrowKeyboardInputState(keyCode);
 			} else if (KeyCode.DELETE == keyCode) {
 				ModelController.getInstance().transitionToRemoveDigitState(keyCode);
-			} else if (KeyCode.MINUS == keyCode || KeyCode.PLUS == keyCode) {
+			} else if (KeyCode.MINUS == keyCode || KeyCode.EQUALS == keyCode) {
 				ModelController.getInstance().transitionToToggleActiveCandidateState(keyCode);
 			} else if (KeyCode.PERIOD == keyCode || KeyCode.COMMA == keyCode) {
 				ModelController.getInstance().transitionToCycleActiveFilterState(keyCode.getName());
@@ -122,7 +122,9 @@ public class SudokuPuzzleView extends GridPane {
 	}
 
 	private void onPressDigit(final KeyEvent event, final KeyCode keyCode) {
-		if (event.isControlDown()) {
+		if (event.isAltDown()) {
+			ModelController.getInstance().transitionToToggleActiveCandidateState(keyCode);
+		} else if (event.isControlDown()) {
 			ModelController.getInstance().transitionToToggleCandidateVisibleState(keyCode);
 		} else {
 			ModelController.getInstance().transitionToSetDigitState(keyCode);

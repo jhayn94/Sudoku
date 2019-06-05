@@ -1,5 +1,7 @@
 package sudoku.state.model.candidate;
 
+import org.apache.logging.log4j.util.Strings;
+
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import sudoku.core.ViewController;
@@ -13,6 +15,10 @@ import sudoku.state.model.ApplicationModelState;
  */
 public class ToggleActiveCandidateState extends ApplicationModelState {
 
+	private static final String DIGIT_REPLACE_TEXT = "DIGIT";
+
+	private static final String NUMPAD_REPLACE_TEXT = "NUMPAD";
+
 	public ToggleActiveCandidateState(final KeyCode keyCode, final ApplicationModelState lastState) {
 		super(lastState, false);
 		this.lastKeyCode = keyCode;
@@ -21,10 +27,13 @@ public class ToggleActiveCandidateState extends ApplicationModelState {
 	@Override
 	public void onEnter() {
 		int activeColorCandidateDigit = this.sudokuPuzzleStyle.getActiveCandidateDigit();
-		if (KeyCode.PAGE_UP == this.lastKeyCode) {
+		if (KeyCode.EQUALS == this.lastKeyCode) {
 			activeColorCandidateDigit++;
-		} else {
+		} else if (KeyCode.MINUS == this.lastKeyCode) {
 			activeColorCandidateDigit--;
+		} else {
+			activeColorCandidateDigit = Integer.parseInt(this.lastKeyCode.getName().replace(DIGIT_REPLACE_TEXT, Strings.EMPTY)
+					.replace(NUMPAD_REPLACE_TEXT, Strings.EMPTY));
 		}
 
 		if (activeColorCandidateDigit < 1) {
