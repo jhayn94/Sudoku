@@ -138,9 +138,9 @@ public class SudokuPuzzleView extends GridPane {
 			ModelController.getInstance().transitionToResetAllColorsState();
 		} else if (KeyCode.M == keyCode && event.isControlDown()) {
 			ModelController.getInstance().transitionToShowContextMenuState();
-		} else if (KeyCode.K == keyCode && event.isControlDown()) {
+		} else if (KeyCode.ENTER == keyCode) {
 			ModelController.getInstance().transitionToApplyHintState();
-		} else if (KeyCode.L == keyCode && event.isControlDown()) {
+		} else if (KeyCode.BACK_SPACE == keyCode) {
 			ModelController.getInstance().transitionToHideHintState();
 		} else if (ColorUtils.getApplyColorKeyCodes().contains(keyCode)) {
 			this.onPressColoringKey(event, keyCode);

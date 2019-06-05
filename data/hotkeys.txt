@@ -14,8 +14,8 @@ COMMA | If a filter / highlight is selected, cycle the active filter downward.
 PERIOD | If a filter / highlight is selected, cycle the active filter upward.
 F12 | Shows a specific hint.
 ALT+F12 | Shows a vague hint.
-CTRL+K | Applies the currently shown hint.
-CTRL+L | Hides the currently shown hint.
+ENTER | Applies the currently shown hint.
+BACKSPACE | Hides the currently shown hint.
 CTRL+M | Show the application menu.
 CTRL+N | Creates a new random puzzle using the current settings.
 ALT+N | Creates a new blank puzzle.
