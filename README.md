@@ -62,7 +62,7 @@ Note that the solver settings in Setting | Solver dictate the order in which ste
 ## 3 Puzzle Stats
 The puzzle stats view offers a general overview of the difficulty of the puzzle. It can also show the relative progress made, or tell if you if have made any errors.
 
-The first row displays the difficulty of the puzzle. In order from easiest to hardest, this could be easy, medium, hard, very hard, or diabolical. The difficulty of a puzzle is determined by summing the rating of all steps in the solution path. Then, the Max Score for a difficulty usually determines a puzzle’s difficulty level. The main exception to this is that a puzzle’s difficulty cannot be lower than the hardest step in the solution path. Thus, if you have an easy puzzle with a Kraken Fish in the solution path, the puzzle’s difficulty is automatically Diabolical (or whichever difficulty you have set for this tactic’s difficulty). Finally, if a puzzle is solvable, it’s difficulty is displayed as “Invalid”
+The first row displays the difficulty of the puzzle. In order from easiest to hardest, this could be easy, medium, hard, very hard, or diabolical. The difficulty of a puzzle is determined by summing the rating of all steps in the solution path. Then, the Max Score for a difficulty usually determines a puzzle’s difficulty level. The main exception to this is that a puzzle’s difficulty cannot be lower than the hardest step in the solution path. Thus, if you have an easy puzzle with a Kraken Fish in the solution path, the puzzle’s difficulty is automatically Diabolical (or whichever difficulty you have set for this tactic’s difficulty). Finally, if a puzzle is solvable, it’s difficulty is displayed as “Invalid”.
 
 It is important to emphasize that “the solution path” refers to the solution found by the solver in its current configuration. Obviously, there are many ways to reach the solution sometimes. So, a puzzle’s rating changes based on how you configure your solver. 
 
@@ -155,15 +155,15 @@ Various features are available which apply colors to the sudoku grid. This is in
 
 To color a cell, use the arrow keys to select it, and type any of A S D F or G. This will place a colored background on the cell. In addition, type SHIFT+ any of those 5 keys for the alternate version of that color. Typing any of these while another color is active will change the color. Typing the same key (or key combination) on a cell consecutively will return that cell to a non-colored background. Or, typing R will clear all cell colors (but not filters).
 
-This application also supports coloring of candidates, provided that a cell is not fixed (or given), and that the given candidate is visible. The active candidate display near the bottom left of the screen indicates which candidate will be colored when using the keyboard. To change this by using the keyboard, use the PAGE UP and PAGE DOWN keys.
+This application also supports coloring of candidates, provided that a cell is not fixed (or given), and that the given candidate is visible. The active candidate display near the bottom left of the screen indicates which candidate will be colored when using the keyboard. To change this by using the keyboard, use the = key to increment the value, - to decrement it, or ALT + a digit to just set it to that digit.
 
-To color a candidate, type any of CTRL+ A,S,D, F, or G to color the active candidate. Setting an alternate color is not supported for candidates because of issues with distinguishing the base colors from the alternates. Finally, typing R will clear all candidate colors (but not filters).
+To color a candidate, type any of CTRL+ A, S, D, F, or G to color the active candidate. Typing R will clear all candidate colors (but not filters).
 
 ### 5.3 Filtering:
 This application also supports filtering / highlighting of cells that meet various criteria. This can assist you in finding more complicated patterns and eliminations. To highlight cells which could have a specific digit, press that F+digit key (F1 - F9). In addition, F10 highlights bivalue cells. Pressing the key again will un-highlight the cells. Lastly, you may cycle the active filter with the PERIOD (.) and COMMA (,) keys. PERIOD increases the filter by one (i.e. F1 -> F10); COMMA works in the downward direction.
 
 ### 5.4 Hints:
-If you get stuck, F12 will display a specific hint in the hint text area. ALT+F12 will display only a partial hint: the technique name is shown instead of stating the specific eliminations made. Once a hint is shown, CTRL+K will apply the hint, and CTRL+L will hide it. In addition, changing any cell in the puzzle will hide the hint.
+If you get stuck, F12 will display a specific hint in the hint text area. ALT+F12 will display only a partial hint: the technique name is shown instead of stating the specific eliminations made. Once a hint is shown, ENTER will apply the hint, and BACKSPACE will hide it. In addition, changing any cell in the puzzle will hide the hint.
 
 ### 5.5 Menu:
 The menu is accessible using the keyboard. Use CTRL+M to open the keyboard. Then, the arrow keys allow you to navigate the menu, and enter will select the highlighted menu item. Note, however, that the settings menus will require use of a mouse.
@@ -186,7 +186,8 @@ When “Color Cells” is the active mouse mode, clicking a cell will set the co
 
 A similar behavior is present for the “Color Candidates” mode, except that a candidate will be colored instead of the whole cell. The active candidate display shows the digit which will be colored. Note that the cell must not be fixed or given, and the candidate must be visible.
 
-To change the active color or candidate, you can use the up / down arrow buttons next to each display to cycle through the options. To clear the colors, *use the R key*.
+<TODO - if active color is changed, update doc here>
+To change the active color used for coloring, you can use the up / down arrow buttons next to each display to cycle through the options. To clear the colors, *use the R key*.
 
 ### 6.3 Filtering:
 This application also supports filtering / highlighting of cells that meet various criteria. This can assist you in finding more complicated patterns and eliminations. To highlight cells which could have a specific digit, click that digit’s button in the top left area of the application. In addition, the X|Y button highlights bivalue cells. Clicking a button again will un-highlight the cells.
@@ -212,9 +213,10 @@ A,S,D,F,G | Applies a color to the selected cell.
 SHIFT+A,S,D,F,G | Applies an alternate color to the selected cell.
 R | Reset cell and candidate colors.
 CTRL+A,S,D,F,G | Applies a color to the active digit for the selected cell. Cell must be unfixed, not given, and the digit must be toggled on.
-+ | Increments the active digit.
-- | Decrements the active digit.
-F1-F9 | Highlights cells that could have that digit.
+= | Increments the active digit.
+\`- | Decrements the active digit.
+ALT + 1-9 | Sets the digit as the active digit used for coloring candidates with the keyboard.
+F1-F9 | Highlights cells that could have that digit (remove the 'F' to get the digit).
 F10 | Highlights bivalue cells.
 COMMA | If a filter / highlight is selected, cycle the active filter downward.
 PERIOD | If a filter / highlight is selected, cycle the active filter upward.
@@ -233,5 +235,6 @@ CTRL+C | Copies all fixed cells into clipboard.
 CTRL+SHIFT+C | Copies given cells into clipboard.
 CTRL+V | Pastes current clipboard as new puzzle.
 CTRL+P | Sets all fixed cells as givens.
+CTRL+U | Sets all given cells as not given (only fixed).
 CTRL+H | Shows a brief about / help dialog.
 CTRL+\` | Shows the hotkey dialog.
