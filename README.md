@@ -235,5 +235,6 @@ CTRL+C | Copies all fixed cells into clipboard.
 CTRL+SHIFT+C | Copies given cells into clipboard.
 CTRL+V | Pastes current clipboard as new puzzle.
 CTRL+P | Sets all fixed cells as givens.
+CTRL+U | Sets all given cells as not given (only fixed).
 CTRL+H | Shows a brief about / help dialog.
 CTRL+\` | Shows the hotkey dialog.
