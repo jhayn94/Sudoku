@@ -46,6 +46,10 @@ public class EditMenu extends Menu {
 		pasteMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_DOWN));
 		pasteMenuItem.setOnAction(event -> ModelController.getInstance().transitionToPastePuzzleState());
 
+		final MenuItem unlockGivensMenuItem = new MenuItem(LabelConstants.UNLOCK_GIVENS);
+		unlockGivensMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.U, KeyCombination.CONTROL_DOWN));
+		unlockGivensMenuItem.setOnAction(event -> ModelController.getInstance().transitionToUnlockGivenCellsState());
+
 		final MenuItem setGivensMenuItem = new MenuItem(LabelConstants.SET_GIVENS);
 		setGivensMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.P, KeyCombination.CONTROL_DOWN));
 		setGivensMenuItem.setOnAction(event -> ModelController.getInstance().transitionToSetGivenCellsState());
@@ -54,6 +58,7 @@ public class EditMenu extends Menu {
 		restartMenuItem.setOnAction(event -> ModelController.getInstance().transitionToRestartPuzzleState());
 
 		this.getItems().addAll(undoMenuItem, redoMenuItem, new SeparatorMenuItem(), copyCellsMenuItem, copyGivensMenuItem,
-				pasteMenuItem, new SeparatorMenuItem(), setGivensMenuItem, restartMenuItem);
+				pasteMenuItem, new SeparatorMenuItem(), setGivensMenuItem, unlockGivensMenuItem, new SeparatorMenuItem(),
+				restartMenuItem);
 	}
 }

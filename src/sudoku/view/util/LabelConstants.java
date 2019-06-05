@@ -179,6 +179,8 @@ public class LabelConstants {
 
 	public static final String HOTKEYS = "Hotkeys";
 
+	public static final String UNLOCK_GIVENS = "Unlock All Givens";
+
 	private LabelConstants() {
 		// Private constructor to prevent instantiation.
 	}

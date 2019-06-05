@@ -20,6 +20,7 @@ import sudoku.state.model.cell.ClickedCellState;
 import sudoku.state.model.cell.RemoveDigitState;
 import sudoku.state.model.cell.SetDigitState;
 import sudoku.state.model.cell.SetGivenCellsState;
+import sudoku.state.model.cell.UnlockGivenCellsState;
 import sudoku.state.model.coloring.ResetAllColorsState;
 import sudoku.state.model.coloring.ToggleActiveColorState;
 import sudoku.state.model.coloring.ToggleCandidateColorState;
@@ -269,6 +270,11 @@ public class ModelController {
 
 	public void transitionToPastePuzzleState() {
 		this.applicationModelState = new PastePuzzleState(this.applicationModelState);
+		this.applicationModelState.onEnter();
+	}
+
+	public void transitionToUnlockGivenCellsState() {
+		this.applicationModelState = new UnlockGivenCellsState(this.applicationModelState);
 		this.applicationModelState.onEnter();
 	}
 
