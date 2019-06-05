@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import sudoku.StepConfig;
 import sudoku.state.model.ApplicationModelState;
 import sudoku.state.model.DefaultApplicationModelState;
@@ -113,8 +114,8 @@ public class ModelController {
 		this.applicationModelState.onEnter();
 	}
 
-	public void transitionToClickedCellState(final int row, final int col, final boolean isShiftDown) {
-		this.applicationModelState = new ClickedCellState(row, col, isShiftDown, this.applicationModelState);
+	public void transitionToClickedCellState(final int row, final int col, final MouseEvent event) {
+		this.applicationModelState = new ClickedCellState(row, col, event, this.applicationModelState);
 		this.applicationModelState.onEnter();
 	}
 

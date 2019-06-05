@@ -1,6 +1,13 @@
 package sudoku.state.model.cell;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javafx.geometry.Bounds;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import sudoku.core.ViewController;
+import sudoku.model.SudokuPuzzleValues;
 import sudoku.state.model.ApplicationModelState;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 import sudoku.view.util.ColorUtils.ColorState;
@@ -12,18 +19,29 @@ import sudoku.view.util.MouseMode;
  */
 public class ClickedCellState extends ApplicationModelState {
 
+	private static final int GRID_X_START = 372;
+
+	private static final int GRID_X_END = 923;
+
+	private static final int GRID_Y_START = 89;
+
+	private static final int GRID_Y_END = 640;
+
+	private static final int CELL_SIZE = 68;
+
+	private static final Logger LOG = LogManager.getLogger(ClickedCellState.class);
+
 	private final int col;
 
 	private final int row;
 
-	private final boolean isShiftDown;
+	private final MouseEvent event;
 
-	public ClickedCellState(final int row, final int col, final boolean isShiftDown,
-			final ApplicationModelState lastState) {
+	public ClickedCellState(final int row, final int col, final MouseEvent event, final ApplicationModelState lastState) {
 		super(lastState, false);
 		this.row = row;
 		this.col = col;
-		this.isShiftDown = isShiftDown;
+		this.event = event;
 	}
 
 	@Override
@@ -38,13 +56,15 @@ public class ClickedCellState extends ApplicationModelState {
 			this.toggleCandidateActiveForCell(this.sudokuPuzzleStyle.getActiveCandidateDigit(), clickedCell);
 		} else if (MouseMode.COLOR_CELLS == this.mouseMode) {
 			final ColorState baseColorState = ColorState.getStateForBaseColor(this.sudokuPuzzleStyle.getActiveColor());
-			final ColorState colorStateToApply = ColorState.getFromKeyCode(baseColorState.getKey(), this.isShiftDown);
+			final ColorState colorStateToApply = ColorState.getFromKeyCode(baseColorState.getKey(), this.event.isShiftDown());
 			this.setColorStateForCell(this.row, this.col, colorStateToApply);
 		} else {
 			// MouseMode.COLOR_CANDIDATES case.
-			final ColorState baseColorState = ColorState.getStateForBaseColor(this.sudokuPuzzleStyle.getActiveColor());
-			this.setCandidateColorForCell(this.row, this.col, baseColorState,
-					this.sudokuPuzzleStyle.getActiveCandidateDigit());
+			final int clickedCandidate = this.getClickedCandidate();
+			if (clickedCandidate != -1) {
+				final ColorState baseColorState = ColorState.getStateForBaseColor(this.sudokuPuzzleStyle.getActiveColor());
+				this.setCandidateColorForCell(this.row, this.col, baseColorState, clickedCandidate);
+			}
 		}
 	}
 
@@ -58,6 +78,27 @@ public class ClickedCellState extends ApplicationModelState {
 			this.sudokuPuzzleStyle.setSelectedCellCol(this.col);
 			this.getSelectedCell().setIsSelected(true);
 		}
+	}
+
+	/** Determines and returns the clicked candidate. */
+	private int getClickedCandidate() {
+		final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(this.row, this.col);
+		final double sceneX = this.event.getSceneX();
+		final double sceneY = this.event.getSceneY();
+		for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
+			final Label candidateLabelForDigit = sudokuPuzzleCell.getCandidateLabelForDigit(candidate);
+			final Bounds candidateLabelBounds = candidateLabelForDigit
+					.localToScene(candidateLabelForDigit.getBoundsInLocal());
+			final double minX = candidateLabelBounds.getMinX();
+			final double maxX = candidateLabelBounds.getMaxX();
+			final double minY = candidateLabelBounds.getMinY();
+			final double maxY = candidateLabelBounds.getMaxY();
+			if (minX < sceneX && sceneX < maxX && minY < sceneY && sceneY < maxY) {
+				return candidate;
+			}
+		}
+		return -1;
+
 	}
 
 }

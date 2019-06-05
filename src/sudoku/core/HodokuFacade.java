@@ -83,15 +83,15 @@ public class HodokuFacade {
 		tempSudoku.setSudoku(sudokuString, true);
 		final Sudoku2 solvedSudoku = tempSudoku.clone();
 		final SudokuSolver solver = SudokuSolverFactory.getDefaultSolverInstance();
-		try {
-			solver.solve(Options.getInstance().getDifficultyLevel(5), solvedSudoku, false, false,
-					Options.getInstance().solverSteps, Options.getInstance().getGameMode());
-		} catch (final Exception e) {
-			LOG.error("{}", e);
-			// Sometimes this method causes exceptions... just catch it and try a new
-			// puzzle.
-			return new ArrayList<>();
-		}
+//		try {
+		solver.solve(Options.getInstance().getDifficultyLevel(5), solvedSudoku, false, false,
+				Options.getInstance().solverSteps, Options.getInstance().getGameMode());
+//		} catch (final NullPointerException | IndexOutOfBoundsException| e) {
+//			LOG.error("{}", e);
+//			// Sometimes this method causes exceptions... just catch it and try a new
+//			// puzzle.
+//			return null
+//		}
 		tempSudoku.setLevel(solvedSudoku.getLevel());
 		tempSudoku.setScore(solvedSudoku.getScore());
 
