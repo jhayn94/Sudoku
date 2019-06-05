@@ -187,6 +187,8 @@ public class LabelConstants {
 
 	public static final String HINT_DELETE_COLOR = "Delete Color:";
 
+	public static final String PUZZLE_SOLVED = "Puzzle is already solved!";
+
 	private LabelConstants() {
 		// Private constructor to prevent instantiation.
 	}

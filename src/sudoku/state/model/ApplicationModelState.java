@@ -24,6 +24,7 @@ import sudoku.model.SudokuPuzzleValues;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 import sudoku.view.puzzle.SudokuPuzzleCellUtils;
 import sudoku.view.sidebar.FilterButtonPane;
+import sudoku.view.util.ColorUtils;
 import sudoku.view.util.ColorUtils.ColorState;
 import sudoku.view.util.Difficulty;
 import sudoku.view.util.LabelConstants;
@@ -325,6 +326,14 @@ public class ApplicationModelState {
 	 * color.
 	 */
 	protected void resetColorStates() {
+		this.resetColorStates(true, true, ColorUtils.getColoringColorStates());
+	}
+
+	/** A more configurable way to reset states. */
+	protected void resetColorStates(final boolean resetCells, final boolean resetCandidates,
+			final List<ColorState> statesToRemove) {
+		final List<String> cssClassesToRemove = statesToRemove.stream().map(ColorState::getCssClass)
+				.collect(Collectors.toList());
 		this.sudokuPuzzleStyle.resetColorStates();
 		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
 			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
@@ -332,11 +341,17 @@ public class ApplicationModelState {
 				final ObservableList<String> styleClass = sudokuPuzzleCell.getStyleClass();
 				final List<String> colorCssClasses = Arrays.asList(ColorState.values()).stream().map(ColorState::getCssClass)
 						.collect(Collectors.toList());
-				colorCssClasses.forEach(styleClass::remove);
-				for (int candidate = 0; candidate < SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
-					final Label candidateLabelForDigit = sudokuPuzzleCell.getCandidateLabelForDigit(candidate + 1);
-					final ObservableList<String> candidateLabelStyleClass = candidateLabelForDigit.getStyleClass();
-					colorCssClasses.forEach(candidateLabelStyleClass::remove);
+				// Don't remove classes not in the list of classes to remove.
+				colorCssClasses.removeIf(cssClass -> !cssClassesToRemove.contains(cssClass));
+				if (resetCells) {
+					colorCssClasses.forEach(styleClass::remove);
+				}
+				if (resetCandidates) {
+					for (int candidate = 0; candidate < SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
+						final Label candidateLabelForDigit = sudokuPuzzleCell.getCandidateLabelForDigit(candidate + 1);
+						final ObservableList<String> candidateLabelStyleClass = candidateLabelForDigit.getStyleClass();
+						colorCssClasses.forEach(candidateLabelStyleClass::remove);
+					}
 				}
 			}
 		}

@@ -70,15 +70,11 @@ public class PuzzleGenerationSettingsView extends ModalDialog {
 		contentPane.setAlignment(Pos.TOP_LEFT);
 		contentPane.setPadding(new Insets(SMALL_PADDING));
 		this.createDifficultyComboBox();
-		// Create this checkbox first because the other combo box below uses this
-		// for a listener.
-		this.createSolveUpToStepCheckBox();
 		this.createMustContainStepComboBox();
-		// This code has to run after the combo box is created.
-		this.solveUpToStepCheckBox.setSelected(ApplicationSettings.getInstance().isSolveToRequiredStep());
+		this.createSolveUpToStepCheckBox();
+		this.createButtonPane();
 		contentPane.getChildren().addAll(this.difficultyComboBox, this.mustContainTechniqueComboBox,
 				this.solveUpToStepCheckBox);
-		this.createButtonPane();
 		this.setCenter(contentPane);
 	}
 
@@ -117,6 +113,7 @@ public class PuzzleGenerationSettingsView extends ModalDialog {
 		this.solveUpToStepCheckBox = new CheckBox(LabelConstants.SOLVE_UP_TO);
 		VBox.setMargin(this.solveUpToStepCheckBox, new Insets(0));
 		this.solveUpToStepCheckBox.setTooltip(new Tooltip(TooltipConstants.SOLVE_UP_TO));
+		this.solveUpToStepCheckBox.setSelected(ApplicationSettings.getInstance().isSolveToRequiredStep());
 	}
 
 	private void createButtonPane() {

@@ -1,5 +1,5 @@
-difficulty=DIABOLICAL
-mustContainStepWithName=Almost Locked Set XY-Wing
+difficulty=HARD
+mustContainStepWithName=Hidden Triple
 maxScoreForEASY=800
 maxScoreForMEDIUM=1000
 maxScoreForHARD=1600

@@ -6,6 +6,7 @@ import sudoku.core.ViewController;
 import sudoku.state.model.ApplicationModelState;
 import sudoku.view.hint.HintButtonPane;
 import sudoku.view.hint.HintTextArea;
+import sudoku.view.util.ColorUtils;
 
 /**
  * This class updates the state of the application to hide a displayed hint
@@ -27,5 +28,6 @@ public class HideHintState extends ApplicationModelState {
 		hintButtonPane.getHideHintButton().setDisable(true);
 		hintButtonPane.getSpecificHintButton().setDisable(false);
 		hintButtonPane.getVagueHintButton().setDisable(false);
+		this.resetColorStates(false, true, ColorUtils.getHintColorStates());
 	}
 }

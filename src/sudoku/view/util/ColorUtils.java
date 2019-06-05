@@ -102,7 +102,7 @@ public class ColorUtils {
 		private final String cssClass;
 
 		private ColorState() {
-			this.keyIndex = -1;
+			this.keyIndex = -2;
 			this.withShift = false;
 			this.cssClass = Strings.EMPTY;
 		}
@@ -144,6 +144,16 @@ public class ColorUtils {
 							&& colorState.withShift == isWithShift)
 					.findFirst().orElseThrow(NoSuchElementException::new);
 		}
+	}
+
+	public static List<ColorState> getColoringColorStates() {
+		return Arrays.asList(ColorState.values()).stream().filter(colorState -> colorState.keyIndex > -1)
+				.collect(Collectors.toList());
+	}
+
+	public static List<ColorState> getHintColorStates() {
+		return Arrays.asList(ColorState.values()).stream().filter(colorState -> colorState.keyIndex == -1)
+				.collect(Collectors.toList());
 	}
 
 	/**
