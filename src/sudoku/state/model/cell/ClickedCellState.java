@@ -1,8 +1,5 @@
 package sudoku.state.model.cell;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import javafx.geometry.Bounds;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -18,18 +15,6 @@ import sudoku.view.util.MouseMode;
  * In general, this will only affect the selected cell.
  */
 public class ClickedCellState extends ApplicationModelState {
-
-	private static final int GRID_X_START = 372;
-
-	private static final int GRID_X_END = 923;
-
-	private static final int GRID_Y_START = 89;
-
-	private static final int GRID_Y_END = 640;
-
-	private static final int CELL_SIZE = 68;
-
-	private static final Logger LOG = LogManager.getLogger(ClickedCellState.class);
 
 	private final int col;
 
@@ -63,7 +48,9 @@ public class ClickedCellState extends ApplicationModelState {
 			final int clickedCandidate = this.getClickedCandidate();
 			if (clickedCandidate != -1) {
 				final ColorState baseColorState = ColorState.getStateForBaseColor(this.sudokuPuzzleStyle.getActiveColor());
-				this.setCandidateColorForCell(this.row, this.col, baseColorState, clickedCandidate);
+				final ColorState colorStateToApply = ColorState.getFromKeyCode(baseColorState.getKey(),
+						this.event.isShiftDown());
+				this.setCandidateColorForCell(this.row, this.col, colorStateToApply, clickedCandidate);
 			}
 		}
 	}

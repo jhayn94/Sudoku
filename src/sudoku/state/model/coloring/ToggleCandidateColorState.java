@@ -13,7 +13,6 @@ import sudoku.view.util.ColorUtils.ColorState;
  */
 public class ToggleCandidateColorState extends ApplicationModelState {
 
-	@SuppressWarnings("unused")
 	private final boolean isShiftDown;
 
 	public ToggleCandidateColorState(final KeyCode keyCode, final boolean isShiftDown,
@@ -33,7 +32,7 @@ public class ToggleCandidateColorState extends ApplicationModelState {
 			final boolean isCandidateVisible = candidatesForCell.contains(this.sudokuPuzzleStyle.getActiveCandidateDigit());
 			if (isCandidateVisible) {
 
-				final ColorState colorStateToApply = ColorState.getFromKeyCode(this.lastKeyCode, false);
+				final ColorState colorStateToApply = ColorState.getFromKeyCode(this.lastKeyCode, this.isShiftDown);
 				this.setCandidateColorForCell(selectedCell.getRow(), selectedCell.getCol(), colorStateToApply,
 						this.sudokuPuzzleStyle.getActiveCandidateDigit());
 			}
