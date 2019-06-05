@@ -131,7 +131,14 @@ If the default color used to display filters is not suitable, you may change it 
 
 
 #### 4.4.2 Coloring colors
-There exist 5 pairs of colors which you can use to annotate the sudoku grid. By default, these are red, blue, purple, green, and orange. To change these colors, simply use the color picker for for the corresponding color you wish to change. By default, colors are paired such that each pair contains a dark and a light version of the color, which is most useful for coloring eliminations. While it is recommended to keep the color pairs as a light and a dark version, you can technically set any color for these settings. 
+There exist 5 pairs of colors which you can use to annotate the sudoku grid. By default, these are red, blue, purple, green, and orange. To change these colors, simply use the color picker for for the corresponding color you wish to change. By default, colors are paired such that each pair contains a dark and a light version of the color, which is most useful for coloring eliminations. While it is recommended to keep the color pairs as a light and a dark version, you can technically set any color for these settings.
+
+#### 4.4.3 Hint colors
+In addition to the color pairs, there are also a number of colors used specifically to color candidates when annotating the screen with hints. There are 5 colors used for hints:
+
+* Hint Color 1
+
+<TODO- finish>
 
 ### 4.5 Miscellaneous Settings:
 These settings are for configurations that don't really belong to another specific category.
