@@ -98,10 +98,14 @@ public class SudokuPuzzleView extends GridPane {
 				ModelController.getInstance().transitionToArrowKeyboardInputState(keyCode);
 			} else if (KeyCode.DELETE == keyCode) {
 				ModelController.getInstance().transitionToRemoveDigitState(keyCode);
-			} else if (KeyCode.PAGE_UP == keyCode || KeyCode.PAGE_DOWN == keyCode) {
+			} else if (KeyCode.MINUS == keyCode || KeyCode.PLUS == keyCode) {
 				ModelController.getInstance().transitionToToggleActiveCandidateState(keyCode);
 			} else if (KeyCode.PERIOD == keyCode || KeyCode.COMMA == keyCode) {
 				ModelController.getInstance().transitionToCycleActiveFilterState(keyCode.getName());
+			} else if (KeyCode.ENTER == keyCode) {
+				ModelController.getInstance().transitionToApplyHintState();
+			} else if (KeyCode.BACK_SPACE == keyCode) {
+				ModelController.getInstance().transitionToHideHintState();
 			} else if (keyCode.isFunctionKey() && KeyCode.F11 != keyCode && KeyCode.F12 != keyCode) {
 				final String formattedKeyCodeName = keyCode.getName().replace("F", "").replace("10", "X|Y");
 				ModelController.getInstance().transitionToApplyFilterState(formattedKeyCodeName);
@@ -138,10 +142,6 @@ public class SudokuPuzzleView extends GridPane {
 			ModelController.getInstance().transitionToResetAllColorsState();
 		} else if (KeyCode.M == keyCode && event.isControlDown()) {
 			ModelController.getInstance().transitionToShowContextMenuState();
-		} else if (KeyCode.ENTER == keyCode) {
-			ModelController.getInstance().transitionToApplyHintState();
-		} else if (KeyCode.BACK_SPACE == keyCode) {
-			ModelController.getInstance().transitionToHideHintState();
 		} else if (ColorUtils.getApplyColorKeyCodes().contains(keyCode)) {
 			this.onPressColoringKey(event, keyCode);
 		}
