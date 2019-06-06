@@ -12,10 +12,10 @@ Overall, this application is pretty feature dense, and as such, this document is
 
 <TODO - enter table of contents>
 
-## 1 Puzzle Management
+## 1 Puzzle Management:
 This chapter describes the various ways you can create and interact with puzzles.
 
-### 1.1 Creating puzzles
+### 1.1 Creating puzzles:
 This application supports three main ways of creating puzzles. You may manually enter your own, use the puzzle generation mechanic, or paste a puzzle from the clipboard into the application.
 
 #### 1.1.1 Entering a puzzle manually:
@@ -28,12 +28,12 @@ Puzzle generation is very open ended, and it is possible to create very complica
 
 For pasting a puzzle into the application, see the section titled “Copying and Pasting Puzzles”.
 
-### 1.2 Saving and Loading puzzles
+### 1.2 Saving and Loading puzzles:
 This application supports basic saving and loading of files. To save a file, select File | Save from the menu, then choose the file name and location. This is the same as with any other application.
 
 Loading a puzzle is also similar to other programs. Select File | Open Puzzle... from the menu (CTRL+O). Then, you can pick the puzzle file to open. Note that at this time, this application only supports loading puzzles which were originally saved by this program.
 
-### 1.3 Copying and Pasting Puzzles
+### 1.3 Copying and Pasting Puzzles:
 This application has support for both copying of and pasting into the sudoku grid. To copy, select either Edit | Copy All Cells (CTRL+C) or Edit | Copy Givens (CTRL+SHIFT+C) from the menu. The relevant puzzle string should now be in your clipboard.
 
 To paste a puzzle into the application, simply have the puzzle in your clipboard, and select Edit | Paste (CTRL+V) from the menu. Note that only sudokus represented as 81 characters are supported (where an empty cell is a dot or a zero). For other inputs, nothing will happen.
@@ -45,7 +45,7 @@ The Set Givens menu item (CTRL+P) is found in the Edit menu. Selecting it will l
 If you want to reset the puzzle to its initial given state, the Edit | Restart menu item will allow you to restart the puzzle. 
 
 
-## 2 Hint system
+## 2 Hint system:
 The hint system is designed for you to be able to request either a little or a lot of help. This is done by offering both vague and specific hints.
 
 In general, the specific hint feature will show a through explanation of what elimination(s) can be made. Clicking the specific hint button will annotate the puzzle to give a visual explanation, as well as place a written one in the hint text area.
@@ -59,7 +59,7 @@ The hide hint button also clears all annotations and written explanations, but d
 Note that the solver settings in Setting | Solver dictate the order in which steps are checked for possible hints to show the user. See the section Changing Settings | Solver for more details.
 
 
-## 3 Puzzle Stats
+## 3 Puzzle Stats:
 The puzzle stats view offers a general overview of the difficulty of the puzzle. It can also show the relative progress made, or tell if you if have made any errors.
 
 The first row displays the difficulty of the puzzle. In order from easiest to hardest, this could be easy, medium, hard, very hard, or diabolical. The difficulty of a puzzle is determined by summing the rating of all steps in the solution path. Then, the Max Score for a difficulty usually determines a puzzle’s difficulty level. The main exception to this is that a puzzle’s difficulty cannot be lower than the hardest step in the solution path. Thus, if you have an easy puzzle with a Kraken Fish in the solution path, the puzzle’s difficulty is automatically Diabolical (or whichever difficulty you have set for this tactic’s difficulty). Finally, if a puzzle is solvable, it’s difficulty is displayed as “Invalid”.
@@ -85,15 +85,15 @@ In order to reach as wide of a user base as possible, much of the application ca
 ### 4.1 Puzzle Generation Settings:
 Puzzle generation settings are parameters that are basically required aspects or features of a new puzzle that would be generated in the future. This does not have any effect on already created puzzles.
 
-#### 4.1.1 Difficulty
+#### 4.1.1 Difficulty:
 The difficulty setting determines how hard newly generated puzzles will be. To change this, you may select the drop down and pick a new choice. In order of easiest to hardest, the options are easy, medium, hard, very hard, and diabolical.
 
-#### 4.1.2 Require solution step
+#### 4.1.2 Require solution step:
 With this setting you may require generated sudokus to contain a specific step somewhere in the solution. Note that whether a sudoku contains a step is determined by the current solver configuration. Since the solver never deviates from the defined order to check for techniques,  it is possible to not find the particular solution step if you use a harder tactic to pass over it. Therefore, it is suggested you either use the next setting Solve up to Technique, or configure the solver to match your solving strategy.
 
 Be aware that certain configurations of this combined with the prior setting can produce impossible constraints on the puzzle generator. For instance, if you set the puzzle difficulty to easy, and then require puzzles to contain Uniqueness Test 1, the generator will not be able to satisfy these requirements. In this case, it will work indefinitely to try and satisfy them. It is suggested you review your configuration if it takes more than several seconds to create a puzzle.
 
-#### 4.1.3 Solve up to Technique
+#### 4.1.3 Solve up to Technique:
 Solve up to Technique can only be enabled when a particular solution step is required. For instance, you can set the former setting to “Hidden Triple”. Then, if Solve up to Technique is enabled, the puzzle will be displayed in a state such that a hidden triple can be executed as the first step.
 
 Note that this feature has some unexpected side effects on the difficulty rating of a puzzle. See the prior section titled “Puzzle Stats” for more details.
@@ -108,15 +108,15 @@ The maximum rating for a difficulty can be modified in this view. This effective
 ### 4.3 Solver Settings:
 In general, solver settings drive a majority of the application’s behavior. It affects puzzle generation, the hint system, and the puzzle stats.
 
-#### 4.3.1 Disable a solving tactic
+#### 4.3.1 Disable a solving tactic:
 Disabling a tactic will prevent the solver from giving you hints which use the tactic. In addition, that means that puzzles generated after disabling a technique can be solved without using said technique. However, this does not necessarily mean that the tactic could never be used, only that is it is not required to solve the puzzle. 
 
 As stated before, this affects the difficulty and rating of a puzzle. If you prevent the solver from using easier tactics, it will be forced to use harder ones, which will make the rating for the same puzzle higher.
 
-#### 4.3.2 Change the order of tactics
+#### 4.3.2 Change the order of tactics:
 To change the order in which the solver checks for tactics to apply, select that tactic in the list view on the left, and use the up and down arrows on the right side of the view.
 
-#### 4.3.3 Change the difficulty level or rating
+#### 4.3.3 Change the difficulty level or rating:
 Changing the difficulty level or rating of a solver tactic allows you to make the solver mirror your personal solving approach. For instance, if you struggle with a tactic, you can increase its difficulty or rating (or both). The opposite is true if you find a tactic easier than usual. 
 
 In addition, changing the difficulty settings for a step may be necessary to satisfy puzzle generation requirements. This is because a puzzle’s difficulty level may not be lower than the hardest step in the solution path. For example, if you want an easy puzzle with an XY-Chain (which is very hard by default) you must change XY-Chain’s difficulty level to easy. 
@@ -126,14 +126,14 @@ In tandem with the previous paragraph, it may be necessary to lower the rating, 
 ### 4.4 Color Settings:
 These settings are for changing the colors used for various annotations in the puzzle (such as filters).
 
-#### 4.4.1 Filter color
+#### 4.4.1 Filter color:
 If the default color used to display filters is not suitable, you may change it to any other color. Note, however, that due to the dark blue and black text used in the grid, it is suggested that this color remain a light shade.
 
 
-#### 4.4.2 Coloring colors
+#### 4.4.2 Coloring colors:
 There exist 5 pairs of colors which you can use to annotate the sudoku grid. By default, these are red, blue, purple, green, and orange. To change these colors, simply use the color picker for for the corresponding color you wish to change. By default, colors are paired such that each pair contains a dark and a light version of the color, which is most useful for coloring eliminations. While it is recommended to keep the color pairs as a light and a dark version, you can technically set any color for these settings.
 
-#### 4.4.3 Hint colors
+#### 4.4.3 Hint colors:
 In addition to the color pairs, there are also a number of colors used specifically to color candidates when annotating the screen with hints. There are 5 colors used for hints:
 
 * Hint Color 1: the primary color used to show notable candidates used in a solution technique. For example, candidates part of hidden tuples or nodes in a single digit pattern (e.g. skyscraper). Also used for every other node in AICs.
@@ -141,20 +141,24 @@ In addition to the color pairs, there are also a number of colors used specifica
 * Hint Color 3: Used very rarely. Identifies endo-fins of fish, and for one sector in Sue-de-Coq.
 * Hint Color 4: Currently unused.
 * Hint Color 5: Used only for cannibalism.
-* Hint Delete Color: Used to indicate a candidate can be deleted based off of a hint
+* Hint Delete Color: Used to indicate a candidate can be deleted based off of a hint.
 * ALS Colors 1 - 4: Used to identify an ALS on the few occasions where they are used. Hint colors 2 and 3 are used to identify special candidates (i.e. the candidate designated XY or XZ in those ALS techniques).
 
 ### 4.5 Miscellaneous Settings:
 These settings are for configurations that don't really belong to another specific category.
 
-#### 4.5.1 Auto Manage Candidates
+#### 4.5.1 Auto Manage Candidates:
 By default, the application will fill all possible candidates when a puzzle is generated (through any of the 3 methods). In addition, as you set values in cells, candidates which are invalid will be removed. If you wish to perform this process on your own, unchecking this checkbox this will prevent the application from modifying candidates automatically. 
 
-#### 4.5.2 Show Puzzle Progress
+#### 4.5.2 Show Puzzle Progress:
 By default, the application will maintain a remaining score for the puzzle. In addition, if you create a contradiction in the puzzle, such as by setting a value twice in a house, an “Invalid Puzzle!” warning will appear. If you find that this information gives away too much information, unchecking this checkbox will hide the information shown here.
 
+#### 4.5.3 Use Digit Buttons for Mouse Actions:
+By default, the application will not use the digit buttons in the lower left corner for candidate-based mouse actions. This is because it feels more intuitive to just click a candidate you want to modify. However, if you have difficulty precisely clicking these smaller view elements (or if you just prefer it this way), toggle this on to make the mouse actions ignore the candidate clicked, and use the active digit button instead.
 
-## 5 Keyboard accessibility
+_This only applies to the digit buttons in the lower left corner. The other digit buttons are for filters and are not affected by this setting. The same is true for the colored buttons; they are always used by the mouse._ 
+
+## 5 Keyboard accessibility:
 This application was designed to be a keyboard first program (i.e. no or minimal mouse use needed). As such, nearly every main feature has a designated keyboard control or shortcut (see hotkeys section). In addition, the main keyboard usage is described below.
 
 
@@ -184,7 +188,7 @@ The menu is accessible using the keyboard. Use CTRL+M to open the keyboard. Then
 Many other features are available with the keyboard, but their usage is more niche. See the list of hotkeys at the end of this readme for an exhaustive list of controls.
 
 
-## 6 Mouse accessibility
+## 6 Mouse accessibility:
 Although this application is designed domination for keyboard use, most features are available with the mouse. Some features are not supported by the mouse because they either result in too much clutter on the UI (and the UI has somewhat limited space left), or they proved to be clunky or complicated to use once implemented. Such exceptions will be noted in this section in bold text.
 
 ### 6.1 The Basics:
@@ -201,7 +205,7 @@ A similar behavior is present for the “Color Candidates” mode, except that a
 
 To change the active color used to color with the mouse, click the colored buttons in the control helper pane. To clear the colors, click the button labeled 'R'.
 
-_NOTE: The number buttons on the lower left corner are not used by the mouse. They are only used by the keyboard, since you would have to press too many keys at once to color candidates._
+_NOTE: In the default configuration, the number buttons on the lower left corner are not used by the mouse. They are only used by the keyboard, since you would have to press too many keys at once to color candidates. See the setting Use _
 
 ### 6.3 Filtering:
 This application also supports filtering / highlighting of cells that meet various criteria. This can assist you in finding more complicated patterns and eliminations. To highlight cells which could have a specific digit, click that digit’s button in the top left area of the application. In addition, the X|Y button highlights bivalue cells. Clicking a button again will un-highlight the cells.
@@ -215,7 +219,7 @@ To apply a hint after requesting it, click the apply hint button. In addition, t
 To access the menu, click the button in the top left, in the title bar.
 
 
-## 7 List of hotkeys
+## 7 List of hotkeys:
 
 Key(s) | Action Invoked
 -------|---------------
