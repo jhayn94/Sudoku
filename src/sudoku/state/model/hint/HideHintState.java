@@ -26,8 +26,6 @@ public class HideHintState extends ApplicationModelState {
 		final HintButtonPane hintButtonPane = ViewController.getInstance().getHintButtonPane();
 		hintButtonPane.getApplyHintButton().setDisable(true);
 		hintButtonPane.getHideHintButton().setDisable(true);
-		hintButtonPane.getSpecificHintButton().setDisable(false);
-		hintButtonPane.getVagueHintButton().setDisable(false);
 		this.resetColorStates(false, true, ColorUtils.getHintColorStates());
 	}
 }

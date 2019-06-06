@@ -14,6 +14,7 @@ import sudoku.view.menu.ApplicationTitleBar;
 import sudoku.view.menu.EditMenu;
 import sudoku.view.menu.FileMenu;
 import sudoku.view.menu.HelpMenu;
+import sudoku.view.menu.PuzzleMenu;
 import sudoku.view.menu.SettingsMenu;
 import sudoku.view.menu.SystemMenu;
 import sudoku.view.menu.button.AbstractMenuButton;
@@ -57,6 +58,10 @@ public class MenuFactory {
 
 	public EditMenu createEditMenu() {
 		return new EditMenu();
+	}
+
+	public PuzzleMenu createPuzzleMenu() {
+		return new PuzzleMenu();
 	}
 
 	public Menu createSettingsMenu() {

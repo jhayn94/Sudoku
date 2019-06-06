@@ -29,9 +29,11 @@ import sudoku.state.model.filter.ApplyFilterState;
 import sudoku.state.model.filter.CycleActiveFilterState;
 import sudoku.state.model.hint.ApplyHintState;
 import sudoku.state.model.hint.HideHintState;
+import sudoku.state.model.hint.ShowPartialHintState;
 import sudoku.state.model.hint.ShowSpecificHintState;
 import sudoku.state.model.hint.ShowVagueHintState;
 import sudoku.state.model.puzzle.CopyPuzzleState;
+import sudoku.state.model.puzzle.FillInSinglesPuzzleState;
 import sudoku.state.model.puzzle.NewEmptyPuzzleState;
 import sudoku.state.model.puzzle.NewRandomPuzzleState;
 import sudoku.state.model.puzzle.OpenedFileState;
@@ -212,8 +214,18 @@ public class ModelController {
 		this.applicationModelState.onEnter();
 	}
 
+	public void transitionToShowPartialHintState() {
+		this.applicationModelState = new ShowPartialHintState(this.applicationModelState);
+		this.applicationModelState.onEnter();
+	}
+
 	public void transitionToShowSpecificHintState() {
 		this.applicationModelState = new ShowSpecificHintState(this.applicationModelState);
+		this.applicationModelState.onEnter();
+	}
+
+	public void transitionToFillInSinglesPuzzleState() {
+		this.applicationModelState = new FillInSinglesPuzzleState(this.applicationModelState);
 		this.applicationModelState.onEnter();
 	}
 

@@ -38,8 +38,10 @@ public class ShowSpecificHintState extends ApplicationModelState {
 					: this.displayedHint.toString();
 			hintTextArea.getHintTextArea().setText(newHintText);
 			final HintButtonPane hintButtonPane = ViewController.getInstance().getHintButtonPane();
-			hintButtonPane.getApplyHintButton().setDisable(false);
-			hintButtonPane.getHideHintButton().setDisable(false);
+			if (SolutionType.GIVE_UP != this.displayedHint.getType()) {
+				hintButtonPane.getApplyHintButton().setDisable(false);
+				hintButtonPane.getHideHintButton().setDisable(false);
+			}
 
 			this.updateCandidateColorsForHint();
 		}

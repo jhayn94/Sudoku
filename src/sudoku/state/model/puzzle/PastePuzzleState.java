@@ -8,10 +8,13 @@ import java.io.IOException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.util.Strings;
 
+import sudoku.core.ViewController;
 import sudoku.model.SudokuPuzzleValues;
 import sudoku.state.model.ApplicationModelState;
 import sudoku.state.model.ResetFromModelState;
+import sudoku.view.hint.HintTextArea;
 
 /**
  * This class updates the state of the application when the user copies the
@@ -44,6 +47,8 @@ public class PastePuzzleState extends ResetFromModelState {
 				this.applicationStateHistory.clearRedoStack();
 				this.applicationStateHistory.clearUndoStack();
 				this.updateUndoRedoButtons();
+				final HintTextArea hintTextArea = ViewController.getInstance().getHintTextArea();
+				hintTextArea.getHintTextArea().setText(Strings.EMPTY);
 			}
 
 		} catch (UnsupportedFlavorException | IOException e) {

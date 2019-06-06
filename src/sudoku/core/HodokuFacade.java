@@ -73,6 +73,19 @@ public class HodokuFacade {
 	}
 
 	/**
+	 * Solves all singles which can be solved at the current state, or as a result
+	 * of placing singles from this step. Returns the updated sudoku string.
+	 */
+	public String solveAllSingles(final String sudokuString) {
+		final Sudoku2 tempSudoku = new Sudoku2();
+		tempSudoku.setSudoku(sudokuString, true);
+		final SudokuSolver solver = SudokuSolverFactory.getDefaultSolverInstance();
+		solver.solve(Options.getInstance().getDifficultyLevel(5), tempSudoku, false, true,
+				Options.getInstance().solverSteps, Options.getInstance().getGameMode());
+		return tempSudoku.getSudoku(ClipboardMode.VALUES_ONLY);
+	}
+
+	/**
 	 * Returns an order list of steps which can be used to solve the given puzzle.
 	 * Note that this is not the only solution. Also note that this method assumes
 	 * no candidate eliminations have been made by the user.

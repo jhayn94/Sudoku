@@ -2,9 +2,11 @@ package sudoku.state.model.puzzle;
 
 import org.apache.logging.log4j.util.Strings;
 
+import sudoku.core.ViewController;
 import sudoku.model.SudokuPuzzleValues;
 import sudoku.state.model.ApplicationModelState;
 import sudoku.state.model.ResetFromModelState;
+import sudoku.view.hint.HintTextArea;
 
 /**
  * This class updates the state of the application when the user presses the
@@ -32,6 +34,8 @@ public class NewRandomPuzzleState extends ResetFromModelState {
 		this.sudokuPuzzleValues = new SudokuPuzzleValues(this.puzzleString);
 		this.resetApplicationFromPuzzleState();
 		this.updateAllPuzzleStatsForNewPuzzle();
+		final HintTextArea hintTextArea = ViewController.getInstance().getHintTextArea();
+		hintTextArea.getHintTextArea().setText(Strings.EMPTY);
 	}
 
 }

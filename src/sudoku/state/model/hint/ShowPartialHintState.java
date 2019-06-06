@@ -13,9 +13,9 @@ import sudoku.view.util.LabelConstants;
  * This class updates the state of the application when the user requests a
  * vague hint (i.e. the next step's type).
  */
-public class ShowVagueHintState extends ApplicationModelState {
+public class ShowPartialHintState extends ApplicationModelState {
 
-	public ShowVagueHintState(final ApplicationModelState lastState) {
+	public ShowPartialHintState(final ApplicationModelState lastState) {
 		super(lastState, false);
 	}
 
@@ -24,17 +24,11 @@ public class ShowVagueHintState extends ApplicationModelState {
 		this.resetColorStates(false, true, ColorUtils.getHintColorStates());
 		this.displayedHint = HodokuFacade.getInstance().getHint(this.sudokuPuzzleValues);
 		final TextArea hintTextArea = ViewController.getInstance().getHintTextArea().getHintTextArea();
-		if (this.displayedHint == null) {
-			hintTextArea.setText(LabelConstants.PUZZLE_SOLVED);
-		} else {
-			final String newHintText = SolutionType.GIVE_UP == this.displayedHint.getType() ? LabelConstants.NO_MOVES
-					: LabelConstants.VAGUE_HINT_PREFIX + this.displayedHint.getType().getStepName();
-			hintTextArea.setText(newHintText);
-			final HintButtonPane hintButtonPane = ViewController.getInstance().getHintButtonPane();
-			if (SolutionType.GIVE_UP != this.displayedHint.getType()) {
-				hintButtonPane.getApplyHintButton().setDisable(false);
-				hintButtonPane.getHideHintButton().setDisable(false);
-			}
-		}
+		final String newHintText = SolutionType.GIVE_UP == this.displayedHint.getType() ? LabelConstants.NO_MOVES
+				: LabelConstants.VAGUE_HINT_PREFIX + this.displayedHint.toString(1);
+		hintTextArea.setText(newHintText);
+		final HintButtonPane hintButtonPane = ViewController.getInstance().getHintButtonPane();
+		hintButtonPane.getApplyHintButton().setDisable(false);
+		hintButtonPane.getHideHintButton().setDisable(false);
 	}
 }

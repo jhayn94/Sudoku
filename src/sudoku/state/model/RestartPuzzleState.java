@@ -1,6 +1,10 @@
 package sudoku.state.model;
 
+import org.apache.logging.log4j.util.Strings;
+
+import sudoku.core.ViewController;
 import sudoku.model.SudokuPuzzleValues;
+import sudoku.view.hint.HintTextArea;
 
 /**
  * This class resets the application to the initial state for the current
@@ -26,6 +30,9 @@ public class RestartPuzzleState extends ResetFromModelState {
 		this.applicationStateHistory.clearRedoStack();
 		this.applicationStateHistory.clearUndoStack();
 		this.updateUndoRedoButtons();
+
+		final HintTextArea hintTextArea = ViewController.getInstance().getHintTextArea();
+		hintTextArea.getHintTextArea().setText(Strings.EMPTY);
 	}
 
 }

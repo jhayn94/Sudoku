@@ -117,16 +117,8 @@ public class SudokuPuzzleView extends GridPane {
 			} else if (keyCode.isFunctionKey() && KeyCode.F11 != keyCode && KeyCode.F12 != keyCode) {
 				final String formattedKeyCodeName = keyCode.getName().replace("F", "").replace("10", "X|Y");
 				ModelController.getInstance().transitionToApplyFilterState(formattedKeyCodeName);
-			} else if (KeyCode.F12 == keyCode) {
-				if (event.isAltDown()) {
-					ModelController.getInstance().transitionToShowVagueHintState();
-				} else {
-					ModelController.getInstance().transitionToShowSpecificHintState();
-				}
 			}
-
 		};
-
 	}
 
 	private void onPressDigit(final KeyEvent event, final KeyCode keyCode) {

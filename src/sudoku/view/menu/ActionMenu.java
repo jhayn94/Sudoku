@@ -18,9 +18,10 @@ public class ActionMenu extends ContextMenu {
 	private void createChildElements() {
 		final Menu fileMenu = MenuFactory.getInstance().createFileMenu();
 		final Menu editMenu = MenuFactory.getInstance().createEditMenu();
+		final Menu puzzleMenu = MenuFactory.getInstance().createPuzzleMenu();
 		final Menu settingsMenu = MenuFactory.getInstance().createSettingsMenu();
 		final Menu helpMenu = MenuFactory.getInstance().createHelpMenu();
-		this.getItems().addAll(fileMenu, editMenu, settingsMenu, new SeparatorMenuItem(), helpMenu);
+		this.getItems().addAll(fileMenu, editMenu, puzzleMenu, settingsMenu, new SeparatorMenuItem(), helpMenu);
 	}
 
 }

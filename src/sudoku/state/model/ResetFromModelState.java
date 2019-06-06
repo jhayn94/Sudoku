@@ -7,7 +7,6 @@ import org.apache.logging.log4j.util.Strings;
 
 import sudoku.core.ViewController;
 import sudoku.model.SudokuPuzzleValues;
-import sudoku.view.hint.HintTextArea;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 
 /**
@@ -34,8 +33,6 @@ public abstract class ResetFromModelState extends ApplicationModelState {
 		this.updateCandidates();
 		this.reapplyActiveFilter();
 		this.updateRemainingScoreForPuzzle();
-		final HintTextArea hintTextArea = ViewController.getInstance().getHintTextArea();
-		hintTextArea.getHintTextArea().setText(Strings.EMPTY);
 	}
 
 	/**

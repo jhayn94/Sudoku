@@ -192,6 +192,14 @@ public class LabelConstants {
 
 	public static final String USE_DIGIT_BUTTONS_FOR_MOUSE = "Use Digit Buttons for Mouse Actions";
 
+	public static final String PUZZLE = "Puzzle";
+
+	public static final String PARTIAL_HINT = "Partial";
+
+	public static final String HINT_MENU_ITEM_SUFFIX = " Hint";
+
+	public static final String FILL_SINGLES = "Fill in Singles";
+
 	private LabelConstants() {
 		// Private constructor to prevent instantiation.
 	}
