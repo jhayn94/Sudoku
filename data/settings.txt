@@ -1,5 +1,5 @@
-difficulty=EASY
-mustContainStepWithName=
+difficulty=DIABOLICAL
+mustContainStepWithName=Simple Colors Wrap
 maxScoreForEASY=800
 maxScoreForMEDIUM=1000
 maxScoreForHARD=1600
@@ -81,7 +81,7 @@ stepConfigFinned Leviathan=47|false|470|4
 stepConfigSashimi Leviathan=48|false|470|4
 stepConfigSue de Coq=49|true|250|4
 stepConfigSimple Colors=50|true|150|3
-stepConfigMulti Colors=51|true|200|3
+stepConfigMulti Colors=51|false|200|3
 stepConfigX-Chain=52|true|260|4
 stepConfigXY-Chain=53|true|260|4
 stepConfigNice Loop/AIC=54|true|280|4

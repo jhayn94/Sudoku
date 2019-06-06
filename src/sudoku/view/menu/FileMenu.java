@@ -17,6 +17,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import sudoku.Options;
+import sudoku.SolutionType;
 import sudoku.StepConfig;
 import sudoku.core.HodokuFacade;
 import sudoku.core.ModelController;
@@ -115,11 +116,14 @@ public class FileMenu extends Menu {
 
 	private boolean isRequiredStepEnabled() {
 		final String mustContainStepWithName = ApplicationSettings.getInstance().getMustContainStepWithName();
-		final List<StepConfig> solverSteps = Arrays.asList(Options.getInstance().solverSteps);
-		final StepConfig requiredStep = solverSteps.stream()
-				.filter(solverStep -> solverStep.getType().getStepName().equals(mustContainStepWithName)).findFirst()
+		final SolutionType solutionType = Arrays.asList(SolutionType.values()).stream()
+				.filter(tempSolutionType -> mustContainStepWithName.equals(tempSolutionType.getStepName())).findFirst()
 				.orElseGet(() -> null);
-		return requiredStep == null || requiredStep.isEnabled();
+		if (solutionType != null) {
+			final StepConfig stepConfig = SolutionType.getStepConfig(solutionType);
+			return stepConfig != null && stepConfig.isEnabled();
+		}
+		return false;
 	}
 
 	private boolean isOverScoreLimit() {
