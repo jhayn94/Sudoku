@@ -24,7 +24,7 @@ To manually input a puzzle, open the menu and select File | New Blank Puzzle (AL
 #### 1.1.2 Generating a puzzle:
 To generate a puzzle, open the context menu and select New Random Puzzle (CTRL+N). This will create a new puzzle with the currently defined settings. See the sections Changing Settings | Puzzle Generation and Changing Settings | Solver for details on how to configure the puzzle generation. 
 
-Puzzle generation is very open ended, and it is possible to accidentally create unsatisfiable requirements for the puzzle generator. Many of these cases are identified and mentioned to the user, but all cases may not be discovered. Therefore, if it takes more than a handful of seconds to generate a puzzle, you should review your solver and puzzle settings for possible issues.
+Puzzle generation is very open ended, and it is possible to create very complicated requirements for the puzzle generator. Many of these cases are identified and mentioned to the user, but all cases may not be discovered. Therefore, if it takes more than a handful of seconds to generate a puzzle, you should review your solver and puzzle settings for possible issues.
 
 For pasting a puzzle into the application, see the section titled “Copying and Pasting Puzzles”.
 
@@ -136,9 +136,13 @@ There exist 5 pairs of colors which you can use to annotate the sudoku grid. By 
 #### 4.4.3 Hint colors
 In addition to the color pairs, there are also a number of colors used specifically to color candidates when annotating the screen with hints. There are 5 colors used for hints:
 
-* Hint Color 1
-
-<TODO- finish>
+* Hint Color 1: the primary color used to show notable candidates used in a solution technique. For example, candidates part of hidden tuples or nodes in a single digit pattern (e.g. skyscraper). Also used for every other node in AICs.
+* Hint Color 2: identifies notable or specific candidates that are particularily important for a hint. For example, fins of finned fish, or the non-endpoint nodes of a 2 string kite. Also used for every other node in AICs.
+* Hint Color 3: Used very rarely. Identifies endo-fins of fish, and for one sector in Sue-de-Coq.
+* Hint Color 4: Currently unused.
+* Hint Color 5: Used only for cannibalism.
+* Hint Delete Color: Used to indicate a candidate can be deleted based off of a hint
+* ALS Colors 1 - 4: Used to identify an ALS on the few occasions where they are used. Hint colors 2 and 3 are used to identify special candidates (i.e. the candidate designated XY or XZ in those ALS techniques).
 
 ### 4.5 Miscellaneous Settings:
 These settings are for configurations that don't really belong to another specific category.
