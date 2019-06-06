@@ -29,6 +29,16 @@ public class NewEmptyPuzzleState extends ApplicationModelState {
 		this.updateFilterButtonStates(Strings.EMPTY);
 		this.resetAllColorStates();
 		this.sudokuPuzzleValues = new SudokuPuzzleValues();
+		this.updateCellsForEmptyPuzzle();
+
+		ViewController.getInstance().getPuzzleStatsPane().getDifficultyTextField().setText(Strings.EMPTY);
+		ViewController.getInstance().getPuzzleStatsPane().getRatingTextField().setText(Strings.EMPTY);
+		ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField().setText(Strings.EMPTY);
+		final HintTextArea hintTextArea = ViewController.getInstance().getHintTextArea();
+		hintTextArea.getHintTextArea().setText(Strings.EMPTY);
+	}
+
+	private void updateCellsForEmptyPuzzle() {
 		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
 			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
 				final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
@@ -40,12 +50,6 @@ public class NewEmptyPuzzleState extends ApplicationModelState {
 				}
 			}
 		}
-
-		ViewController.getInstance().getPuzzleStatsPane().getDifficultyTextField().setText(Strings.EMPTY);
-		ViewController.getInstance().getPuzzleStatsPane().getRatingTextField().setText(Strings.EMPTY);
-		ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField().setText(Strings.EMPTY);
-		final HintTextArea hintTextArea = ViewController.getInstance().getHintTextArea();
-		hintTextArea.getHintTextArea().setText(Strings.EMPTY);
 	}
 
 }

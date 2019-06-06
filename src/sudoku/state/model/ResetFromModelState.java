@@ -47,16 +47,9 @@ public abstract class ResetFromModelState extends ApplicationModelState {
 				final int fixedCellDigit = this.sudokuPuzzleValues.getFixedCellDigit(row, col);
 				final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
 				if (fixedCellDigit != 0) {
-					sudokuPuzzleCell.setCandidatesVisible(false);
-					sudokuPuzzleCell.setFixedDigit(String.valueOf(fixedCellDigit));
-					final int givenCellDigit = this.sudokuPuzzleValues.getGivenCellDigit(row, col);
-					this.updateFixedCellTypeCssClass(sudokuPuzzleCell,
-							givenCellDigit == 0 ? FIXED_CELL_CSS_CLASS : GIVEN_CELL_CSS_CLASS);
+					this.updateFixedCell(row, col, fixedCellDigit, sudokuPuzzleCell);
 				} else {
-					this.sudokuPuzzleValues.setCellFixedDigit(row, col, 0);
-					sudokuPuzzleCell.setCandidatesVisible(true);
-					sudokuPuzzleCell.setFixedDigit(Strings.EMPTY);
-					this.updateFixedCellTypeCssClass(sudokuPuzzleCell, UNFIXED_CELL_CSS_CLASS);
+					this.updateUnfixedCell(row, col, sudokuPuzzleCell);
 				}
 				final List<Integer> candidateDigitsForCell = this.sudokuPuzzleValues.getCandidateDigitsForCell(row, col);
 				IntStream.rangeClosed(1, SudokuPuzzleValues.CELLS_PER_HOUSE).forEach(digit -> {
@@ -65,5 +58,21 @@ public abstract class ResetFromModelState extends ApplicationModelState {
 
 			}
 		}
+	}
+
+	private void updateFixedCell(final int row, final int col, final int fixedCellDigit,
+			final SudokuPuzzleCell sudokuPuzzleCell) {
+		sudokuPuzzleCell.setCandidatesVisible(false);
+		sudokuPuzzleCell.setFixedDigit(String.valueOf(fixedCellDigit));
+		final int givenCellDigit = this.sudokuPuzzleValues.getGivenCellDigit(row, col);
+		this.updateFixedCellTypeCssClass(sudokuPuzzleCell,
+				givenCellDigit == 0 ? FIXED_CELL_CSS_CLASS : GIVEN_CELL_CSS_CLASS);
+	}
+
+	private void updateUnfixedCell(final int row, final int col, final SudokuPuzzleCell sudokuPuzzleCell) {
+		this.sudokuPuzzleValues.setCellFixedDigit(row, col, 0);
+		sudokuPuzzleCell.setCandidatesVisible(true);
+		sudokuPuzzleCell.setFixedDigit(Strings.EMPTY);
+		this.updateFixedCellTypeCssClass(sudokuPuzzleCell, UNFIXED_CELL_CSS_CLASS);
 	}
 }

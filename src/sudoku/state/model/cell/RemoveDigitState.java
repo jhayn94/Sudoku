@@ -35,18 +35,22 @@ public class RemoveDigitState extends ApplicationModelState {
 				this.addDigitAsCandidateToSeenCells(fixedDigit);
 			}
 
-			final List<Integer> candidateDigitsForCell = this.sudokuPuzzleValues
-					.getCandidateDigitsForCell(selectedCell.getRow(), selectedCell.getCol());
 			if (ApplicationSettings.getInstance().isAutoManageCandidates()) {
-				for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
-					if (!SudokuPuzzleCellUtils.doesCellSeeFixedDigit(selectedCell.getRow(), selectedCell.getCol(), candidate)) {
-						selectedCell.setCandidateVisible(candidate, true);
-						candidateDigitsForCell.add(candidate);
-					}
-				}
+				this.updateCandidatesAfterClearingCell(selectedCell);
 			}
 			this.reapplyActiveFilter();
 			this.updateRemainingScoreForPuzzle();
+		}
+	}
+
+	private void updateCandidatesAfterClearingCell(final SudokuPuzzleCell selectedCell) {
+		final List<Integer> candidateDigitsForCell = this.sudokuPuzzleValues
+				.getCandidateDigitsForCell(selectedCell.getRow(), selectedCell.getCol());
+		for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
+			if (!SudokuPuzzleCellUtils.doesCellSeeFixedDigit(selectedCell.getRow(), selectedCell.getCol(), candidate)) {
+				selectedCell.setCandidateVisible(candidate, true);
+				candidateDigitsForCell.add(candidate);
+			}
 		}
 	}
 

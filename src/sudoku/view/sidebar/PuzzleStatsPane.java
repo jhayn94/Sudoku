@@ -48,6 +48,17 @@ public class PuzzleStatsPane extends GridPane {
 		statsGridPane.setHgap(60);
 		final Label difficultyLabel = new Label(LabelConstants.DIFFICULTY + ":");
 		statsGridPane.add(difficultyLabel, 0, 0);
+		this.createDifficultyTextField(statsGridPane);
+		final Label ratingLabel = new Label(LabelConstants.RATING);
+		statsGridPane.add(ratingLabel, 0, 1);
+		this.createRatingTextField(statsGridPane);
+		final Label remainingRatingLabel = new Label(LabelConstants.REMAINING_RATING);
+		statsGridPane.add(remainingRatingLabel, 0, 2);
+		this.createRemainingRatingTextField(statsGridPane);
+		this.getChildren().add(statsGridPane);
+	}
+
+	private void createDifficultyTextField(final GridPane statsGridPane) {
 		this.difficultyTextField = new TextField();
 		this.difficultyTextField.setFocusTraversable(false);
 		this.difficultyTextField.setEditable(false);
@@ -55,8 +66,9 @@ public class PuzzleStatsPane extends GridPane {
 		this.difficultyTextField.setMaxWidth(MAX_TEXT_FIELD_WIDTH);
 		this.difficultyTextField.setTooltip(new Tooltip(TooltipConstants.DIFFICULTY_DISPLAY));
 		statsGridPane.add(this.difficultyTextField, 1, 0);
-		final Label ratingLabel = new Label(LabelConstants.RATING);
-		statsGridPane.add(ratingLabel, 0, 1);
+	}
+
+	private void createRatingTextField(final GridPane statsGridPane) {
 		this.ratingTextField = new TextField();
 		this.ratingTextField.setFocusTraversable(false);
 		this.ratingTextField.setEditable(false);
@@ -64,8 +76,9 @@ public class PuzzleStatsPane extends GridPane {
 		this.ratingTextField.setMaxWidth(MAX_TEXT_FIELD_WIDTH);
 		this.ratingTextField.setTooltip(new Tooltip(TooltipConstants.RATING));
 		statsGridPane.add(this.ratingTextField, 1, 1);
-		final Label remainingRatingLabel = new Label(LabelConstants.REMAINING_RATING);
-		statsGridPane.add(remainingRatingLabel, 0, 2);
+	}
+
+	private void createRemainingRatingTextField(final GridPane statsGridPane) {
 		this.remainingRatingTextField = new TextField();
 		this.remainingRatingTextField.setFocusTraversable(false);
 		this.remainingRatingTextField.setEditable(false);
@@ -73,7 +86,6 @@ public class PuzzleStatsPane extends GridPane {
 		this.remainingRatingTextField.setMaxWidth(MAX_TEXT_FIELD_WIDTH);
 		this.remainingRatingTextField.setTooltip(new Tooltip(TooltipConstants.REMAINING_RATING));
 		statsGridPane.add(this.remainingRatingTextField, 1, 2);
-		this.getChildren().add(statsGridPane);
 	}
 
 	public TextField getDifficultyTextField() {

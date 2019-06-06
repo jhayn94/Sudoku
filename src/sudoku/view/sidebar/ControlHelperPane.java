@@ -59,6 +59,14 @@ public class ControlHelperPane extends GridPane {
 	}
 
 	private void createChildElements() {
+		this.createColorButtons();
+		this.createDigitButtons();
+		this.createResetButton();
+		this.setInitialState();
+
+	}
+
+	private void createColorButtons() {
 		for (int index = 0; index < NUM_COLOR_BUTTONS; index++) {
 			this.colorButtons[index] = new Button();
 			this.colorButtons[index].getStyleClass().add(COLOR_BUTTON_CSS_CLASSES[index]);
@@ -70,6 +78,9 @@ public class ControlHelperPane extends GridPane {
 					.setOnAction(event -> ModelController.getInstance().transitionToActiveColorChangedState(buttonIndex));
 			this.add(this.colorButtons[index], index, 0);
 		}
+	}
+
+	private void createDigitButtons() {
 		for (int index = 0; index < NUM_DIGIT_BUTTONS; index++) {
 			this.digitButtons[index] = new Button(String.valueOf(index + 1));
 			this.digitButtons[index].setFocusTraversable(false);
@@ -80,15 +91,20 @@ public class ControlHelperPane extends GridPane {
 					.transitionToActiveCandidateChangedState(KeyCode.getKeyCode(String.valueOf(buttonIndex + 1))));
 			this.add(this.digitButtons[index], index % 5, index / 5 + 1);
 		}
-		this.colorButtons[0].getStyleClass().add(SELECTED_COLOR_BUTTON_CSS_CLASS);
-		this.digitButtons[0].getStyleClass().add(SUDOKU_COMBO_BUTTON_SELECTED_CSS_CLASS);
+	}
 
+	private void createResetButton() {
 		final Button resetColorsButton = new Button(LabelConstants.R);
 		resetColorsButton.setMinWidth(BUTTON_DIMENSIONS);
 		resetColorsButton.setMinHeight(BUTTON_DIMENSIONS);
 		resetColorsButton.setFocusTraversable(false);
 		resetColorsButton.setOnAction(event -> ModelController.getInstance().transitionToResetAllColorsState());
 		this.add(resetColorsButton, 4, 2);
+	}
+
+	private void setInitialState() {
+		this.colorButtons[0].getStyleClass().add(SELECTED_COLOR_BUTTON_CSS_CLASS);
+		this.digitButtons[0].getStyleClass().add(SUDOKU_COMBO_BUTTON_SELECTED_CSS_CLASS);
 	}
 
 	public Button getColorButton(final int index) {

@@ -107,23 +107,28 @@ public class ColorSettingsView extends ModalDialog {
 		alternateColorsGridPane.setVgap(SMALL_PADDING);
 		final String[] coloringColors = ApplicationSettings.getInstance().getColorsUsedInColoring();
 		for (int index = 0; index < ApplicationSettings.NUM_COLORS_USED_IN_COLORING; index++) {
-			final int colorPair = index / 2 + 1;
-			final String colorPairIndicator = index % 2 == 0 ? COLOR_PAIR_A : COLOR_PAIR_B;
-			final Label coloringColorLabel = new Label(LabelConstants.COLOR_PAIR + colorPair + colorPairIndicator + ":");
-			coloringColorLabel.setMinWidth(LABEL_WIDTH);
-			final String colorForColoring = coloringColors[index];
-			this.coloringColorPickers[index] = new ColorPicker(Color.valueOf(colorForColoring));
-			if (index % 2 == 0) {
-				baseColorsGridPane.add(coloringColorLabel, 0, colorPair - 1);
-				baseColorsGridPane.add(this.coloringColorPickers[index], 1, colorPair - 1);
-			} else {
-				alternateColorsGridPane.add(coloringColorLabel, 0, colorPair - 1);
-				alternateColorsGridPane.add(this.coloringColorPickers[index], 1, colorPair - 1);
-			}
+			this.createColorPickerForIndex(baseColorsGridPane, alternateColorsGridPane, coloringColors, index);
 		}
 		HBox.setMargin(baseColorsGridPane, new Insets(0, LARGE_PADDING, 0, 0));
 		parentPane.getChildren().addAll(baseColorsGridPane, alternateColorsGridPane);
 		return parentPane;
+	}
+
+	private void createColorPickerForIndex(final GridPane baseColorsGridPane, final GridPane alternateColorsGridPane,
+			final String[] coloringColors, final int index) {
+		final int colorPair = index / 2 + 1;
+		final String colorPairIndicator = index % 2 == 0 ? COLOR_PAIR_A : COLOR_PAIR_B;
+		final Label coloringColorLabel = new Label(LabelConstants.COLOR_PAIR + colorPair + colorPairIndicator + ":");
+		coloringColorLabel.setMinWidth(LABEL_WIDTH);
+		final String colorForColoring = coloringColors[index];
+		this.coloringColorPickers[index] = new ColorPicker(Color.valueOf(colorForColoring));
+		if (index % 2 == 0) {
+			baseColorsGridPane.add(coloringColorLabel, 0, colorPair - 1);
+			baseColorsGridPane.add(this.coloringColorPickers[index], 1, colorPair - 1);
+		} else {
+			alternateColorsGridPane.add(coloringColorLabel, 0, colorPair - 1);
+			alternateColorsGridPane.add(this.coloringColorPickers[index], 1, colorPair - 1);
+		}
 	}
 
 	private HBox createHintColorsPane() {

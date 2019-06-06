@@ -31,6 +31,19 @@ public class SaveColorSettingsState extends AbstractSaveSettingsState {
 			final Color coloringColor = colorSettingsView.getColoringColorPicker(index).getValue();
 			ApplicationSettings.getInstance().setColorUsedInColoring(index, this.convertColorToHex(coloringColor));
 		}
+		this.saveHintColorSettings(colorSettingsView);
+
+		// Update the view in case the old colors were visible somewhere.
+		final Color newColor = ColorUtils.getColors().get(0);
+		this.sudokuPuzzleStyle.setActiveColor(newColor);
+		// TODO - anything needed for color combo buttons?
+
+		ViewController.getInstance().getRootPane().updateColorSettings();
+		this.reapplyActiveFilter();
+		super.onEnter();
+	}
+
+	private void saveHintColorSettings(final ColorSettingsView colorSettingsView) {
 		for (int index = 0; index < ApplicationSettings.NUM_COLORS_USED_IN_HINTS
 				+ ApplicationSettings.NUM_COLORS_USED_IN_ALSES + 1; index++) {
 			final Color hintColor = colorSettingsView.getHintColorPicker(index).getValue();
@@ -43,15 +56,6 @@ public class SaveColorSettingsState extends AbstractSaveSettingsState {
 				ApplicationSettings.getInstance().setHintDeleteColor(this.convertColorToHex(hintColor));
 			}
 		}
-
-		// Update the view in case the old colors were visible somewhere.
-		final Color newColor = ColorUtils.getColors().get(0);
-		this.sudokuPuzzleStyle.setActiveColor(newColor);
-		// TODO - anything needed for color combo buttons?
-
-		ViewController.getInstance().getRootPane().updateColorSettings();
-		this.reapplyActiveFilter();
-		super.onEnter();
 	}
 
 	private String convertColorToHex(final Color color) {

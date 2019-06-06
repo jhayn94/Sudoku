@@ -95,8 +95,7 @@ public class ApplicationModelState {
 		}
 		// Some states are invoked by clicks. So, refocus grid is called to make
 		// keyboard actions always work (see SudokuPuzzleView for more notes on why
-		// this
-		// is done).
+		// this is done).
 		ViewController.getInstance().getSudokuPuzzleView().requestFocus();
 	}
 
@@ -346,22 +345,7 @@ public class ApplicationModelState {
 		this.sudokuPuzzleStyle.resetColorStates();
 		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
 			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
-				final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
-				final ObservableList<String> styleClass = sudokuPuzzleCell.getStyleClass();
-				final List<String> colorCssClasses = Arrays.asList(ColorState.values()).stream().map(ColorState::getCssClass)
-						.collect(Collectors.toList());
-				// Don't remove classes not in the list of classes to remove.
-				colorCssClasses.removeIf(cssClass -> !cssClassesToRemove.contains(cssClass));
-				if (resetCells) {
-					colorCssClasses.forEach(styleClass::remove);
-				}
-				if (resetCandidates) {
-					for (int candidate = 0; candidate < SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
-						final Label candidateLabelForDigit = sudokuPuzzleCell.getCandidateLabelForDigit(candidate + 1);
-						final ObservableList<String> candidateLabelStyleClass = candidateLabelForDigit.getStyleClass();
-						colorCssClasses.forEach(candidateLabelStyleClass::remove);
-					}
-				}
+				this.resetColorStates(resetCells, resetCandidates, cssClassesToRemove, row, col);
 			}
 		}
 	}
@@ -426,6 +410,30 @@ public class ApplicationModelState {
 		filterButtonPane.getRedoButton().setDisable(this.applicationStateHistory.isRedoStackEmpty());
 		ViewController.getInstance().getUndoMenuItem().setDisable(this.applicationStateHistory.isUndoStackEmpty());
 		ViewController.getInstance().getRedoMenuItem().setDisable(this.applicationStateHistory.isRedoStackEmpty());
+	}
+
+	/**
+	 * Does the real work of resetting color states (called from various methods
+	 * above).
+	 */
+	private void resetColorStates(final boolean resetCells, final boolean resetCandidates,
+			final List<String> cssClassesToRemove, final int row, final int col) {
+		final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
+		final ObservableList<String> styleClass = sudokuPuzzleCell.getStyleClass();
+		final List<String> colorCssClasses = Arrays.asList(ColorState.values()).stream().map(ColorState::getCssClass)
+				.collect(Collectors.toList());
+		// Don't remove classes not in the list of classes to remove.
+		colorCssClasses.removeIf(cssClass -> !cssClassesToRemove.contains(cssClass));
+		if (resetCells) {
+			colorCssClasses.forEach(styleClass::remove);
+		}
+		if (resetCandidates) {
+			for (int candidate = 0; candidate < SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
+				final Label candidateLabelForDigit = sudokuPuzzleCell.getCandidateLabelForDigit(candidate + 1);
+				final ObservableList<String> candidateLabelStyleClass = candidateLabelForDigit.getStyleClass();
+				colorCssClasses.forEach(candidateLabelStyleClass::remove);
+			}
+		}
 	}
 
 	private Boolean candidatesMatchFilter(final Function<List<Integer>, Boolean> predicate,

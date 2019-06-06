@@ -41,17 +41,21 @@ public class ShowSpecificHintState extends ApplicationModelState {
 			hintButtonPane.getApplyHintButton().setDisable(false);
 			hintButtonPane.getHideHintButton().setDisable(false);
 
-			// The order of these cannot change! Otherwise the ALS candidate colors
-			// overwrite the other candidates.
-			this.updateColorForAlmostLockedSetCandidates();
-			this.updateChainHintCandidates();
-			this.updateColorForColorHintCandidates();
-			this.updateColorForPrimaryHintCandidates();
-			this.updateColorForSecondaryHintCandidates();
-			this.updateColorForTertiaryHintCandidates();
-			this.updateColorForDeletableCandidates();
-			this.updateColorForCannibalCandidates();
+			this.updateCandidateColorsForHint();
 		}
+	}
+
+	private void updateCandidateColorsForHint() {
+		// The order of these cannot change! Otherwise the ALS candidate colors
+		// overwrite the other candidates.
+		this.updateColorForAlmostLockedSetCandidates();
+		this.updateChainHintCandidates();
+		this.updateColorForColorHintCandidates();
+		this.updateColorForPrimaryHintCandidates();
+		this.updateColorForSecondaryHintCandidates();
+		this.updateColorForTertiaryHintCandidates();
+		this.updateColorForDeletableCandidates();
+		this.updateColorForCannibalCandidates();
 	}
 
 	/**

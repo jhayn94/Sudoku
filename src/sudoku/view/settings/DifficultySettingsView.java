@@ -33,6 +33,8 @@ public class DifficultySettingsView extends ModalDialog {
 
 	private static final String DIGITS_ONLY_REGEX = "^\\d*$";
 
+	private static final int GRID_PANE_GAP = 30;
+
 	private static final int BUTTON_PANE_PADDING = 5;
 
 	private static final int SMALL_PADDING = 20;
@@ -57,29 +59,33 @@ public class DifficultySettingsView extends ModalDialog {
 		contentPane.setAlignment(Pos.TOP_LEFT);
 		contentPane.setPadding(new Insets(SMALL_PADDING));
 		final GridPane difficultySettingsGridPane = new GridPane();
-		difficultySettingsGridPane.setHgap(30);
+		difficultySettingsGridPane.setHgap(GRID_PANE_GAP);
 		difficultySettingsGridPane.setVgap(30);
-		Difficulty.getValidDifficulties().forEach(difficulty -> {
-			final Label difficultyLabel = new Label(difficulty.getLabel());
-			final int maxScoreForDifficulty = ApplicationSettings.getInstance().getMaxScoreForDifficulty(difficulty.name());
-			final TextField maxScoreInput = new TextField();
-			maxScoreInput.setTooltip(new Tooltip(TooltipConstants.MAX_DIFFICULTY_SCORE_PREFIX + difficulty.getLabel()
-					+ TooltipConstants.MAX_DIFFICULTY_SCORE_SUFFIX));
-
-			if (Difficulty.DIABOLICAL == difficulty) {
-				maxScoreInput.setEditable(false);
-				maxScoreInput.setDisable(true);
-			}
-			final UnaryOperator<Change> integerFilter = this.getIntegerOnlyInputFilter();
-			maxScoreInput.setTextFormatter(
-					new TextFormatter<Integer>(new IntegerStringConverter(), maxScoreForDifficulty, integerFilter));
-			this.maxScoreInputs.put(difficulty, maxScoreInput);
-			difficultySettingsGridPane.add(difficultyLabel, 0, difficulty.ordinal());
-			difficultySettingsGridPane.add(maxScoreInput, 1, difficulty.ordinal());
-		});
+		Difficulty.getValidDifficulties()
+				.forEach(difficulty -> this.addMaxRatingTextFieldForDifficulty(difficultySettingsGridPane, difficulty));
 		contentPane.getChildren().add(difficultySettingsGridPane);
 		this.setCenter(contentPane);
 		this.createButtonPane();
+	}
+
+	private void addMaxRatingTextFieldForDifficulty(final GridPane difficultySettingsGridPane,
+			final Difficulty difficulty) {
+		final Label difficultyLabel = new Label(difficulty.getLabel());
+		final int maxScoreForDifficulty = ApplicationSettings.getInstance().getMaxScoreForDifficulty(difficulty.name());
+		final TextField maxScoreInput = new TextField();
+		maxScoreInput.setTooltip(new Tooltip(TooltipConstants.MAX_DIFFICULTY_SCORE_PREFIX + difficulty.getLabel()
+				+ TooltipConstants.MAX_DIFFICULTY_SCORE_SUFFIX));
+
+		if (Difficulty.DIABOLICAL == difficulty) {
+			maxScoreInput.setEditable(false);
+			maxScoreInput.setDisable(true);
+		}
+		final UnaryOperator<Change> integerFilter = this.getIntegerOnlyInputFilter();
+		maxScoreInput.setTextFormatter(
+				new TextFormatter<Integer>(new IntegerStringConverter(), maxScoreForDifficulty, integerFilter));
+		this.maxScoreInputs.put(difficulty, maxScoreInput);
+		difficultySettingsGridPane.add(difficultyLabel, 0, difficulty.ordinal());
+		difficultySettingsGridPane.add(maxScoreInput, 1, difficulty.ordinal());
 	}
 
 	private UnaryOperator<Change> getIntegerOnlyInputFilter() {

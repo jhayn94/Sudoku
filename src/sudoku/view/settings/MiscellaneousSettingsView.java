@@ -48,23 +48,35 @@ public class MiscellaneousSettingsView extends ModalDialog {
 		final VBox contentPane = new VBox();
 		contentPane.setAlignment(Pos.TOP_LEFT);
 		contentPane.setPadding(new Insets(SMALL_PADDING));
+		this.createAutoManageCandidatesCheckBox();
+		this.createShowPuzzleProgressCheckBox();
+		this.createUseDigitButtonsForMouseCheckBox();
+		contentPane.getChildren().addAll(this.autoManageCandidatesCheckBox, this.showPuzzleProgressCheckBox,
+				this.useDigitButtonsForMouseCheckBox);
+		this.setCenter(contentPane);
+		this.createButtonPane();
+	}
+
+	private void createAutoManageCandidatesCheckBox() {
 		this.autoManageCandidatesCheckBox = new CheckBox(LabelConstants.AUTO_MANAGE_CANDIDATES);
 		this.autoManageCandidatesCheckBox.setTooltip(new Tooltip(TooltipConstants.AUTO_MANAGE_CANDIDATES));
 		this.autoManageCandidatesCheckBox.setSelected(ApplicationSettings.getInstance().isAutoManageCandidates());
 		VBox.setMargin(this.autoManageCandidatesCheckBox, new Insets(SMALL_PADDING, 0, 0, 0));
+	}
+
+	private void createShowPuzzleProgressCheckBox() {
 		this.showPuzzleProgressCheckBox = new CheckBox(LabelConstants.SHOW_PUZZLE_PROGRESS);
 		this.showPuzzleProgressCheckBox.setTooltip(new Tooltip(TooltipConstants.SHOW_PUZZLE_PROGRESS));
 		this.showPuzzleProgressCheckBox.setSelected(ApplicationSettings.getInstance().isShowPuzzleProgress());
 		VBox.setMargin(this.showPuzzleProgressCheckBox, new Insets(SMALL_PADDING, 0, 0, 0));
+	}
+
+	private void createUseDigitButtonsForMouseCheckBox() {
 		this.useDigitButtonsForMouseCheckBox = new CheckBox(LabelConstants.USE_DIGIT_BUTTONS_FOR_MOUSE);
 		this.useDigitButtonsForMouseCheckBox.setTooltip(new Tooltip(TooltipConstants.USE_DIGIT_BUTTONS_FOR_MOUSE));
 		this.useDigitButtonsForMouseCheckBox
 				.setSelected(ApplicationSettings.getInstance().isUseDigitButtonsForMouseActions());
 		VBox.setMargin(this.useDigitButtonsForMouseCheckBox, new Insets(SMALL_PADDING, 0, 0, 0));
-		contentPane.getChildren().addAll(this.autoManageCandidatesCheckBox, this.showPuzzleProgressCheckBox,
-				this.useDigitButtonsForMouseCheckBox);
-		this.setCenter(contentPane);
-		this.createButtonPane();
 	}
 
 	private void createButtonPane() {

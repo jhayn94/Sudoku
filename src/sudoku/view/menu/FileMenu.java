@@ -85,19 +85,22 @@ public class FileMenu extends Menu {
 			} else if (isOverScoreLimit) {
 				LayoutFactory.getInstance().showMessageDialog(LabelConstants.INVALID_SETTINGS, LabelConstants.OVER_SCORE_LIMIT);
 			} else {
-
-				final WaitingDialog waitingDialog = LayoutFactory.getInstance()
-						.createWaitingDialog(LabelConstants.GENERATING_PUZZLE_TITLE, LabelConstants.GENERATING_PUZZLE_MESSAGE);
-				final Thread puzzleGenerationThread = new Thread(() -> this.createNewPuzzle(waitingDialog));
-				waitingDialog.setExecutionThread(puzzleGenerationThread);
-				LayoutFactory.getInstance().showNewStageWithRootElement(waitingDialog.getStage(), waitingDialog,
-						LayoutFactory.MESSAGE_DIALOG_WIDTH, LayoutFactory.MESSAGE_DIALOG_HEIGHT);
-				puzzleGenerationThread.start();
+				this.generateNewPuzzle();
 			}
 
 		});
 		newPuzzleMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN));
 		return newPuzzleMenuItem;
+	}
+
+	private void generateNewPuzzle() {
+		final WaitingDialog waitingDialog = LayoutFactory.getInstance()
+				.createWaitingDialog(LabelConstants.GENERATING_PUZZLE_TITLE, LabelConstants.GENERATING_PUZZLE_MESSAGE);
+		final Thread puzzleGenerationThread = new Thread(() -> this.createNewPuzzle(waitingDialog));
+		waitingDialog.setExecutionThread(puzzleGenerationThread);
+		LayoutFactory.getInstance().showNewStageWithRootElement(waitingDialog.getStage(), waitingDialog,
+				LayoutFactory.MESSAGE_DIALOG_WIDTH, LayoutFactory.MESSAGE_DIALOG_HEIGHT);
+		puzzleGenerationThread.start();
 	}
 
 	private boolean isStepLevelTooHigh() {

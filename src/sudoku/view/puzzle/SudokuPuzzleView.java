@@ -54,30 +54,38 @@ public class SudokuPuzzleView extends GridPane {
 	private void createChildElements() {
 		this.setOnKeyPressed(this.onKeyPressed());
 		for (int index = 1; index <= NUM_CELLS_TOTAL; index++) {
-			// Integer division intentional!
-			final int rowIndex = (index - 1) / 9;
-			final int colIndex = (index - 1) % 9;
-			final SudokuPuzzleCell sudokuPuzzleCell = LayoutFactory.getInstance().createSudokuPuzzleCell(colIndex, rowIndex);
-			this.add(sudokuPuzzleCell, colIndex, rowIndex);
-			final ObservableList<String> styleClass = sudokuPuzzleCell.getStyleClass();
-			if (rowIndex % 3 == 0 && colIndex % 3 == 0) {
-				styleClass.add(TOP_LEFT_CELL_CSS_CLASS);
-			} else if (rowIndex % 3 == 0 && colIndex % 3 == 2) {
-				styleClass.add(TOP_RIGHT_CELL_CSS_CLASS);
-			} else if (rowIndex % 3 == 2 && colIndex % 3 == 0) {
-				styleClass.add(BOTTOM_LEFT_CELL_CSS_CLASS);
-			} else if (rowIndex % 3 == 2 && colIndex % 3 == 2) {
-				styleClass.add(BOTTOM_RIGHT_CELL_CSS_CLASS);
-			} else if (rowIndex % 3 == 0) {
-				styleClass.add(TOP_CELL_CSS_CLASS);
-			} else if (rowIndex % 3 == 2) {
-				styleClass.add(BOTTOM_CELL_CSS_CLASS);
-			} else if (colIndex % 3 == 0) {
-				styleClass.add(LEFT_CELL_CSS_CLASS);
-			} else if (colIndex % 3 == 2) {
-				styleClass.add(RIGHT_CELL_CSS_CLASS);
-			}
+			this.setBorderBasedOnBoxBoundaries(index);
 
+		}
+	}
+
+	/**
+	 * Adds a thicker border for cells which are on the edge of a box. The given
+	 * index is a linearIndex for the whole puzzle (i.e. 0 to 80).
+	 */
+	private void setBorderBasedOnBoxBoundaries(final int index) {
+		// Integer division intentional!
+		final int rowIndex = (index - 1) / 9;
+		final int colIndex = (index - 1) % 9;
+		final SudokuPuzzleCell sudokuPuzzleCell = LayoutFactory.getInstance().createSudokuPuzzleCell(colIndex, rowIndex);
+		this.add(sudokuPuzzleCell, colIndex, rowIndex);
+		final ObservableList<String> styleClass = sudokuPuzzleCell.getStyleClass();
+		if (rowIndex % 3 == 0 && colIndex % 3 == 0) {
+			styleClass.add(TOP_LEFT_CELL_CSS_CLASS);
+		} else if (rowIndex % 3 == 0 && colIndex % 3 == 2) {
+			styleClass.add(TOP_RIGHT_CELL_CSS_CLASS);
+		} else if (rowIndex % 3 == 2 && colIndex % 3 == 0) {
+			styleClass.add(BOTTOM_LEFT_CELL_CSS_CLASS);
+		} else if (rowIndex % 3 == 2 && colIndex % 3 == 2) {
+			styleClass.add(BOTTOM_RIGHT_CELL_CSS_CLASS);
+		} else if (rowIndex % 3 == 0) {
+			styleClass.add(TOP_CELL_CSS_CLASS);
+		} else if (rowIndex % 3 == 2) {
+			styleClass.add(BOTTOM_CELL_CSS_CLASS);
+		} else if (colIndex % 3 == 0) {
+			styleClass.add(LEFT_CELL_CSS_CLASS);
+		} else if (colIndex % 3 == 2) {
+			styleClass.add(RIGHT_CELL_CSS_CLASS);
 		}
 	}
 

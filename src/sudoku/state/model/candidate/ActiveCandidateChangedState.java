@@ -28,9 +28,13 @@ public class ActiveCandidateChangedState extends ApplicationModelState {
 	@Override
 	public void onEnter() {
 		int activeColorCandidateDigit = this.sudokuPuzzleStyle.getActiveCandidateDigit();
+
+		// Remove selected CSS class from old selection.
 		final ControlHelperPane controlHelperPane = ViewController.getInstance().getControlHelperPane();
 		final Button oldActiveDigitButton = controlHelperPane.getDigitButton(activeColorCandidateDigit - 1);
 		oldActiveDigitButton.getStyleClass().remove(SUDOKU_COMBO_BUTTON_SELECTED_CSS_CLASS);
+
+		// Update to the new digit based on various possible inputs.
 		if (KeyCode.EQUALS == this.lastKeyCode) {
 			activeColorCandidateDigit++;
 		} else if (KeyCode.MINUS == this.lastKeyCode) {
@@ -47,6 +51,8 @@ public class ActiveCandidateChangedState extends ApplicationModelState {
 		}
 		this.sudokuPuzzleStyle.setActiveCandidateDigit(activeColorCandidateDigit);
 		this.updateRemainingScoreForPuzzle();
+
+		// Add selected CSS class to new selection.
 		final Button newActiveDigitButton = controlHelperPane.getDigitButton(activeColorCandidateDigit - 1);
 		newActiveDigitButton.getStyleClass().add(SUDOKU_COMBO_BUTTON_SELECTED_CSS_CLASS);
 	}
