@@ -166,9 +166,11 @@ Various features are available which apply colors to the sudoku grid. This is in
 
 To color a cell, use the arrow keys to select it, and type any of A S D F or G. This will place a colored background on the cell. In addition, type SHIFT+ any of those 5 keys for the alternate version of that color. Typing any of these while another color is active will change the color. Typing the same key (or key combination) on a cell consecutively will return that cell to a non-colored background. Or, typing R will clear all cell colors (but not filters).
 
-This application also supports coloring of candidates, provided that a cell is not fixed (or given), and that the given candidate is visible. The active candidate display near the bottom left of the screen indicates which candidate will be colored when using the keyboard. To change this by using the keyboard, use the = key to increment the value, - to decrement it, or ALT + a digit to just set it to that digit.
+This application also supports coloring of candidates, provided that a cell is not fixed (or given), and that the given candidate is visible. The active candidate display near the bottom left of the screen indicates which candidate will be colored when using the keyboard. To change this by using the keyboard, use the = key to increment the value, - to decrement it, or ALT + a digit to just set it to that digit. _I'm not 100% please with how the mouse / keyboard controls are just kind of mixed in, but I couldn't come up with a better alternative. The main issue is that to color a candidate, you might need to press as many as 4 keys (CTRL + SHIFT + A + 1, for instance). So, I made the decision to have buttons instead._
 
 To color a candidate, type any of CTRL+ A, S, D, F, or G to color the active candidate. Typing R will clear all candidate colors (but not filters).
+
+_NOTE: The colored buttons on the lower left corner are not used by the keyboard. This is because the keyboard has lots more available buttons to press than just a few on the mouse._
 
 ### 5.3 Filtering:
 This application also supports filtering / highlighting of cells that meet various criteria. This can assist you in finding more complicated patterns and eliminations. To highlight cells which could have a specific digit, press that F+digit key (F1 - F9). In addition, F10 highlights bivalue cells. Pressing the key again will un-highlight the cells. Lastly, you may cycle the active filter with the PERIOD (.) and COMMA (,) keys. PERIOD increases the filter by one (i.e. F1 -> F10); COMMA works in the downward direction.
@@ -197,8 +199,9 @@ When “Color Cells” is the active mouse mode, clicking a cell will set the co
 
 A similar behavior is present for the “Color Candidates” mode, except that a candidate will be colored instead of the whole cell. The active candidate display shows the digit which will be colored. Note that the cell must not be fixed or given, and the candidate must be visible.
 
-<TODO - if active color is changed, update doc here>
-To change the active color used for coloring, you can use the up / down arrow buttons next to each display to cycle through the options. To clear the colors, *use the R key*.
+To change the active color used to color with the mouse, click the colored buttons in the control helper pane. To clear the colors, click the button labeled 'R'.
+
+_NOTE: The number buttons on the lower left corner are not used by the mouse. They are only used by the keyboard, since you would have to press too many keys at once to color candidates._
 
 ### 6.3 Filtering:
 This application also supports filtering / highlighting of cells that meet various criteria. This can assist you in finding more complicated patterns and eliminations. To highlight cells which could have a specific digit, click that digit’s button in the top left area of the application. In addition, the X|Y button highlights bivalue cells. Clicking a button again will un-highlight the cells.
