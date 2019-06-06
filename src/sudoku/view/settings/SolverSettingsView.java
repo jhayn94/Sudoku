@@ -67,10 +67,6 @@ public class SolverSettingsView extends ModalDialog {
 
 	private static final int LARGE_PADDING = 30;
 
-	private static final String DISABLED_STEP_CSS_CLASS = "sudoku-disabled-step";
-
-	private static final String ENABLED_STEP_CSS_CLASS = "sudoku-enabled-step";
-
 	private static final String BUTTON_CSS_CLASS = "sudoku-candidate-increment-decrement-button";
 
 	private List<StepConfig> stepConfigs;
@@ -263,22 +259,13 @@ public class SolverSettingsView extends ModalDialog {
 		if (listCellForStep == null) {
 			return;
 		}
-//		if (listCellForStep.isSelected()) {
-//			listCellForStep.setStyle("-fx-text-fill: -sudoku-color-off-white;");
-//			listCellForStep.setStyle("-fx-background-color: -sudoku-color-stone-blue;");
-//		} else
+
 		if (stepConfig.isEnabled()) {
-			listCellForStep.setStyle("-fx-text-fill: -sudoku-color-bark;");
-//			listCellForStep.getStyleClass().add(ENABLED_STEP_CSS_CLASS);
-//			listCellForStep.getStyleClass().remove(DISABLED_STEP_CSS_CLASS);
+			listCellForStep.setStyle("-fx-font-style: normal;");
+			listCellForStep.setStyle("-fx-opacity: 1;");
 		} else {
-			listCellForStep.setStyle("-fx-text-fill: derive(-sudoku-color-bark, 50%);");
-//			listCellForStep.setStyle("-fx-opacity: .65;");
-//			if (listCellForStep.isSelected()) {
-//				listCellForStep.setStyle("-fx-background-color: derive(-sudoku-color-stone-blue, 30%);");
-//			}
-//			listCellForStep.getStyleClass().remove(ENABLED_STEP_CSS_CLASS);
-//			listCellForStep.getStyleClass().add(DISABLED_STEP_CSS_CLASS);
+			listCellForStep.setStyle("-fx-font-style: italic;");
+			listCellForStep.setStyle("-fx-opacity: .55;");
 		}
 	}
 
