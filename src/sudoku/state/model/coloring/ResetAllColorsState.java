@@ -17,7 +17,7 @@ public class ResetAllColorsState extends ApplicationModelState {
 
 	@Override
 	public void onEnter() {
-		this.resetColorStates();
+		this.resetColoringColorStates();
 	}
 
 }

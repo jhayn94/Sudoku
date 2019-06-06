@@ -21,6 +21,7 @@ public class RestartPuzzleState extends ResetFromModelState {
 		}
 		this.sudokuPuzzleValues = puzzleStateForUndo;
 		this.resetApplicationFromPuzzleState();
+		this.resetAllColorStates();
 		this.updateAllPuzzleStatsForNewPuzzle();
 		this.applicationStateHistory.clearRedoStack();
 		this.applicationStateHistory.clearUndoStack();

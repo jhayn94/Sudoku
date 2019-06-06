@@ -27,9 +27,7 @@ public class ShowSpecificHintState extends ApplicationModelState {
 
 	@Override
 	public void onEnter() {
-		// TODO - decide if candidate color states should be cleared first to avoid
-		// confusion.
-//		this.resetColorStates(false, true, Arrays.asList(ColorState.values()));
+		this.resetColorStates(false, true, ColorUtils.getHintColorStates());
 		this.displayedHint = HodokuFacade.getInstance().getHint(this.sudokuPuzzleValues);
 		final HintTextArea hintTextArea = ViewController.getInstance().getHintTextArea();
 		if (this.displayedHint == null) {

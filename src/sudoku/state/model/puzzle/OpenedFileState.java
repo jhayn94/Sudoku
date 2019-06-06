@@ -64,7 +64,7 @@ public class OpenedFileState extends ApplicationModelState {
 		this.sudokuPuzzleStyle.setActiveCellFilter(Strings.EMPTY);
 		this.resetAllFilters();
 		this.updateFilterButtonStates(Strings.EMPTY);
-		this.resetColorStates();
+		this.resetAllColorStates();
 		this.sudokuPuzzleValues = new SudokuPuzzleValues(this.givens);
 		this.updateGivenCells();
 		this.updateOtherSetCells();

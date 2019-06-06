@@ -72,7 +72,7 @@ public class ApplicationModelState {
 		this.displayedHint = null;
 		this.applicationStateHistory = ModelFactory.getInstance().createApplicationStateHistory();
 		this.mouseMode = MouseMode.SELECT_CELLS;
-		this.resetColorStates();
+		this.resetColoringColorStates();
 		this.updateUndoRedoButtons();
 		ViewController.getInstance().getSudokuPuzzleView().requestFocus();
 	}
@@ -322,10 +322,17 @@ public class ApplicationModelState {
 	// Color state based methods.
 
 	/**
-	 * This method resets the coloring state of every cell and candidate label to no
-	 * color.
+	 * Resets the coloring state of every cell and candidate label to no color.
 	 */
-	protected void resetColorStates() {
+	protected void resetAllColorStates() {
+		this.resetColorStates(true, true, Arrays.asList(ColorState.values()));
+	}
+
+	/**
+	 * Resets the coloring state of every cell and candidate label with a "coloring
+	 * color" to no color.
+	 */
+	protected void resetColoringColorStates() {
 		this.resetColorStates(true, true, ColorUtils.getColoringColorStates());
 	}
 

@@ -6,6 +6,7 @@ import sudoku.core.ViewController;
 import sudoku.state.model.ApplicationModelState;
 import sudoku.view.hint.HintButtonPane;
 import sudoku.view.hint.HintTextArea;
+import sudoku.view.util.ColorUtils;
 import sudoku.view.util.LabelConstants;
 
 /**
@@ -20,6 +21,8 @@ public class ShowVagueHintState extends ApplicationModelState {
 
 	@Override
 	public void onEnter() {
+
+		this.resetColorStates(false, true, ColorUtils.getHintColorStates());
 		this.displayedHint = HodokuFacade.getInstance().getHint(this.sudokuPuzzleValues);
 		final HintTextArea hintTextArea = ViewController.getInstance().getHintTextArea();
 		final String newHintText = SolutionType.GIVE_UP == this.displayedHint.getType() ? LabelConstants.NO_MOVES

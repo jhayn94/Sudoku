@@ -6,6 +6,7 @@ import sudoku.core.ViewController;
 import sudoku.state.model.ApplicationModelState;
 import sudoku.view.hint.HintButtonPane;
 import sudoku.view.hint.HintTextArea;
+import sudoku.view.util.ColorUtils;
 
 /**
  * This class updates the state of the application to apply a displayed hint to
@@ -27,6 +28,7 @@ public class ApplyHintState extends ApplicationModelState {
 		hintButtonPane.getHideHintButton().setDisable(true);
 		hintButtonPane.getSpecificHintButton().setDisable(false);
 		hintButtonPane.getVagueHintButton().setDisable(false);
+		this.resetColorStates(false, true, ColorUtils.getHintColorStates());
 		// TODO - apply the hint to the SudokuPuzzleValues model + view.
 	}
 }

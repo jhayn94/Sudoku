@@ -6,8 +6,8 @@ import sudoku.core.ViewController;
 import sudoku.model.ApplicationSettings;
 import sudoku.model.SudokuPuzzleValues;
 import sudoku.state.model.ApplicationModelState;
+import sudoku.view.hint.HintTextArea;
 import sudoku.view.puzzle.SudokuPuzzleCell;
-import sudoku.view.util.LabelConstants;
 
 /**
  * This class updates the state of the application when the user presses the
@@ -27,7 +27,7 @@ public class NewEmptyPuzzleState extends ApplicationModelState {
 		this.sudokuPuzzleStyle.setActiveCellFilter(Strings.EMPTY);
 		this.resetAllFilters();
 		this.updateFilterButtonStates(Strings.EMPTY);
-		this.resetColorStates();
+		this.resetAllColorStates();
 		this.sudokuPuzzleValues = new SudokuPuzzleValues();
 		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
 			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
@@ -41,9 +41,11 @@ public class NewEmptyPuzzleState extends ApplicationModelState {
 			}
 		}
 
-		ViewController.getInstance().getPuzzleStatsPane().getDifficultyTextField().setText(LabelConstants.UNKNOWN);
-		ViewController.getInstance().getPuzzleStatsPane().getRatingTextField().setText(LabelConstants.UNKNOWN);
-		ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField().setText(LabelConstants.UNKNOWN);
+		ViewController.getInstance().getPuzzleStatsPane().getDifficultyTextField().setText(Strings.EMPTY);
+		ViewController.getInstance().getPuzzleStatsPane().getRatingTextField().setText(Strings.EMPTY);
+		ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField().setText(Strings.EMPTY);
+		final HintTextArea hintTextArea = ViewController.getInstance().getHintTextArea();
+		hintTextArea.getHintTextArea().setText(Strings.EMPTY);
 	}
 
 }

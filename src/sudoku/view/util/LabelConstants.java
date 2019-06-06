@@ -125,8 +125,6 @@ public class LabelConstants {
 
 	public static final String SHOW_PUZZLE_PROGRESS = "Show Puzzle Progress";
 
-	public static final String UNKNOWN = "Unknown";
-
 	public static final String COPY_GIVENS = "Copy Givens";
 
 	public static final String COPY_CELLS = "Copy All Cells";
