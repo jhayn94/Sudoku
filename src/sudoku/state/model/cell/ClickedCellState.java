@@ -4,6 +4,7 @@ import javafx.geometry.Bounds;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import sudoku.core.ViewController;
+import sudoku.model.ApplicationSettings;
 import sudoku.model.SudokuPuzzleValues;
 import sudoku.state.model.ApplicationModelState;
 import sudoku.view.puzzle.SudokuPuzzleCell;
@@ -31,6 +32,7 @@ public class ClickedCellState extends ApplicationModelState {
 
 	@Override
 	public void onEnter() {
+		final boolean useDigitButtonsForMouseActions = ApplicationSettings.getInstance().isUseDigitButtonsForMouseActions();
 		final SudokuPuzzleCell clickedCell = ViewController.getInstance().getSudokuPuzzleCell(this.row, this.col);
 		if (MouseMode.SELECT_CELLS == this.mouseMode) {
 			if (this.sudokuPuzzleStyle.getSelectedCellRow() != -1 && this.sudokuPuzzleStyle.getSelectedCellCol() != -1) {
@@ -38,19 +40,34 @@ public class ClickedCellState extends ApplicationModelState {
 			}
 			this.updateSelectedCell();
 		} else if (MouseMode.TOGGLE_CANDIDATES == this.mouseMode) {
-			this.toggleCandidateActiveForCell(this.sudokuPuzzleStyle.getActiveCandidateDigit(), clickedCell);
+			if (useDigitButtonsForMouseActions) {
+				this.toggleCandidateActiveForCell(this.sudokuPuzzleStyle.getActiveCandidateDigit(), clickedCell);
+			} else {
+				final int clickedCandidate = this.getClickedCandidate();
+				if (clickedCandidate != -1) {
+					this.toggleCandidateActiveForCell(clickedCandidate, clickedCell);
+				}
+			}
 		} else if (MouseMode.COLOR_CELLS == this.mouseMode) {
 			final ColorState baseColorState = ColorState.getStateForBaseColor(this.sudokuPuzzleStyle.getActiveColor());
 			final ColorState colorStateToApply = ColorState.getFromKeyCode(baseColorState.getKey(), this.event.isShiftDown());
 			this.setColorStateForCell(this.row, this.col, colorStateToApply);
 		} else {
 			// MouseMode.COLOR_CANDIDATES case.
-			final int clickedCandidate = this.getClickedCandidate();
-			if (clickedCandidate != -1) {
+			if (useDigitButtonsForMouseActions) {
 				final ColorState baseColorState = ColorState.getStateForBaseColor(this.sudokuPuzzleStyle.getActiveColor());
 				final ColorState colorStateToApply = ColorState.getFromKeyCode(baseColorState.getKey(),
 						this.event.isShiftDown());
-				this.setCandidateColorForCell(this.row, this.col, colorStateToApply, clickedCandidate);
+				this.setCandidateColorForCell(this.row, this.col, colorStateToApply,
+						this.sudokuPuzzleStyle.getActiveCandidateDigit());
+			} else {
+				final int clickedCandidate = this.getClickedCandidate();
+				if (clickedCandidate != -1) {
+					final ColorState baseColorState = ColorState.getStateForBaseColor(this.sudokuPuzzleStyle.getActiveColor());
+					final ColorState colorStateToApply = ColorState.getFromKeyCode(baseColorState.getKey(),
+							this.event.isShiftDown());
+					this.setCandidateColorForCell(this.row, this.col, colorStateToApply, clickedCandidate);
+				}
 			}
 		}
 	}

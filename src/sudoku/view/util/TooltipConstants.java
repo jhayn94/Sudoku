@@ -49,6 +49,9 @@ public class TooltipConstants {
 
 	public static final String MAX_DIFFICULTY_SCORE_SUFFIX = "' difficulty is allowed to have..";
 
+	public static final String USE_DIGIT_BUTTONS_FOR_MOUSE = "Check this if you want the digit buttons in the lower left corner\n"
+			+ "(not the filter buttons!) to determine the candidate affected instead of the exact click location.";
+
 	private TooltipConstants() {
 		// Private constructor to prevent instantiation.
 	}

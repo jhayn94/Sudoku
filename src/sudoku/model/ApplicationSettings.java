@@ -66,6 +66,8 @@ public class ApplicationSettings {
 
 	private static final String SHOW_PUZZLE_PROGRESS_KEY = "showPuzzleProgress";
 
+	private static final String USE_DIGIT_BUTTONS_FOR_MOUSE_KEY = "useDigitButtonsForMouseActions";
+
 	private static final String COLOR_FOR_FILTERING_KEY = "colorForFiltering";
 
 	private static final String COLOR_FOR_COLORING_KEY = "colorsUsedInColoring";
@@ -95,6 +97,8 @@ public class ApplicationSettings {
 
 	private boolean showPuzzleProgress;
 
+	private boolean useDigitButtonsForMouseActions;
+
 	// Solver settings.
 	private List<StepConfig> stepConfigs;
 
@@ -120,6 +124,7 @@ public class ApplicationSettings {
 		}
 		this.autoManageCandidates = settingsToLoad.get(AUTO_MANAGE_CANDIDATES_KEY).equals(TRUE);
 		this.showPuzzleProgress = settingsToLoad.get(SHOW_PUZZLE_PROGRESS_KEY).equals(TRUE);
+		this.useDigitButtonsForMouseActions = settingsToLoad.get(USE_DIGIT_BUTTONS_FOR_MOUSE_KEY).equals(TRUE);
 		this.colorForFiltering = settingsToLoad.get(COLOR_FOR_FILTERING_KEY);
 		this.colorsUsedInColoring = new String[NUM_COLORS_USED_IN_COLORING];
 		for (int index = 0; index < this.colorsUsedInColoring.length; index++) {
@@ -164,6 +169,7 @@ public class ApplicationSettings {
 			bufferedWriter.write(SOLVE_TO_REQUIRED_STEP_KEY + EQUALS + this.solveToRequiredStep + NEW_LINE);
 			bufferedWriter.write(AUTO_MANAGE_CANDIDATES_KEY + EQUALS + this.autoManageCandidates + NEW_LINE);
 			bufferedWriter.write(SHOW_PUZZLE_PROGRESS_KEY + EQUALS + this.showPuzzleProgress + NEW_LINE);
+			bufferedWriter.write(USE_DIGIT_BUTTONS_FOR_MOUSE_KEY + EQUALS + this.useDigitButtonsForMouseActions + NEW_LINE);
 			bufferedWriter.write(COLOR_FOR_FILTERING_KEY + EQUALS + this.colorForFiltering + NEW_LINE);
 			for (int index = 0; index < this.colorsUsedInColoring.length; index++) {
 				bufferedWriter.write(COLOR_FOR_COLORING_KEY + index + EQUALS + this.colorsUsedInColoring[index] + NEW_LINE);
@@ -204,6 +210,10 @@ public class ApplicationSettings {
 
 	public boolean isShowPuzzleProgress() {
 		return this.showPuzzleProgress;
+	}
+
+	public boolean isUseDigitButtonsForMouseActions() {
+		return this.useDigitButtonsForMouseActions;
 	}
 
 	public String getColorForFiltering() {
@@ -248,6 +258,10 @@ public class ApplicationSettings {
 
 	public void setShowPuzzleProgress(final boolean showPuzzleProgress) {
 		this.showPuzzleProgress = showPuzzleProgress;
+	}
+
+	public void setUseDigitButtonsForMouseActions(final boolean useDigitButtonsForMouseActions) {
+		this.useDigitButtonsForMouseActions = useDigitButtonsForMouseActions;
 	}
 
 	public void setColorForFiltering(final String colorForFiltering) {

@@ -190,6 +190,8 @@ public class LabelConstants {
 	// For the reset button.
 	public static final String R = "R";
 
+	public static final String USE_DIGIT_BUTTONS_FOR_MOUSE = "Use Digit Buttons for Mouse Actions";
+
 	private LabelConstants() {
 		// Private constructor to prevent instantiation.
 	}

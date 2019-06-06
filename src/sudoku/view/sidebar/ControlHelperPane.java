@@ -16,6 +16,8 @@ public class ControlHelperPane extends GridPane {
 
 	protected static final String SELECTED_COLOR_BUTTON_CSS_CLASS = "sudoku-color-button-selected";
 
+	protected static final String SUDOKU_COMBO_BUTTON_SELECTED_CSS_CLASS = "sudoku-combo-button-selected";
+
 	private static final int BUTTON_DIMENSIONS = 52;
 
 	private static final String[] COLOR_BUTTON_CSS_CLASSES = { "sudoku-puzzle-color1a-entity",
@@ -28,7 +30,7 @@ public class ControlHelperPane extends GridPane {
 
 	private static final int V_GAP = 15;
 
-	private static final String CSS_CLASS_1 = "sudoku-transparent-pane";
+	private static final String CSS_CLASS = "sudoku-transparent-pane";
 
 	private static final int DEFAULT_WIDTH = 320;
 
@@ -49,7 +51,7 @@ public class ControlHelperPane extends GridPane {
 	private void configure() {
 		this.setVgap(V_GAP);
 		this.setHgap(H_GAP);
-		this.getStyleClass().add(CSS_CLASS_1);
+		this.getStyleClass().add(CSS_CLASS);
 		this.setPadding(new Insets(PADDING_FOR_PANE));
 		this.setMinWidth(DEFAULT_WIDTH);
 		this.setMaxWidth(DEFAULT_WIDTH);
@@ -79,6 +81,7 @@ public class ControlHelperPane extends GridPane {
 			this.add(this.digitButtons[index], index % 5, index / 5 + 1);
 		}
 		this.colorButtons[0].getStyleClass().add(SELECTED_COLOR_BUTTON_CSS_CLASS);
+		this.digitButtons[0].getStyleClass().add(SUDOKU_COMBO_BUTTON_SELECTED_CSS_CLASS);
 
 		final Button resetColorsButton = new Button(LabelConstants.R);
 		resetColorsButton.setMinWidth(BUTTON_DIMENSIONS);

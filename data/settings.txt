@@ -8,6 +8,7 @@ maxScoreForDIABOLICAL=9999999
 solveToRequiredStep=true
 autoManageCandidates=true
 showPuzzleProgress=true
+useDigitButtonsForMouseActions=true
 colorForFiltering=#b9ffb9
 colorsUsedInColoring0=#f05c79
 colorsUsedInColoring1=#f8b9c6

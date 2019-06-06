@@ -58,6 +58,8 @@ public class DefaultApplicationSettings {
 
 	private static final String SHOW_PUZZLE_PROGRESS_KEY = "showPuzzleProgress";
 
+	private static final String USE_DIGIT_BUTTONS_FOR_MOUSE_KEY = "useDigitButtonsForMouseActions";
+
 	private static final String COLOR_FOR_FILTERING_KEY = "colorForFiltering";
 
 	private static final String COLOR_FOR_COLORING_KEY = "colorsUsedInColoring";
@@ -84,9 +86,10 @@ public class DefaultApplicationSettings {
 
 	private final boolean showPuzzleProgress;
 
-	// Solver settings.
-	// TODO - confirm how this will work.
-	private StepConfig[] solutionStepConfigurations;
+	private final boolean useDigitButtonsForMouseActions;
+
+	// Solver settings not stored in here because I hand typed all the defaults, and
+	// it would be way too tedious to type all those.
 
 	// Color settings.
 	private final String colorForFiltering;
@@ -102,6 +105,7 @@ public class DefaultApplicationSettings {
 	public DefaultApplicationSettings(final Map<String, String> settingsToLoad) {
 		this.autoManageCandidates = settingsToLoad.get(AUTO_MANAGE_CANDIDATES_KEY).equals(TRUE);
 		this.showPuzzleProgress = settingsToLoad.get(SHOW_PUZZLE_PROGRESS_KEY).equals(TRUE);
+		this.useDigitButtonsForMouseActions = settingsToLoad.get(USE_DIGIT_BUTTONS_FOR_MOUSE_KEY).equals(TRUE);
 		this.difficulty = Difficulty.valueOf(settingsToLoad.get(DIFFICULTY_KEY));
 		this.solveToRequiredStep = settingsToLoad.get(SOLVE_TO_REQUIRED_STEP_KEY).equals(TRUE);
 		this.maxScoreForDifficulty = new EnumMap<>(Difficulty.class);
@@ -146,8 +150,8 @@ public class DefaultApplicationSettings {
 		return this.showPuzzleProgress;
 	}
 
-	public StepConfig[] getSolutionStepConfigurations() {
-		return this.solutionStepConfigurations;
+	public boolean isUseDigitButtonsForMouseActions() {
+		return this.useDigitButtonsForMouseActions;
 	}
 
 	public String getColorForFiltering() {

@@ -29,6 +29,8 @@ public class MiscellaneousSettingsView extends ModalDialog {
 
 	private CheckBox showPuzzleProgressCheckBox;
 
+	private CheckBox useDigitButtonsForMouseCheckBox;
+
 	public MiscellaneousSettingsView(final Stage stage) {
 		super(stage);
 		this.configure();
@@ -54,7 +56,13 @@ public class MiscellaneousSettingsView extends ModalDialog {
 		this.showPuzzleProgressCheckBox.setTooltip(new Tooltip(TooltipConstants.SHOW_PUZZLE_PROGRESS));
 		this.showPuzzleProgressCheckBox.setSelected(ApplicationSettings.getInstance().isShowPuzzleProgress());
 		VBox.setMargin(this.showPuzzleProgressCheckBox, new Insets(SMALL_PADDING, 0, 0, 0));
-		contentPane.getChildren().addAll(this.autoManageCandidatesCheckBox, this.showPuzzleProgressCheckBox);
+		this.useDigitButtonsForMouseCheckBox = new CheckBox(LabelConstants.USE_DIGIT_BUTTONS_FOR_MOUSE);
+		this.useDigitButtonsForMouseCheckBox.setTooltip(new Tooltip(TooltipConstants.USE_DIGIT_BUTTONS_FOR_MOUSE));
+		this.useDigitButtonsForMouseCheckBox
+				.setSelected(ApplicationSettings.getInstance().isUseDigitButtonsForMouseActions());
+		VBox.setMargin(this.useDigitButtonsForMouseCheckBox, new Insets(SMALL_PADDING, 0, 0, 0));
+		contentPane.getChildren().addAll(this.autoManageCandidatesCheckBox, this.showPuzzleProgressCheckBox,
+				this.useDigitButtonsForMouseCheckBox);
 		this.setCenter(contentPane);
 		this.createButtonPane();
 	}
@@ -79,6 +87,8 @@ public class MiscellaneousSettingsView extends ModalDialog {
 		this.autoManageCandidatesCheckBox.setSelected(isAutoManageCandidates);
 		final boolean isShowPuzzleProgress = DefaultApplicationSettings.getInstance().isShowPuzzleProgress();
 		this.showPuzzleProgressCheckBox.setSelected(isShowPuzzleProgress);
+		final boolean useDigitButtonsForMouse = DefaultApplicationSettings.getInstance().isUseDigitButtonsForMouseActions();
+		this.useDigitButtonsForMouseCheckBox.setSelected(useDigitButtonsForMouse);
 	}
 
 	public CheckBox getAutoManageCandidatesCheckBox() {
@@ -87,6 +97,10 @@ public class MiscellaneousSettingsView extends ModalDialog {
 
 	public CheckBox getShowPuzzleProgressCheckBox() {
 		return this.showPuzzleProgressCheckBox;
+	}
+
+	public CheckBox getUseDigitButtonsForMouseCheckBox() {
+		return this.useDigitButtonsForMouseCheckBox;
 	}
 
 }

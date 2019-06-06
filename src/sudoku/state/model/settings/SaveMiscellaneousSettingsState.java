@@ -28,11 +28,18 @@ public class SaveMiscellaneousSettingsState extends AbstractSaveSettingsState {
 		ApplicationSettings.getInstance().setShowPuzzleProgress(isShowPuzzleProgress);
 		if (isShowPuzzleProgress) {
 			final int remainingScore = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues, false);
-			ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField()
-					.setText(String.valueOf(remainingScore));
+			if (remainingScore != 0) {
+				ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField()
+						.setText(String.valueOf(remainingScore));
+			}
 		} else {
 			ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField().setText(Strings.EMPTY);
 		}
+
+		final boolean useDigitButtonsForMouseCheckBox = miscellaneousSettingsView.getUseDigitButtonsForMouseCheckBox()
+				.isSelected();
+		ApplicationSettings.getInstance().setUseDigitButtonsForMouseActions(useDigitButtonsForMouseCheckBox);
+
 		super.onEnter();
 	}
 }
