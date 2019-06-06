@@ -13,7 +13,7 @@ import sudoku.state.model.RedoActionState;
 import sudoku.state.model.RestartPuzzleState;
 import sudoku.state.model.ShowContextMenuState;
 import sudoku.state.model.UndoActionState;
-import sudoku.state.model.candidate.ToggleActiveCandidateState;
+import sudoku.state.model.candidate.ActiveCandidateChangedState;
 import sudoku.state.model.candidate.ToggleCandidateVisibleState;
 import sudoku.state.model.cell.ArrowKeyboardInputState;
 import sudoku.state.model.cell.ClickedCellState;
@@ -21,8 +21,8 @@ import sudoku.state.model.cell.RemoveDigitState;
 import sudoku.state.model.cell.SetDigitState;
 import sudoku.state.model.cell.SetGivenCellsState;
 import sudoku.state.model.cell.UnlockGivenCellsState;
+import sudoku.state.model.coloring.ActiveColorChangedState;
 import sudoku.state.model.coloring.ResetAllColorsState;
-import sudoku.state.model.coloring.ToggleActiveColorState;
 import sudoku.state.model.coloring.ToggleCandidateColorState;
 import sudoku.state.model.coloring.ToggleCellColorState;
 import sudoku.state.model.filter.ApplyFilterState;
@@ -151,8 +151,8 @@ public class ModelController {
 		this.applicationModelState.onEnter();
 	}
 
-	public void transitionToToggleActiveCandidateState(final KeyCode keyCode) {
-		this.applicationModelState = new ToggleActiveCandidateState(keyCode, this.applicationModelState);
+	public void transitionToActiveCandidateChangedState(final KeyCode keyCode) {
+		this.applicationModelState = new ActiveCandidateChangedState(keyCode, this.applicationModelState);
 		this.applicationModelState.onEnter();
 	}
 
@@ -176,8 +176,8 @@ public class ModelController {
 		this.applicationModelState.onEnter();
 	}
 
-	public void transitionToToggleActiveColorState(final boolean increment) {
-		this.applicationModelState = new ToggleActiveColorState(increment, this.applicationModelState);
+	public void transitionToActiveColorChangedState(final int colorIndex) {
+		this.applicationModelState = new ActiveColorChangedState(colorIndex, this.applicationModelState);
 		this.applicationModelState.onEnter();
 	}
 

@@ -5,7 +5,6 @@ import sudoku.core.ViewController;
 import sudoku.model.ApplicationSettings;
 import sudoku.state.model.ApplicationModelState;
 import sudoku.view.settings.ColorSettingsView;
-import sudoku.view.sidebar.ColorSelectionPane;
 import sudoku.view.util.ColorUtils;
 
 /**
@@ -48,8 +47,7 @@ public class SaveColorSettingsState extends AbstractSaveSettingsState {
 		// Update the view in case the old colors were visible somewhere.
 		final Color newColor = ColorUtils.getColors().get(0);
 		this.sudokuPuzzleStyle.setActiveColor(newColor);
-		final ColorSelectionPane colorSelectionPane = ViewController.getInstance().getColorSelectionPane();
-		colorSelectionPane.setLabelBackgroundColor(newColor);
+		// TODO - anything needed for color combo buttons?
 
 		ViewController.getInstance().getRootPane().updateColorSettings();
 		this.reapplyActiveFilter();

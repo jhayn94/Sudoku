@@ -1,7 +1,6 @@
 package sudoku.core;
 
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import sudoku.model.SudokuPuzzleValues;
@@ -17,7 +16,7 @@ import sudoku.view.settings.DifficultySettingsView;
 import sudoku.view.settings.MiscellaneousSettingsView;
 import sudoku.view.settings.PuzzleGenerationSettingsView;
 import sudoku.view.settings.SolverSettingsView;
-import sudoku.view.sidebar.ColorSelectionPane;
+import sudoku.view.sidebar.ControlHelperPane;
 import sudoku.view.sidebar.FilterButtonPane;
 import sudoku.view.sidebar.PuzzleStatsPane;
 
@@ -49,9 +48,7 @@ public class ViewController {
 
 	private final SudokuPuzzleCell[][] sudokuPuzzleCells;
 
-	private Label activeColoringCandidateLabel;
-
-	private ColorSelectionPane colorSelectionPane;
+	private ControlHelperPane controlHelperPane;
 
 	private HintButtonPane hintButtonPane;
 
@@ -81,8 +78,7 @@ public class ViewController {
 		this.filterButtonPane = null;
 		this.sudokuPuzzleView = null;
 		this.sudokuPuzzleCells = new SudokuPuzzleCell[SudokuPuzzleValues.CELLS_PER_HOUSE][SudokuPuzzleValues.CELLS_PER_HOUSE];
-		this.activeColoringCandidateLabel = null;
-		this.colorSelectionPane = null;
+		this.controlHelperPane = null;
 		this.puzzleStatsPane = null;
 		this.hintButtonPane = null;
 		this.hintTextArea = null;
@@ -117,12 +113,8 @@ public class ViewController {
 		return this.sudokuPuzzleCells[col][row];
 	}
 
-	public Label getActiveColoringCandidateLabel() {
-		return this.activeColoringCandidateLabel;
-	}
-
-	public ColorSelectionPane getColorSelectionPane() {
-		return this.colorSelectionPane;
+	public ControlHelperPane getControlHelperPane() {
+		return this.controlHelperPane;
 	}
 
 	public HintButtonPane getHintButtonPane() {
@@ -209,12 +201,8 @@ public class ViewController {
 		this.sudokuPuzzleCells[col][row] = sudokuPuzzleCell;
 	}
 
-	public void setActiveColoringCandidateLabel(final Label activeColoringCandidateLabel) {
-		this.activeColoringCandidateLabel = activeColoringCandidateLabel;
-	}
-
-	public void setColorSelectionPane(final ColorSelectionPane colorSelectionPane) {
-		this.colorSelectionPane = colorSelectionPane;
+	public void setControlHelperPane(final ControlHelperPane controlHelperPane) {
+		this.controlHelperPane = controlHelperPane;
 	}
 
 	public void setUndoMenuItem(final MenuItem undoMenuItem) {

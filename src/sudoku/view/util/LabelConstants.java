@@ -187,6 +187,9 @@ public class LabelConstants {
 
 	public static final String PUZZLE_SOLVED = "Puzzle is already solved!";
 
+	// For the reset button.
+	public static final String R = "R";
+
 	private LabelConstants() {
 		// Private constructor to prevent instantiation.
 	}

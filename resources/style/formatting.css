@@ -94,7 +94,6 @@
 }
 
 .sudoku-selected-cell {
-	/** For some reason, the effect is more noticeable / pleasant as a border than the background color. */
 	-fx-border-color: -sudoku-color-bark;
 	-fx-border-width: 3;
 	-fx-background-color: rgba(0, 0, 0, .1);
@@ -103,87 +102,6 @@
 .sudoku-active-filter-cell {
 	-fx-border-color: -sudoku-color-bark;
 	-fx-background-color: -sudoku-color-selected;
-}
-
-/* These define colors used for the cell / candidate coloring. */
-.sudoku-puzzle-color1a-entity {
-	-fx-background-color: -sudoku-color-coloring1a
-}
-
-.sudoku-puzzle-color1b-entity {
-	-fx-background-color: -sudoku-color-coloring1b;
-}
-
-.sudoku-puzzle-color2a-entity {
-	-fx-background-color: -sudoku-color-coloring2a;
-}
-
-.sudoku-puzzle-color2b-entity {
-	-fx-background-color: -sudoku-color-coloring2b;
-}
-
-.sudoku-puzzle-color3a-entity {
-	-fx-background-color: -sudoku-color-coloring3a;
-}
-
-.sudoku-puzzle-color3b-entity {
-	-fx-background-color: -sudoku-color-coloring3b;
-}
-
-.sudoku-puzzle-color4a-entity {
-	-fx-background-color: -sudoku-color-coloring4a;
-}
-
-.sudoku-puzzle-color4b-entity {
-	-fx-background-color: -sudoku-color-coloring4b;
-}
-
-.sudoku-puzzle-color5a-entity {
-	-fx-background-color: -sudoku-color-coloring5a;
-}
-
-.sudoku-puzzle-color5b-entity {
-	-fx-background-color: -sudoku-color-coloring5b;
-}
-
-.sudoku-puzzle-color-primary-hint-candidate {
-	-fx-background-color: -sudoku-color-hint-primary;
-}
-
-.sudoku-puzzle-color-secondary-hint-candidate {
-	-fx-background-color: -sudoku-color-hint-secondary;
-}
-
-.sudoku-puzzle-color-tertiary-hint-candidate {
-	-fx-background-color: -sudoku-color-hint-tertiary;
-}
-
-.sudoku-puzzle-color-quaternary-hint-candidate {
-	-fx-background-color: -sudoku-color-hint-quaternary;
-}
-
-.sudoku-puzzle-color-quinary-hint-candidate {
-	-fx-background-color: -sudoku-color-hint-quinary;
-}
-
-.sudoku-puzzle-color-deletable-hint-candidate {
-	-fx-background-color: -sudoku-color-hint-deletable;
-}
-
-.-sudoku-puzzle-color-hint-als1 {
-	-fx-background-color: -sudoku-color-hint-als1;
-}
-
-.-sudoku-puzzle-color-hint-als2 {
-	-fx-background-color: -sudoku-color-hint-als2;
-}
-
-.-sudoku-puzzle-color-hint-als3 {
-	-fx-background-color: -sudoku-color-hint-als3;
-}
-
-.-sudoku-puzzle-color-hint-als4 {
-	-fx-background-color: -sudoku-color-hint-als4;
 }
 
 /* These are used to set extra borders on the cells that are on the edges of blocks. 
@@ -227,17 +145,19 @@
 	-fx-font-size: 14pt;
 	-fx-border-color: -sudoku-color-bark;
 	-fx-border-width: 2;
-	-fx-background-radius: 3;
+	-fx-background-radius: 5;
 	-fx-border-radius: 3;
+	/** Without this, the background color leaks out of the border a little bit. */
+	-fx-border-insets: 0 0 -1 0, 0 0 0 0;
 }
 
-/** Used for when a button is pressed and needs to retain a state. This must be after .button to override it. */
-.sudoku-button-selected {
+/** Used for when a filter button is pressed and needs to retain a state. This must be after .button to override it. */
+.sudoku-combo-button-selected {
 	-fx-background-color: -sudoku-color-stone-blue;
 	-fx-text-fill: -sudoku-color-parchment;
 }
 
-.sudoku-button-unselected {
+.sudoku-combo-button-unselected {
 	-fx-background-color: -sudoku-color-parchment;
 	-fx-text-fill: -sudoku-color-bark;
 }
@@ -383,4 +303,90 @@
 .scroll-pane,
 .scroll-pane > .corner {
     -fx-background-color: -sudoku-color-pebble;
+}
+
+
+/* These define colors used for the cell / candidate coloring. */
+.sudoku-puzzle-color1a-entity {
+	-fx-background-color: -sudoku-color-coloring1a
+}
+
+.sudoku-puzzle-color1b-entity {
+	-fx-background-color: -sudoku-color-coloring1b;
+}
+
+.sudoku-puzzle-color2a-entity {
+	-fx-background-color: -sudoku-color-coloring2a;
+}
+
+.sudoku-puzzle-color2b-entity {
+	-fx-background-color: -sudoku-color-coloring2b;
+}
+
+.sudoku-puzzle-color3a-entity {
+	-fx-background-color: -sudoku-color-coloring3a;
+}
+
+.sudoku-puzzle-color3b-entity {
+	-fx-background-color: -sudoku-color-coloring3b;
+}
+
+.sudoku-puzzle-color4a-entity {
+	-fx-background-color: -sudoku-color-coloring4a;
+}
+
+.sudoku-puzzle-color4b-entity {
+	-fx-background-color: -sudoku-color-coloring4b;
+}
+
+.sudoku-puzzle-color5a-entity {
+	-fx-background-color: -sudoku-color-coloring5a;
+}
+
+.sudoku-puzzle-color5b-entity {
+	-fx-background-color: -sudoku-color-coloring5b;
+}
+
+.sudoku-puzzle-color-primary-hint-candidate {
+	-fx-background-color: -sudoku-color-hint-primary;
+}
+
+.sudoku-puzzle-color-secondary-hint-candidate {
+	-fx-background-color: -sudoku-color-hint-secondary;
+}
+
+.sudoku-puzzle-color-tertiary-hint-candidate {
+	-fx-background-color: -sudoku-color-hint-tertiary;
+}
+
+.sudoku-puzzle-color-quaternary-hint-candidate {
+	-fx-background-color: -sudoku-color-hint-quaternary;
+}
+
+.sudoku-puzzle-color-quinary-hint-candidate {
+	-fx-background-color: -sudoku-color-hint-quinary;
+}
+
+.sudoku-puzzle-color-deletable-hint-candidate {
+	-fx-background-color: -sudoku-color-hint-deletable;
+}
+
+.-sudoku-puzzle-color-hint-als1 {
+	-fx-background-color: -sudoku-color-hint-als1;
+}
+
+.-sudoku-puzzle-color-hint-als2 {
+	-fx-background-color: -sudoku-color-hint-als2;
+}
+
+.-sudoku-puzzle-color-hint-als3 {
+	-fx-background-color: -sudoku-color-hint-als3;
+}
+
+.-sudoku-puzzle-color-hint-als4 {
+	-fx-background-color: -sudoku-color-hint-als4;
+}
+
+.sudoku-color-button-selected {
+	-fx-border-width: 0;
 }

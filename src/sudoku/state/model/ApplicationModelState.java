@@ -37,9 +37,11 @@ import sudoku.view.util.MouseMode;
  */
 public class ApplicationModelState {
 
-	protected static final String SUDOKU_BUTTON_SELECTED_CSS_CLASS = "sudoku-button-selected";
+	protected static final String SELECTED_COLOR_BUTTON_CSS_CLASS = "sudoku-color-button-selected";
 
-	protected static final String SUDOKU_BUTTON_UNSELECTED_CSS_CLASS = "sudoku-button-unselected";
+	protected static final String SUDOKU_COMBO_BUTTON_SELECTED_CSS_CLASS = "sudoku-combo-button-selected";
+
+	protected static final String SUDOKU_COMBO_BUTTON_UNSELECTED_CSS_CLASS = "sudoku-combo-button-unselected";
 
 	protected static final String ACTIVE_FILTER_CELL_CSS_CLASS = "sudoku-active-filter-cell";
 
@@ -440,12 +442,12 @@ public class ApplicationModelState {
 		// Since we iterate over every button every time, the classes are fully
 		// cleared to avoid duplicate classes. This is easier than tracking when to
 		// remove each CSS class separately.
-		styleClass.remove(SUDOKU_BUTTON_SELECTED_CSS_CLASS);
-		styleClass.remove(SUDOKU_BUTTON_UNSELECTED_CSS_CLASS);
+		styleClass.remove(SUDOKU_COMBO_BUTTON_SELECTED_CSS_CLASS);
+		styleClass.remove(SUDOKU_COMBO_BUTTON_UNSELECTED_CSS_CLASS);
 		if (!this.shouldSetFilterButtonSelected(newCellFilter, button)) {
-			styleClass.add(SUDOKU_BUTTON_UNSELECTED_CSS_CLASS);
+			styleClass.add(SUDOKU_COMBO_BUTTON_UNSELECTED_CSS_CLASS);
 		} else {
-			styleClass.add(SUDOKU_BUTTON_SELECTED_CSS_CLASS);
+			styleClass.add(SUDOKU_COMBO_BUTTON_SELECTED_CSS_CLASS);
 		}
 	}
 

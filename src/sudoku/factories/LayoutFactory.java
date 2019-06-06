@@ -27,11 +27,9 @@ import sudoku.view.settings.DifficultySettingsView;
 import sudoku.view.settings.MiscellaneousSettingsView;
 import sudoku.view.settings.PuzzleGenerationSettingsView;
 import sudoku.view.settings.SolverSettingsView;
-import sudoku.view.sidebar.CandidateSelectionPane;
-import sudoku.view.sidebar.ColorSelectionPane;
+import sudoku.view.sidebar.ControlHelperPane;
 import sudoku.view.sidebar.FilterButtonPane;
 import sudoku.view.sidebar.MouseModePane;
-import sudoku.view.sidebar.MouseToolsPane;
 import sudoku.view.sidebar.PuzzleStatsPane;
 import sudoku.view.util.ResourceConstants;
 import sudoku.view.util.ShadowRectangle;
@@ -108,18 +106,10 @@ public class LayoutFactory {
 		return new MouseModePane();
 	}
 
-	public MouseToolsPane createMouseToolsPane() {
-		return new MouseToolsPane();
-	}
-
-	public CandidateSelectionPane createColorCandidateSelectionPane() {
-		return new CandidateSelectionPane();
-	}
-
-	public ColorSelectionPane createColorSelectionPane() {
-		final ColorSelectionPane colorSelectionPane = new ColorSelectionPane();
-		ViewController.getInstance().setColorSelectionPane(colorSelectionPane);
-		return colorSelectionPane;
+	public ControlHelperPane createControlHelperPane() {
+		final ControlHelperPane controlHelperPane = new ControlHelperPane();
+		ViewController.getInstance().setControlHelperPane(controlHelperPane);
+		return controlHelperPane;
 	}
 
 	public PuzzleStatsPane createPuzzleStatsPane() {

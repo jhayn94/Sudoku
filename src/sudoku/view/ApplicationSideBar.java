@@ -7,7 +7,7 @@ import javafx.scene.layout.VBox;
 import sudoku.factories.LayoutFactory;
 import sudoku.view.sidebar.FilterButtonPane;
 import sudoku.view.sidebar.MouseModePane;
-import sudoku.view.sidebar.MouseToolsPane;
+import sudoku.view.sidebar.ControlHelperPane;
 
 /**
  * This class corresponds to the view on the left side of the screen. It
@@ -34,7 +34,7 @@ public class ApplicationSideBar extends VBox {
 	private void createChildElements() {
 		final FilterButtonPane filterButtonPane = LayoutFactory.getInstance().createFilterButtonPane();
 		final MouseModePane mouseModePane = LayoutFactory.getInstance().createMouseModePane();
-		final MouseToolsPane mouseToolsPane = LayoutFactory.getInstance().createMouseToolsPane();
+		final ControlHelperPane mouseToolsPane = LayoutFactory.getInstance().createControlHelperPane();
 		final ObservableList<Node> children = this.getChildren();
 		children.addAll(filterButtonPane, mouseModePane, mouseToolsPane);
 	}
