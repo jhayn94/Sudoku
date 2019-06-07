@@ -193,7 +193,8 @@ public class SolverSettingsView extends ModalDialog {
 		this.moveStepUpButton.setMaxWidth(BUTTON_WIDTH);
 		this.moveStepUpButton.setMinWidth(BUTTON_WIDTH);
 		this.moveStepUpButton.setFocusTraversable(false);
-		// Index 0 is always selected by default, so this should be disabled because you
+		// Index 0 is always selected by default, so this should be disabled because
+		// you
 		// can't move this step config up.
 		this.moveStepUpButton.setDisable(true);
 		this.moveStepUpButton.setOnAction(event -> {
@@ -252,7 +253,6 @@ public class SolverSettingsView extends ModalDialog {
 		final int ratingForStep = Integer.parseInt(ratingText == null || ratingText.isEmpty() ? "1" : ratingText);
 		stepConfig.setBaseScore(ratingForStep);
 		stepConfig.setEnabled(this.enabledCheckbox.isSelected());
-		this.updateListCellStyleClass(oldValue, this.listCells.get(oldValue));
 	}
 
 	private void updateListCellStyleClass(final StepConfig stepConfig, final ListCell<StepConfig> listCellForStep) {
@@ -279,7 +279,6 @@ public class SolverSettingsView extends ModalDialog {
 		this.enabledCheckbox.selectedProperty().addListener(this.enabledCheckboxChangeListener);
 		final int baseScore = selectedStepConfig.getBaseScore();
 		this.ratingTextField.setText(String.valueOf(baseScore));
-		this.updateListCellStyleClass(newValue, this.listCells.get(newValue));
 	}
 
 	private void resetViewToDefaults() {
@@ -293,7 +292,6 @@ public class SolverSettingsView extends ModalDialog {
 		final StepConfig selectedItem = this.stepConfigsListView.getSelectionModel().getSelectedItem();
 		this.updateSettingsWithSelectedStep(selectedItem);
 		this.updateListCellStyleClass(selectedItem, this.listCells.get(selectedItem));
-		// TODO - toggle active / inactive style.
 	}
 
 	private ListCell<StepConfig> getListCellFactory() {
@@ -315,17 +313,18 @@ public class SolverSettingsView extends ModalDialog {
 
 	private ChangeListener<StepConfig> onChangeListViewSelectionListener() {
 		return (observable, oldValue, newValue) -> {
-			// If the selection changed because the list was cleared, there is nothing to
+			// If the selection changed because the list was cleared, there is nothing
+			// to
 			// do.
 			if (this.stepConfigs.contains(oldValue) && newValue != null) {
 				this.updateStepFromView(oldValue);
 				this.updateSettingsWithSelectedStep(newValue);
 				this.moveStepDownButton.setDisable(false);
 				this.moveStepUpButton.setDisable(false);
-				final ObservableList<StepConfig> stepConfigs = this.stepConfigsListView.getItems();
-				if (newValue.equals(stepConfigs.get(0))) {
+				final ObservableList<StepConfig> stepConfigsForListView = this.stepConfigsListView.getItems();
+				if (newValue.equals(stepConfigsForListView.get(0))) {
 					this.moveStepUpButton.setDisable(true);
-				} else if (newValue.equals(stepConfigs.get(stepConfigs.size() - 1))) {
+				} else if (newValue.equals(stepConfigsForListView.get(stepConfigsForListView.size() - 1))) {
 					this.moveStepDownButton.setDisable(true);
 				}
 			}
@@ -333,8 +332,9 @@ public class SolverSettingsView extends ModalDialog {
 	}
 
 	private ChangeListener<Boolean> getEnabledCheckboxChangeListener() {
-		return (ChangeListener<Boolean>) (observable, oldValue, newValue) -> {
-			// If the changed occurred because the list was cleared, there is nothing to
+		return (observable, oldValue, newValue) -> {
+			// If the changed occurred because the list was cleared, there is nothing
+			// to
 			// do.
 			if (!this.stepConfigsListView.getItems().isEmpty()) {
 				final StepConfig stepConfig = this.stepConfigsListView.getSelectionModel().getSelectedItem();
@@ -345,14 +345,13 @@ public class SolverSettingsView extends ModalDialog {
 	}
 
 	private UnaryOperator<Change> getIntegerOnlyInputFilter() {
-		final UnaryOperator<Change> integerFilter = change -> {
+		return change -> {
 			final String newText = change.getControlNewText();
 			if (newText.matches(DIGITS_ONLY_REGEX)) {
 				return change;
 			}
 			return null;
 		};
-		return integerFilter;
 	}
 
 	/** Increments or decrements the index for the selected list item. */
