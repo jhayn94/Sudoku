@@ -47,13 +47,16 @@ public class FillInSinglesPuzzleState extends ApplicationModelState {
 
 	private void applyChangesForCell(final String updatedPuzzleString, final int row, final int col) {
 		final int linearIndex = row * SudokuPuzzleValues.CELLS_PER_HOUSE + col;
-		final int newFixedDigit = Integer.parseInt(updatedPuzzleString.substring(linearIndex, linearIndex + 1));
-		this.sudokuPuzzleValues.setCellFixedDigit(row, col, newFixedDigit);
-		final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
-		sudokuPuzzleCell.setCandidatesVisible(false);
-		sudokuPuzzleCell.setFixedDigit(String.valueOf(newFixedDigit));
-		this.updateFixedCellTypeCssClass(sudokuPuzzleCell, FIXED_CELL_CSS_CLASS);
-		this.removeImpermissibleCandidates(sudokuPuzzleCell);
+		final String valueForCell = updatedPuzzleString.substring(linearIndex, linearIndex + 1);
+		if (!".".equals(valueForCell) && !"0".equals(valueForCell)) {
+			final int newFixedDigit = Integer.parseInt(valueForCell);
+			this.sudokuPuzzleValues.setCellFixedDigit(row, col, newFixedDigit);
+			final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
+			sudokuPuzzleCell.setCandidatesVisible(false);
+			sudokuPuzzleCell.setFixedDigit(String.valueOf(newFixedDigit));
+			this.updateFixedCellTypeCssClass(sudokuPuzzleCell, FIXED_CELL_CSS_CLASS);
+			this.removeImpermissibleCandidates(sudokuPuzzleCell);
+		}
 	}
 
 }

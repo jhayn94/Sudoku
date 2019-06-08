@@ -15,7 +15,8 @@ public class MouseModeChangedState extends ResetFromModelState {
 
 	@Override
 	public void onEnter() {
-		if (MouseMode.SELECT_CELLS != this.mouseMode) {
+		if (MouseMode.SELECT_CELLS != this.mouseMode && this.sudokuPuzzleStyle.getSelectedCellRow() != -1
+				&& this.sudokuPuzzleStyle.getSelectedCellCol() != -1) {
 			this.getSelectedCell().setIsSelected(false);
 		}
 	}

@@ -214,13 +214,14 @@ public class ApplicationModelState {
 		ViewController.getInstance().getPuzzleStatsPane().getDifficultyTextField().setText(difficultyForPuzzle.getLabel());
 		final int scoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues, true);
 		ViewController.getInstance().getPuzzleStatsPane().getRatingTextField().setText(String.valueOf(scoreForPuzzle));
-		if (ApplicationSettings.getInstance().isShowPuzzleProgress()) {
-			final int remainingScoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues, false);
-			ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField()
-					.setText(String.valueOf(remainingScoreForPuzzle));
-		} else {
-			ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField().setText(Strings.EMPTY);
-		}
+//		if (ApplicationSettings.getInstance().isShowPuzzleProgress()) {
+//			final int remainingScoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues, false);
+//			ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField()
+//					.setText(String.valueOf(remainingScoreForPuzzle));
+//		} else {
+//			ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField().setText(Strings.EMPTY);
+//		}
+		this.updateRemainingScoreForPuzzle();
 	}
 
 	/** Updates only the remaining score for the puzzle in the view. */

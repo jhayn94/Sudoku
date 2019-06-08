@@ -26,6 +26,7 @@ public class UnlockGivenCellsState extends ApplicationModelState {
 		this.applicationStateHistory.clearUndoStack();
 		this.applicationStateHistory.clearRedoStack();
 		this.updateUndoRedoButtons();
+		this.sudokuPuzzleValues.setHasGivens(false);
 		this.setFilledCellsAsNotGiven();
 
 		final PuzzleStatsPane puzzleStatsPane = ViewController.getInstance().getPuzzleStatsPane();

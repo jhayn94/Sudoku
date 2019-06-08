@@ -123,7 +123,7 @@ public class FileMenu extends Menu {
 			final StepConfig stepConfig = SolutionType.getStepConfig(solutionType);
 			return stepConfig != null && stepConfig.isEnabled();
 		}
-		return false;
+		return true;
 	}
 
 	private boolean isOverScoreLimit() {

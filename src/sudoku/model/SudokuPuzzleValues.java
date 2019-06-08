@@ -104,11 +104,13 @@ public class SudokuPuzzleValues {
 	}
 
 	public void setGivenCellDigit(final int row, final int col, final int given) {
-		this.hasGivens = true;
+		if (given != 0) {
+			this.hasGivens = true;
+			// A given cell is also fixed by definition.
+			this.fixedCells[col][row] = given;
+		}
 		this.candidatesForCells[col][row].clear();
 		this.givenCells[col][row] = given;
-		// A given cell is also fixed by definition.
-		this.fixedCells[col][row] = given;
 	}
 
 	public void setCellFixedDigit(final int row, final int col, final int fixedDigit) {
@@ -170,5 +172,10 @@ public class SudokuPuzzleValues {
 
 	public boolean hasGivens() {
 		return this.hasGivens;
+	}
+
+	// Used to reset the puzzle to a non-playing state.
+	public void setHasGivens(final boolean hasGivens) {
+		this.hasGivens = hasGivens;
 	}
 }
