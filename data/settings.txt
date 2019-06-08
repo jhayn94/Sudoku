@@ -1,5 +1,5 @@
 difficulty=VERY_HARD
-mustContainStepWithName=
+mustContainStepWithName=Uniqueness Test 2
 maxScoreForEASY=800
 maxScoreForMEDIUM=1000
 maxScoreForHARD=1600

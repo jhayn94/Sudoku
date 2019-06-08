@@ -134,7 +134,7 @@ public class FileMenu extends Menu {
 				.orElseGet(() -> null);
 		final Difficulty difficulty = ApplicationSettings.getInstance().getDifficulty();
 		return requiredStep != null && requiredStep.getBaseScore() >= ApplicationSettings.getInstance()
-				.getMaxScoreForDifficulty(difficulty.getLabel());
+				.getMaxScoreForDifficulty(difficulty.getLabel().replace(" ", "_"));
 	}
 
 	private void createNewPuzzle(final WaitingDialog waitingDialog) {
