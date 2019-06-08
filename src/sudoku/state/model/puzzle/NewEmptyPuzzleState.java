@@ -3,6 +3,7 @@ package sudoku.state.model.puzzle;
 import org.apache.logging.log4j.util.Strings;
 
 import sudoku.core.ViewController;
+import sudoku.factories.ModelFactory;
 import sudoku.model.ApplicationSettings;
 import sudoku.model.SudokuPuzzleValues;
 import sudoku.state.model.ApplicationModelState;
@@ -28,7 +29,7 @@ public class NewEmptyPuzzleState extends ApplicationModelState {
 		this.resetAllFilters();
 		this.updateFilterButtonStates(Strings.EMPTY);
 		this.resetAllColorStates();
-		this.sudokuPuzzleValues = new SudokuPuzzleValues();
+		this.sudokuPuzzleValues = ModelFactory.getInstance().createSudokuPuzzleValues();
 		this.updateCellsForEmptyPuzzle();
 
 		ViewController.getInstance().getPuzzleStatsPane().getDifficultyTextField().setText(Strings.EMPTY);

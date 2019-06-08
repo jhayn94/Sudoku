@@ -19,6 +19,10 @@ public class ModelFactory {
 		return modelFactoryInstance;
 	}
 
+	public SudokuPuzzleValues createSudokuPuzzleValues(final String initialValues) {
+		return new SudokuPuzzleValues(initialValues);
+	}
+
 	public SudokuPuzzleValues createSudokuPuzzleValues() {
 		return new SudokuPuzzleValues();
 	}

@@ -11,8 +11,8 @@ import sudoku.view.puzzle.SudokuPuzzleCell;
 
 /**
  * This class contains methods to reset the application according to the current
- * sudoku puzzle set. This is used mainly as a parent class for undo + redo
- * states.
+ * sudoku puzzle set. This is used as a parent class for many actions which
+ * drastically or dynamically change the puzzle's state.
  */
 public abstract class ResetFromModelState extends ApplicationModelState {
 

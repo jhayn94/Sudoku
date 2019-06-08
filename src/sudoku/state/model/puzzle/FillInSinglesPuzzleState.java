@@ -23,8 +23,7 @@ public class FillInSinglesPuzzleState extends ApplicationModelState {
 
 	@Override
 	public void onEnter() {
-		final String updatedPuzzleString = HodokuFacade.getInstance()
-				.solveAllSingles(this.sudokuPuzzleValues.toString(false));
+		final String updatedPuzzleString = HodokuFacade.getInstance().solveAllSingles(this.sudokuPuzzleValues);
 
 		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
 			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {

@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.Strings;
 
 import sudoku.core.ViewController;
-import sudoku.model.SudokuPuzzleValues;
+import sudoku.factories.ModelFactory;
 import sudoku.state.model.ApplicationModelState;
 import sudoku.state.model.ResetFromModelState;
 import sudoku.view.hint.HintTextArea;
@@ -37,7 +37,7 @@ public class PastePuzzleState extends ResetFromModelState {
 		try {
 			final String puzzleString = (String) clipboard.getData(DataFlavor.stringFlavor);
 			if (puzzleString.matches(SUDOKU_PUZZLE_REGEX)) {
-				this.sudokuPuzzleValues = new SudokuPuzzleValues(puzzleString);
+				this.sudokuPuzzleValues = ModelFactory.getInstance().createSudokuPuzzleValues(puzzleString);
 
 				this.resetApplicationFromPuzzleState();
 				this.resetAllColorStates();

@@ -76,9 +76,8 @@ public class HodokuFacade {
 	 * Solves all singles which can be solved at the current state, or as a result
 	 * of placing singles from this step. Returns the updated sudoku string.
 	 */
-	public String solveAllSingles(final String sudokuString) {
-		final Sudoku2 tempSudoku = new Sudoku2();
-		tempSudoku.setSudoku(sudokuString, true);
+	public String solveAllSingles(final SudokuPuzzleValues sudokuPuzzleValues) {
+		final Sudoku2 tempSudoku = this.convertSudokuPuzzleValuesToSudoku2(sudokuPuzzleValues, false);
 		final SudokuSolver solver = SudokuSolverFactory.getDefaultSolverInstance();
 		solver.solve(Options.getInstance().getDifficultyLevel(5), tempSudoku, false, true,
 				Options.getInstance().solverSteps, Options.getInstance().getGameMode());
@@ -173,6 +172,17 @@ public class HodokuFacade {
 			sudokuSolver.doStep(tempSudoku, solutionStep);
 		}
 		return this.buildStringRepresentation(tempSudoku);
+	}
+
+	/**
+	 * Performs the given step on the given puzzle. Returns the result as a string
+	 * representation of what the new puzzle should be.
+	 */
+	public String doSingleStep(final SudokuPuzzleValues sudokuPuzzleValues, final SolutionStep step) {
+		final Sudoku2 sudoku = this.convertSudokuPuzzleValuesToSudoku2(sudokuPuzzleValues, false);
+		final SudokuSolver sudokuSolver = new SudokuSolver();
+		sudokuSolver.doStep(sudoku, step);
+		return this.buildStringRepresentation(sudoku);
 	}
 
 	private String buildStringRepresentation(final Sudoku2 tempSudoku) {

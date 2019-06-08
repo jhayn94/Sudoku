@@ -53,39 +53,9 @@ public class SudokuPuzzleValues {
 		this();
 		this.hasGivens = true;
 		if (initialGivens.contains(LEFT_BRACKET)) {
-			this.initializePuzzleWithProgress(initialGivens);
+			this.updateCellAndCandidateValues(initialGivens, true);
 		} else {
-			this.initializePuzzleWithNoProgress(initialGivens);
-		}
-	}
-
-	private void initializePuzzleWithProgress(final String initialGivens) {
-		this.initializePuzzleWithNoProgress(initialGivens);
-		final String[] candidateStrings = initialGivens.split("\\[");
-		// Skip 0th index since it is just the regular cell givens.
-		for (int index = 1; index < candidateStrings.length; index++) {
-			final String candidatesStringForIndex = candidateStrings[index];
-			final int row = Integer.valueOf(candidatesStringForIndex.charAt(1) - '0');
-			final int col = Integer.valueOf(candidatesStringForIndex.charAt(3) - '0');
-			final String candidates = candidatesStringForIndex.substring(5);
-			for (int candidate = 1; candidate <= CELLS_PER_HOUSE; candidate++) {
-				if (!candidates.contains(String.valueOf(candidate))) {
-					this.candidatesForCells[col][row].remove((Object) candidate);
-				}
-			}
-		}
-	}
-
-	private void initializePuzzleWithNoProgress(final String initialGivens) {
-		for (int row = 0; row < CELLS_PER_HOUSE; row++) {
-			for (int col = 0; col < CELLS_PER_HOUSE; col++) {
-				final int position = row * CELLS_PER_HOUSE + col;
-				final char charAtPosition = initialGivens.charAt(position);
-				if (Character.isDigit(charAtPosition)) {
-					this.givenCells[col][row] = Integer.valueOf(charAtPosition) - '0';
-					this.fixedCells[col][row] = Integer.valueOf(charAtPosition) - '0';
-				}
-			}
+			this.updateCellValues(initialGivens, true);
 		}
 	}
 
@@ -168,6 +138,58 @@ public class SudokuPuzzleValues {
 			}
 		}
 		return sb.toString();
+	}
+
+	/**
+	 * Updates cell and candidate values to match the values in the given
+	 * puzzleString.
+	 *
+	 * @param puzzleString - a string, with 81 characters for the cells first. 1-9
+	 *                     for digits, and 0 or . for non-filled cells. Then,
+	 *                     additional candidates may be specified in the format of
+	 *                     [rXcY=Z], where X and Y are a row and column, and Z is
+	 *                     the possible candidates.
+	 * @param setGivens    - true if givens should be set from the puzzleString,
+	 *                     false otherwise.
+	 */
+	public void updateCellAndCandidateValues(final String puzzleString, final boolean setGivens) {
+		this.updateCellValues(puzzleString, setGivens);
+		final String[] candidateStrings = puzzleString.split("\\[");
+		// Skip 0th index since it is just the regular cell givens.
+		for (int index = 1; index < candidateStrings.length; index++) {
+			final String candidatesStringForIndex = candidateStrings[index];
+			final int row = Integer.valueOf(candidatesStringForIndex.charAt(1) - '0');
+			final int col = Integer.valueOf(candidatesStringForIndex.charAt(3) - '0');
+			final String candidates = candidatesStringForIndex.substring(5);
+			for (int candidate = 1; candidate <= CELLS_PER_HOUSE; candidate++) {
+				if (!candidates.contains(String.valueOf(candidate))) {
+					this.candidatesForCells[col][row].remove((Object) candidate);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Updates cell values to match the values in the given puzzleString.
+	 *
+	 * @param puzzleString - a 81 digit string, with 1-9 for digits, and 0 or . for
+	 *                     non-filled cells.
+	 * @param setGivens    - true if givens should be set from the puzzleString,
+	 *                     false otherwise.
+	 */
+	public void updateCellValues(final String puzzleString, final boolean setGivens) {
+		for (int row = 0; row < CELLS_PER_HOUSE; row++) {
+			for (int col = 0; col < CELLS_PER_HOUSE; col++) {
+				final int position = row * CELLS_PER_HOUSE + col;
+				final char charAtPosition = puzzleString.charAt(position);
+				if (Character.isDigit(charAtPosition)) {
+					if (setGivens) {
+						this.givenCells[col][row] = Integer.valueOf(charAtPosition) - '0';
+					}
+					this.fixedCells[col][row] = Integer.valueOf(charAtPosition) - '0';
+				}
+			}
+		}
 	}
 
 	public boolean hasGivens() {

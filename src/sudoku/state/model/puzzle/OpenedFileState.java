@@ -12,6 +12,7 @@ import org.apache.logging.log4j.util.Strings;
 
 import sudoku.core.HodokuFacade;
 import sudoku.core.ViewController;
+import sudoku.factories.ModelFactory;
 import sudoku.model.ApplicationSettings;
 import sudoku.model.SudokuPuzzleValues;
 import sudoku.state.model.ApplicationModelState;
@@ -65,7 +66,7 @@ public class OpenedFileState extends ApplicationModelState {
 		this.resetAllFilters();
 		this.updateFilterButtonStates(Strings.EMPTY);
 		this.resetAllColorStates();
-		this.sudokuPuzzleValues = new SudokuPuzzleValues(this.givens);
+		this.sudokuPuzzleValues = ModelFactory.getInstance().createSudokuPuzzleValues(this.givens);
 		this.updateGivenCells();
 		this.updateOtherSetCells();
 		this.updateCandidates();

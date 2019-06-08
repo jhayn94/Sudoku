@@ -3,7 +3,7 @@ package sudoku.state.model.puzzle;
 import org.apache.logging.log4j.util.Strings;
 
 import sudoku.core.ViewController;
-import sudoku.model.SudokuPuzzleValues;
+import sudoku.factories.ModelFactory;
 import sudoku.state.model.ApplicationModelState;
 import sudoku.state.model.ResetFromModelState;
 import sudoku.view.hint.HintTextArea;
@@ -31,7 +31,7 @@ public class NewRandomPuzzleState extends ResetFromModelState {
 		this.resetAllFilters();
 		this.updateFilterButtonStates(Strings.EMPTY);
 		this.resetAllColorStates();
-		this.sudokuPuzzleValues = new SudokuPuzzleValues(this.puzzleString);
+		this.sudokuPuzzleValues = ModelFactory.getInstance().createSudokuPuzzleValues(this.puzzleString);
 		this.resetApplicationFromPuzzleState();
 		this.updateAllPuzzleStatsForNewPuzzle();
 		final HintTextArea hintTextArea = ViewController.getInstance().getHintTextArea();
