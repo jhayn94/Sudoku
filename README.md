@@ -93,6 +93,8 @@ With this setting you may require generated sudokus to contain a specific step s
 
 Be aware that certain configurations of this combined with the prior setting can produce impossible constraints on the puzzle generator. For instance, if you set the puzzle difficulty to easy, and then require puzzles to contain Uniqueness Test 1, the generator will not be able to satisfy these requirements. In this case, it will work indefinitely to try and satisfy them. It is suggested you review your configuration if it takes more than several seconds to create a puzzle.
 
+_Note: only enabled steps will appear in this dropdown. If your desired stop is not visible, ensure that is is enabled via the solver settings._
+
 #### 4.1.3 Solve up to Technique:
 Solve up to Technique can only be enabled when a particular solution step is required. For instance, you can set the former setting to “Hidden Triple”. Then, if Solve up to Technique is enabled, the puzzle will be displayed in a state such that a hidden triple can be executed as the first step.
 
