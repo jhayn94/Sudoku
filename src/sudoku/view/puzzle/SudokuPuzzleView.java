@@ -48,14 +48,22 @@ public class SudokuPuzzleView extends GridPane {
 		this.setPadding(new Insets(15));
 		this.setMinWidth(DEFAULT_WIDTH);
 		this.setMaxWidth(DEFAULT_WIDTH);
+		this.setOnKeyPressed(this.onKeyPressed());
 		this.createChildElements();
 	}
 
 	private void createChildElements() {
-		this.setOnKeyPressed(this.onKeyPressed());
-		for (int index = 1; index <= NUM_CELLS_TOTAL; index++) {
-			this.setBorderBasedOnBoxBoundaries(index);
+		this.createCellGridPane();
+	}
 
+	private void createCellGridPane() {
+		for (int index = 1; index <= NUM_CELLS_TOTAL; index++) {
+			// Integer division intentional!
+			final int rowIndex = (index - 1) / 9;
+			final int colIndex = (index - 1) % 9;
+			final SudokuPuzzleCell sudokuPuzzleCell = LayoutFactory.getInstance().createSudokuPuzzleCell(colIndex, rowIndex);
+			this.setBorderBasedOnBoxBoundaries(rowIndex, colIndex, sudokuPuzzleCell);
+			this.add(sudokuPuzzleCell, colIndex, rowIndex);
 		}
 	}
 
@@ -63,12 +71,9 @@ public class SudokuPuzzleView extends GridPane {
 	 * Adds a thicker border for cells which are on the edge of a box. The given
 	 * index is a linearIndex for the whole puzzle (i.e. 0 to 80).
 	 */
-	private void setBorderBasedOnBoxBoundaries(final int index) {
-		// Integer division intentional!
-		final int rowIndex = (index - 1) / 9;
-		final int colIndex = (index - 1) % 9;
-		final SudokuPuzzleCell sudokuPuzzleCell = LayoutFactory.getInstance().createSudokuPuzzleCell(colIndex, rowIndex);
-		this.add(sudokuPuzzleCell, colIndex, rowIndex);
+	private void setBorderBasedOnBoxBoundaries(final int rowIndex, final int colIndex,
+			final SudokuPuzzleCell sudokuPuzzleCell) {
+
 		final ObservableList<String> styleClass = sudokuPuzzleCell.getStyleClass();
 		if (rowIndex % 3 == 0 && colIndex % 3 == 0) {
 			styleClass.add(TOP_LEFT_CELL_CSS_CLASS);
@@ -148,4 +153,5 @@ public class SudokuPuzzleView extends GridPane {
 			this.onPressColoringKey(event, keyCode);
 		}
 	}
+
 }

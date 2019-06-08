@@ -114,7 +114,6 @@ public class ClickedCellState extends ApplicationModelState {
 			}
 		}
 		return -1;
-
 	}
 
 }
