@@ -212,15 +212,15 @@ public class ApplicationModelState {
 		final Difficulty difficultyForPuzzle = HodokuFacade.getInstance().getDifficultyForPuzzle(this.sudokuPuzzleValues,
 				false);
 		ViewController.getInstance().getPuzzleStatsPane().getDifficultyTextField().setText(difficultyForPuzzle.getLabel());
-		final int scoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues, true);
-		ViewController.getInstance().getPuzzleStatsPane().getRatingTextField().setText(String.valueOf(scoreForPuzzle));
-//		if (ApplicationSettings.getInstance().isShowPuzzleProgress()) {
-//			final int remainingScoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues, false);
-//			ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField()
-//					.setText(String.valueOf(remainingScoreForPuzzle));
-//		} else {
-//			ViewController.getInstance().getPuzzleStatsPane().getRemainingRatingTextField().setText(Strings.EMPTY);
-//		}
+
+		final boolean isPuzzleValid = HodokuFacade.getInstance().isPuzzleValid(this.sudokuPuzzleValues);
+		final TextField ratingTextField = ViewController.getInstance().getPuzzleStatsPane().getRatingTextField();
+		if (!isPuzzleValid) {
+			ratingTextField.setText(LabelConstants.INVALID_PUZZLE);
+		} else {
+			final int scoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues, true);
+			ratingTextField.setText(String.valueOf(scoreForPuzzle));
+		}
 		this.updateRemainingScoreForPuzzle();
 	}
 
