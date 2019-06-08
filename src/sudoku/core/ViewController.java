@@ -1,10 +1,14 @@
 package sudoku.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import sudoku.model.SudokuPuzzleValues;
 import sudoku.view.ApplicationRootPane;
+import sudoku.view.hint.HintAnnotation;
 import sudoku.view.hint.HintButtonPane;
 import sudoku.view.hint.HintTextArea;
 import sudoku.view.menu.button.ContextMenuButton;
@@ -72,6 +76,8 @@ public class ViewController {
 
 	private PuzzleStatsPane puzzleStatsPane;
 
+	private final List<HintAnnotation> hintAnnotations;
+
 	private ViewController() {
 		this.stage = null;
 		this.maximizeWindowButton = null;
@@ -91,6 +97,7 @@ public class ViewController {
 		this.difficultySettingsView = null;
 		this.puzzleGenerationSettingsView = null;
 		this.solverSettingsView = null;
+		this.hintAnnotations = new ArrayList<>();
 	}
 
 	public Stage getStage() {
@@ -235,6 +242,14 @@ public class ViewController {
 
 	public void setPuzzleStatsPane(final PuzzleStatsPane puzzleStatsPane) {
 		this.puzzleStatsPane = puzzleStatsPane;
+	}
+
+	public List<HintAnnotation> getHintAnnotations() {
+		return this.hintAnnotations;
+	}
+
+	public void registerHintAnnotation(final HintAnnotation newAnnotation) {
+		this.hintAnnotations.add(newAnnotation);
 	}
 
 }

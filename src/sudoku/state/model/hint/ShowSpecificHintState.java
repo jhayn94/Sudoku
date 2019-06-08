@@ -3,16 +3,15 @@ package sudoku.state.model.hint;
 import java.util.List;
 
 import javafx.collections.ObservableList;
-import javafx.geometry.Bounds;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.shape.Line;
 import sudoku.Chain;
 import sudoku.SolutionType;
 import sudoku.core.HodokuFacade;
 import sudoku.core.ViewController;
+import sudoku.factories.LayoutFactory;
 import sudoku.model.SudokuPuzzleValues;
 import sudoku.state.model.ApplicationModelState;
+import sudoku.view.hint.HintAnnotation;
 import sudoku.view.hint.HintButtonPane;
 import sudoku.view.hint.HintTextArea;
 import sudoku.view.puzzle.SudokuPuzzleCell;
@@ -25,8 +24,6 @@ import sudoku.view.util.LabelConstants;
  * specific hint (i.e. the exact next displayedHint).
  */
 public class ShowSpecificHintState extends ApplicationModelState {
-
-	private static final int COORDINATE_ERROR_OFFSET = 10;
 
 	public ShowSpecificHintState(final ApplicationModelState lastState) {
 		super(lastState, false);
@@ -74,56 +71,26 @@ public class ShowSpecificHintState extends ApplicationModelState {
 			if ((activeChainIndex == -1 || activeChainIndex == chainIndex)
 					&& (!this.displayedHint.getType().isKrakenFish() || activeChainIndex != -1)) {
 				final Chain chain = this.displayedHint.getChains().get(chainIndex);
-				final int[] linkData = chain.getChain();
-				int oldChe = 0;
+				final int[] nodeData = chain.getChain();
+				int oldNodeData = 0;
 				System.out.println(chain);
 				for (int i = chain.getStart(); i < chain.getEnd(); i++) {
-					int che = Math.abs(linkData[i]);
-					final int che1 = Math.abs(linkData[i + 1]);
+					int currentNodeData = Math.abs(nodeData[i]);
+					final int nextNodeData = Math.abs(nodeData[i + 1]);
 					// TODO - what purpose does this code serve?
-					if (linkData[i] > 0 && linkData[i + 1] < 0) {
-						oldChe = che;
+					if (nodeData[i] > 0 && nodeData[i + 1] < 0) {
+						oldNodeData = currentNodeData;
 					}
-					if (linkData[i] == Integer.MIN_VALUE && linkData[i + 1] < 0) {
-						che = oldChe;
+					if (nodeData[i] == Integer.MIN_VALUE && nodeData[i + 1] < 0) {
+						currentNodeData = oldNodeData;
 					}
-					if (linkData[i] < 0 && linkData[i + 1] > 0) {
-						che = oldChe;
+					if (nodeData[i] < 0 && nodeData[i + 1] > 0) {
+						currentNodeData = oldNodeData;
 					}
-
-					final int startCellIndex = Chain.getSCellIndex(che);
-					final int endCellIndex = Chain.getSCellIndex(che1);
-					if (che1 != Integer.MIN_VALUE && startCellIndex != endCellIndex) {
-						final int startRow = startCellIndex / SudokuPuzzleValues.CELLS_PER_HOUSE;
-						final int startCol = startCellIndex % SudokuPuzzleValues.CELLS_PER_HOUSE;
-						final int endRow = endCellIndex / SudokuPuzzleValues.CELLS_PER_HOUSE;
-						final int endCol = endCellIndex % SudokuPuzzleValues.CELLS_PER_HOUSE;
-						final int startCandidate = Chain.getSCandidate(che);
-						final int endCandidate = Chain.getSCandidate(che1);
-						final SudokuPuzzleCell startCell = ViewController.getInstance().getSudokuPuzzleCell(startRow, startCol);
-						final SudokuPuzzleCell endCell = ViewController.getInstance().getSudokuPuzzleCell(endRow, endCol);
-						final Label startCandidateLabel = startCell.getCandidateLabelForDigit(startCandidate);
-						final Label endCandidateLabel = endCell.getCandidateLabelForDigit(endCandidate);
-						final Bounds startBounds = startCandidateLabel.localToScreen(startCandidateLabel.getBoundsInLocal());
-						final Bounds endBounds = endCandidateLabel.localToScreen(endCandidateLabel.getBoundsInLocal());
-						final double startX = (startBounds.getMinX() + startBounds.getMaxX()) / 2.0;
-						final double startY = (startBounds.getMinY() + startBounds.getMaxY()) / 2.0;
-						final double endX = (endBounds.getMinX() + endBounds.getMaxX()) / 2.0;
-						final double endY = (endBounds.getMinY() + endBounds.getMaxY()) / 2.0;
-						// This math was just off by a little bit each time. After awhile of trying to
-						// figure out why, I instead adjusted the end result to line up with the center
-						// of the label. It most likely has something to do with padding or borders.
-						final Line link = new Line(startX - COORDINATE_ERROR_OFFSET, startY - COORDINATE_ERROR_OFFSET,
-								endX - COORDINATE_ERROR_OFFSET, endY - COORDINATE_ERROR_OFFSET);
-						link.setStrokeWidth(3.0);
-						link.getStyleClass().add(ColorUtils.HINT_COLOR_4_CSS_CLASS);
-						System.out.println(startRow + " " + startCol + " " + startCandidate);
-						System.out.println(endRow + " " + endCol + " " + endCandidate);
-						System.out.println(link);
-						if (!Chain.isSStrong(che1)) {
-							link.getStrokeDashArray().addAll(5.0, 10.0);
-						}
-						annotationPaneChildren.add(link);
+					final HintAnnotation annotation = LayoutFactory.getInstance().createHintAnnotation(currentNodeData,
+							nextNodeData);
+					if (annotation.isValid()) {
+						annotationPaneChildren.add(annotation);
 					}
 				}
 			}

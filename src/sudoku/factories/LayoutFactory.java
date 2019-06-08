@@ -17,6 +17,7 @@ import sudoku.view.dialog.MessageDialog;
 import sudoku.view.dialog.ModalDialog;
 import sudoku.view.dialog.ModalStage;
 import sudoku.view.dialog.WaitingDialog;
+import sudoku.view.hint.HintAnnotation;
 import sudoku.view.hint.HintButtonPane;
 import sudoku.view.hint.HintPane;
 import sudoku.view.hint.HintTextArea;
@@ -223,6 +224,12 @@ public class LayoutFactory {
 		stage.setScene(scene);
 		stage.show();
 		WindowHelper.addResizeAndDragListener(stage, modalDialog);
+	}
+
+	public HintAnnotation createHintAnnotation(final int startNodeData, final int endNodeData) {
+		final HintAnnotation hintAnnotation = new HintAnnotation(startNodeData, endNodeData);
+		ViewController.getInstance().registerHintAnnotation(hintAnnotation);
+		return hintAnnotation;
 	}
 
 	/** Offers some standard configuration of a scene for the project. */
