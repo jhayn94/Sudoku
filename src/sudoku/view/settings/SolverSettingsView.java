@@ -371,6 +371,16 @@ public class SolverSettingsView extends ModalDialog {
 		this.stepConfigs.add(newIndex, stepConfigToSwap);
 		stepConfigToSwap.setIndex(newIndex);
 		stepConfigToSwap2.setIndex(selectedIndex);
+		this.centerListViewOnIndex(newIndex);
+	}
+
+	private void centerListViewOnIndex(final int newIndex) {
+		int scrollIndex = newIndex - 7;
+		// Avoids out of bounds problems.
+		if (scrollIndex < 0) {
+			scrollIndex = 0;
+		}
+		this.stepConfigsListView.scrollTo(scrollIndex);
 	}
 
 }
