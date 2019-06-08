@@ -26,9 +26,9 @@ public class SudokuPuzzleCell extends StackPane {
 
 	protected static final String SELECTED_CELL_CSS_CLASS = "sudoku-selected-cell";
 
-	private static final int CANDIDATE_LABEL_HEIGHT = 16;
+	public static final int CANDIDATE_LABEL_HEIGHT = 16;
 
-	private static final int CANDIDATE_LABEL_WIDTH = 14;
+	public static final int CANDIDATE_LABEL_WIDTH = 14;
 
 	private static final String DIGIT_REPLACE_TEXT = "DIGIT";
 

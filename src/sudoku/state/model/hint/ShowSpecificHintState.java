@@ -31,6 +31,9 @@ public class ShowSpecificHintState extends ApplicationModelState {
 
 	@Override
 	public void onEnter() {
+		final ObservableList<Node> annotationPaneChildren = ViewController.getInstance().getRootPane().getChildren();
+		final List<HintAnnotation> hintAnnotations = ViewController.getInstance().getHintAnnotations();
+		hintAnnotations.forEach(annotationPaneChildren::remove);
 		this.resetColorStates(false, true, ColorUtils.getHintColorStates());
 		this.displayedHint = HodokuFacade.getInstance().getHint(this.sudokuPuzzleValues);
 		final HintTextArea hintTextArea = ViewController.getInstance().getHintTextArea();

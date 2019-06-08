@@ -22,9 +22,15 @@ public class HintAnnotation extends Line {
 
 	private static final double DASHED_LINE_ON_LENGTH = 5.0;
 
-	private static final double DASED_LINE_OFF_LENGTH = 10.0;
+	private static final double DASHED_LINE_OFF_LENGTH = 10.0;
 
 	private static final double LINE_WIDTH = 3.0;
+
+	// Approximation of the width of a candidate label. They are a 16x14 pixel
+	// rectangle, so obviously this is a rough approximation. This was calculated by
+	// 16 (the large dimension) / 2 + a little extra since the rectangle is longer
+	// from corner to corner.
+	private static final double LABEL_RADIUS = 10;
 
 	private final int startNodeData;
 
@@ -44,7 +50,7 @@ public class HintAnnotation extends Line {
 		this.setStrokeWidth(LINE_WIDTH);
 		this.getStyleClass().add(ColorUtils.HINT_COLOR_4_CSS_CLASS);
 		if (!Chain.isSStrong(this.endNodeData)) {
-			this.getStrokeDashArray().addAll(DASHED_LINE_ON_LENGTH, DASED_LINE_OFF_LENGTH);
+			this.getStrokeDashArray().addAll(DASHED_LINE_ON_LENGTH, DASHED_LINE_OFF_LENGTH);
 		}
 
 		final int startCellIndex = Chain.getSCellIndex(this.startNodeData);
@@ -80,6 +86,23 @@ public class HintAnnotation extends Line {
 		this.setStartY(startY - COORDINATE_ERROR_OFFSET);
 		this.setEndX(endX - COORDINATE_ERROR_OFFSET);
 		this.setEndY(endY - COORDINATE_ERROR_OFFSET);
+		this.adjustEndPoints();
+	}
+
+	/**
+	 * Adjust the end points of an arrow: the arrow should start and end outside the
+	 * circular background of the candidate.
+	 */
+	private void adjustEndPoints() {
+		final double deltaX = this.getEndX() - this.getStartX();
+		final double deltaY = this.getEndY() - this.getStartY();
+		final double alpha = Math.atan2(deltaY, deltaX);
+		final double xOffset = LABEL_RADIUS * Math.cos(alpha);
+		final double yOffset = LABEL_RADIUS * Math.sin(alpha);
+		this.setStartX(this.getStartX() + xOffset);
+		this.setStartY(this.getStartY() + yOffset);
+		this.setEndX(this.getEndX() - xOffset);
+		this.setEndY(this.getEndY() - yOffset);
 	}
 
 	/**
