@@ -40,15 +40,15 @@ public class ColorUtils {
 
 	private static final String COLOR5B_ENTITY_CSS_CLASS = "sudoku-puzzle-color5b-entity";
 
-	public static final String PRIMARY_HINT_CANDIDATE_CSS_CLASS = "sudoku-puzzle-color-primary-hint-candidate";
+	public static final String HINT_COLOR_1_CSS_CLASS = "sudoku-puzzle-color-hint1";
 
-	public static final String SECONDARY_HINT_CANDIDATE_CSS_CLASS = "sudoku-puzzle-color-secondary-hint-candidate";
+	public static final String HINT_COLOR_2_CSS_CLASS = "sudoku-puzzle-color-hint2";
 
-	public static final String TERTIARY_HINT_CANDIDATE_CSS_CLASS = "sudoku-puzzle-color-tertiary-hint-candidate";
+	public static final String HINT_COLOR_3_CSS_CLASS = "sudoku-puzzle-color-hint3";
 
-	public static final String QUATERNARY_HINT_CANDIDATE_CSS_CLASS = "sudoku-puzzle-color-quaternary-hint-candidate";
+	public static final String HINT_COLOR_4_CSS_CLASS = "sudoku-puzzle-color-hint4";
 
-	public static final String QUINARY_HINT_CANDIDATE_CSS_CLASS = "sudoku-puzzle-color-quinary-hint-candidate";
+	public static final String HINT_COLOR_5_CSS_CLASS = "sudoku-puzzle-color-hint5";
 
 	public static final String DELETABLE_HINT_CANDIDATE_CSS_CLASS = "sudoku-puzzle-color-deletable-hint-candidate";
 
@@ -84,11 +84,11 @@ public class ColorUtils {
 		COLORSTATE3A(2, false, COLOR3A_ENTITY_CSS_CLASS), COLORSTATE3B(2, true, COLOR3B_ENTITY_CSS_CLASS),
 		COLORSTATE4A(3, false, COLOR4A_ENTITY_CSS_CLASS), COLORSTATE4B(3, true, COLOR4B_ENTITY_CSS_CLASS),
 		COLORSTATE5A(4, false, COLOR5A_ENTITY_CSS_CLASS), COLORSTATE5B(4, true, COLOR5B_ENTITY_CSS_CLASS),
-		PRIMARY_HINT_CANDIDATE(-1, false, PRIMARY_HINT_CANDIDATE_CSS_CLASS),
-		SECONDARY_HINT_CANDIDATE(-1, false, SECONDARY_HINT_CANDIDATE_CSS_CLASS),
-		TERTIARY_HINT_CANDIDATE(-1, false, TERTIARY_HINT_CANDIDATE_CSS_CLASS),
-		QUATERNARY_HINT_CANDIDATE(-1, false, QUATERNARY_HINT_CANDIDATE_CSS_CLASS),
-		QUINARY_HINT_CANDIDATE(-1, false, QUINARY_HINT_CANDIDATE_CSS_CLASS),
+		PRIMARY_HINT_CANDIDATE(-1, false, HINT_COLOR_1_CSS_CLASS),
+		SECONDARY_HINT_CANDIDATE(-1, false, HINT_COLOR_2_CSS_CLASS),
+		TERTIARY_HINT_CANDIDATE(-1, false, HINT_COLOR_3_CSS_CLASS),
+		QUATERNARY_HINT_CANDIDATE(-1, false, HINT_COLOR_4_CSS_CLASS),
+		QUINARY_HINT_CANDIDATE(-1, false, HINT_COLOR_5_CSS_CLASS),
 		DELETABLE_HINT_CANDIDATE(-1, false, DELETABLE_HINT_CANDIDATE_CSS_CLASS),
 		ALS1_HINT_CANDIDATE(-1, false, ALS1_HINT_CANDIDATE_CSS_CLASS),
 		ALS2_HINT_CANDIDATE(-1, false, ALS2_HINT_CANDIDATE_CSS_CLASS),

@@ -6,13 +6,11 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Line;
 import sudoku.Chain;
 import sudoku.SolutionType;
 import sudoku.core.HodokuFacade;
 import sudoku.core.ViewController;
-import sudoku.model.ApplicationSettings;
 import sudoku.model.SudokuPuzzleValues;
 import sudoku.state.model.ApplicationModelState;
 import sudoku.view.hint.HintButtonPane;
@@ -118,7 +116,7 @@ public class ShowSpecificHintState extends ApplicationModelState {
 						final Line link = new Line(startX - COORDINATE_ERROR_OFFSET, startY - COORDINATE_ERROR_OFFSET,
 								endX - COORDINATE_ERROR_OFFSET, endY - COORDINATE_ERROR_OFFSET);
 						link.setStrokeWidth(3.0);
-						link.setStroke(Paint.valueOf(ApplicationSettings.getInstance().getHintColors()[3]));
+						link.getStyleClass().add(ColorUtils.HINT_COLOR_4_CSS_CLASS);
 						System.out.println(startRow + " " + startCol + " " + startCandidate);
 						System.out.println(endRow + " " + endCol + " " + endCandidate);
 						System.out.println(link);

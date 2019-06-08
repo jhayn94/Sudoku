@@ -19,11 +19,11 @@
 	-sudoku-color-coloring4b: #a8f0ec;
 	-sudoku-color-coloring5a: #ffc14d;
 	-sudoku-color-coloring5b: #ffe4b3;
-	-sudoku-color-hint-primary: #53c685;
-	-sudoku-color-hint-secondary: #1a8cff;
-	-sudoku-color-hint-tertiary: #855dd5;
-	-sudoku-color-hint-quaternary: #ffaf1a;
-	-sudoku-color-hint-quinary: #ff4dd2;
+	-sudoku-color-hint1: #53c685;
+	-sudoku-color-hint2: #1a8cff;
+	-sudoku-color-hint3: #855dd5;
+	-sudoku-color-hint4: #ffaf1a;
+	-sudoku-color-hint5: #ff4dd2;
 	-sudoku-color-hint-deletable: #eb2d53;
 	-sudoku-color-hint-als1: #33cccc;
 	-sudoku-color-hint-als2: #e6e600;
@@ -347,24 +347,24 @@
 	-fx-background-color: -sudoku-color-coloring5b;
 }
 
-.sudoku-puzzle-color-primary-hint-candidate {
-	-fx-background-color: -sudoku-color-hint-primary;
+.sudoku-puzzle-color-hint1{
+	-fx-background-color: -sudoku-color-hint1;
 }
 
-.sudoku-puzzle-color-secondary-hint-candidate {
-	-fx-background-color: -sudoku-color-hint-secondary;
+.sudoku-puzzle-color-hint2 {
+	-fx-background-color: -sudoku-color-hint2;
 }
 
-.sudoku-puzzle-color-tertiary-hint-candidate {
-	-fx-background-color: -sudoku-color-hint-tertiary;
+.sudoku-puzzle-color-hint3 {
+	-fx-background-color: -sudoku-color-hint3;
 }
 
-.sudoku-puzzle-color-quaternary-hint-candidate {
-	-fx-background-color: -sudoku-color-hint-quaternary;
+.sudoku-puzzle-color-hint4 {
+	-fx-stroke: -sudoku-color-hint4;
 }
 
-.sudoku-puzzle-color-quinary-hint-candidate {
-	-fx-background-color: -sudoku-color-hint-quinary;
+.sudoku-puzzle-color-hint5 {
+	-fx-background-color: -sudoku-color-hint5;
 }
 
 .sudoku-puzzle-color-deletable-hint-candidate {
