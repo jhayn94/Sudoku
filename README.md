@@ -39,7 +39,7 @@ This application has support for both copying of and pasting into the sudoku gri
 To paste a puzzle into the application, simply have the puzzle in your clipboard, and select Edit | Paste (CTRL+V) from the menu. Note that only sudokus represented as 81 characters are supported (where an empty cell is a dot or a zero). For other inputs, nothing will happen.
 
 ### 1.4 Set Givens:
-The Set Givens menu item (CTRL+P) is found in the Edit menu. Selecting it will lock all fixed cells as givens. This can be helpful because it prevents you from accidentally changing a given cell in a manually input puzzle.
+The Set Givens menu item (CTRL+P) is found in the Edit menu. Selecting it will lock all fixed cells as givens. This can be helpful because it prevents you from accidentally changing a given cell in a manually input puzzle. If you discover a mistake afterwards, The Unlock All Givens menu item (CTRL+U) will allow them to be edited again. 
 
 ### 1.5 Restart:
 If you want to reset the puzzle to its initial given state, the Edit | Restart menu item will allow you to restart the puzzle. 
