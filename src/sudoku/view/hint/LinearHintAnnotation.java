@@ -5,6 +5,8 @@ import javafx.scene.control.Label;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
+import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.shape.StrokeLineJoin;
 import sudoku.Chain;
 import sudoku.core.ViewController;
 import sudoku.model.SudokuPuzzleValues;
@@ -22,7 +24,7 @@ public class LinearHintAnnotation implements HintAnnotation {
 
 	protected static final double COORDINATE_ERROR_X_OFFSET = 9;
 
-	protected static final double COORDINATE_ERROR_Y_OFFSET = 10;
+	protected static final double COORDINATE_ERROR_Y_OFFSET = 11;
 
 	protected static final double DASHED_LINE_ON_LENGTH = 5.0;
 
@@ -36,7 +38,7 @@ public class LinearHintAnnotation implements HintAnnotation {
 	// from corner to corner.
 	private static final double LABEL_RADIUS = 10;
 
-	protected static final double ARROW_SIDE_LENGTH = 7.5;
+	protected static final double ARROW_SIDE_LENGTH = 4;
 
 	protected final int startNodeData;
 
@@ -64,8 +66,11 @@ public class LinearHintAnnotation implements HintAnnotation {
 	protected void configure() {
 		this.line.setStrokeWidth(LINE_WIDTH);
 		this.line.getStyleClass().add(ColorUtils.HINT_COLOR_4_CSS_CLASS);
+		this.line.setStrokeLineJoin(StrokeLineJoin.ROUND);
+		this.line.setStrokeLineCap(StrokeLineCap.ROUND);
 		this.arrowHead.getStyleClass().add(ColorUtils.HINT_COLOR_4_CSS_CLASS);
-
+		this.arrowHead.setStrokeLineJoin(StrokeLineJoin.ROUND);
+		this.arrowHead.setStrokeLineCap(StrokeLineCap.ROUND);
 		if (!Chain.isSStrong(this.endNodeData)) {
 //			this.line.getStrokeDashArray().addAll(DASHED_LINE_ON_LENGTH, DASHED_LINE_OFF_LENGTH);
 		}
@@ -74,7 +79,7 @@ public class LinearHintAnnotation implements HintAnnotation {
 		final int endCellIndex = Chain.getSCellIndex(this.endNodeData);
 		if (this.endNodeData != Integer.MIN_VALUE && startCellIndex != endCellIndex) {
 			this.setInitialCoordinates(startCellIndex, endCellIndex);
-			this.adjustEndPoints();
+			this.adjustPoints();
 			this.drawArrowPointer();
 		} else {
 			this.valid = false;
@@ -135,7 +140,7 @@ public class LinearHintAnnotation implements HintAnnotation {
 	 * Adjust the end points of an arrow: the arrow should start and end outside the
 	 * circular background of the candidate.
 	 */
-	protected void adjustEndPoints() {
+	protected void adjustPoints() {
 		final double deltaX = this.line.getEndX() - this.line.getStartX();
 		final double deltaY = this.line.getEndY() - this.line.getStartY();
 		final double alpha = Math.atan2(deltaY, deltaX);
@@ -147,6 +152,8 @@ public class LinearHintAnnotation implements HintAnnotation {
 		this.line.setEndY(this.line.getEndY() - yOffset);
 		this.adjustedXEnd = this.line.getEndX();
 		this.adjustedYEnd = this.line.getEndY();
+		this.line.setEndX(this.line.getEndX() - xOffset * 1.2);
+		this.line.setEndY(this.line.getEndY() - yOffset * 1.2);
 	}
 
 	/**
