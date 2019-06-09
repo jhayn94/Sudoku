@@ -17,6 +17,7 @@ import sudoku.view.dialog.MessageDialog;
 import sudoku.view.dialog.ModalDialog;
 import sudoku.view.dialog.ModalStage;
 import sudoku.view.dialog.WaitingDialog;
+import sudoku.view.hint.CurvedHintAnnotation;
 import sudoku.view.hint.HintButtonPane;
 import sudoku.view.hint.HintPane;
 import sudoku.view.hint.HintTextArea;
@@ -228,8 +229,14 @@ public class LayoutFactory {
 		WindowHelper.addResizeAndDragListener(stage, modalDialog);
 	}
 
-	public LinearHintAnnotation createHintAnnotation(final int startNodeData, final int endNodeData) {
+	public LinearHintAnnotation createLinearHintAnnotation(final int startNodeData, final int endNodeData) {
 		final LinearHintAnnotation hintAnnotation = new LinearHintAnnotation(startNodeData, endNodeData);
+		ViewController.getInstance().registerHintAnnotation(hintAnnotation);
+		return hintAnnotation;
+	}
+
+	public CurvedHintAnnotation createCurvedHintAnnotation(final int startNodeData, final int endNodeData) {
+		final CurvedHintAnnotation hintAnnotation = new CurvedHintAnnotation(startNodeData, endNodeData);
 		ViewController.getInstance().registerHintAnnotation(hintAnnotation);
 		return hintAnnotation;
 	}

@@ -48,6 +48,8 @@ public class ColorUtils {
 
 	public static final String HINT_COLOR_4_CSS_CLASS = "sudoku-puzzle-color-hint4";
 
+	public static final String HINT_COLOR_4_CSS_CLASS_ARROW = "sudoku-puzzle-color-hint4-arrow";
+
 	public static final String HINT_COLOR_5_CSS_CLASS = "sudoku-puzzle-color-hint5";
 
 	public static final String DELETABLE_HINT_CANDIDATE_CSS_CLASS = "sudoku-puzzle-color-deletable-hint-candidate";

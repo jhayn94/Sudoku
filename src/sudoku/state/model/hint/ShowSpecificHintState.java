@@ -216,7 +216,8 @@ public class ShowSpecificHintState extends ApplicationModelState {
 				for (int i = chain.getStart(); i < chain.getEnd(); i++) {
 					int currentNodeData = Math.abs(nodeData[i]);
 					final int nextNodeData = Math.abs(nodeData[i + 1]);
-					// TODO - what purpose does this code serve?
+					// TODO - what purpose does this code serve? Something to do with forcing chains
+					// / nets maybe?
 					if (nodeData[i] > 0 && nodeData[i + 1] < 0) {
 						oldNodeData = currentNodeData;
 					}
@@ -226,13 +227,17 @@ public class ShowSpecificHintState extends ApplicationModelState {
 					if (nodeData[i] < 0 && nodeData[i + 1] > 0) {
 						currentNodeData = oldNodeData;
 					}
-					final HintAnnotation annotation = LayoutFactory.getInstance().createHintAnnotation(currentNodeData,
-							nextNodeData);
-					if (annotation.isValid()) {
-						ViewController.getInstance().getRootPane().addAnnotation(annotation);
-					}
+					this.createAnnotation(currentNodeData, nextNodeData);
 				}
 			}
+		}
+	}
+
+	private void createAnnotation(final int currentNodeData, final int nextNodeData) {
+		final HintAnnotation annotation = LayoutFactory.getInstance().createLinearHintAnnotation(currentNodeData,
+				nextNodeData);
+		if (annotation.isValid()) {
+			ViewController.getInstance().getRootPane().addAnnotation(annotation);
 		}
 	}
 

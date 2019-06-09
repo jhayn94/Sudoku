@@ -361,6 +361,12 @@
 
 .sudoku-puzzle-color-hint4 {
 	-fx-stroke: -sudoku-color-hint4;
+}
+
+/** Arrow needs the fill, but this causes the cubic curve to also have a fill. 
+	So, they must have different CSS classes. */
+.sudoku-puzzle-color-hint4-arrow {
+	-fx-stroke: -sudoku-color-hint4;
 	-fx-fill: -sudoku-color-hint4;
 }
 
