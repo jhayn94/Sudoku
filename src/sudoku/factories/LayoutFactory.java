@@ -17,10 +17,10 @@ import sudoku.view.dialog.MessageDialog;
 import sudoku.view.dialog.ModalDialog;
 import sudoku.view.dialog.ModalStage;
 import sudoku.view.dialog.WaitingDialog;
-import sudoku.view.hint.HintAnnotation;
 import sudoku.view.hint.HintButtonPane;
 import sudoku.view.hint.HintPane;
 import sudoku.view.hint.HintTextArea;
+import sudoku.view.hint.LinearHintAnnotation;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 import sudoku.view.puzzle.SudokuPuzzleView;
 import sudoku.view.settings.ColorSettingsView;
@@ -78,7 +78,9 @@ public class LayoutFactory {
 	}
 
 	public MainApplicationView createMainApplicationView() {
-		return new MainApplicationView();
+		final MainApplicationView mainApplicationView = new MainApplicationView();
+		ViewController.getInstance().setMainApplicationView(mainApplicationView);
+		return mainApplicationView;
 	}
 
 	public ApplicationSideBar createApplicationSideBar() {
@@ -226,8 +228,8 @@ public class LayoutFactory {
 		WindowHelper.addResizeAndDragListener(stage, modalDialog);
 	}
 
-	public HintAnnotation createHintAnnotation(final int startNodeData, final int endNodeData) {
-		final HintAnnotation hintAnnotation = new HintAnnotation(startNodeData, endNodeData);
+	public LinearHintAnnotation createHintAnnotation(final int startNodeData, final int endNodeData) {
+		final LinearHintAnnotation hintAnnotation = new LinearHintAnnotation(startNodeData, endNodeData);
 		ViewController.getInstance().registerHintAnnotation(hintAnnotation);
 		return hintAnnotation;
 	}

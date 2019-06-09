@@ -30,4 +30,5 @@ public class MainApplicationView extends SplitPane {
 		final HintPane hintPane = LayoutFactory.getInstance().createHintPane();
 		this.getItems().addAll(sideBarView, sudokuPuzzleView, hintPane);
 	}
+
 }

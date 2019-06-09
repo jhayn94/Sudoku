@@ -361,6 +361,7 @@
 
 .sudoku-puzzle-color-hint4 {
 	-fx-stroke: -sudoku-color-hint4;
+	-fx-fill: -sudoku-color-hint4;
 }
 
 .sudoku-puzzle-color-hint5 {

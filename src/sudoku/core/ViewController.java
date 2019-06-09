@@ -8,6 +8,7 @@ import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import sudoku.model.SudokuPuzzleValues;
 import sudoku.view.ApplicationRootPane;
+import sudoku.view.MainApplicationView;
 import sudoku.view.hint.HintAnnotation;
 import sudoku.view.hint.HintButtonPane;
 import sudoku.view.hint.HintTextArea;
@@ -43,6 +44,8 @@ public class ViewController {
 	private Stage stage;
 
 	private ApplicationRootPane rootPane;
+
+	private MainApplicationView mainApplicationView;
 
 	private Button maximizeWindowButton;
 
@@ -86,6 +89,7 @@ public class ViewController {
 		this.sudokuPuzzleCells = new SudokuPuzzleCell[SudokuPuzzleValues.CELLS_PER_HOUSE][SudokuPuzzleValues.CELLS_PER_HOUSE];
 		this.controlHelperPane = null;
 		this.puzzleStatsPane = null;
+		this.mainApplicationView = null;
 		this.hintButtonPane = null;
 		this.hintTextArea = null;
 		this.undoMenuItem = null;
@@ -250,6 +254,14 @@ public class ViewController {
 
 	public void registerHintAnnotation(final HintAnnotation newAnnotation) {
 		this.hintAnnotations.add(newAnnotation);
+	}
+
+	public MainApplicationView getMainApplicationView() {
+		return this.mainApplicationView;
+	}
+
+	public void setMainApplicationView(final MainApplicationView mainApplicationView) {
+		this.mainApplicationView = mainApplicationView;
 	}
 
 }

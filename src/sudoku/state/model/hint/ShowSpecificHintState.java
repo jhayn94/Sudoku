@@ -2,8 +2,6 @@ package sudoku.state.model.hint;
 
 import java.util.List;
 
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import sudoku.Chain;
 import sudoku.SolutionType;
 import sudoku.core.HodokuFacade;
@@ -11,6 +9,7 @@ import sudoku.core.ViewController;
 import sudoku.factories.LayoutFactory;
 import sudoku.model.SudokuPuzzleValues;
 import sudoku.state.model.ApplicationModelState;
+import sudoku.view.ApplicationRootPane;
 import sudoku.view.hint.HintAnnotation;
 import sudoku.view.hint.HintButtonPane;
 import sudoku.view.hint.HintTextArea;
@@ -31,9 +30,9 @@ public class ShowSpecificHintState extends ApplicationModelState {
 
 	@Override
 	public void onEnter() {
-		final ObservableList<Node> annotationPaneChildren = ViewController.getInstance().getRootPane().getChildren();
+		final ApplicationRootPane annotationPane = ViewController.getInstance().getRootPane();
 		final List<HintAnnotation> hintAnnotations = ViewController.getInstance().getHintAnnotations();
-		hintAnnotations.forEach(annotationPaneChildren::remove);
+		hintAnnotations.forEach(annotationPane::removeAnnotation);
 		this.resetColorStates(false, true, ColorUtils.getHintColorStates());
 		this.displayedHint = HodokuFacade.getInstance().getHint(this.sudokuPuzzleValues);
 		final HintTextArea hintTextArea = ViewController.getInstance().getHintTextArea();
@@ -65,39 +64,6 @@ public class ShowSpecificHintState extends ApplicationModelState {
 		this.updateColorForTertiaryHintCandidates();
 		this.updateColorForDeletableCandidates();
 		this.updateColorForCannibalCandidates();
-	}
-
-	private void showLinksForHint() {
-		final ObservableList<Node> annotationPaneChildren = ViewController.getInstance().getRootPane().getChildren();
-		final int activeChainIndex = this.displayedHint.getChains().isEmpty() ? -1 : 0;
-		for (int chainIndex = 0; chainIndex < this.displayedHint.getChainAnz(); chainIndex++) {
-			if ((activeChainIndex == -1 || activeChainIndex == chainIndex)
-					&& (!this.displayedHint.getType().isKrakenFish() || activeChainIndex != -1)) {
-				final Chain chain = this.displayedHint.getChains().get(chainIndex);
-				final int[] nodeData = chain.getChain();
-				int oldNodeData = 0;
-				System.out.println(chain);
-				for (int i = chain.getStart(); i < chain.getEnd(); i++) {
-					int currentNodeData = Math.abs(nodeData[i]);
-					final int nextNodeData = Math.abs(nodeData[i + 1]);
-					// TODO - what purpose does this code serve?
-					if (nodeData[i] > 0 && nodeData[i + 1] < 0) {
-						oldNodeData = currentNodeData;
-					}
-					if (nodeData[i] == Integer.MIN_VALUE && nodeData[i + 1] < 0) {
-						currentNodeData = oldNodeData;
-					}
-					if (nodeData[i] < 0 && nodeData[i + 1] > 0) {
-						currentNodeData = oldNodeData;
-					}
-					final HintAnnotation annotation = LayoutFactory.getInstance().createHintAnnotation(currentNodeData,
-							nextNodeData);
-					if (annotation.isValid()) {
-						annotationPaneChildren.add(annotation);
-					}
-				}
-			}
-		}
 	}
 
 	/**
@@ -235,6 +201,42 @@ public class ShowSpecificHintState extends ApplicationModelState {
 				});
 			});
 		});
+	}
+
+	/**
+	 * Creates the links (arrows) for a link, if applicable. As with a few other
+	 * methods, this code has been ported / modernized somewhat from HoDoKu to use a
+	 * more modular OOP approach.
+	 */
+	private void showLinksForHint() {
+		final int activeChainIndex = this.displayedHint.getChains().isEmpty() ? -1 : 0;
+		for (int chainIndex = 0; chainIndex < this.displayedHint.getChainAnz(); chainIndex++) {
+			if ((activeChainIndex == -1 || activeChainIndex == chainIndex)
+					&& (!this.displayedHint.getType().isKrakenFish() || activeChainIndex != -1)) {
+				final Chain chain = this.displayedHint.getChains().get(chainIndex);
+				final int[] nodeData = chain.getChain();
+				int oldNodeData = 0;
+				for (int i = chain.getStart(); i < chain.getEnd(); i++) {
+					int currentNodeData = Math.abs(nodeData[i]);
+					final int nextNodeData = Math.abs(nodeData[i + 1]);
+					// TODO - what purpose does this code serve?
+					if (nodeData[i] > 0 && nodeData[i + 1] < 0) {
+						oldNodeData = currentNodeData;
+					}
+					if (nodeData[i] == Integer.MIN_VALUE && nodeData[i + 1] < 0) {
+						currentNodeData = oldNodeData;
+					}
+					if (nodeData[i] < 0 && nodeData[i + 1] > 0) {
+						currentNodeData = oldNodeData;
+					}
+					final HintAnnotation annotation = LayoutFactory.getInstance().createHintAnnotation(currentNodeData,
+							nextNodeData);
+					if (annotation.isValid()) {
+						ViewController.getInstance().getRootPane().addAnnotation(annotation);
+					}
+				}
+			}
+		}
 	}
 
 }

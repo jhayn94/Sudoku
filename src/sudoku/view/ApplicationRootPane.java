@@ -2,6 +2,7 @@ package sudoku.view;
 
 import javafx.scene.layout.BorderPane;
 import sudoku.model.ApplicationSettings;
+import sudoku.view.hint.HintAnnotation;
 
 /**
  * This class represents the root element of the application.
@@ -66,4 +67,15 @@ public class ApplicationRootPane extends BorderPane {
 		this.getStyleClass().remove(ROOT_CSS_CLASS);
 	}
 
+	/**
+	 * Adds a hint annotation to the sudoku grid. This is generally an arrow
+	 * representing a link as part of a solution step.
+	 */
+	public void addAnnotation(final HintAnnotation annotation) {
+		this.getChildren().addAll(annotation.getAnnotationBody(), annotation.getArrowHead());
+	}
+
+	public void removeAnnotation(final HintAnnotation annotation) {
+		this.getChildren().removeAll(annotation.getAnnotationBody(), annotation.getArrowHead());
+	}
 }
