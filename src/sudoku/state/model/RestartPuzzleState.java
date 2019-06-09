@@ -18,6 +18,7 @@ public class RestartPuzzleState extends ResetFromModelState {
 
 	@Override
 	public void onEnter() {
+		ViewController.getInstance().getRootPane().removeAllAnnotations();
 		this.applicationStateHistory.addToUndoStack(this.sudokuPuzzleValues);
 		SudokuPuzzleValues puzzleStateForUndo = this.applicationStateHistory.getPuzzleStateForUndo();
 		while (!this.applicationStateHistory.isUndoStackEmpty()) {

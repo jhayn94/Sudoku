@@ -17,7 +17,7 @@ import sudoku.view.puzzle.SudokuPuzzleCell;
 public abstract class ResetFromModelState extends ApplicationModelState {
 
 	protected ResetFromModelState(final ApplicationModelState lastState, final boolean addToHistory) {
-		super(lastState, false);
+		super(lastState, addToHistory);
 	}
 
 	/**

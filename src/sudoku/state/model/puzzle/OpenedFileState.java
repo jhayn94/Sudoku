@@ -62,6 +62,7 @@ public class OpenedFileState extends ApplicationModelState {
 
 	@Override
 	public void onEnter() {
+		ViewController.getInstance().getRootPane().removeAllAnnotations();
 		this.sudokuPuzzleStyle.setActiveCellFilter(Strings.EMPTY);
 		this.resetAllFilters();
 		this.updateFilterButtonStates(Strings.EMPTY);

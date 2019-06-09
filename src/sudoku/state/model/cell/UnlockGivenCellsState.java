@@ -21,6 +21,7 @@ public class UnlockGivenCellsState extends ApplicationModelState {
 
 	@Override
 	public void onEnter() {
+		ViewController.getInstance().getRootPane().removeAllAnnotations();
 		// Not really sure if it makes sense to allow undo, so just clear the stacks to
 		// be safe.
 		this.applicationStateHistory.clearUndoStack();

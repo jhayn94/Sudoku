@@ -9,7 +9,6 @@ import sudoku.core.ViewController;
 import sudoku.factories.LayoutFactory;
 import sudoku.model.SudokuPuzzleValues;
 import sudoku.state.model.ApplicationModelState;
-import sudoku.view.ApplicationRootPane;
 import sudoku.view.hint.HintAnnotation;
 import sudoku.view.hint.HintButtonPane;
 import sudoku.view.hint.HintTextArea;
@@ -30,9 +29,7 @@ public class ShowSpecificHintState extends ApplicationModelState {
 
 	@Override
 	public void onEnter() {
-		final ApplicationRootPane annotationPane = ViewController.getInstance().getRootPane();
-		final List<HintAnnotation> hintAnnotations = ViewController.getInstance().getHintAnnotations();
-		hintAnnotations.forEach(annotationPane::removeAnnotation);
+		ViewController.getInstance().getRootPane().removeAllAnnotations();
 		this.resetColorStates(false, true, ColorUtils.getHintColorStates());
 		this.displayedHint = HodokuFacade.getInstance().getHint(this.sudokuPuzzleValues);
 		final HintTextArea hintTextArea = ViewController.getInstance().getHintTextArea();

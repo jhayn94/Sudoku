@@ -32,7 +32,7 @@ public class PastePuzzleState extends ResetFromModelState {
 
 	@Override
 	public void onEnter() {
-
+		ViewController.getInstance().getRootPane().removeAllAnnotations();
 		final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 		try {
 			final String puzzleString = (String) clipboard.getData(DataFlavor.stringFlavor);

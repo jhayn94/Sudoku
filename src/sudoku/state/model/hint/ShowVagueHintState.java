@@ -21,6 +21,7 @@ public class ShowVagueHintState extends ApplicationModelState {
 
 	@Override
 	public void onEnter() {
+		ViewController.getInstance().getRootPane().removeAllAnnotations();
 		this.resetColorStates(false, true, ColorUtils.getHintColorStates());
 		this.displayedHint = HodokuFacade.getInstance().getHint(this.sudokuPuzzleValues);
 		final TextArea hintTextArea = ViewController.getInstance().getHintTextArea().getHintTextArea();

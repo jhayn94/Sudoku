@@ -1,6 +1,9 @@
 package sudoku.view;
 
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
+import sudoku.core.ViewController;
 import sudoku.model.ApplicationSettings;
 import sudoku.view.hint.HintAnnotation;
 
@@ -77,5 +80,13 @@ public class ApplicationRootPane extends BorderPane {
 
 	public void removeAnnotation(final HintAnnotation annotation) {
 		this.getChildren().removeAll(annotation.getAnnotationBody(), annotation.getArrowHead());
+	}
+
+	public void removeAllAnnotations() {
+		final ObservableList<Node> children = this.getChildren();
+		ViewController.getInstance().getHintAnnotations().forEach(annotation -> {
+			children.remove(annotation.getAnnotationBody());
+			children.remove(annotation.getArrowHead());
+		});
 	}
 }

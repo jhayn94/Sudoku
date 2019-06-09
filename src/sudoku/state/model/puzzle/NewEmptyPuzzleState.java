@@ -22,6 +22,7 @@ public class NewEmptyPuzzleState extends ApplicationModelState {
 
 	@Override
 	public void onEnter() {
+		ViewController.getInstance().getRootPane().removeAllAnnotations();
 		this.applicationStateHistory.clearRedoStack();
 		this.applicationStateHistory.clearUndoStack();
 		this.updateUndoRedoButtons();

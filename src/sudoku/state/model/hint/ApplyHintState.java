@@ -22,6 +22,7 @@ public class ApplyHintState extends ResetFromModelState {
 
 	@Override
 	public void onEnter() {
+		ViewController.getInstance().getRootPane().removeAllAnnotations();
 		final HintTextArea hintTextArea = ViewController.getInstance().getHintTextArea();
 		hintTextArea.getHintTextArea().setText(Strings.EMPTY);
 		final HintButtonPane hintButtonPane = ViewController.getInstance().getHintButtonPane();

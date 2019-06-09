@@ -17,6 +17,7 @@ public class SetGivenCellsState extends ApplicationModelState {
 
 	@Override
 	public void onEnter() {
+		ViewController.getInstance().getRootPane().removeAllAnnotations();
 		// Don't want the user to be able to undo back to another puzzle.
 		this.applicationStateHistory.clearUndoStack();
 		this.applicationStateHistory.clearRedoStack();

@@ -20,6 +20,7 @@ public class HideHintState extends ApplicationModelState {
 
 	@Override
 	public void onEnter() {
+		ViewController.getInstance().getRootPane().removeAllAnnotations();
 		this.displayedHint = null;
 		final HintTextArea hintTextArea = ViewController.getInstance().getHintTextArea();
 		hintTextArea.getHintTextArea().setText(Strings.EMPTY);

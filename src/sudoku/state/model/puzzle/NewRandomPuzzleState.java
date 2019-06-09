@@ -24,6 +24,7 @@ public class NewRandomPuzzleState extends ResetFromModelState {
 
 	@Override
 	public void onEnter() {
+		ViewController.getInstance().getRootPane().removeAllAnnotations();
 		this.applicationStateHistory.clearRedoStack();
 		this.applicationStateHistory.clearUndoStack();
 		this.updateUndoRedoButtons();
