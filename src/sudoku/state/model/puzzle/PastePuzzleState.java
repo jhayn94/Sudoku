@@ -32,11 +32,11 @@ public class PastePuzzleState extends ResetFromModelState {
 
 	@Override
 	public void onEnter() {
-		ViewController.getInstance().getRootPane().removeAllAnnotations();
 		final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 		try {
 			final String puzzleString = (String) clipboard.getData(DataFlavor.stringFlavor);
 			if (puzzleString.matches(SUDOKU_PUZZLE_REGEX)) {
+				ViewController.getInstance().getRootPane().removeAllAnnotations();
 				this.sudokuPuzzleValues = ModelFactory.getInstance().createSudokuPuzzleValues(puzzleString);
 
 				this.resetApplicationFromPuzzleState();
@@ -50,7 +50,6 @@ public class PastePuzzleState extends ResetFromModelState {
 				final HintTextArea hintTextArea = ViewController.getInstance().getHintTextArea();
 				hintTextArea.getHintTextArea().setText(Strings.EMPTY);
 			}
-
 		} catch (UnsupportedFlavorException | IOException e) {
 			LOG.error("{}", e);
 		}
