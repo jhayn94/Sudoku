@@ -142,7 +142,7 @@ In addition to the color pairs, there are also a number of colors used specifica
 * Hint Color 2: identifies notable or specific candidates that are particularily important for a hint. For example, fins of finned fish, or the non-endpoint nodes of a 2 string kite. Also used for every other node in AICs.
 * Hint Color 3: Used very rarely. Most relevant uses as of now are endo-fins of fish, and for one sector in Sue-de-Coq.
 * Hint Color 4: Used for the color of arrows / links drawn for chain-centric tactics (chains and loops).
-* Hint Color 5: Used only for cannibalism.
+* Hint Color 5: Used for cannibalism in chains.
 * Hint Delete Color: Used to indicate a candidate can be deleted based off of a hint.
 * ALS Colors 1 - 4: Used to identify an ALS on the few occasions where they are used. Hint colors 2 and 3 are used to identify special candidates (i.e. the candidate designated XY or XZ in those ALS techniques).
 
@@ -172,7 +172,7 @@ Various features are available which apply colors to the sudoku grid. This is in
 
 To color a cell, use the arrow keys to select it, and type any of A S D F or G. This will place a colored background on the cell. In addition, type SHIFT+ any of those 5 keys for the alternate version of that color. Typing any of these while another color is active will change the color. Typing the same key (or key combination) on a cell consecutively will return that cell to a non-colored background. Or, typing R will clear all cell colors (but not filters).
 
-This application also supports coloring of candidates, provided that a cell is not fixed (or given), and that the given candidate is visible. The active candidate display near the bottom left of the screen indicates which candidate will be colored when using the keyboard. To change this by using the keyboard, use the = key to increment the value, - to decrement it, or ALT + a digit to just set it to that digit. _I'm not 100% please with how the mouse / keyboard controls are just kind of mixed in, but I couldn't come up with a better alternative. The main issue is that to color a candidate, you might need to press as many as 4 keys (CTRL + SHIFT + A + 1, for instance). So, I made the decision to have buttons instead._
+This application also supports coloring of candidates, provided that a cell is not fixed (or given), and that the given candidate is visible. The active candidate display near the bottom left of the screen indicates which candidate will be colored when using the keyboard. To change this by using the keyboard, use the = key to increment the value, - to decrement it, or ALT + a digit to just set it to that digit. _I'm not 100% pleased with how the mouse / keyboard controls are just kind of mixed in, but I couldn't come up with a better alternative. The main issue is that to color a candidate, you might need to press as many as 4 keys (CTRL + SHIFT + A + 1, for instance). So, I made the decision to have buttons instead._
 
 To color a candidate, type any of CTRL+ A, S, D, F, or G to color the active candidate. Typing R will clear all candidate colors (but not filters).
 
@@ -234,7 +234,7 @@ SHIFT+A,S,D,F,G | Applies an alternate color to the selected cell.
 R | Reset cell and candidate colors.
 CTRL+A,S,D,F,G | Applies a color to the active digit for the selected cell. Cell must be unfixed, not given, and the digit must be toggled on.
 = | Increments the active digit.
-\`- | Decrements the active digit.
+\- | Decrements the active digit.
 ALT + 1-9 | Sets the digit as the active digit used for coloring candidates with the keyboard.
 F1-F9 | Highlights cells that could have that digit (remove the 'F' to get the digit).
 F10 | Highlights bivalue cells.
