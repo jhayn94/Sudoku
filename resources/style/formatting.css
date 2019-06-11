@@ -64,6 +64,7 @@
 
 .sudoku-cell-candidate-label {
 	-fx-font-size: 11pt;
+	-fx-text-fill: derive(-sudoku-color-bark, 30%);
 }
 
 .sudoku-puzzle-cell {
