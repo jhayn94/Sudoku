@@ -19,7 +19,9 @@ import sudoku.view.util.ColorUtils;
  */
 public class CurvedHintAnnotation extends AbstractHintAnnotation {
 
-	private static final double CURVE_LENGTH = 50.0;
+	private static final int CURVE_OFFSET = 10;
+
+	private static final double CURVE_LENGTH = 20.0;
 
 	protected final CubicCurve cubicCurve;
 
@@ -96,22 +98,8 @@ public class CurvedHintAnnotation extends AbstractHintAnnotation {
 	 * circular background of the candidate.
 	 */
 	protected void adjustPoints() {
-		final double deltaX = this.cubicCurve.getEndX() - this.cubicCurve.getStartX();
-		final double deltaY = this.cubicCurve.getEndY() - this.cubicCurve.getStartY();
-		final double angleOfLine = Math.atan2(deltaY, deltaX);
-		final double xOffset = LABEL_RADIUS * Math.cos(angleOfLine);
-		final double yOffset = LABEL_RADIUS * Math.sin(angleOfLine);
-		this.cubicCurve.setStartX(this.cubicCurve.getStartX() + xOffset);
-		this.cubicCurve.setStartY(this.cubicCurve.getStartY() + yOffset);
-		this.cubicCurve.setEndX(this.cubicCurve.getEndX() - xOffset);
-		this.cubicCurve.setEndY(this.cubicCurve.getEndY() - yOffset);
-		// Store an initial adjusted value for the end node. We want the arrow to end
-		// here. Then, further taper the endpoint in so the end of the annotation
-		// body is not colliding with the arrow shape.
-		this.adjustedXEnd = this.cubicCurve.getEndX();
-		this.adjustedYEnd = this.cubicCurve.getEndY();
-		this.cubicCurve.setEndX(this.cubicCurve.getEndX() - xOffset * ADDITIONAL_END_POINT_TAPER_FACTOR);
-		this.cubicCurve.setEndY(this.cubicCurve.getEndY() - yOffset * ADDITIONAL_END_POINT_TAPER_FACTOR);
+		this.movePointsOffLabels();
+		this.movePointsTowardArrow();
 	}
 
 	protected void drawArrowPointer() {
@@ -163,6 +151,53 @@ public class CurvedHintAnnotation extends AbstractHintAnnotation {
 		final double controlPointY2 = this.cubicCurve.getEndY() - bezierLength * Math.sin(radians);
 		this.cubicCurve.setControlX2(controlPointX2);
 		this.cubicCurve.setControlY2(controlPointY2);
+	}
+
+	private void movePointsOffLabels() {
+		final double deltaX = this.cubicCurve.getEndX() - this.cubicCurve.getStartX();
+		final double deltaY = this.cubicCurve.getEndY() - this.cubicCurve.getStartY();
+		final double angleOfLine = Math.atan2(deltaY, deltaX);
+		final double xOffset = LABEL_RADIUS * Math.cos(angleOfLine);
+		final double yOffset = LABEL_RADIUS * Math.sin(angleOfLine);
+		this.cubicCurve.setStartX(this.cubicCurve.getStartX() + xOffset);
+		this.cubicCurve.setStartY(this.cubicCurve.getStartY() + yOffset);
+		this.cubicCurve.setEndX(this.cubicCurve.getEndX() - xOffset);
+		this.cubicCurve.setEndY(this.cubicCurve.getEndY() - yOffset);
+		// Store an initial adjusted value for the end node. We want the arrow to end
+		// here. Then, further taper the endpoint in so the end of the annotation
+		// body is not colliding with the arrow shape.
+		this.adjustedXEnd = this.cubicCurve.getEndX();
+		this.adjustedYEnd = this.cubicCurve.getEndY();
+		this.cubicCurve.setEndX(this.cubicCurve.getEndX() - xOffset * ADDITIONAL_END_POINT_TAPER_FACTOR);
+		this.cubicCurve.setEndY(this.cubicCurve.getEndY() - yOffset * ADDITIONAL_END_POINT_TAPER_FACTOR);
+	}
+
+	/**
+	 * Moves the start and end points of the curve slightly to help prevent the
+	 * curve from intersecting with other labels.
+	 */
+	private void movePointsTowardArrow() {
+		if (this.cubicCurve.getStartX() == this.cubicCurve.getEndX()) {
+			if (this.cubicCurve.getStartY() > this.cubicCurve.getEndY()) {
+				// Arrow moves up.
+				this.cubicCurve.setStartX(this.cubicCurve.getStartX() + CURVE_OFFSET);
+				this.cubicCurve.setEndX(this.cubicCurve.getEndX() + CURVE_OFFSET);
+			} else {
+				this.cubicCurve.setStartX(this.cubicCurve.getStartX() - CURVE_OFFSET);
+				this.cubicCurve.setEndX(this.cubicCurve.getEndX() - CURVE_OFFSET);
+			}
+
+		} else if (this.cubicCurve.getStartY() == this.cubicCurve.getEndY()) {
+			if (this.cubicCurve.getStartX() > this.cubicCurve.getEndX()) {
+				// Arrow moves left.
+				this.cubicCurve.setStartY(this.cubicCurve.getStartY() + CURVE_OFFSET);
+				this.cubicCurve.setEndY(this.cubicCurve.getEndY() + CURVE_OFFSET);
+			} else {
+				this.cubicCurve.setStartY(this.cubicCurve.getStartY() - CURVE_OFFSET);
+				this.cubicCurve.setEndY(this.cubicCurve.getEndY() - CURVE_OFFSET);
+			}
+
+		}
 	}
 
 	/**
