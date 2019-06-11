@@ -140,8 +140,8 @@ In addition to the color pairs, there are also a number of colors used specifica
 
 * Hint Color 1: the primary color used to show notable candidates used in a solution technique. For example, candidates part of hidden tuples or nodes in a single digit pattern (e.g. skyscraper). Also used for every other node in AICs.
 * Hint Color 2: identifies notable or specific candidates that are particularily important for a hint. For example, fins of finned fish, or the non-endpoint nodes of a 2 string kite. Also used for every other node in AICs.
-* Hint Color 3: Used very rarely. Identifies endo-fins of fish, and for one sector in Sue-de-Coq.
-* Hint Color 4: Currently unused.
+* Hint Color 3: Used very rarely. Most relevant uses as of now are endo-fins of fish, and for one sector in Sue-de-Coq.
+* Hint Color 4: Used for the color of arrows / links drawn for chain-centric tactics (chains and loops).
 * Hint Color 5: Used only for cannibalism.
 * Hint Delete Color: Used to indicate a candidate can be deleted based off of a hint.
 * ALS Colors 1 - 4: Used to identify an ALS on the few occasions where they are used. Hint colors 2 and 3 are used to identify special candidates (i.e. the candidate designated XY or XZ in those ALS techniques).
@@ -207,7 +207,7 @@ A similar behavior is present for the “Color Candidates” mode, except that a
 
 To change the active color used to color with the mouse, click the colored buttons in the control helper pane. To clear the colors, click the button labeled 'R'.
 
-_NOTE: In the default configuration, the number buttons on the lower left corner are not used by the mouse. They are only used by the keyboard, since you would have to press too many keys at once to color candidates. See the setting Use _
+_NOTE: In the default configuration, the number buttons on the lower left corner are not used by the mouse. They are only used by the keyboard, since you would have to press too many keys at once to color candidates. If you want these buttons to determine the candidate affected, see the setting Use Digit Buttons for Mouse Actions._
 
 ### 6.3 Filtering:
 This application also supports filtering / highlighting of cells that meet various criteria. This can assist you in finding more complicated patterns and eliminations. To highlight cells which could have a specific digit, click that digit’s button in the top left area of the application. In addition, the X|Y button highlights bivalue cells. Clicking a button again will un-highlight the cells.
