@@ -60,10 +60,10 @@ public abstract class AbstractHintAnnotation implements HintAnnotation {
 			final int endCellRow = endCellIndex / SudokuPuzzleValues.CELLS_PER_HOUSE;
 			final int endCellCol = endCellIndex % SudokuPuzzleValues.CELLS_PER_HOUSE;
 			if (startCellRow == endCellRow) {
-				final int candidateRow = (startCellRow + 1) * ((candidate / 3) + 1);
+				final int candidateRow = 3 * startCellRow + (candidate / 3);
 				intersects = this.rowIntersectsWith(candidateRow, nodeData);
 			} else if (startCellCol == endCellCol) {
-				final int candidateCol = (startCellCol + 1) * ((candidate % 3) + 1);
+				final int candidateCol = 3 * startCellCol + (candidate % 3);
 				intersects = this.colIntersectsWith(candidateCol, nodeData);
 			}
 		}
@@ -99,8 +99,7 @@ public abstract class AbstractHintAnnotation implements HintAnnotation {
 		final int otherCellIndex = Chain.getSCellIndex(nodeData);
 		final int otherCellRow = otherCellIndex / SudokuPuzzleValues.CELLS_PER_HOUSE;
 		final int otherCandidate = Chain.getSCandidate(nodeData) - 1;
-		return candidateRow == (otherCellRow * 3) * (otherCandidate / 3) + 1;
-
+		return candidateRow == 3 * otherCellRow + (otherCandidate / 3);
 	}
 
 	/**
@@ -112,7 +111,7 @@ public abstract class AbstractHintAnnotation implements HintAnnotation {
 		final int otherCellIndex = Chain.getSCellIndex(nodeData);
 		final int otherCellCol = otherCellIndex % SudokuPuzzleValues.CELLS_PER_HOUSE;
 		final int otherCandidate = Chain.getSCandidate(nodeData) - 1;
-		return candidateCol == (otherCellCol * 3) * (otherCandidate % 3) + 1;
+		return candidateCol == 3 * otherCellCol + (otherCandidate % 3);
 	}
 
 }
