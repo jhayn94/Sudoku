@@ -19,6 +19,8 @@ import sudoku.view.util.ColorUtils;
  */
 public class CurvedHintAnnotation extends AbstractHintAnnotation {
 
+	private static final double CURVE_LENGTH = 50.0;
+
 	protected final CubicCurve cubicCurve;
 
 	protected final Polygon arrowHead;
@@ -44,12 +46,12 @@ public class CurvedHintAnnotation extends AbstractHintAnnotation {
 		this.arrowHead.getStyleClass().add(ColorUtils.HINT_COLOR_4_CSS_CLASS_ARROW);
 		this.arrowHead.setStrokeLineJoin(StrokeLineJoin.ROUND);
 		this.arrowHead.setStrokeLineCap(StrokeLineCap.ROUND);
-		if (!Chain.isSStrong(this.endNodeData)) {
+		if (!Chain.isSStrong(this.getEndNodeData())) {
 			this.cubicCurve.getStrokeDashArray().addAll(DASHED_LINE_ON_LENGTH, DASHED_LINE_OFF_LENGTH);
 		}
-		final int startCellIndex = Chain.getSCellIndex(this.startNodeData);
-		final int endCellIndex = Chain.getSCellIndex(this.endNodeData);
-		if (this.endNodeData != Integer.MIN_VALUE && startCellIndex != endCellIndex) {
+		final int startCellIndex = Chain.getSCellIndex(this.getStartNodeData());
+		final int endCellIndex = Chain.getSCellIndex(this.getEndNodeData());
+		if (this.getEndNodeData() != Integer.MIN_VALUE && startCellIndex != endCellIndex) {
 			this.setInitialCoordinates(startCellIndex, endCellIndex);
 			this.adjustPoints();
 			this.setControlPoints();
@@ -68,8 +70,8 @@ public class CurvedHintAnnotation extends AbstractHintAnnotation {
 		final int startCol = startCellIndex % SudokuPuzzleValues.CELLS_PER_HOUSE;
 		final int endRow = endCellIndex / SudokuPuzzleValues.CELLS_PER_HOUSE;
 		final int endCol = endCellIndex % SudokuPuzzleValues.CELLS_PER_HOUSE;
-		final int startCandidate = Chain.getSCandidate(this.startNodeData);
-		final int endCandidate = Chain.getSCandidate(this.endNodeData);
+		final int startCandidate = Chain.getSCandidate(this.getStartNodeData());
+		final int endCandidate = Chain.getSCandidate(this.getEndNodeData());
 		final SudokuPuzzleCell startCell = ViewController.getInstance().getSudokuPuzzleCell(startRow, startCol);
 		final SudokuPuzzleCell endCell = ViewController.getInstance().getSudokuPuzzleCell(endRow, endCol);
 		final Label startCandidateLabel = startCell.getCandidateLabelForDigit(startCandidate);
@@ -142,9 +144,9 @@ public class CurvedHintAnnotation extends AbstractHintAnnotation {
 	private void setControlPoints() {
 		final double deltaX = this.cubicCurve.getEndX() - this.cubicCurve.getStartX();
 		final double deltaY = this.cubicCurve.getEndY() - this.cubicCurve.getStartY();
-		final double alpha = Math.atan2(deltaY, deltaX);
-		double aAlpha = alpha - Math.PI / 4.0;
-		double bezierLength = 20.0;
+		final double angleOfLine = Math.atan2(deltaY, deltaX);
+		double radians = angleOfLine - Math.PI / 4.0;
+		double bezierLength = CURVE_LENGTH;
 
 		// Adjust for very short lines
 		final double lineDistance = Math.hypot(this.cubicCurve.getStartX() - this.cubicCurve.getEndX(),
@@ -152,13 +154,13 @@ public class CurvedHintAnnotation extends AbstractHintAnnotation {
 		if (lineDistance < 2.0 * LABEL_RADIUS) {
 			bezierLength = lineDistance / 4.0;
 		}
-		final double controlPointX1 = this.cubicCurve.getStartX() + bezierLength * Math.cos(aAlpha);
-		final double controlPointY1 = this.cubicCurve.getStartY() + bezierLength * Math.sin(aAlpha);
+		final double controlPointX1 = this.cubicCurve.getStartX() + bezierLength * Math.cos(radians);
+		final double controlPointY1 = this.cubicCurve.getStartY() + bezierLength * Math.sin(radians);
 		this.cubicCurve.setControlX1(controlPointX1);
 		this.cubicCurve.setControlY1(controlPointY1);
-		aAlpha = alpha + Math.PI / 4.0;
-		final double controlPointX2 = this.cubicCurve.getEndX() - bezierLength * Math.cos(aAlpha);
-		final double controlPointY2 = this.cubicCurve.getEndY() - bezierLength * Math.sin(aAlpha);
+		radians = angleOfLine + Math.PI / 4.0;
+		final double controlPointX2 = this.cubicCurve.getEndX() - bezierLength * Math.cos(radians);
+		final double controlPointY2 = this.cubicCurve.getEndY() - bezierLength * Math.sin(radians);
 		this.cubicCurve.setControlX2(controlPointX2);
 		this.cubicCurve.setControlY2(controlPointY2);
 	}

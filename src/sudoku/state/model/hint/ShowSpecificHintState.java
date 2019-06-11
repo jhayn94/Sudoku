@@ -1,5 +1,6 @@
 package sudoku.state.model.hint;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import sudoku.Chain;
@@ -9,6 +10,8 @@ import sudoku.core.ViewController;
 import sudoku.factories.LayoutFactory;
 import sudoku.model.SudokuPuzzleValues;
 import sudoku.state.model.ApplicationModelState;
+import sudoku.view.ApplicationRootPane;
+import sudoku.view.hint.CurvedHintAnnotation;
 import sudoku.view.hint.HintAnnotation;
 import sudoku.view.hint.HintButtonPane;
 import sudoku.view.hint.HintTextArea;
@@ -44,7 +47,6 @@ public class ShowSpecificHintState extends ApplicationModelState {
 				hintButtonPane.getApplyHintButton().setDisable(false);
 				hintButtonPane.getHideHintButton().setDisable(false);
 			}
-
 			this.updateCandidateColorsForHint();
 			this.showLinksForHint();
 		}
@@ -214,31 +216,81 @@ public class ShowSpecificHintState extends ApplicationModelState {
 				final int[] nodeData = chain.getChain();
 				int oldNodeData = 0;
 				for (int i = chain.getStart(); i < chain.getEnd(); i++) {
-					int currentNodeData = Math.abs(nodeData[i]);
-					final int nextNodeData = Math.abs(nodeData[i + 1]);
+					int startNodeData = Math.abs(nodeData[i]);
+					final int endNodeData = Math.abs(nodeData[i + 1]);
 					// TODO - what purpose does this code serve? Something to do with forcing chains
-					// / nets maybe?
+					// and nets maybe?
 					if (nodeData[i] > 0 && nodeData[i + 1] < 0) {
-						oldNodeData = currentNodeData;
+						oldNodeData = startNodeData;
 					}
 					if (nodeData[i] == Integer.MIN_VALUE && nodeData[i + 1] < 0) {
-						currentNodeData = oldNodeData;
+						startNodeData = oldNodeData;
 					}
 					if (nodeData[i] < 0 && nodeData[i + 1] > 0) {
-						currentNodeData = oldNodeData;
+						startNodeData = oldNodeData;
 					}
-					this.createAnnotation(currentNodeData, nextNodeData);
+
+					this.createAnnotation(startNodeData, endNodeData);
 				}
 			}
 		}
+		this.checkForAnnotationsToRedraw();
 	}
 
-	private void createAnnotation(final int currentNodeData, final int nextNodeData) {
-		final HintAnnotation annotation = LayoutFactory.getInstance().createLinearHintAnnotation(currentNodeData,
-				nextNodeData);
+	private void createAnnotation(final int startNodeData, final int endNodeData) {
+		final HintAnnotation annotation;
+		annotation = LayoutFactory.getInstance().createLinearHintAnnotation(startNodeData, endNodeData);
 		if (annotation.isValid()) {
 			ViewController.getInstance().getRootPane().addAnnotation(annotation);
 		}
+	}
+
+	/**
+	 * Checks for annotations which need to be redrawn because they overlap with
+	 * other candidates in the hint. In this case, the link is redrawn with a slight
+	 * curve to clean up possible confusion.
+	 */
+	private void checkForAnnotationsToRedraw() {
+		final List<HintAnnotation> hintAnnotations = ViewController.getInstance().getHintAnnotations();
+		final List<Integer> hintNodes = this.getAllHintNodes(hintAnnotations);
+
+		final ApplicationRootPane annotationPane = ViewController.getInstance().getRootPane();
+		final List<HintAnnotation> invalidAnnotations = this.getInvalidAnnotations(hintAnnotations, hintNodes);
+		this.redrawInvalidAnnotations(annotationPane, invalidAnnotations);
+
+	}
+
+	private List<Integer> getAllHintNodes(final List<HintAnnotation> hintAnnotations) {
+		final List<Integer> chainNodes = new ArrayList<>();
+		hintAnnotations.forEach(annotation -> {
+			chainNodes.add(annotation.getStartNodeData());
+			chainNodes.add(annotation.getEndNodeData());
+		});
+		return chainNodes;
+	}
+
+	private List<HintAnnotation> getInvalidAnnotations(final List<HintAnnotation> hintAnnotations,
+			final List<Integer> hintNodes) {
+		final List<HintAnnotation> invalidAnnotations = new ArrayList<>();
+		hintAnnotations.forEach(annotation -> {
+			hintNodes.forEach(hintNode -> {
+				if (annotation.intersectsWith(hintNode)) {
+					invalidAnnotations.add(annotation);
+				}
+			});
+		});
+		return invalidAnnotations;
+	}
+
+	private void redrawInvalidAnnotations(final ApplicationRootPane annotationPane,
+			final List<HintAnnotation> invalidAnnotations) {
+		invalidAnnotations.forEach(invalidAnnotation -> {
+			annotationPane.removeAnnotation(invalidAnnotation);
+			final CurvedHintAnnotation curvedHintAnnotation = LayoutFactory.getInstance()
+					.createCurvedHintAnnotation(invalidAnnotation.getStartNodeData(), invalidAnnotation.getEndNodeData());
+			ViewController.getInstance().registerHintAnnotation(curvedHintAnnotation);
+			annotationPane.addAnnotation(curvedHintAnnotation);
+		});
 	}
 
 }

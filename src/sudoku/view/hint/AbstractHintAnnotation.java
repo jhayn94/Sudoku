@@ -1,5 +1,8 @@
 package sudoku.view.hint;
 
+import sudoku.Chain;
+import sudoku.model.SudokuPuzzleValues;
+
 /**
  * This class is an implementation of {@link HintAnnotation} where the
  * annotation body is a straight line.
@@ -26,9 +29,9 @@ public abstract class AbstractHintAnnotation implements HintAnnotation {
 
 	protected static final double ARROW_SIDE_LENGTH = 4;
 
-	protected final int startNodeData;
+	private final int startNodeData;
 
-	protected final int endNodeData;
+	private final int endNodeData;
 
 	protected boolean valid;
 
@@ -39,6 +42,36 @@ public abstract class AbstractHintAnnotation implements HintAnnotation {
 	}
 
 	/**
+	 * Returns true iff this link intersects with the given node data.
+	 *
+	 * @requires this.valid = true. Behavior is undefined otherwise.
+	 */
+	@Override
+	public boolean intersectsWith(final int nodeData) {
+		boolean intersects = false;
+		// If the given node is in the link, there is no intersection.
+		if (nodeData != this.startNodeData && nodeData != this.endNodeData) {
+			// The cells are different , the candidates must be the same.
+			final int candidate = Chain.getSCandidate(this.startNodeData) - 1;
+			final int startCellIndex = Chain.getSCellIndex(this.startNodeData);
+			final int endCellIndex = Chain.getSCellIndex(this.endNodeData);
+			final int startCellRow = startCellIndex / SudokuPuzzleValues.CELLS_PER_HOUSE;
+			final int startCellCol = startCellIndex % SudokuPuzzleValues.CELLS_PER_HOUSE;
+			final int endCellRow = endCellIndex / SudokuPuzzleValues.CELLS_PER_HOUSE;
+			final int endCellCol = endCellIndex % SudokuPuzzleValues.CELLS_PER_HOUSE;
+			if (startCellRow == endCellRow) {
+				final int candidateRow = (startCellRow + 1) * ((candidate / 3) + 1);
+				intersects = this.rowIntersectsWith(candidateRow, nodeData);
+			} else if (startCellCol == endCellCol) {
+				final int candidateCol = (startCellCol + 1) * ((candidate % 3) + 1);
+				intersects = this.colIntersectsWith(candidateCol, nodeData);
+			}
+		}
+
+		return intersects;
+	}
+
+	/**
 	 * Returns if this annotation should be shown. Annotations which start and end
 	 * in the same cells are not shown.
 	 */
@@ -46,4 +79,40 @@ public abstract class AbstractHintAnnotation implements HintAnnotation {
 	public boolean isValid() {
 		return this.valid;
 	}
+
+	@Override
+	public int getStartNodeData() {
+		return this.startNodeData;
+	}
+
+	@Override
+	public int getEndNodeData() {
+		return this.endNodeData;
+	}
+
+	/**
+	 * Returns true iff the given candidate row (0 - 26, or 3 rows per each of the 9
+	 * rows of cells) intersects with either candidate in the given link.
+	 *
+	 */
+	private boolean rowIntersectsWith(final int candidateRow, final int nodeData) {
+		final int otherCellIndex = Chain.getSCellIndex(nodeData);
+		final int otherCellRow = otherCellIndex / SudokuPuzzleValues.CELLS_PER_HOUSE;
+		final int otherCandidate = Chain.getSCandidate(nodeData) - 1;
+		return candidateRow == (otherCellRow * 3) * (otherCandidate / 3) + 1;
+
+	}
+
+	/**
+	 * Returns true iff the given candidate column (0 - 26, or 3 columns per each of
+	 * the 9 rows of cells) intersects with either candidate in the given link.
+	 *
+	 */
+	private boolean colIntersectsWith(final int candidateCol, final int nodeData) {
+		final int otherCellIndex = Chain.getSCellIndex(nodeData);
+		final int otherCellCol = otherCellIndex % SudokuPuzzleValues.CELLS_PER_HOUSE;
+		final int otherCandidate = Chain.getSCandidate(nodeData) - 1;
+		return candidateCol == (otherCellCol * 3) * (otherCandidate % 3) + 1;
+	}
+
 }

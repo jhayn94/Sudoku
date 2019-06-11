@@ -23,4 +23,9 @@ public interface HintAnnotation {
 
 	public Polygon getArrowHead();
 
+	public int getStartNodeData();
+
+	public int getEndNodeData();
+
+	public boolean intersectsWith(int nodeData);
 }

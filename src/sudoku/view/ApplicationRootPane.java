@@ -80,6 +80,8 @@ public class ApplicationRootPane extends BorderPane {
 
 	public void removeAnnotation(final HintAnnotation annotation) {
 		this.getChildren().removeAll(annotation.getAnnotationBody(), annotation.getArrowHead());
+		// Don't clear from the ViewController so the annotations get cleaned up next
+		// time.
 	}
 
 	public void removeAllAnnotations() {
@@ -88,5 +90,6 @@ public class ApplicationRootPane extends BorderPane {
 			children.remove(annotation.getAnnotationBody());
 			children.remove(annotation.getArrowHead());
 		});
+		ViewController.getInstance().getHintAnnotations().clear();
 	}
 }

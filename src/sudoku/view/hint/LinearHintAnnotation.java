@@ -43,12 +43,12 @@ public class LinearHintAnnotation extends AbstractHintAnnotation {
 		this.arrowHead.getStyleClass().add(ColorUtils.HINT_COLOR_4_CSS_CLASS_ARROW);
 		this.arrowHead.setStrokeLineJoin(StrokeLineJoin.ROUND);
 		this.arrowHead.setStrokeLineCap(StrokeLineCap.ROUND);
-		if (!Chain.isSStrong(this.endNodeData)) {
+		if (!Chain.isSStrong(this.getEndNodeData())) {
 			this.line.getStrokeDashArray().addAll(DASHED_LINE_ON_LENGTH, DASHED_LINE_OFF_LENGTH);
 		}
-		final int startCellIndex = Chain.getSCellIndex(this.startNodeData);
-		final int endCellIndex = Chain.getSCellIndex(this.endNodeData);
-		if (this.endNodeData != Integer.MIN_VALUE && startCellIndex != endCellIndex) {
+		final int startCellIndex = Chain.getSCellIndex(this.getStartNodeData());
+		final int endCellIndex = Chain.getSCellIndex(this.getEndNodeData());
+		if (this.getEndNodeData() != Integer.MIN_VALUE && startCellIndex != endCellIndex) {
 			this.setInitialCoordinates(startCellIndex, endCellIndex);
 			this.adjustPoints();
 			this.drawArrowPointer();
@@ -66,8 +66,8 @@ public class LinearHintAnnotation extends AbstractHintAnnotation {
 		final int startCol = startCellIndex % SudokuPuzzleValues.CELLS_PER_HOUSE;
 		final int endRow = endCellIndex / SudokuPuzzleValues.CELLS_PER_HOUSE;
 		final int endCol = endCellIndex % SudokuPuzzleValues.CELLS_PER_HOUSE;
-		final int startCandidate = Chain.getSCandidate(this.startNodeData);
-		final int endCandidate = Chain.getSCandidate(this.endNodeData);
+		final int startCandidate = Chain.getSCandidate(this.getStartNodeData());
+		final int endCandidate = Chain.getSCandidate(this.getEndNodeData());
 		final SudokuPuzzleCell startCell = ViewController.getInstance().getSudokuPuzzleCell(startRow, startCol);
 		final SudokuPuzzleCell endCell = ViewController.getInstance().getSudokuPuzzleCell(endRow, endCol);
 		final Label startCandidateLabel = startCell.getCandidateLabelForDigit(startCandidate);
