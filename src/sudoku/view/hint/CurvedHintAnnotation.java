@@ -21,7 +21,7 @@ public class CurvedHintAnnotation extends AbstractHintAnnotation {
 
 	private static final int CURVE_OFFSET = 10;
 
-	private static final double CURVE_LENGTH = 20.0;
+	private static final double CURVE_LENGTH = 30.0;
 
 	protected final CubicCurve cubicCurve;
 
@@ -55,8 +55,8 @@ public class CurvedHintAnnotation extends AbstractHintAnnotation {
 		final int endCellIndex = Chain.getSCellIndex(this.getEndNodeData());
 		if (this.getEndNodeData() != Integer.MIN_VALUE && startCellIndex != endCellIndex) {
 			this.setInitialCoordinates(startCellIndex, endCellIndex);
-			this.adjustPoints();
 			this.setControlPoints();
+			this.adjustPoints();
 			this.drawArrowPointer();
 		} else {
 			this.valid = false;
@@ -103,8 +103,8 @@ public class CurvedHintAnnotation extends AbstractHintAnnotation {
 	}
 
 	protected void drawArrowPointer() {
-		final double angleOfLine = Math.atan2(this.cubicCurve.getEndY() - this.cubicCurve.getStartY(),
-				this.cubicCurve.getEndX() - this.cubicCurve.getStartX());
+		final double angleOfLine = Math.atan2(this.cubicCurve.getEndY() - this.cubicCurve.getControlY1(),
+				this.cubicCurve.getEndX() - this.cubicCurve.getControlX1());
 		// Use the angle of the arrow to calculate points for the arrow vertices.
 		final double yVectorOfLine = Math.sin(angleOfLine);
 		final double xVectorOfLine = Math.cos(angleOfLine);
@@ -179,7 +179,7 @@ public class CurvedHintAnnotation extends AbstractHintAnnotation {
 	private void movePointsTowardCurveDirection() {
 		if (Math.abs(this.cubicCurve.getStartX() - this.cubicCurve.getEndX()) < .01) {
 			if (this.cubicCurve.getStartY() > this.cubicCurve.getEndY()) {
-				// Arrow moves left.
+				// Move the arrow left.
 				this.cubicCurve.setStartX(this.cubicCurve.getStartX() - CURVE_OFFSET);
 				this.cubicCurve.setEndX(this.cubicCurve.getEndX() - CURVE_OFFSET);
 			} else {
@@ -189,7 +189,7 @@ public class CurvedHintAnnotation extends AbstractHintAnnotation {
 
 		} else if (Math.abs(this.cubicCurve.getStartY() - this.cubicCurve.getEndY()) < .01) {
 			if (this.cubicCurve.getStartX() > this.cubicCurve.getEndX()) {
-				// Arrow moves up.
+				// Move the arrow down.
 				this.cubicCurve.setStartY(this.cubicCurve.getStartY() + CURVE_OFFSET);
 				this.cubicCurve.setEndY(this.cubicCurve.getEndY() + CURVE_OFFSET);
 			} else {

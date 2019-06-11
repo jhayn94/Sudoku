@@ -1,5 +1,5 @@
 difficulty=VERY_HARD
-mustContainStepWithName=Remote Pair
+mustContainStepWithName=X-Chain
 maxScoreForEASY=800
 maxScoreForMEDIUM=1000
 maxScoreForHARD=1600

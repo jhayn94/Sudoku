@@ -50,11 +50,17 @@ public abstract class AbstractHintAnnotation implements HintAnnotation {
 	public boolean intersectsWith(final int nodeData) {
 		boolean intersects = false;
 		// If the given node is in the link, there is no intersection.
-		if (nodeData != this.startNodeData && nodeData != this.endNodeData) {
-			// The cells are different , the candidates must be the same.
-			final int candidate = Chain.getSCandidate(this.startNodeData) - 1;
-			final int startCellIndex = Chain.getSCellIndex(this.startNodeData);
-			final int endCellIndex = Chain.getSCellIndex(this.endNodeData);
+
+		final int startCellIndex = Chain.getSCellIndex(this.startNodeData);
+		final int endCellIndex = Chain.getSCellIndex(this.endNodeData);
+		final int otherCellIndex = Chain.getSCellIndex(nodeData);
+		// The cells are different, so the candidates must be the same. (If an
+		// annotation is valid, it's length must be long enough that it connects two
+		// cells).
+		final int candidate = Chain.getSCandidate(this.startNodeData) - 1;
+		final int otherCandidate = Chain.getSCandidate(nodeData) - 1;
+
+		if ((otherCellIndex != startCellIndex && otherCellIndex != endCellIndex) || candidate != otherCandidate) {
 			final int startCellRow = startCellIndex / SudokuPuzzleValues.CELLS_PER_HOUSE;
 			final int startCellCol = startCellIndex % SudokuPuzzleValues.CELLS_PER_HOUSE;
 			final int endCellRow = endCellIndex / SudokuPuzzleValues.CELLS_PER_HOUSE;

@@ -22,20 +22,22 @@ public class ApplyHintState extends ResetFromModelState {
 
 	@Override
 	public void onEnter() {
-		ViewController.getInstance().getRootPane().removeAllAnnotations();
-		final HintTextArea hintTextArea = ViewController.getInstance().getHintTextArea();
-		hintTextArea.getHintTextArea().setText(Strings.EMPTY);
-		final HintButtonPane hintButtonPane = ViewController.getInstance().getHintButtonPane();
-		hintButtonPane.getApplyHintButton().setDisable(true);
-		hintButtonPane.getHideHintButton().setDisable(true);
-		this.resetColorStates(false, true, ColorUtils.getHintColorStates());
-		// TODO - apply the hint to the SudokuPuzzleValues model + view.
+		if (this.displayedHint != null) {
+			ViewController.getInstance().getRootPane().removeAllAnnotations();
+			final HintTextArea hintTextArea = ViewController.getInstance().getHintTextArea();
+			hintTextArea.getHintTextArea().setText(Strings.EMPTY);
+			final HintButtonPane hintButtonPane = ViewController.getInstance().getHintButtonPane();
+			hintButtonPane.getApplyHintButton().setDisable(true);
+			hintButtonPane.getHideHintButton().setDisable(true);
+			this.resetColorStates(false, true, ColorUtils.getHintColorStates());
+			// TODO - apply the hint to the SudokuPuzzleValues model + view.
 
-		final String updatedPuzzleString = HodokuFacade.getInstance().doSingleStep(this.sudokuPuzzleValues,
-				this.displayedHint);
-		this.sudokuPuzzleValues.updateCellAndCandidateValues(updatedPuzzleString, false);
-		this.resetApplicationFromPuzzleState();
-		this.displayedHint = null;
+			final String updatedPuzzleString = HodokuFacade.getInstance().doSingleStep(this.sudokuPuzzleValues,
+					this.displayedHint);
+			this.sudokuPuzzleValues.updateCellAndCandidateValues(updatedPuzzleString, false);
+			this.resetApplicationFromPuzzleState();
+			this.displayedHint = null;
+		}
 	}
 
 }
