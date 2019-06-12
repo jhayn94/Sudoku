@@ -27,6 +27,10 @@ public class CurvedHintAnnotation extends AbstractHintAnnotation {
 
 	protected final Polygon arrowHead;
 
+	private double initialYEnd;
+
+	private double initialXEnd;
+
 	private double adjustedYEnd;
 
 	private double adjustedXEnd;
@@ -57,7 +61,6 @@ public class CurvedHintAnnotation extends AbstractHintAnnotation {
 			this.setInitialCoordinates(startCellIndex, endCellIndex);
 			this.setControlPoints();
 			this.adjustPoints();
-			this.drawArrowPointer();
 		} else {
 			this.valid = false;
 		}
@@ -91,6 +94,8 @@ public class CurvedHintAnnotation extends AbstractHintAnnotation {
 		this.cubicCurve.setStartY(startY - COORDINATE_ERROR_Y_OFFSET);
 		this.cubicCurve.setEndX(endX - COORDINATE_ERROR_X_OFFSET);
 		this.cubicCurve.setEndY(endY - COORDINATE_ERROR_Y_OFFSET);
+		this.initialXEnd = endX - COORDINATE_ERROR_X_OFFSET;
+		this.initialYEnd = endY - COORDINATE_ERROR_Y_OFFSET;
 	}
 
 	/**
@@ -98,13 +103,14 @@ public class CurvedHintAnnotation extends AbstractHintAnnotation {
 	 * circular background of the candidate.
 	 */
 	protected void adjustPoints() {
-		this.movePointsTowardCurveDirection();
 		this.movePointsOffLabels();
+		this.movePointsTowardCurveDirection();
+		this.drawArrowPointer();
 	}
 
 	protected void drawArrowPointer() {
-		final double angleOfLine = Math.atan2(this.cubicCurve.getEndY() - this.cubicCurve.getControlY1(),
-				this.cubicCurve.getEndX() - this.cubicCurve.getControlX1());
+		final double angleOfLine = Math.atan2(this.initialYEnd - this.cubicCurve.getEndY(),
+				this.initialXEnd - this.cubicCurve.getEndX());
 		// Use the angle of the arrow to calculate points for the arrow vertices.
 		final double yVectorOfLine = Math.sin(angleOfLine);
 		final double xVectorOfLine = Math.cos(angleOfLine);
@@ -182,9 +188,13 @@ public class CurvedHintAnnotation extends AbstractHintAnnotation {
 				// Move the arrow left.
 				this.cubicCurve.setStartX(this.cubicCurve.getStartX() - CURVE_OFFSET);
 				this.cubicCurve.setEndX(this.cubicCurve.getEndX() - CURVE_OFFSET);
+				this.initialXEnd += CURVE_OFFSET;
+				this.adjustedXEnd -= CURVE_OFFSET / 2;
 			} else {
 				this.cubicCurve.setStartX(this.cubicCurve.getStartX() + CURVE_OFFSET);
 				this.cubicCurve.setEndX(this.cubicCurve.getEndX() + CURVE_OFFSET);
+				this.initialXEnd -= CURVE_OFFSET;
+				this.adjustedXEnd += CURVE_OFFSET / 2;
 			}
 
 		} else if (Math.abs(this.cubicCurve.getStartY() - this.cubicCurve.getEndY()) < .01) {
@@ -192,9 +202,13 @@ public class CurvedHintAnnotation extends AbstractHintAnnotation {
 				// Move the arrow down.
 				this.cubicCurve.setStartY(this.cubicCurve.getStartY() + CURVE_OFFSET);
 				this.cubicCurve.setEndY(this.cubicCurve.getEndY() + CURVE_OFFSET);
+				this.initialYEnd -= CURVE_OFFSET;
+				this.adjustedYEnd += CURVE_OFFSET / 2;
 			} else {
 				this.cubicCurve.setStartY(this.cubicCurve.getStartY() - CURVE_OFFSET);
 				this.cubicCurve.setEndY(this.cubicCurve.getEndY() - CURVE_OFFSET);
+				this.initialYEnd += CURVE_OFFSET;
+				this.adjustedYEnd -= CURVE_OFFSET / 2;
 			}
 
 		}
