@@ -61,11 +61,19 @@ public class HodokuFacade {
 				GameMode.PLAYING);
 		final String mustContainStepWithName = ApplicationSettings.getInstance().getMustContainStepWithName();
 		if (!mustContainStepWithName.isEmpty()) {
-			final List<SolutionStep> solutionForSudoku = this.getSolutionForSudoku(generatedSudokuString);
-			final long matchingSteps = solutionForSudoku.stream()
-					.filter(solutionStep -> solutionStep.getType().getStepName().equals(mustContainStepWithName)).count();
-			if (matchingSteps == 0) {
-				// Reject non-matching puzzles.
+			try {
+				final List<SolutionStep> solutionForSudoku = this.getSolutionForSudoku(generatedSudokuString);
+				final long matchingSteps = solutionForSudoku.stream()
+						.filter(solutionStep -> solutionStep.getType().getStepName().equals(mustContainStepWithName)).count();
+				if (matchingSteps == 0) {
+					// Reject non-matching puzzles.
+					return Strings.EMPTY;
+				}
+			} catch (final Exception e) {
+				// Sometimes HoDoKu gives me errors; in this case, just pretend the puzzle was
+				// invalid and try again. Wouldn't put this on info or higher unless you want a
+				// big log file.
+				LOG.debug("Caught exception from HoDoKu:\n{}", e);
 				return Strings.EMPTY;
 			}
 			if (ApplicationSettings.getInstance().isSolveToRequiredStep()) {
@@ -98,15 +106,8 @@ public class HodokuFacade {
 		tempSudoku.setSudoku(sudokuString, true);
 		final Sudoku2 solvedSudoku = tempSudoku.clone();
 		final SudokuSolver solver = SudokuSolverFactory.getDefaultSolverInstance();
-//		try {
 		solver.solve(Options.getInstance().getDifficultyLevel(5), solvedSudoku, false, false,
 				Options.getInstance().solverSteps, Options.getInstance().getGameMode());
-//		} catch (final NullPointerException | IndexOutOfBoundsException| e) {
-//			LOG.error("{}", e);
-//			// Sometimes this method causes exceptions... just catch it and try a new
-//			// puzzle.
-//			return null
-//		}
 		tempSudoku.setLevel(solvedSudoku.getLevel());
 		tempSudoku.setScore(solvedSudoku.getScore());
 

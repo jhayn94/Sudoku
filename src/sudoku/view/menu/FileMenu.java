@@ -4,9 +4,6 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import javafx.application.Platform;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -30,8 +27,6 @@ import sudoku.view.util.Difficulty;
 import sudoku.view.util.LabelConstants;
 
 public class FileMenu extends Menu {
-
-	private static final Logger LOG = LogManager.getLogger(FileMenu.class);
 
 	public FileMenu() {
 		super();
@@ -98,7 +93,6 @@ public class FileMenu extends Menu {
 		final WaitingDialog waitingDialog = LayoutFactory.getInstance()
 				.createWaitingDialog(LabelConstants.GENERATING_PUZZLE_TITLE, LabelConstants.GENERATING_PUZZLE_MESSAGE);
 		final Thread puzzleGenerationThread = new Thread(() -> this.createNewPuzzle(waitingDialog));
-		waitingDialog.setExecutionThread(puzzleGenerationThread);
 		LayoutFactory.getInstance().showNewStageWithRootElement(waitingDialog.getStage(), waitingDialog,
 				LayoutFactory.MESSAGE_DIALOG_WIDTH, LayoutFactory.MESSAGE_DIALOG_HEIGHT);
 		puzzleGenerationThread.start();
@@ -138,20 +132,16 @@ public class FileMenu extends Menu {
 	}
 
 	private void createNewPuzzle(final WaitingDialog waitingDialog) {
-		try {
-			final String generateSudokuString = PuzzleGenerationCache.getInstance().getNextPuzzleString();
-			Platform.runLater(() -> {
+		final String generateSudokuString = PuzzleGenerationCache.getInstance().getNextPuzzleString();
+		Platform.runLater(() -> {
+			// If the dialog was cancelled, don't do anything.
+			System.out.println(waitingDialog.isDisabled());
+			if (!waitingDialog.isDisabled()) {
+				System.out.println("TEST");
 				ModelController.getInstance().transitionToNewRandomPuzzleState(generateSudokuString);
-				waitingDialog.close(false);
-			});
-		} catch (final Exception e) {
-			// Can't do much about these errors without opening up the HoDoKu source code,
-			// but directing the user to retry is better than nothing.
-			LOG.error("{}", e);
-			Platform.runLater(() -> {
-				waitingDialog.onGenerationFailed();
-			});
-		}
+				waitingDialog.close();
+			}
+		});
 	}
 
 	private void onOpenPuzzle() {

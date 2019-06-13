@@ -154,7 +154,7 @@ public class LabelConstants {
 	public static final String GENERATING_PUZZLE_TITLE = "Generating Puzzle";
 
 	public static final String GENERATING_PUZZLE_MESSAGE = "Generating a new puzzle. This may take a few seconds. "
-			+ "If generation takes more than 10 - 15 seconds, your puzzle requirements might be too strict.";
+			+ "If generation takes more than 20 - 30 seconds, your puzzle requirements might be too strict.";
 
 	public static final String RETRY_GENERATION = "Puzzle generation resulted in an error. Please retry generation. "
 			+ "If the problem persists, check the log file.";

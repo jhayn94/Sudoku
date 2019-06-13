@@ -1,8 +1,5 @@
 package sudoku.view.dialog;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -16,11 +13,7 @@ import sudoku.view.util.LabelConstants;
  */
 public class WaitingDialog extends MessageDialog {
 
-	private static final Logger LOG = LogManager.getLogger(WaitingDialog.class);
-
 	private static final int BUTTON_PANE_PADDING = 5;
-
-	private Thread executionThread;
 
 	private Button cancelButton;
 
@@ -29,26 +22,14 @@ public class WaitingDialog extends MessageDialog {
 		this.configure();
 	}
 
-	public void onGenerationFailed() {
-		this.cancelButton.setText(LabelConstants.OK);
-		this.setMessage(LabelConstants.RETRY_GENERATION);
-	}
-
 	/**
 	 * Closes this dialog.
 	 */
-	public void close(final boolean forceThreadStop) {
+	public void close() {
+		// Prevent multiple presses.
 		this.cancelButton.setDisable(true);
-		if (forceThreadStop) {
-			this.executionThread.interrupt();
-		} else {
-			try {
-				this.executionThread.join();
-			} catch (final InterruptedException e) {
-				LOG.error("{}", e);
-			}
-		}
 		this.getStage().close();
+		this.setDisabled(true);
 	}
 
 	@Override
@@ -59,21 +40,12 @@ public class WaitingDialog extends MessageDialog {
 	@Override
 	protected void createButtonPane() {
 		this.cancelButton = new Button(LabelConstants.CANCEL);
-		this.cancelButton.setOnAction(event -> {
-			this.close(true);
-		});
+		this.cancelButton.setOnAction(event -> this.close());
+
 		final HBox buttonPane = new HBox();
 		buttonPane.setPadding(new Insets(0, 0, BUTTON_PANE_PADDING, BUTTON_PANE_PADDING));
 		buttonPane.getChildren().add(this.cancelButton);
 		this.setBottom(buttonPane);
-	}
-
-	public Thread getExecutionThread() {
-		return this.executionThread;
-	}
-
-	public void setExecutionThread(final Thread executionThread) {
-		this.executionThread = executionThread;
 	}
 
 }

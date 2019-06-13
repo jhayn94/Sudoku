@@ -45,7 +45,7 @@ public class PuzzleGenerationCache {
 	public synchronized String getNextPuzzleString() {
 		while (this.cachedPuzzles.isEmpty()) {
 			try {
-				LOG.info("Waiting for puzzle to be available.");
+				LOG.info("Waiting for puzzle to be available...");
 				Thread.sleep(3000);
 			} catch (final InterruptedException e) {
 				LOG.error("{}", e);
@@ -75,7 +75,7 @@ public class PuzzleGenerationCache {
 	}
 
 	private void generatePuzzles() {
-		LOG.info("Creating puzzles, initial size = {}", this.cachedPuzzles.size());
+		LOG.info("Puzzle generation thread started, initial size = {}", this.cachedPuzzles.size());
 		while (!this.stopped && this.cachedPuzzles.size() < MAX_CACHE_SIZE) {
 			final String sudokuString = HodokuFacade.getInstance().generateSudokuString();
 			if (!sudokuString.isEmpty()) {
