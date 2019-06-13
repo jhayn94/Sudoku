@@ -142,7 +142,8 @@ public class CurvedHintAnnotation extends AbstractHintAnnotation {
 		double radians = angleOfLine - Math.PI / 4.0;
 		double bezierLength = CURVE_LENGTH;
 
-		// Adjust for very short lines
+		// Adjust lines for links which are very close (~3 candidates away at most) by
+		// shorting them, which makes the curve more natural.
 		final double lineDistance = Math.hypot(this.cubicCurve.getStartX() - this.cubicCurve.getEndX(),
 				this.cubicCurve.getStartY() - this.cubicCurve.getEndY());
 		if (lineDistance < 7.5 * LABEL_RADIUS) {
@@ -196,7 +197,6 @@ public class CurvedHintAnnotation extends AbstractHintAnnotation {
 				this.initialXEnd -= CURVE_OFFSET;
 				this.adjustedXEnd += CURVE_OFFSET / 2;
 			}
-
 		} else if (Math.abs(this.cubicCurve.getStartY() - this.cubicCurve.getEndY()) < .01) {
 			if (this.cubicCurve.getStartX() > this.cubicCurve.getEndX()) {
 				// Move the arrow down.

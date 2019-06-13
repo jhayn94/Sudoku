@@ -68,12 +68,14 @@ public abstract class AbstractHintAnnotation implements HintAnnotation {
 			final int startCandidateRow = 3 * startCellRow + (candidate / 3);
 			final int startCandidateCol = 3 * startCellCol + (candidate % 3);
 			if (startCellRow == endCellRow) {
+				// Start and end cells in same row.
 				final int otherCellCol = otherCellIndex % SudokuPuzzleValues.CELLS_PER_HOUSE;
 				final int otherCandidateCol = 3 * otherCellCol + (otherCandidate % 3);
 				final int endCandidateCol = 3 * endCellCol + (candidate % 3);
 				intersects = this.rowIntersectsWith(startCandidateRow, nodeData)
 						&& this.valueIsBetween(otherCandidateCol, startCandidateCol, endCandidateCol);
 			} else if (startCellCol == endCellCol) {
+				// Start and end cells in same column.
 				final int otherCellRow = otherCellIndex / SudokuPuzzleValues.CELLS_PER_HOUSE;
 				final int otherCandidateRow = 3 * otherCellRow + (otherCandidate / 3);
 				final int endCandidateRow = 3 * endCellRow + (candidate / 3);
