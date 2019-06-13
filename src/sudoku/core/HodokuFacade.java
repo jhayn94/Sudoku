@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.util.Strings;
 
 import generator.BackgroundGenerator;
 import generator.SudokuGenerator;
@@ -46,7 +47,12 @@ public class HodokuFacade {
 	}
 
 	/**
-	 * Generates a string which represents a sudoku puzzle with exactly 1 solution.
+	 * Tries to generate a string which represents a sudoku puzzle with exactly 1
+	 * solution. If the created puzzle does not meet current requirements of
+	 * {@link ApplicationSettings}, returns Strings.EMPTY instead. As such, it is
+	 * generally recommended that this is called in some sort of a loop.
+	 *
+	 * This was implemented as such to simplify thread management.
 	 */
 	public String generateSudokuString() {
 		final BackgroundGenerator generator = new BackgroundGenerator();
@@ -55,15 +61,12 @@ public class HodokuFacade {
 				GameMode.PLAYING);
 		final String mustContainStepWithName = ApplicationSettings.getInstance().getMustContainStepWithName();
 		if (!mustContainStepWithName.isEmpty()) {
-			List<SolutionStep> solutionForSudoku = this.getSolutionForSudoku(generatedSudokuString);
-			long matchingSteps = solutionForSudoku.stream()
+			final List<SolutionStep> solutionForSudoku = this.getSolutionForSudoku(generatedSudokuString);
+			final long matchingSteps = solutionForSudoku.stream()
 					.filter(solutionStep -> solutionStep.getType().getStepName().equals(mustContainStepWithName)).count();
-			while (matchingSteps == 0) {
-				generatedSudokuString = generator.generate(Options.getInstance().getDifficultyLevel(ordinal + 1),
-						GameMode.PLAYING);
-				solutionForSudoku = this.getSolutionForSudoku(generatedSudokuString);
-				matchingSteps = solutionForSudoku.stream()
-						.filter(solutionStep -> solutionStep.getType().getStepName().equals(mustContainStepWithName)).count();
+			if (matchingSteps == 0) {
+				// Reject non-matching puzzles.
+				return Strings.EMPTY;
 			}
 			if (ApplicationSettings.getInstance().isSolveToRequiredStep()) {
 				generatedSudokuString = this.solveSudokuUpToFirstInstanceOfStep(generatedSudokuString, mustContainStepWithName);

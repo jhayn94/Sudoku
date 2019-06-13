@@ -4,6 +4,7 @@ import java.util.List;
 
 import sudoku.StepConfig;
 import sudoku.model.ApplicationSettings;
+import sudoku.model.PuzzleGenerationCache;
 import sudoku.state.model.ApplicationModelState;
 
 /**
@@ -22,6 +23,7 @@ public class SaveSolverSettingsState extends AbstractSaveSettingsState {
 	@Override
 	public void onEnter() {
 		ApplicationSettings.getInstance().setSolverConfig(this.stepConfigs);
+		PuzzleGenerationCache.getInstance().onSettingsChanged();
 		super.onEnter();
 	}
 }

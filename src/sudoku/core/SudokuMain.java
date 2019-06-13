@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sudoku.factories.LayoutFactory;
 import sudoku.factories.MenuFactory;
+import sudoku.model.PuzzleGenerationCache;
 import sudoku.view.ApplicationRootPane;
 import sudoku.view.MainApplicationView;
 import sudoku.view.RootStackPane;
@@ -81,6 +82,8 @@ public class SudokuMain extends Application {
 		WindowHelper.addResizeAndDragListener(stage, root);
 		// Initializes the model controller with default states + behaviors.
 		ModelController.getInstance();
+		// Initializes the puzzle generation thread.
+		PuzzleGenerationCache.getInstance();
 
 	}
 

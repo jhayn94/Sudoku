@@ -2,6 +2,7 @@ package sudoku.state.model.settings;
 
 import sudoku.core.ViewController;
 import sudoku.model.ApplicationSettings;
+import sudoku.model.PuzzleGenerationCache;
 import sudoku.state.model.ApplicationModelState;
 import sudoku.view.settings.PuzzleGenerationSettingsView;
 import sudoku.view.util.Difficulty;
@@ -29,6 +30,7 @@ public class SavePuzzleGenerationSettingsState extends AbstractSaveSettingsState
 		ApplicationSettings.getInstance().setDifficulty(Difficulty.valueOf(difficulty.toUpperCase().replace(" ", "_")));
 		ApplicationSettings.getInstance().setMustContainStepWithName(mustContainTechnique);
 		ApplicationSettings.getInstance().setSolveToRequiredStep(solveUpToStep);
+		PuzzleGenerationCache.getInstance().onSettingsChanged();
 		super.onEnter();
 	}
 }

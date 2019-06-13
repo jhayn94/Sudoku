@@ -19,11 +19,11 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import sudoku.Options;
 import sudoku.SolutionType;
 import sudoku.StepConfig;
-import sudoku.core.HodokuFacade;
 import sudoku.core.ModelController;
 import sudoku.core.ViewController;
 import sudoku.factories.LayoutFactory;
 import sudoku.model.ApplicationSettings;
+import sudoku.model.PuzzleGenerationCache;
 import sudoku.view.dialog.ModalStage;
 import sudoku.view.dialog.WaitingDialog;
 import sudoku.view.util.Difficulty;
@@ -139,7 +139,7 @@ public class FileMenu extends Menu {
 
 	private void createNewPuzzle(final WaitingDialog waitingDialog) {
 		try {
-			final String generateSudokuString = HodokuFacade.getInstance().generateSudokuString();
+			final String generateSudokuString = PuzzleGenerationCache.getInstance().getNextPuzzleString();
 			Platform.runLater(() -> {
 				ModelController.getInstance().transitionToNewRandomPuzzleState(generateSudokuString);
 				waitingDialog.close(false);

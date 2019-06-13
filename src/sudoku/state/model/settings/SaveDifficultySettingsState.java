@@ -3,6 +3,7 @@ package sudoku.state.model.settings;
 import javafx.scene.control.TextField;
 import sudoku.core.ViewController;
 import sudoku.model.ApplicationSettings;
+import sudoku.model.PuzzleGenerationCache;
 import sudoku.state.model.ApplicationModelState;
 import sudoku.view.settings.DifficultySettingsView;
 import sudoku.view.util.Difficulty;
@@ -29,6 +30,7 @@ public class SaveDifficultySettingsState extends AbstractSaveSettingsState {
 			final int maxScore = Integer.parseInt(maxScoreText);
 			ApplicationSettings.getInstance().setMaxScoreForDifficulty(difficulty.name(), maxScore);
 		});
+		PuzzleGenerationCache.getInstance().onSettingsChanged();
 		super.onEnter();
 	}
 }
