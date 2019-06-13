@@ -145,8 +145,8 @@ public class CurvedHintAnnotation extends AbstractHintAnnotation {
 		// Adjust for very short lines
 		final double lineDistance = Math.hypot(this.cubicCurve.getStartX() - this.cubicCurve.getEndX(),
 				this.cubicCurve.getStartY() - this.cubicCurve.getEndY());
-		if (lineDistance < 2.0 * LABEL_RADIUS) {
-			bezierLength = lineDistance / 4.0;
+		if (lineDistance < 7.5 * LABEL_RADIUS) {
+			bezierLength = lineDistance / 3.0;
 		}
 		final double controlPointX1 = this.cubicCurve.getStartX() + bezierLength * Math.cos(radians);
 		final double controlPointY1 = this.cubicCurve.getStartY() + bezierLength * Math.sin(radians);

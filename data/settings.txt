@@ -1,11 +1,11 @@
-difficulty=DIABOLICAL
-mustContainStepWithName=Almost Locked Set Chain
+difficulty=VERY_HARD
+mustContainStepWithName=
 maxScoreForEASY=800
 maxScoreForMEDIUM=1000
 maxScoreForHARD=1600
 maxScoreForVERY_HARD=2000
 maxScoreForDIABOLICAL=9999999
-solveToRequiredStep=true
+solveToRequiredStep=false
 autoManageCandidates=true
 showPuzzleProgress=true
 useDigitButtonsForMouseActions=false

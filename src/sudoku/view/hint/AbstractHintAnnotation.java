@@ -65,12 +65,20 @@ public abstract class AbstractHintAnnotation implements HintAnnotation {
 			final int startCellCol = startCellIndex % SudokuPuzzleValues.CELLS_PER_HOUSE;
 			final int endCellRow = endCellIndex / SudokuPuzzleValues.CELLS_PER_HOUSE;
 			final int endCellCol = endCellIndex % SudokuPuzzleValues.CELLS_PER_HOUSE;
+			final int startCandidateRow = 3 * startCellRow + (candidate / 3);
+			final int startCandidateCol = 3 * startCellCol + (candidate % 3);
 			if (startCellRow == endCellRow) {
-				final int candidateRow = 3 * startCellRow + (candidate / 3);
-				intersects = this.rowIntersectsWith(candidateRow, nodeData);
+				final int otherCellCol = otherCellIndex % SudokuPuzzleValues.CELLS_PER_HOUSE;
+				final int otherCandidateCol = 3 * otherCellCol + (otherCandidate % 3);
+				final int endCandidateCol = 3 * endCellCol + (candidate % 3);
+				intersects = this.rowIntersectsWith(startCandidateRow, nodeData)
+						&& this.valueIsBetween(otherCandidateCol, startCandidateCol, endCandidateCol);
 			} else if (startCellCol == endCellCol) {
-				final int candidateCol = 3 * startCellCol + (candidate % 3);
-				intersects = this.colIntersectsWith(candidateCol, nodeData);
+				final int otherCellRow = otherCellIndex / SudokuPuzzleValues.CELLS_PER_HOUSE;
+				final int otherCandidateRow = 3 * otherCellRow + (otherCandidate / 3);
+				final int endCandidateRow = 3 * endCellRow + (candidate / 3);
+				intersects = this.colIntersectsWith(startCandidateCol, nodeData)
+						&& this.valueIsBetween(otherCandidateRow, startCandidateRow, endCandidateRow);
 			}
 		}
 
@@ -118,6 +126,15 @@ public abstract class AbstractHintAnnotation implements HintAnnotation {
 		final int otherCellCol = otherCellIndex % SudokuPuzzleValues.CELLS_PER_HOUSE;
 		final int otherCandidate = Chain.getSCandidate(nodeData) - 1;
 		return candidateCol == 3 * otherCellCol + (otherCandidate % 3);
+	}
+
+	/**
+	 * Returns true iff the given candidate row or column is between the given start
+	 * and end rows / columns.
+	 */
+	private boolean valueIsBetween(final int candidatePos, final int startCellPos, final int endCellPos) {
+		return (startCellPos < candidatePos && candidatePos < endCellPos)
+				|| (endCellPos < candidatePos && candidatePos < startCellPos);
 	}
 
 }

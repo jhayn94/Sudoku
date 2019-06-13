@@ -135,9 +135,7 @@ public class FileMenu extends Menu {
 		final String generateSudokuString = PuzzleGenerationCache.getInstance().getNextPuzzleString();
 		Platform.runLater(() -> {
 			// If the dialog was cancelled, don't do anything.
-			System.out.println(waitingDialog.isDisabled());
 			if (!waitingDialog.isDisabled()) {
-				System.out.println("TEST");
 				ModelController.getInstance().transitionToNewRandomPuzzleState(generateSudokuString);
 				waitingDialog.close();
 			}
