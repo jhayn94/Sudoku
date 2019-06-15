@@ -187,6 +187,7 @@ public class SudokuPuzzleValues {
 						this.givenCells[col][row] = Integer.valueOf(charAtPosition) - '0';
 					}
 					this.fixedCells[col][row] = Integer.valueOf(charAtPosition) - '0';
+					this.candidatesForCells[col][row].clear();
 				}
 			}
 		}

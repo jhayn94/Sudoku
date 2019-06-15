@@ -32,6 +32,7 @@ public class SetGivenCellsState extends ApplicationModelState {
 			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
 				final int givenDigit = this.sudokuPuzzleValues.getFixedCellDigit(row, col);
 				if (givenDigit != 0) {
+					this.sudokuPuzzleValues.getCandidateDigitsForCell(row, col).clear();
 					this.sudokuPuzzleValues.setGivenCellDigit(row, col, givenDigit);
 					final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
 					// They probably aren't visible already, but just in case.
