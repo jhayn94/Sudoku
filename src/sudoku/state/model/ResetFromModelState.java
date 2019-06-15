@@ -31,6 +31,7 @@ public abstract class ResetFromModelState extends ApplicationModelState {
 		// before setting candidates. Otherwise the doesCellSeeFixedDigit checks will
 		// not be correct.
 		this.updateCandidates();
+		IntStream.range(1, SudokuPuzzleValues.CELLS_PER_HOUSE + 1).forEach(this::updateFilterButtonEnabled);
 		this.reapplyActiveFilter();
 		this.updateRemainingScoreForPuzzle();
 	}

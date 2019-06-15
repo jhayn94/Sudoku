@@ -1,8 +1,13 @@
 package sudoku.state.model.filter;
 
+import java.util.List;
+
 import org.apache.logging.log4j.util.Strings;
 
+import javafx.scene.control.Button;
+import sudoku.core.ViewController;
 import sudoku.state.model.ApplicationModelState;
+import sudoku.view.sidebar.FilterButtonPane;
 import sudoku.view.util.LabelConstants;
 
 /**
@@ -54,22 +59,27 @@ public class CycleActiveFilterState extends ApplicationModelState {
 	 *
 	 */
 	private String parseCycleFilterInput(final String filterInput) {
-		int newFilterDigit;
-		// This is kind of misnamed... the "indices" here are 1 - 10 as strings. But
-		// there is not really a clearer way to put it.
-		final String currentFilterIndex = this.sudokuPuzzleStyle.getActiveCellFilter().replace(LabelConstants.BIVALUE_CELL,
-				BIVALUE_CELL_FILTER_INDEX);
-		if (PERIOD.equals(filterInput)) {
-			newFilterDigit = Integer.parseInt(currentFilterIndex) + 1;
-		} else {
-			newFilterDigit = Integer.parseInt(currentFilterIndex) - 1;
-		}
-		// It would be nice to use % instead, but since the range is [1, 10], and not
-		// [0, 9], it won't work.
-		if (newFilterDigit == 0) {
-			newFilterDigit = 10;
-		} else if (newFilterDigit == NUM_FILTERS + 1) {
-			newFilterDigit = 1;
+		// Note that F10 is for bivalue cells, F1 - F9 are for the corresponding digit.
+		final int currentFilterIndex = Integer.valueOf(
+				this.sudokuPuzzleStyle.getActiveCellFilter().replace(LabelConstants.BIVALUE_CELL, BIVALUE_CELL_FILTER_INDEX));
+		int newFilterDigit = currentFilterIndex;
+
+		final FilterButtonPane filterButtonPane = ViewController.getInstance().getFilterButtonPane();
+		final List<Button> filterButtons = filterButtonPane.getFilterButtons();
+		// Skip over a filter if a digit is entirely solved.
+		while (newFilterDigit == currentFilterIndex || filterButtons.get(newFilterDigit - 1).isDisabled()) {
+			if (PERIOD.equals(filterInput)) {
+				newFilterDigit = newFilterDigit + 1;
+			} else {
+				newFilterDigit = newFilterDigit - 1;
+			}
+			// It would be nice to use % instead, but since the range is [1, 10], and not
+			// [0, 9], it won't work.
+			if (newFilterDigit == 0) {
+				newFilterDigit = 10;
+			} else if (newFilterDigit == NUM_FILTERS + 1) {
+				newFilterDigit = 1;
+			}
 		}
 		return String.valueOf(newFilterDigit).replace(BIVALUE_CELL_FILTER_INDEX, LabelConstants.BIVALUE_CELL);
 	}

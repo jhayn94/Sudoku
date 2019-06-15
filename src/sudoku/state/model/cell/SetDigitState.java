@@ -38,6 +38,7 @@ public class SetDigitState extends ApplicationModelState {
 				final int digit = Integer.parseInt(this.lastKeyCode.toString().replace(DIGIT_REPLACE_TEXT, Strings.EMPTY)
 						.replace(NUMPAD_REPLACE_TEXT, Strings.EMPTY));
 				this.sudokuPuzzleValues.setCellFixedDigit(selectedCell.getRow(), selectedCell.getCol(), digit);
+				this.updateFilterButtonEnabled(digit);
 				this.reapplyActiveFilter();
 				this.updateRemainingScoreForPuzzle();
 			}

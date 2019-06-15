@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.apache.logging.log4j.util.Strings;
 
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
+import sudoku.core.ViewController;
 import sudoku.model.ApplicationSettings;
 import sudoku.model.SudokuPuzzleValues;
 import sudoku.state.model.ApplicationModelState;
@@ -38,6 +40,11 @@ public class RemoveDigitState extends ApplicationModelState {
 			if (ApplicationSettings.getInstance().isAutoManageCandidates()) {
 				this.updateCandidatesAfterClearingCell(selectedCell);
 			}
+
+			// The digit removed cannot possibly be solved anymore, so enable the filter
+			// button.
+			final List<Button> filterButtons = ViewController.getInstance().getFilterButtonPane().getFilterButtons();
+			filterButtons.get(fixedDigit - 1).setDisable(false);
 			this.reapplyActiveFilter();
 			this.updateRemainingScoreForPuzzle();
 		}

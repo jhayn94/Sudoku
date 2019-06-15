@@ -270,6 +270,23 @@ public class ApplicationModelState {
 	}
 
 	/**
+	 * Checks if the digit is solved (i.e. it is the 9th instance of that digit
+	 * placed), and disables the corresponding filter button if this is the case.
+	 */
+	protected void updateFilterButtonEnabled(final int digit) {
+		int instancesOfDigitFound = 0;
+		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
+			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
+				if (digit == this.sudokuPuzzleValues.getFixedCellDigit(row, col)) {
+					instancesOfDigitFound++;
+				}
+			}
+		}
+		final List<Button> filterButtons = ViewController.getInstance().getFilterButtonPane().getFilterButtons();
+		filterButtons.get(digit - 1).setDisable(instancesOfDigitFound >= 9);
+	}
+
+	/**
 	 * Refreshes the active filter by clearing it, and applying it again. This is
 	 * necessary when other model components change, which may cause the filter to
 	 * yield a different result.
