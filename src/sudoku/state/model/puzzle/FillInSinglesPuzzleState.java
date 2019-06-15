@@ -1,5 +1,7 @@
 package sudoku.state.model.puzzle;
 
+import java.util.stream.IntStream;
+
 import org.apache.logging.log4j.util.Strings;
 
 import sudoku.core.HodokuFacade;
@@ -33,6 +35,8 @@ public class FillInSinglesPuzzleState extends ApplicationModelState {
 				}
 			}
 		}
+
+		IntStream.range(1, SudokuPuzzleValues.CELLS_PER_HOUSE + 1).forEach(this::updateFilterButtonEnabled);
 		this.resetColorStates(false, true, ColorUtils.getHintColorStates());
 		this.reapplyActiveFilter();
 		this.updateRemainingScoreForPuzzle();
