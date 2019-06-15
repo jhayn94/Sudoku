@@ -2,6 +2,7 @@ package sudoku.state.model;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -117,12 +118,12 @@ public class ApplicationModelState {
 	 */
 	protected void toggleCandidateActiveForCell(final int pressedDigit, final SudokuPuzzleCell cell) {
 		if (this.sudokuPuzzleValues.getFixedCellDigit(cell.getRow(), cell.getCol()) == 0) {
-			final List<Integer> candidatesForCell = this.sudokuPuzzleValues.getCandidateDigitsForCell(cell.getRow(),
+			final Set<Integer> candidatesForCell = this.sudokuPuzzleValues.getCandidateDigitsForCell(cell.getRow(),
 					cell.getCol());
 			final boolean isCandidateVisible = candidatesForCell.contains(pressedDigit);
 			cell.setCandidateVisible(pressedDigit, !isCandidateVisible);
 			if (isCandidateVisible) {
-				candidatesForCell.remove((Object) pressedDigit);
+				candidatesForCell.remove(pressedDigit);
 			} else {
 				candidatesForCell.add(pressedDigit);
 			}
@@ -144,8 +145,7 @@ public class ApplicationModelState {
 			otherCell.setCandidateVisible(fixedDigit, false);
 			// Cast to object forces the list to remove by object reference instead
 			// of index.
-			this.sudokuPuzzleValues.getCandidateDigitsForCell(otherCell.getRow(), otherCell.getCol())
-					.remove((Object) fixedDigit);
+			this.sudokuPuzzleValues.getCandidateDigitsForCell(otherCell.getRow(), otherCell.getCol()).remove(fixedDigit);
 		});
 	}
 
@@ -190,11 +190,11 @@ public class ApplicationModelState {
 	protected void setCandidateVisibility(final int row, final int col, final SudokuPuzzleCell sudokuPuzzleCell,
 			final boolean isCellGiven) {
 		if (!isCellGiven) {
-			final List<Integer> candidateDigitsForCell = this.sudokuPuzzleValues.getCandidateDigitsForCell(row, col);
+			final Set<Integer> candidateDigitsForCell = this.sudokuPuzzleValues.getCandidateDigitsForCell(row, col);
 			for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
 				final boolean seesFixedDigit = SudokuPuzzleCellUtils.doesCellSeeFixedDigit(row, col, candidate);
 				if (seesFixedDigit) {
-					candidateDigitsForCell.remove((Object) candidate);
+					candidateDigitsForCell.remove(candidate);
 				}
 				sudokuPuzzleCell.setCandidateVisible(candidate, candidateDigitsForCell.contains(candidate) && !seesFixedDigit
 						&& ApplicationSettings.getInstance().isAutoManageCandidates());
@@ -322,13 +322,13 @@ public class ApplicationModelState {
 		// it is a bivalue cell filter. This line initializes a function to filter
 		// the appropriate cells for either case. It is done in 1 line because it
 		// must be final to use in a lambda function below.
-		final Function<List<Integer>, Boolean> predicate = this.sudokuPuzzleStyle.getActiveCellFilter().length() > 1
+		final Function<Set<Integer>, Boolean> predicate = this.sudokuPuzzleStyle.getActiveCellFilter().length() > 1
 				? candidates -> candidates.size() == 2
 				: candidates -> candidates.contains(Integer.parseInt(this.sudokuPuzzleStyle.getActiveCellFilter()));
 
 		IntStream.rangeClosed(0, SudokuPuzzleValues.CELLS_PER_HOUSE - 1)
 				.forEach(row -> IntStream.rangeClosed(0, SudokuPuzzleValues.CELLS_PER_HOUSE - 1).forEach(col -> {
-					final List<Integer> candidates = this.sudokuPuzzleValues.getCandidateDigitsForCell(row, col);
+					final Set<Integer> candidates = this.sudokuPuzzleValues.getCandidateDigitsForCell(row, col);
 					final SudokuPuzzleCell sudokuPuzzleCell = ViewController.getInstance().getSudokuPuzzleCell(row, col);
 					if (this.sudokuPuzzleValues.getFixedCellDigit(row, col) == 0
 							&& this.candidatesMatchFilter(predicate, candidates)) {
@@ -454,8 +454,8 @@ public class ApplicationModelState {
 		}
 	}
 
-	private Boolean candidatesMatchFilter(final Function<List<Integer>, Boolean> predicate,
-			final List<Integer> candidates) {
+	private Boolean candidatesMatchFilter(final Function<Set<Integer>, Boolean> predicate,
+			final Set<Integer> candidates) {
 		return predicate.apply(candidates);
 	}
 

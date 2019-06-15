@@ -1,6 +1,6 @@
 package sudoku.state.model;
 
-import java.util.List;
+import java.util.Set;
 import java.util.stream.IntStream;
 
 import org.apache.logging.log4j.util.Strings;
@@ -49,7 +49,7 @@ public abstract class ResetFromModelState extends ApplicationModelState {
 				} else {
 					this.updateUnfixedCell(row, col, sudokuPuzzleCell);
 				}
-				final List<Integer> candidateDigitsForCell = this.sudokuPuzzleValues.getCandidateDigitsForCell(row, col);
+				final Set<Integer> candidateDigitsForCell = this.sudokuPuzzleValues.getCandidateDigitsForCell(row, col);
 				IntStream.rangeClosed(1, SudokuPuzzleValues.CELLS_PER_HOUSE).forEach(digit -> {
 					sudokuPuzzleCell.setCandidateVisible(digit, candidateDigitsForCell.contains(digit));
 				});

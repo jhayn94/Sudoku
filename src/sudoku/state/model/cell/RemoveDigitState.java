@@ -1,6 +1,7 @@
 package sudoku.state.model.cell;
 
 import java.util.List;
+import java.util.Set;
 
 import org.apache.logging.log4j.util.Strings;
 
@@ -51,8 +52,8 @@ public class RemoveDigitState extends ApplicationModelState {
 	}
 
 	private void updateCandidatesAfterClearingCell(final SudokuPuzzleCell selectedCell) {
-		final List<Integer> candidateDigitsForCell = this.sudokuPuzzleValues
-				.getCandidateDigitsForCell(selectedCell.getRow(), selectedCell.getCol());
+		final Set<Integer> candidateDigitsForCell = this.sudokuPuzzleValues.getCandidateDigitsForCell(selectedCell.getRow(),
+				selectedCell.getCol());
 		for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
 			if (!SudokuPuzzleCellUtils.doesCellSeeFixedDigit(selectedCell.getRow(), selectedCell.getCol(), candidate)) {
 				selectedCell.setCandidateVisible(candidate, true);

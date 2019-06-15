@@ -1,6 +1,6 @@
 package sudoku.state.model.coloring;
 
-import java.util.List;
+import java.util.Set;
 
 import javafx.scene.input.KeyCode;
 import sudoku.state.model.ApplicationModelState;
@@ -27,7 +27,7 @@ public class ToggleCandidateColorState extends ApplicationModelState {
 		final SudokuPuzzleCell selectedCell = this.getSelectedCell();
 
 		if (this.sudokuPuzzleValues.getFixedCellDigit(selectedCell.getRow(), selectedCell.getCol()) == 0) {
-			final List<Integer> candidatesForCell = this.sudokuPuzzleValues.getCandidateDigitsForCell(
+			final Set<Integer> candidatesForCell = this.sudokuPuzzleValues.getCandidateDigitsForCell(
 					this.sudokuPuzzleStyle.getSelectedCellRow(), this.sudokuPuzzleStyle.getSelectedCellCol());
 			final boolean isCandidateVisible = candidatesForCell.contains(this.sudokuPuzzleStyle.getActiveCandidateDigit());
 			if (isCandidateVisible) {

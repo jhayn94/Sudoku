@@ -34,10 +34,10 @@ public class SetDigitState extends ApplicationModelState {
 				selectedCell.setFixedDigit(this.lastKeyCode.toString());
 				this.updateFixedCellTypeCssClass(this.getSelectedCell(), FIXED_CELL_CSS_CLASS);
 
-				this.updateCandidates(selectedCell, oldFixedDigit);
 				final int digit = Integer.parseInt(this.lastKeyCode.toString().replace(DIGIT_REPLACE_TEXT, Strings.EMPTY)
 						.replace(NUMPAD_REPLACE_TEXT, Strings.EMPTY));
 				this.sudokuPuzzleValues.setCellFixedDigit(selectedCell.getRow(), selectedCell.getCol(), digit);
+				this.updateCandidates(selectedCell, oldFixedDigit);
 				this.updateFilterButtonEnabled(digit);
 				this.reapplyActiveFilter();
 				this.updateRemainingScoreForPuzzle();

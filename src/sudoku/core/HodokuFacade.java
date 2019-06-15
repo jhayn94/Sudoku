@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -251,7 +252,7 @@ public class HodokuFacade {
 	private void removeUserInputCandidateChanges(final SudokuPuzzleValues sudoku, final Sudoku2 tempSudoku) {
 		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
 			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
-				final List<Integer> candidateDigitsForCell = sudoku.getCandidateDigitsForCell(row, col);
+				final Set<Integer> candidateDigitsForCell = sudoku.getCandidateDigitsForCell(row, col);
 				for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
 					if (sudoku.getFixedCellDigit(row, col) != 0) {
 						tempSudoku.setCandidate(row, col, candidate, false);

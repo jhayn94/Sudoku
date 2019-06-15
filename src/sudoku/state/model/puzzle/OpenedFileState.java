@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.List;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -85,13 +85,13 @@ public class OpenedFileState extends ApplicationModelState {
 	protected void setCandidateVisibility(final int row, final int col, final SudokuPuzzleCell sudokuPuzzleCell,
 			final boolean isCellGiven) {
 		if (!isCellGiven) {
-			final List<Integer> candidateDigitsForCell = this.sudokuPuzzleValues.getCandidateDigitsForCell(row, col);
+			final Set<Integer> candidateDigitsForCell = this.sudokuPuzzleValues.getCandidateDigitsForCell(row, col);
 			for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
 				final String candidatesFromFile = this.candidatesForCellsFromFile[col][row];
 				final boolean shouldShowCandidate = candidatesFromFile.contains(String.valueOf(candidate));
 				sudokuPuzzleCell.setCandidateVisible(candidate, shouldShowCandidate);
 				if (!shouldShowCandidate) {
-					candidateDigitsForCell.remove((Object) candidate);
+					candidateDigitsForCell.remove(candidate);
 				}
 			}
 		}

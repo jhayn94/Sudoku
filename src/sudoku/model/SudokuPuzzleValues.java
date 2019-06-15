@@ -1,7 +1,7 @@
 package sudoku.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import sudoku.factories.ModelFactory;
 
@@ -25,7 +25,7 @@ public class SudokuPuzzleValues {
 
 	private final Integer[][] fixedCells;
 
-	private final List<Integer>[][] candidatesForCells;
+	private final Set<Integer>[][] candidatesForCells;
 
 	private int difficultyScore;
 
@@ -34,12 +34,12 @@ public class SudokuPuzzleValues {
 		this.hasGivens = false;
 		this.givenCells = new Integer[CELLS_PER_HOUSE][CELLS_PER_HOUSE];
 		this.fixedCells = new Integer[CELLS_PER_HOUSE][CELLS_PER_HOUSE];
-		this.candidatesForCells = new ArrayList[CELLS_PER_HOUSE][CELLS_PER_HOUSE];
+		this.candidatesForCells = new HashSet[CELLS_PER_HOUSE][CELLS_PER_HOUSE];
 		for (int row = 0; row < CELLS_PER_HOUSE; row++) {
 			for (int col = 0; col < CELLS_PER_HOUSE; col++) {
 				this.givenCells[col][row] = 0;
 				this.fixedCells[col][row] = 0;
-				this.candidatesForCells[col][row] = new ArrayList<>();
+				this.candidatesForCells[col][row] = new HashSet<>();
 				if (ApplicationSettings.getInstance().isAutoManageCandidates()) {
 					for (int candidate = 0; candidate < CELLS_PER_HOUSE; candidate++) {
 						this.candidatesForCells[col][row].add(candidate + 1);
@@ -69,7 +69,7 @@ public class SudokuPuzzleValues {
 		return this.fixedCells[col][row];
 	}
 
-	public List<Integer> getCandidateDigitsForCell(final int row, final int col) {
+	public Set<Integer> getCandidateDigitsForCell(final int row, final int col) {
 		return this.candidatesForCells[col][row];
 	}
 
@@ -90,7 +90,7 @@ public class SudokuPuzzleValues {
 		this.fixedCells[col][row] = fixedDigit;
 	}
 
-	public void setCellCandidateDigits(final int row, final int col, final List<Integer> candidates) {
+	public void setCellCandidateDigits(final int row, final int col, final Set<Integer> candidates) {
 		this.candidatesForCells[col][row] = candidates;
 	}
 
@@ -99,7 +99,7 @@ public class SudokuPuzzleValues {
 	}
 
 	public void removeCellCandidateDigit(final int row, final int col, final int candidate) {
-		this.candidatesForCells[col][row].remove((Object) candidate);
+		this.candidatesForCells[col][row].remove(candidate);
 	}
 
 	/** Creates and returns a deep copy of this. */
@@ -110,7 +110,7 @@ public class SudokuPuzzleValues {
 			for (int col = 0; col < CELLS_PER_HOUSE; col++) {
 				clone.givenCells[col][row] = this.givenCells[col][row];
 				clone.fixedCells[col][row] = this.fixedCells[col][row];
-				clone.candidatesForCells[col][row] = new ArrayList<>();
+				clone.candidatesForCells[col][row] = new HashSet<>();
 				clone.candidatesForCells[col][row].addAll(this.candidatesForCells[col][row]);
 				clone.difficultyScore = this.difficultyScore;
 				clone.hasGivens = this.hasGivens;
@@ -163,7 +163,7 @@ public class SudokuPuzzleValues {
 			final String candidates = candidatesStringForIndex.substring(5);
 			for (int candidate = 1; candidate <= CELLS_PER_HOUSE; candidate++) {
 				if (!candidates.contains(String.valueOf(candidate))) {
-					this.candidatesForCells[col][row].remove((Object) candidate);
+					this.candidatesForCells[col][row].remove(candidate);
 				}
 			}
 		}
