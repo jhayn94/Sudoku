@@ -34,6 +34,9 @@ import sudoku.view.util.Difficulty;
  *
  * Also, I was finding various locations where there were periodic errors, so
  * this offers a good place to do some less than favorable error handling.
+ * Update: the issue seemed to be that using getDefaultSolverInstance() was not
+ * thread safe, and using it for puzzle generation + updating the active puzzle
+ * could cause lots of confusing behaviors.
  *
  * In addition, this class offers a SPOC to the HoDoKu library.
  */
@@ -66,19 +69,6 @@ public class HodokuFacade {
 		final String mustContainStepWithName = ApplicationSettings.getInstance().getMustContainStepWithName();
 		if (!mustContainStepWithName.isEmpty()) {
 			generatedSudokuString = this.validatePuzzleForSettings(generatedSudokuString, mustContainStepWithName);
-		} else {
-			try {
-				// This code block runs through the solution of the puzzle to check for
-				// potential problems when solving. This ensures that the puzzle can be used and
-				// will not produce errors when shown to the user.
-				this.getSolutionForSudoku(generatedSudokuString);
-			} catch (final Exception e) {
-				// Sometimes HoDoKu gives errors; in this case, just pretend the puzzle was
-				// invalid and try again. Wouldn't put this on info or higher unless you want a
-				// big log file.
-				LOG.debug("Caught exception from HoDoKu:\n{}", e);
-				return Strings.EMPTY;
-			}
 		}
 		return generatedSudokuString;
 	}
@@ -148,7 +138,8 @@ public class HodokuFacade {
 			return Difficulty.getValidDifficulties().stream()
 					.filter(difficulty -> difficulty.getInternalDifficulty().equals(solvedSudoku.getLevel().getType()))
 					.findFirst().orElseThrow(NoSuchElementException::new);
-		} catch (final Exception npe) {
+		} catch (final Exception e) {
+			LOG.error(e);
 			return Difficulty.INVALID;
 		}
 	}
@@ -255,25 +246,17 @@ public class HodokuFacade {
 	 * up to setting is checked).
 	 */
 	private String validatePuzzleForSettings(final String generatedSudokuString, final String mustContainStepWithName) {
-		try {
-			final List<SolutionStep> solutionForSudoku = this.getSolutionForSudoku(generatedSudokuString);
-			final long matchingSteps = solutionForSudoku.stream()
-					.filter(solutionStep -> solutionStep.getType().getStepName().equals(mustContainStepWithName)).count();
-			if (matchingSteps == 0) {
-				// Reject non-matching puzzles.
-				return Strings.EMPTY;
-			}
-			if (ApplicationSettings.getInstance().isSolveToRequiredStep()) {
-				return this.solveSudokuUpToFirstInstanceOfStep(generatedSudokuString, mustContainStepWithName);
-			}
-			return generatedSudokuString;
-		} catch (final Exception e) {
-			// Sometimes HoDoKu gives errors; in this case, just pretend the puzzle was
-			// invalid and try again. Wouldn't put this on info or higher unless you want a
-			// big log file.
-			LOG.debug("Caught exception from HoDoKu:\n{}", e);
+		final List<SolutionStep> solutionForSudoku = this.getSolutionForSudoku(generatedSudokuString);
+		final long matchingSteps = solutionForSudoku.stream()
+				.filter(solutionStep -> solutionStep.getType().getStepName().equals(mustContainStepWithName)).count();
+		if (matchingSteps == 0) {
+			// Reject non-matching puzzles.
 			return Strings.EMPTY;
 		}
+		if (ApplicationSettings.getInstance().isSolveToRequiredStep()) {
+			return this.solveSudokuUpToFirstInstanceOfStep(generatedSudokuString, mustContainStepWithName);
+		}
+		return generatedSudokuString;
 
 	}
 
