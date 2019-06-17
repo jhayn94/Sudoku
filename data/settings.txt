@@ -1,5 +1,5 @@
 difficulty=DIABOLICAL
-mustContainStepWithName=XY-Wing
+mustContainStepWithName=Grouped Discontinuous Nice Loop
 maxScoreForEASY=800
 maxScoreForMEDIUM=1000
 maxScoreForHARD=1600

@@ -1,6 +1,7 @@
 package sudoku.state.model.hint;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import sudoku.Chain;
@@ -260,13 +261,38 @@ public class ShowSpecificHintState extends ApplicationModelState {
 
 	}
 
+	/**
+	 * Gets a list of all nodes in a chain from the given list of
+	 * {@link HintAnnotation}s.
+	 */
 	private List<Integer> getAllHintNodes(final List<HintAnnotation> hintAnnotations) {
 		final List<Integer> chainNodes = new ArrayList<>();
 		hintAnnotations.forEach(annotation -> {
-			chainNodes.add(annotation.getStartNodeData());
+			Arrays.asList(annotation.getStartNodeData(), annotation.getEndNodeData()).forEach(chainNode -> {
+				chainNodes.add(chainNode);
+				// If node is a group node, the additional cells must be considered for possible
+				// collisions as well.
+				if (Chain.GROUP_NODE == Chain.getSNodeType(chainNode)) {
+					this.addGroupNodes(chainNodes, chainNode);
+				}
+			});
+
 			chainNodes.add(annotation.getEndNodeData());
 		});
 		return chainNodes;
+	}
+
+	/** Adds the group node(s) to the given list of chain nodes. */
+	private void addGroupNodes(final List<Integer> chainNodes, final Integer chainNode) {
+		final int candidate = Chain.getSCandidate(chainNode);
+		final int cellIndex2 = Chain.getSCellIndex2(chainNode);
+		if (cellIndex2 > 0) {
+			chainNodes.add(Chain.makeSEntry(cellIndex2, candidate, false));
+		}
+		final int cellIndex3 = Chain.getSCellIndex3(chainNode);
+		if (cellIndex3 > 0) {
+			chainNodes.add(Chain.makeSEntry(cellIndex3, candidate, false));
+		}
 	}
 
 	private List<HintAnnotation> getInvalidAnnotations(final List<HintAnnotation> hintAnnotations,

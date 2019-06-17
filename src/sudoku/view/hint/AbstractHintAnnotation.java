@@ -49,7 +49,6 @@ public abstract class AbstractHintAnnotation implements HintAnnotation {
 	@Override
 	public boolean intersectsWith(final int nodeData) {
 		boolean intersects = false;
-		// If the given node is in the link, there is no intersection.
 
 		final int startCellIndex = Chain.getSCellIndex(this.startNodeData);
 		final int endCellIndex = Chain.getSCellIndex(this.endNodeData);
@@ -83,7 +82,6 @@ public abstract class AbstractHintAnnotation implements HintAnnotation {
 						&& this.valueIsBetween(otherCandidateRow, startCandidateRow, endCandidateRow);
 			}
 		}
-
 		return intersects;
 	}
 

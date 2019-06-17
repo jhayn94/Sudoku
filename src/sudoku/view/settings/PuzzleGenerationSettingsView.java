@@ -37,6 +37,8 @@ import sudoku.view.util.TooltipConstants;
  */
 public class PuzzleGenerationSettingsView extends ModalDialog {
 
+	private static final int STEP_COMBO_BOX_WIDTH = 400;
+
 	private static final int BUTTON_PANE_PADDING = 5;
 
 	private static final int SMALL_PADDING = 20;
@@ -91,7 +93,7 @@ public class PuzzleGenerationSettingsView extends ModalDialog {
 		final ComboBox<String> comboBox = this.mustContainTechniqueComboBox.getComboBox();
 		final SingleSelectionModel<String> selectionModel = comboBox.getSelectionModel();
 		selectionModel.select(ApplicationSettings.getInstance().getMustContainStepWithName());
-		comboBox.setMinWidth(300);
+		comboBox.setMinWidth(STEP_COMBO_BOX_WIDTH);
 		this.mustContainTechniqueComboBox.getLabel().setText(LabelConstants.MUST_CONTAIN);
 		this.mustContainTechniqueComboBox.getComboBox().setTooltip(new Tooltip(TooltipConstants.MUST_CONTAIN));
 
