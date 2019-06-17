@@ -37,7 +37,8 @@ public class PastePuzzleState extends ResetFromModelState {
 			final String puzzleString = (String) clipboard.getData(DataFlavor.stringFlavor);
 			if (puzzleString.matches(SUDOKU_PUZZLE_REGEX)) {
 				ViewController.getInstance().getRootPane().removeAllAnnotations();
-				this.sudokuPuzzleValues = ModelFactory.getInstance().createSudokuPuzzleValues(puzzleString);
+				this.sudokuPuzzleValues = ModelFactory.getInstance().createSudokuPuzzleValues();
+				this.sudokuPuzzleValues.updateCellAndCandidateValues(puzzleString, true);
 
 				this.resetApplicationFromPuzzleState();
 				this.resetAllColorStates();

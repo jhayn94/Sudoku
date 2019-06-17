@@ -1,7 +1,6 @@
 package sudoku.model;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -126,7 +125,7 @@ public class SudokuPuzzleValues {
 
 	/**
 	 * Returns the current state of the sudoku as string, where each digit is set if
-	 * fixed in the puzzle.. 0 is used if no digit is set.
+	 * fixed in the puzzle. 0 is used if no digit is set.
 	 */
 	public String toString(final boolean onlyGivens) {
 		final StringBuilder sb = new StringBuilder();
@@ -183,6 +182,9 @@ public class SudokuPuzzleValues {
 	 *                     false otherwise.
 	 */
 	public void updateCellValues(final String puzzleString, final boolean setGivens) {
+		if (setGivens) {
+			this.hasGivens = true;
+		}
 		for (int row = 0; row < CELLS_PER_HOUSE; row++) {
 			for (int col = 0; col < CELLS_PER_HOUSE; col++) {
 				final int position = row * CELLS_PER_HOUSE + col;
