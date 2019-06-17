@@ -1,6 +1,7 @@
 package sudoku.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -190,11 +191,14 @@ public class SudokuPuzzleValues {
 				final int position = row * CELLS_PER_HOUSE + col;
 				final char charAtPosition = puzzleString.charAt(position);
 				if (Character.isDigit(charAtPosition)) {
+					final int digit = Integer.valueOf(charAtPosition) - '0';
 					if (setGivens) {
-						this.givenCells[col][row] = Integer.valueOf(charAtPosition) - '0';
+						this.givenCells[col][row] = digit;
 					}
-					this.fixedCells[col][row] = Integer.valueOf(charAtPosition) - '0';
-					this.candidatesForCells[col][row].clear();
+					this.fixedCells[col][row] = digit;
+					if (digit != 0) {
+						this.candidatesForCells[col][row].clear();
+					}
 				}
 			}
 		}

@@ -32,6 +32,9 @@ import sudoku.view.util.Difficulty;
  * bilingual comments, and nested control flow, so I decided not to port it, and
  * use it a .jar instead.
  *
+ * Also, I was finding various locations where there were periodic errors, so
+ * this offers a good place to do some less than favorable error handling.
+ *
  * In addition, this class offers a SPOC to the HoDoKu library.
  */
 public class HodokuFacade {
@@ -62,23 +65,19 @@ public class HodokuFacade {
 				GameMode.PLAYING);
 		final String mustContainStepWithName = ApplicationSettings.getInstance().getMustContainStepWithName();
 		if (!mustContainStepWithName.isEmpty()) {
+			generatedSudokuString = this.validatePuzzleForSettings(generatedSudokuString, mustContainStepWithName);
+		} else {
 			try {
-				final List<SolutionStep> solutionForSudoku = this.getSolutionForSudoku(generatedSudokuString);
-				final long matchingSteps = solutionForSudoku.stream()
-						.filter(solutionStep -> solutionStep.getType().getStepName().equals(mustContainStepWithName)).count();
-				if (matchingSteps == 0) {
-					// Reject non-matching puzzles.
-					return Strings.EMPTY;
-				}
+				// This code block runs through the solution of the puzzle to check for
+				// potential problems when solving. This ensures that the puzzle can be used and
+				// will not produce errors when shown to the user.
+				this.getSolutionForSudoku(generatedSudokuString);
 			} catch (final Exception e) {
-				// Sometimes HoDoKu gives me errors; in this case, just pretend the puzzle was
+				// Sometimes HoDoKu gives errors; in this case, just pretend the puzzle was
 				// invalid and try again. Wouldn't put this on info or higher unless you want a
 				// big log file.
 				LOG.debug("Caught exception from HoDoKu:\n{}", e);
 				return Strings.EMPTY;
-			}
-			if (ApplicationSettings.getInstance().isSolveToRequiredStep()) {
-				generatedSudokuString = this.solveSudokuUpToFirstInstanceOfStep(generatedSudokuString, mustContainStepWithName);
 			}
 		}
 		return generatedSudokuString;
@@ -135,6 +134,7 @@ public class HodokuFacade {
 		solver.solve(Options.getInstance().getDifficultyLevel(5), solvedSudoku, false, false,
 				Options.getInstance().solverSteps, Options.getInstance().getGameMode());
 		return solvedSudoku.getScore();
+
 	}
 
 	/** Returns the rating to finish solving the given puzzle. */
@@ -249,16 +249,45 @@ public class HodokuFacade {
 		return tempSudoku;
 	}
 
+	/**
+	 * Validates a puzzle against the current puzzle generation settings. Returns
+	 * the puzzle string which should be used (this would only change if the solve
+	 * up to setting is checked).
+	 */
+	private String validatePuzzleForSettings(final String generatedSudokuString, final String mustContainStepWithName) {
+		try {
+			final List<SolutionStep> solutionForSudoku = this.getSolutionForSudoku(generatedSudokuString);
+			final long matchingSteps = solutionForSudoku.stream()
+					.filter(solutionStep -> solutionStep.getType().getStepName().equals(mustContainStepWithName)).count();
+			if (matchingSteps == 0) {
+				// Reject non-matching puzzles.
+				return Strings.EMPTY;
+			}
+			if (ApplicationSettings.getInstance().isSolveToRequiredStep()) {
+				return this.solveSudokuUpToFirstInstanceOfStep(generatedSudokuString, mustContainStepWithName);
+			}
+			return generatedSudokuString;
+		} catch (final Exception e) {
+			// Sometimes HoDoKu gives errors; in this case, just pretend the puzzle was
+			// invalid and try again. Wouldn't put this on info or higher unless you want a
+			// big log file.
+			LOG.debug("Caught exception from HoDoKu:\n{}", e);
+			return Strings.EMPTY;
+		}
+
+	}
+
 	private void removeUserInputCandidateChanges(final SudokuPuzzleValues sudoku, final Sudoku2 tempSudoku) {
 		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
 			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
-				final Set<Integer> candidateDigitsForCell = sudoku.getCandidateDigitsForCell(row, col);
-				for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
-					if (sudoku.getFixedCellDigit(row, col) != 0) {
-						tempSudoku.setCandidate(row, col, candidate, false);
-					} else {
+				final int fixedCellDigit = sudoku.getFixedCellDigit(row, col);
+				if (fixedCellDigit == 0) {
+					for (int candidate = 1; candidate <= SudokuPuzzleValues.CELLS_PER_HOUSE; candidate++) {
+						final Set<Integer> candidateDigitsForCell = sudoku.getCandidateDigitsForCell(row, col);
 						tempSudoku.setCandidate(row, col, candidate, candidateDigitsForCell.contains(candidate));
 					}
+				} else {
+					tempSudoku.setCell(row, col, fixedCellDigit);
 				}
 			}
 		}
