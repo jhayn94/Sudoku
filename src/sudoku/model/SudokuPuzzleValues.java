@@ -1,9 +1,14 @@
 package sudoku.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import sudoku.factories.ModelFactory;
+import sudoku.view.puzzle.SudokuPuzzleCell;
+import sudoku.view.puzzle.SudokuPuzzleCellUtils;
 
 /**
  * This class represents all the underlying data for a sudoku puzzle. This
@@ -200,5 +205,61 @@ public class SudokuPuzzleValues {
 	// Used to reset the puzzle to a non-playing state.
 	public void setHasGivens(final boolean hasGivens) {
 		this.hasGivens = hasGivens;
+	}
+
+	/** Returns true iff any digit appears twice or more in any house. */
+	public boolean containsContradictingCells() {
+		return IntStream.range(1, SudokuPuzzleValues.CELLS_PER_HOUSE + 1).anyMatch(this::containsContradictingCells);
+	}
+
+	/** Returns true iff the given digit appears twice or more in any house. */
+	public boolean containsContradictingCells(final int digit) {
+		return this.rowsContainContradiction(digit) || this.columnsContainContradiction(digit)
+				|| this.blocksContainContradiction(digit);
+
+	}
+
+	private boolean rowsContainContradiction(final int digit) {
+		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
+			int instancesOfDigitInHouse = 0;
+			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
+				if (digit == this.fixedCells[col][row]) {
+					instancesOfDigitInHouse++;
+				}
+				if (instancesOfDigitInHouse > 1) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	private boolean columnsContainContradiction(final int digit) {
+		for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
+			int instancesOfDigitInHouse = 0;
+			for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
+				if (digit == this.fixedCells[col][row]) {
+					instancesOfDigitInHouse++;
+				}
+				if (instancesOfDigitInHouse > 1) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	private boolean blocksContainContradiction(final int digit) {
+		for (int block = 1; block <= SudokuPuzzleValues.CELLS_PER_HOUSE; block++) {
+			final List<SudokuPuzzleCell> cellsInBox = SudokuPuzzleCellUtils.getCellsInBox(block);
+			final List<Integer> fixedDigits = cellsInBox.stream().map(cell -> this.fixedCells[cell.getCol()][cell.getRow()])
+					.filter(fixedDigit -> fixedDigit != 0).collect(Collectors.toList());
+			final List<Integer> uniqueDigits = fixedDigits.stream().distinct().collect(Collectors.toList());
+			if (fixedDigits.size() != uniqueDigits.size()) {
+				// This means a digit appeared more than once in the block
+				return true;
+			}
+		}
+		return false;
 	}
 }

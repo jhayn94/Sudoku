@@ -25,6 +25,15 @@ public class FillInSinglesPuzzleState extends ApplicationModelState {
 
 	@Override
 	public void onEnter() {
+		final boolean isPuzzleValid = HodokuFacade.getInstance().isPuzzleValid(this.sudokuPuzzleValues);
+		if (isPuzzleValid && !this.sudokuPuzzleValues.containsContradictingCells()) {
+			this.fillAllSingles();
+			this.updateView();
+		}
+
+	}
+
+	private void fillAllSingles() {
 		ViewController.getInstance().getRootPane().removeAllAnnotations();
 		final String updatedPuzzleString = HodokuFacade.getInstance().solveAllSingles(this.sudokuPuzzleValues);
 		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
@@ -35,7 +44,9 @@ public class FillInSinglesPuzzleState extends ApplicationModelState {
 				}
 			}
 		}
+	}
 
+	private void updateView() {
 		IntStream.range(1, SudokuPuzzleValues.CELLS_PER_HOUSE + 1).forEach(this::updateFilterButtonEnabled);
 		this.resetColorStates(false, true, ColorUtils.getHintColorStates());
 		this.reapplyActiveFilter();
@@ -48,6 +59,7 @@ public class FillInSinglesPuzzleState extends ApplicationModelState {
 		hintButtonPane.getHideHintButton().setDisable(true);
 	}
 
+	/** Updates the cell's view component if its value is set now. */
 	private void applyChangesForCell(final String updatedPuzzleString, final int row, final int col) {
 		final int linearIndex = row * SudokuPuzzleValues.CELLS_PER_HOUSE + col;
 		final String valueForCell = updatedPuzzleString.substring(linearIndex, linearIndex + 1);

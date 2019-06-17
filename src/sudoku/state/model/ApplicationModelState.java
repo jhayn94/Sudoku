@@ -234,7 +234,7 @@ public class ApplicationModelState {
 					.getRemainingRatingTextField();
 			if (ApplicationSettings.getInstance().isShowPuzzleProgress()) {
 				final boolean isPuzzleValid = HodokuFacade.getInstance().isPuzzleValid(this.sudokuPuzzleValues);
-				if (!isPuzzleValid) {
+				if (!isPuzzleValid || this.sudokuPuzzleValues.containsContradictingCells()) {
 					remainingRatingTextField.setText(LabelConstants.INVALID_PUZZLE);
 				} else {
 					final int remainingScoreForPuzzle = HodokuFacade.getInstance().getScoreForPuzzle(this.sudokuPuzzleValues,
@@ -274,14 +274,7 @@ public class ApplicationModelState {
 	 * placed), and disables the corresponding filter button if this is the case.
 	 */
 	protected void updateFilterButtonEnabled(final int digit) {
-		int instancesOfDigitFound = 0;
-		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
-			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
-				if (digit == this.sudokuPuzzleValues.getFixedCellDigit(row, col)) {
-					instancesOfDigitFound++;
-				}
-			}
-		}
+		final int instancesOfDigitFound = this.getDigitCount(digit);
 		final List<Button> filterButtons = ViewController.getInstance().getFilterButtonPane().getFilterButtons();
 		filterButtons.get(digit - 1).setDisable(instancesOfDigitFound >= 9);
 	}
@@ -457,6 +450,19 @@ public class ApplicationModelState {
 	private Boolean candidatesMatchFilter(final Function<Set<Integer>, Boolean> predicate,
 			final Set<Integer> candidates) {
 		return predicate.apply(candidates);
+	}
+
+	/** Returns the number of times the digit appears in the grid. */
+	private int getDigitCount(final int digit) {
+		int instancesOfDigitFound = 0;
+		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
+			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
+				if (digit == this.sudokuPuzzleValues.getFixedCellDigit(row, col)) {
+					instancesOfDigitFound++;
+				}
+			}
+		}
+		return instancesOfDigitFound;
 	}
 
 	/**
