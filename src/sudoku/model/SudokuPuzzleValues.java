@@ -6,6 +6,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.apache.logging.log4j.util.Strings;
+
 import sudoku.factories.ModelFactory;
 import sudoku.view.puzzle.SudokuPuzzleCell;
 import sudoku.view.puzzle.SudokuPuzzleCellUtils;
@@ -267,5 +269,28 @@ public class SudokuPuzzleValues {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Builds a string representation of the puzzle, including candidates. Can be
+	 * used to troubleshoot with Sudoku2::getSudoku.
+	 */
+	public String toGridString() {
+		final StringBuilder result = new StringBuilder("\n");
+		for (int row = 0; row < SudokuPuzzleValues.CELLS_PER_HOUSE; row++) {
+			for (int col = 0; col < SudokuPuzzleValues.CELLS_PER_HOUSE; col++) {
+				if (this.fixedCells[col][row] == 0) {
+					final Set<Integer> candidates = this.candidatesForCells[col][row];
+					result.append(candidates.toString().replaceAll("(\\[|\\]|\\s|,)", Strings.EMPTY));
+					for (int spaceIndex = candidates.size() - 1; spaceIndex < 9; spaceIndex++) {
+						result.append(" ");
+					}
+				} else {
+					result.append(this.fixedCells[col][row] + "         ");
+				}
+			}
+			result.append("\n");
+		}
+		return result.toString();
 	}
 }

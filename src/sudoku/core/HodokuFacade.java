@@ -89,7 +89,7 @@ public class HodokuFacade {
 	 */
 	public String solveAllSingles(final SudokuPuzzleValues sudokuPuzzleValues) {
 		final Sudoku2 tempSudoku = this.convertSudokuPuzzleValuesToSudoku2(sudokuPuzzleValues, false);
-		final SudokuSolver solver = SudokuSolverFactory.getDefaultSolverInstance();
+		final SudokuSolver solver = new SudokuSolver();
 		solver.solve(Options.getInstance().getDifficultyLevel(5), tempSudoku, false, true,
 				Options.getInstance().solverSteps, Options.getInstance().getGameMode());
 		return tempSudoku.getSudoku(ClipboardMode.VALUES_ONLY);
@@ -105,7 +105,7 @@ public class HodokuFacade {
 		final Sudoku2 tempSudoku = new Sudoku2();
 		tempSudoku.setSudoku(sudokuString, true);
 		final Sudoku2 solvedSudoku = tempSudoku.clone();
-		final SudokuSolver solver = SudokuSolverFactory.getDefaultSolverInstance();
+		final SudokuSolver solver = new SudokuSolver();
 		solver.solve(Options.getInstance().getDifficultyLevel(5), solvedSudoku, false, false,
 				Options.getInstance().solverSteps, Options.getInstance().getGameMode());
 		tempSudoku.setLevel(solvedSudoku.getLevel());
@@ -130,7 +130,7 @@ public class HodokuFacade {
 	public int getScoreForPuzzle(final SudokuPuzzleValues sudoku, final boolean onlyGivens) {
 		final Sudoku2 tempSudoku = this.convertSudokuPuzzleValuesToSudoku2(sudoku, onlyGivens);
 		final Sudoku2 solvedSudoku = tempSudoku.clone();
-		final SudokuSolver solver = SudokuSolverFactory.getDefaultSolverInstance();
+		final SudokuSolver solver = new SudokuSolver();
 		solver.solve(Options.getInstance().getDifficultyLevel(5), solvedSudoku, false, false,
 				Options.getInstance().solverSteps, Options.getInstance().getGameMode());
 		return solvedSudoku.getScore();
@@ -141,7 +141,7 @@ public class HodokuFacade {
 	public Difficulty getDifficultyForPuzzle(final SudokuPuzzleValues sudoku, final boolean onlyGivens) {
 		final Sudoku2 tempSudoku = this.convertSudokuPuzzleValuesToSudoku2(sudoku, onlyGivens);
 		final Sudoku2 solvedSudoku = tempSudoku.clone();
-		final SudokuSolver solver = SudokuSolverFactory.getDefaultSolverInstance();
+		final SudokuSolver solver = new SudokuSolver();
 		solver.solve(Options.getInstance().getDifficultyLevel(5), solvedSudoku, false, false,
 				Options.getInstance().solverSteps, Options.getInstance().getGameMode());
 		try {
