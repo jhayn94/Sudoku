@@ -35,6 +35,10 @@ public class PuzzleGenerationCache {
 		this.startThread();
 	}
 
+	public void onCloseApplication() {
+		this.stopThread();
+	}
+
 	public void onSettingsChanged() {
 		LOG.info("Cleared puzzle cache.");
 		this.stopThread();
