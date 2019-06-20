@@ -21,13 +21,13 @@ See sampleScreenshot.png for a quick visual of the application.
 ### Application setup for end users:
   1) In ..\Sudoku\, find and download Sudoku-X.X.X.zip from this repository, where the X's are the latest version number available.
   2) Extract the .zip contents to the desired location on your computer. There should be a .jar file, and two additional folders (data and resources). _You will need to grant the necessary permissions to this application or your user account, depending on your operating system._
-  3) In ..\Sudoku-X.X.X\data\binaries\, find Quicksand-Bold.otf and run it. This will download the application's font to your computer. This step is technically optional, but the style for the application is aligned with this font's size, so other fonts might not work 100% correctly. Do the same thing for Quicksand-Regular.otf.
-  4) Execute Sudoku-X.X.X.jar. This should launch the base application. _Again, you might need to modify permissions of your user profile to allow execution of this program. Also, I suggest you not run this from your browser's download bar / window, since it seems to be way slower. Instead, you should open your download destination folder and try running from there._
+  3) In ..\Sudoku-X.X.X\resources\binaries\, find Quicksand-Bold.otf and run it. This will download the application's font to your computer. This step is technically optional, but the style for the application is aligned with this font's size, so other fonts might not work 100% correctly. Do the same thing for Quicksand-Regular.otf.
+  4) Run Sudoku-X.X.X.jar. This should launch the base application. _Again, you might need to modify permissions of your user profile to allow execution of this program. Also, I suggest you not run this from your browser's download bar / window, since it seems to be way slower. Instead, you should open your download destination folder and try running from there._
   5) Within the application open the context menu -> Help for more detailed usage instructions.
   
 ### Application setup for developers:
   1) Clone this repository. _NOTE: I used Eclipse for development, so guidelines will be defined for this IDE. However, you could use any other Java IDE as desired._
-  2) In ..\Sudoku\data\binaries\, find Quicksand-Bold.otf and run it. This will download the application's font to your computer. This step is technically optional, but the style for the application is aligned with this font's size, so other fonts might not work 100% correctly. Do the same thing for Quicksand-Regular.otf.
+  2) In ..\Sudoku\resources\binaries\, find Quicksand-Bold.otf and run it. This will download the application's font to your computer. This step is technically optional, but the style for the application is aligned with this font's size, so other fonts might not work 100% correctly. Do the same thing for Quicksand-Regular.otf.
   3) In Eclipse, open Project -> Properties -> Java Build Path -> Libraries. Click 'Add External JARs'. Navigate to ..\Sudoku\data\binaries\. Then add all 5 .jars to your source path.
   4) Click "Apply" or "Apply and Close", depending on your Eclipse version.
   5) After a clean, you should be able to run the base class "Sudoku.java" from within Eclipse.
