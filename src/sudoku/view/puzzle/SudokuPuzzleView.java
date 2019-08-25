@@ -12,8 +12,8 @@ import sudoku.model.SudokuPuzzleValues;
 import sudoku.view.util.ColorUtils;
 
 /**
- * This class corresponds to the view on the left side of the screen. It
- * contains all other view elements on this side of the application.
+ * This class corresponds to the view in the center of the screen. It contains
+ * all other view elements on this side of the application.
  */
 public class SudokuPuzzleView extends GridPane {
 
