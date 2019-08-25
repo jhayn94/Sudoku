@@ -172,8 +172,8 @@ public class LabelConstants {
 			+ "configurable: you may define the order of solution techniques to better align with your preferred solving "
 			+ "tactics, and avoid ones you dislike. (Or, you can disable them altogether and generate puzzles that don’t "
 			+ "require a specific technique to solve.)\r\n\r\nOverall, this application is pretty feature dense, and as such, "
-			+ "it is suggested that you view the README in the GitHub project for the full user guide:\r\n\r\n"
-			+ "https://github.com/jhayn94/Sudoku/blob/master/README.md";
+			+ "it is suggested that you view the user guide in GitHub:\r\n\r\n"
+			+ "https://github.com/jhayn94/Sudoku/blob/master/UserGuide.md";
 
 	public static final String HOTKEYS = "Hotkeys";
 
